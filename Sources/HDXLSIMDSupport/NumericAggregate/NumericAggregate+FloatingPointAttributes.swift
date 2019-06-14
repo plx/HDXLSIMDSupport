@@ -1,12 +1,15 @@
 //
-//  SIMD+Attributes.swift
+//  NumericAggregate+FloatingPointAttributes.swift
 //
 
 import Foundation
-import simd
 import HDXLCommonUtilities
 
-public extension SIMD where Scalar:BinaryFloatingPoint {
+// -------------------------------------------------------------------------- //
+// MARK: NumericAggregate - Floating Point Attributes
+// -------------------------------------------------------------------------- //
+
+public extension NumericAggregate where NumericEntryRepresentation:BinaryFloatingPoint {
   
   /// Check if all values are finite.
   ///
@@ -15,7 +18,7 @@ public extension SIMD where Scalar:BinaryFloatingPoint {
   @inlinable
   var isFinite: Bool {
     get {
-      return self.allSatisfy() {
+      return self.allNumericEntriesSatisfy() {
         $0.isFinite
       }
     }
@@ -28,12 +31,12 @@ public extension SIMD where Scalar:BinaryFloatingPoint {
   @inlinable
   var isZero: Bool {
     get {
-      return self.allSatisfy() {
+      return self.allNumericEntriesSatisfy() {
         $0.isZero
       }
     }
   }
-
+  
   /// Check if all values are non-zero.
   ///
   /// - note: Inefficient, only meant for `assert` (etc.).
@@ -41,12 +44,12 @@ public extension SIMD where Scalar:BinaryFloatingPoint {
   @inlinable
   var isNonZero: Bool {
     get {
-      return self.allSatisfy() {
+      return self.allNumericEntriesSatisfy() {
         $0.isNonZero
       }
     }
   }
-
+  
   /// Check if all values are finite and non-zero.
   ///
   /// - note: Inefficient, only meant for `assert` (etc.).
@@ -54,12 +57,12 @@ public extension SIMD where Scalar:BinaryFloatingPoint {
   @inlinable
   var isFiniteNonZero: Bool {
     get {
-      return self.allSatisfy() {
+      return self.allNumericEntriesSatisfy() {
         $0.isFiniteNonZero
       }
     }
   }
-
+  
   /// Check if all values are non-negative.
   ///
   /// - note: Inefficient, only meant for `assert` (etc.).
@@ -67,12 +70,12 @@ public extension SIMD where Scalar:BinaryFloatingPoint {
   @inlinable
   var isNonNegative: Bool {
     get {
-      return self.allSatisfy() {
+      return self.allNumericEntriesSatisfy() {
         $0.isNonNegative
       }
     }
   }
-
+  
   /// Check if all values are non-positive.
   ///
   /// - note: Inefficient, only meant for `assert` (etc.).
@@ -80,12 +83,12 @@ public extension SIMD where Scalar:BinaryFloatingPoint {
   @inlinable
   var isNonPositive: Bool {
     get {
-      return self.allSatisfy() {
+      return self.allNumericEntriesSatisfy() {
         $0.isNonPositive
       }
     }
   }
-
+  
   /// Check if all values are strictly-positive.
   ///
   /// - note: Inefficient, only meant for `assert` (etc.).
@@ -93,7 +96,7 @@ public extension SIMD where Scalar:BinaryFloatingPoint {
   @inlinable
   var isStrictlyPositive: Bool {
     get {
-      return self.allSatisfy() {
+      return self.allNumericEntriesSatisfy() {
         $0.isStrictlyPositive
       }
     }
@@ -106,12 +109,12 @@ public extension SIMD where Scalar:BinaryFloatingPoint {
   @inlinable
   var isStrictlyNegative: Bool {
     get {
-      return self.allSatisfy() {
+      return self.allNumericEntriesSatisfy() {
         $0.isStrictlyNegative
       }
     }
   }
-
+  
   /// Check if all values are finite and non-negative.
   ///
   /// - note: Inefficient, only meant for `assert` (etc.).
@@ -119,12 +122,12 @@ public extension SIMD where Scalar:BinaryFloatingPoint {
   @inlinable
   var isFiniteNonNegative: Bool {
     get {
-      return self.allSatisfy() {
+      return self.allNumericEntriesSatisfy() {
         $0.isFiniteNonNegative
       }
     }
   }
-
+  
   /// Check if all values are finite and strictly-positive.
   ///
   /// - note: Inefficient, only meant for `assert` (etc.).
@@ -132,12 +135,12 @@ public extension SIMD where Scalar:BinaryFloatingPoint {
   @inlinable
   var isFiniteStrictlyPositive: Bool {
     get {
-      return self.allSatisfy() {
+      return self.allNumericEntriesSatisfy() {
         $0.isFiniteStrictlyPositive
       }
     }
   }
-
+  
   /// Check if all values are finite and non-positive.
   ///
   /// - note: Inefficient, only meant for `assert` (etc.).
@@ -145,12 +148,12 @@ public extension SIMD where Scalar:BinaryFloatingPoint {
   @inlinable
   var isFiniteNonPositive: Bool {
     get {
-      return self.allSatisfy() {
+      return self.allNumericEntriesSatisfy() {
         $0.isFiniteNonPositive
       }
     }
   }
-
+  
   /// Check if all values are finite and strictly-negative.
   ///
   /// - note: Inefficient, only meant for `assert` (etc.).
@@ -158,10 +161,10 @@ public extension SIMD where Scalar:BinaryFloatingPoint {
   @inlinable
   var isFiniteStrictlyNegative: Bool {
     get {
-      return self.allSatisfy() {
+      return self.allNumericEntriesSatisfy() {
         $0.isFiniteStrictlyNegative
       }
     }
   }
-  
+
 }
