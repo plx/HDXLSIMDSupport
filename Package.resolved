@@ -1,0 +1,16 @@
+{
+  "object": {
+    "pins": [
+      {
+        "package": "HDXLCommonUtilities",
+        "repositoryURL": "https://github.com/plx/HDXLCommonUtilities",
+        "state": {
+          "branch": null,
+          "revision": "16add521813b368c3b84eb068411963c9aea7b6f",
+          "version": "0.0.12"
+        }
+      }
+    ]
+  },
+  "version": 1
+}
