@@ -24,7 +24,7 @@ public protocol QuaternionStorageProtocol : Equatable {
   init()
   
   static func slerpedQuaternion(
-    type: QuaternionSlerpType,
+    path: QuaternionSlerpType,
     from q0: Self,
     to q1: Self,
     at t: QuaternionScalar) -> Self
