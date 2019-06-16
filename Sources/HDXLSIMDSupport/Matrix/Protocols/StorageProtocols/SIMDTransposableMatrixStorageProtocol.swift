@@ -53,9 +53,7 @@ public protocol SIMDPreTransposableMatrixStorageProtocol : SIMDMatrixStorageProt
     TransposeStorage.RowVector == ColumnVector,
     TransposeStorage.ColumnVector == RowVector,
     TransposeStorage.Columns == Rows,
-    TransposeStorage.Rows == Columns,
-    TransposeStorage.ShorterAxisVector == LongerAxisVector,
-    TransposeStorage.LongerAxisVector == ShorterAxisVector
+    TransposeStorage.Rows == Columns
   
   var transpose: TransposeStorage { get }
   

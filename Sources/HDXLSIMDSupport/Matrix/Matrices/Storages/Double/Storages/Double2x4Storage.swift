@@ -1,5 +1,5 @@
 //
-//  Double2x2Storage.swift
+//  Double2x4Storage.swift
 //
 
 import Foundation
@@ -7,12 +7,12 @@ import simd
 import HDXLCommonUtilities
 
 // -------------------------------------------------------------------------- //
-// MARK: Double2x2Storage - Definition
+// MARK: Double2x4Storage - Definition
 // -------------------------------------------------------------------------- //
 
-public struct Double2x2Storage {
+public struct Double2x4Storage {
   
-  public typealias Storage = simd_double2x2
+  public typealias Storage = simd_double2x4
   
   public var storage: Storage
   
@@ -24,25 +24,25 @@ public struct Double2x2Storage {
 }
 
 // -------------------------------------------------------------------------- //
-// MARK: Double2x2Storage - SIMDMatrix2x2StorageProtocol
+// MARK: Double2x4Storage - SIMDMatrix2x4StorageProtocol
 // -------------------------------------------------------------------------- //
 
-extension Double2x2Storage : SIMDMatrix2x2StorageProtocol {
+extension Double2x4Storage : SIMDMatrix2x4StorageProtocol {
   
   public typealias NumericEntryRepresentation = Double
   
   public typealias Scalar = Double
   
   public typealias ShorterAxisVector = SIMD2<Scalar>
-  public typealias LongerAxisVector = SIMD2<Scalar>
+  public typealias LongerAxisVector = SIMD4<Scalar>
   
   public typealias RowVector = SIMD2<Scalar>
-  public typealias ColumnVector = SIMD2<Scalar>
+  public typealias ColumnVector = SIMD4<Scalar>
   
-  public typealias Rows = (RowVector,RowVector)
+  public typealias Rows = (RowVector,RowVector,RowVector,RowVector)
   public typealias Columns = (ColumnVector,ColumnVector)
   
-  public typealias TransposeStorage = Double2x2Storage
+  public typealias TransposeStorage = Double4x2Storage
   
   @inlinable
   public init() {
@@ -69,7 +69,7 @@ extension Double2x2Storage : SIMDMatrix2x2StorageProtocol {
   
   @inlinable
   public init(columns: [ColumnVector]) {
-    precondition(columns.count == Double2x2Storage.columnCount)
+    precondition(columns.count == Double2x4Storage.columnCount)
     self.storage = Storage(
       columns[0],
       columns[1]
@@ -81,18 +81,22 @@ extension Double2x2Storage : SIMDMatrix2x2StorageProtocol {
     self.storage = Storage(
       rows: [
         rows.0,
-        rows.1
+        rows.1,
+        rows.2,
+        rows.3
       ]
     )
   }
   
   @inlinable
   public init(rows: [RowVector]) {
-    precondition(rows.count == Double2x2Storage.rowCount)
+    precondition(rows.count == Double2x4Storage.rowCount)
     self.storage = Storage(
       rows: [
         rows[0],
-        rows[1]
+        rows[1],
+        rows[2],
+        rows[3]
       ]
     )
   }
@@ -138,7 +142,7 @@ extension Double2x2Storage : SIMDMatrix2x2StorageProtocol {
   @inlinable
   public init(arrayLiteral elements: Scalar...) {
     guard elements.count == type(of: self).scalarCount else {
-      fatalError("Invalid array-literal construction: \(String(reflecting: elements)) supplied-to `Double2x2Storage`!")
+      fatalError("Invalid array-literal construction: \(String(reflecting: elements)) supplied-to `Double2x4Storage`!")
     }
     self.init(scalars: elements)
   }
@@ -146,14 +150,14 @@ extension Double2x2Storage : SIMDMatrix2x2StorageProtocol {
   @inlinable
   public var description: String {
     get {
-      return "Double2x2Storage(storage: \(String(describing: self.storage)))"
+      return "Double2x4Storage(storage: \(String(describing: self.storage)))"
     }
   }
   
   @inlinable
   public var debugDescription: String {
     get {
-      return "Double2x2Storage(storage: \(String(reflecting: self.storage)))"
+      return "Double2x4Storage(storage: \(String(reflecting: self.storage)))"
     }
   }
   
@@ -170,7 +174,7 @@ extension Double2x2Storage : SIMDMatrix2x2StorageProtocol {
   @inlinable
   public subscript(columnIndex columnIndex: Int) -> ColumnVector {
     get {
-      precondition(Double2x2Storage.columnIndexRange.contains(columnIndex))
+      precondition(Double2x4Storage.columnIndexRange.contains(columnIndex))
       switch columnIndex {
       case 0:
         return self.storage.columns.0
@@ -181,7 +185,7 @@ extension Double2x2Storage : SIMDMatrix2x2StorageProtocol {
       }
     }
     set {
-      precondition(Double2x2Storage.columnIndexRange.contains(columnIndex))
+      precondition(Double2x4Storage.columnIndexRange.contains(columnIndex))
       switch columnIndex {
       case 0:
         self.storage.columns.0 = newValue
@@ -196,8 +200,8 @@ extension Double2x2Storage : SIMDMatrix2x2StorageProtocol {
   @inlinable
   public subscript(columnIndex columnIndex: Int, rowIndex rowIndex: Int) -> Scalar {
     get {
-      precondition(Double2x2Storage.columnIndexRange.contains(columnIndex))
-      precondition(Double2x2Storage.rowIndexRange.contains(rowIndex))
+      precondition(Double2x4Storage.columnIndexRange.contains(columnIndex))
+      precondition(Double2x4Storage.rowIndexRange.contains(rowIndex))
       switch columnIndex {
       case 0:
         return self.storage.columns.0[rowIndex]
@@ -208,8 +212,8 @@ extension Double2x2Storage : SIMDMatrix2x2StorageProtocol {
       }
     }
     set {
-      precondition(Double2x2Storage.columnIndexRange.contains(columnIndex))
-      precondition(Double2x2Storage.rowIndexRange.contains(rowIndex))
+      precondition(Double2x4Storage.columnIndexRange.contains(columnIndex))
+      precondition(Double2x4Storage.rowIndexRange.contains(rowIndex))
       switch columnIndex {
       case 0:
         self.storage.columns.0[rowIndex] = newValue
@@ -222,8 +226,8 @@ extension Double2x2Storage : SIMDMatrix2x2StorageProtocol {
   }
   
   @inlinable
-  public func negated() -> Double2x2Storage {
-    return Double2x2Storage(
+  public func negated() -> Double2x4Storage {
+    return Double2x4Storage(
       storage: -self.storage
     )
   }
@@ -234,48 +238,48 @@ extension Double2x2Storage : SIMDMatrix2x2StorageProtocol {
   }
   
   @inlinable
-  public func adding(_ other: Double2x2Storage) -> Double2x2Storage {
-    return Double2x2Storage(
+  public func adding(_ other: Double2x4Storage) -> Double2x4Storage {
+    return Double2x4Storage(
       storage: self.storage + other.storage
     )
   }
   
   @inlinable
-  public mutating func formAddition(of other: Double2x2Storage) {
+  public mutating func formAddition(of other: Double2x4Storage) {
     self.storage += other.storage
   }
   
   @inlinable
   public func adding(
-    _ other: Double2x2Storage,
-    multipliedBy factor: Scalar) -> Double2x2Storage {
-    return Double2x2Storage(
+    _ other: Double2x4Storage,
+    multipliedBy factor: Scalar) -> Double2x4Storage {
+    return Double2x4Storage(
       storage: self.storage + (other.storage * factor)
     )
   }
   
   @inlinable
   public mutating func formAddition(
-    of other: Double2x2Storage,
+    of other: Double2x4Storage,
     multipliedBy factor: Scalar) {
     self.storage += (other.storage * factor)
   }
   
   @inlinable
-  public func subtracting(_ other: Double2x2Storage) -> Double2x2Storage {
-    return Double2x2Storage(
+  public func subtracting(_ other: Double2x4Storage) -> Double2x4Storage {
+    return Double2x4Storage(
       storage: other.storage - self.storage
     )
   }
   
   @inlinable
-  public mutating func formSubtraction(of other: Double2x2Storage) {
+  public mutating func formSubtraction(of other: Double2x4Storage) {
     self.storage -= other.storage
   }
   
   @inlinable
-  public func multiplied(by factor: Scalar) -> Double2x2Storage {
-    return Double2x2Storage(
+  public func multiplied(by factor: Scalar) -> Double2x4Storage {
+    return Double2x4Storage(
       storage: self.storage * factor
     )
   }
@@ -293,46 +297,6 @@ extension Double2x2Storage : SIMDMatrix2x2StorageProtocol {
   @inlinable
   public func multiplied(onRightBy rowVector: RowVector) -> ColumnVector {
     return self.storage * rowVector
-  }
-
-  @inlinable
-  public func multiplied(onRightBy other: Double2x2Storage) -> Double2x2Storage {
-    return Double2x2Storage(
-      storage: self.storage * other.storage
-    )
-  }
-  
-  @inlinable
-  public func multiplied(onLeftBy other: Double2x2Storage) -> Double2x2Storage {
-    return Double2x2Storage(
-      storage: other.storage * self.storage
-    )
-  }
-  
-  @inlinable
-  public mutating func formMultiplication(onRightBy other: Double2x2Storage) {
-    self.storage = self.storage * other.storage
-  }
-  
-  @inlinable
-  public mutating func formMultiplication(onLeftBy other: Double2x2Storage) {
-    self.storage = other.storage * self.storage
-  }
-  
-  @inlinable
-  public var determinant: Scalar {
-    get {
-      return self.storage.determinant
-    }
-  }
-  
-  @inlinable
-  public var inverse: Double2x2Storage {
-    get {
-      return Double2x2Storage(
-        storage: self.storage.inverse
-      )
-    }
   }
   
   @inlinable

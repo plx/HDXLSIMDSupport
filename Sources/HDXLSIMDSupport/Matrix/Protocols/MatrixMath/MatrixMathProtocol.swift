@@ -122,11 +122,11 @@ public protocol MatrixMathProtocol {
   // MARK: Math - Vector Multiplication
   // ------------------------------------------------------------------------ //
   
-  /// Returns `rowVector * self`
-  func multiplied(onLeftBy rowVector: RowVector) -> ColumnVector
+  /// Returns `columnVector * self`
+  func multiplied(onLeftBy columnVector: ColumnVector) -> RowVector
   
-  /// Returns `self * columnVector`
-  func multiplied(onRightBy columnVector: ColumnVector) -> RowVector
+  /// Returns `self * rowVector`
+  func multiplied(onRightBy rowVector: RowVector) -> ColumnVector
   
 }
 
@@ -293,12 +293,12 @@ public extension MatrixMathProtocol {
   }
   
   @inlinable
-  static func * (lhs: RowVector, rhs: Self) -> ColumnVector {
+  static func * (lhs: ColumnVector, rhs: Self) -> RowVector {
     return rhs.multiplied(onLeftBy: lhs)
   }
   
   @inlinable
-  static func * (lhs: Self, rhs: ColumnVector) -> RowVector {
+  static func * (lhs: Self, rhs: RowVector) -> ColumnVector {
     return lhs.multiplied(onRightBy: rhs)
   }
   

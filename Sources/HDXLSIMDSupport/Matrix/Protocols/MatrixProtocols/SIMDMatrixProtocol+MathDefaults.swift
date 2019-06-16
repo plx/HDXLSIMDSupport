@@ -141,20 +141,20 @@ public extension SIMDMatrixProtocol {
   // ------------------------------------------------------------------------ //
   // MARK: Math - Vector Multiplication
   // ------------------------------------------------------------------------ //
-  
-  /// Returns `rowVector * self`
+
+  /// Returns `columnVector * self`
   @inlinable
-  func multiplied(onLeftBy rowVector: RowVector) -> ColumnVector {
+  func multiplied(onLeftBy columnVector: ColumnVector) -> RowVector {
     return self.storage.multiplied(
-      onLeftBy: rowVector
+      onLeftBy: columnVector
     )
   }
   
-  /// Returns `self * columnVector`
+  /// Returns `self * rowVector`
   @inlinable
-  func multiplied(onRightBy columnVector: ColumnVector) -> RowVector {
+  func multiplied(onRightBy rowVector: RowVector) -> ColumnVector {
     return self.storage.multiplied(
-      onRightBy: columnVector
+      onRightBy: rowVector
     )
 
   }

@@ -314,13 +314,13 @@ extension Double4x4Storage : SIMDMatrix4x4StorageProtocol {
   }
   
   @inlinable
-  public func multiplied(onRightBy rowVector: RowVector) -> ColumnVector {
-    return rowVector * self.storage
+  public func multiplied(onLeftBy columnVector: ColumnVector) -> RowVector {
+    return columnVector * self.storage
   }
   
   @inlinable
-  public func multiplied(onLeftBy columnVector: ColumnVector) -> RowVector {
-    return self.storage * columnVector
+  public func multiplied(onRightBy rowVector: RowVector) -> ColumnVector {
+    return self.storage * rowVector
   }
 
   @inlinable

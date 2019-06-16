@@ -300,15 +300,15 @@ extension Double3x3Storage : SIMDMatrix3x3StorageProtocol {
   }
   
   @inlinable
-  public func multiplied(onRightBy rowVector: RowVector) -> ColumnVector {
-    return rowVector * self.storage
+  public func multiplied(onLeftBy columnVector: ColumnVector) -> RowVector {
+    return columnVector * self.storage
   }
   
   @inlinable
-  public func multiplied(onLeftBy columnVector: ColumnVector) -> RowVector {
-    return self.storage * columnVector
+  public func multiplied(onRightBy rowVector: RowVector) -> ColumnVector {
+    return self.storage * rowVector
   }
-  
+
   @inlinable
   public func multiplied(onRightBy other: Double3x3Storage) -> Double3x3Storage {
     return Double3x3Storage(
