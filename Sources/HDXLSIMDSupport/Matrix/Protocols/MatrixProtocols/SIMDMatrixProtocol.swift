@@ -158,6 +158,17 @@ public extension SIMDMatrixProtocol {
   }
 
   @inlinable
+  static func ==(lhs: Self, rhs: Self) -> Bool {
+    return lhs.storage == rhs.storage
+  }
+  
+  @inlinable
+  static func !=(lhs: Self, rhs: Self) -> Bool {
+    // b/c why not?
+    return lhs.storage != rhs.storage
+  }
+
+  @inlinable
   static prefix func -(x: Self) -> Self {
     return Self(
       storage: -x.storage
@@ -217,4 +228,17 @@ public extension SIMDMatrixProtocol {
     return lhs.storage * rhs
   }
 
+}
+
+// -------------------------------------------------------------------------- //
+// MARK: SIMDMatrixProtocol - Default Implementations - Hashable
+// -------------------------------------------------------------------------- //
+
+extension SIMDMatrixProtocol where Scalar:Hashable {
+  
+  @inlinable
+  public func hash(into hasher: inout Hasher) {
+    self.storage.hash(into: &hasher)
+  }
+  
 }

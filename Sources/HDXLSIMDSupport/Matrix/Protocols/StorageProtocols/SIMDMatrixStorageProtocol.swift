@@ -14,7 +14,7 @@ infix operator =* : AssignmentPrecedence
 // -------------------------------------------------------------------------- //
 
 /// Basic protocol for all SIMD matrix storages.
-public protocol SIMDMatrixStorageProtocol : Equatable {
+public protocol SIMDMatrixStorageProtocol : Equatable, Codable {
   
   /// The underlying scalar, it doesn't *have* to be *either* `SIMDScalar` *or* `BinaryFloatingPoint` and maybe shouldn't be.
   ///
@@ -82,7 +82,7 @@ public protocol SIMDMatrixStorageProtocol : Equatable {
   
   /// Construct from a tuple of row-vectors.
   init(rows: Rows)
-
+  
   /// Directly access the underlying columns.
   ///
   /// - note: This is an abstraction leak: Apple's SIMD types are stored as column vectors, but it's *conceivable* that others could use rows; for the foreseeable future I don't care beyond noting this in passing.
@@ -155,6 +155,18 @@ public extension SIMDMatrixStorageProtocol {
   }
   
   @inlinable
+  var linearizedScalarValues: [Scalar] {
+    get {
+      var result: [Scalar] = []
+      result.reserveCapacity(Self.scalarCount)
+      for scalarIndex in 0..<Self.scalarCount {
+        result.append(self[scalarIndex: scalarIndex])
+      }
+      return result
+    }
+  }
+  
+  @inlinable
   static var rowLength: Int {
     get {
       return RowVector.scalarCount
@@ -213,68 +225,3 @@ public extension SIMDMatrixStorageProtocol {
   }
 
 }
-// -------------------------------------------------------------------------- //
-// MARK: Storage Protocols - Columns
-// -------------------------------------------------------------------------- //
-
-public protocol SIMDMatrix2xNStorageProtocol : SIMDMatrixStorageProtocol
-  where
-  Columns == (ColumnVector,ColumnVector),
-  RowVector == SIMD2<Scalar> {
-  
-  init(
-    _ columnOne: ColumnVector,
-    _ columnTwo: ColumnVector)
-  
-}
-
-public protocol SIMDMatrix3xNStorageProtocol : SIMDMatrixStorageProtocol
-  where
-  Columns == (ColumnVector,ColumnVector,ColumnVector),
-  RowVector == SIMD3<Scalar> {
-  
-  init(
-    _ columnOne: ColumnVector,
-    _ columnTwo: ColumnVector,
-    _ columnThree: ColumnVector)
-  
-}
-
-public protocol SIMDMatrix4xNStorageProtocol : SIMDMatrixStorageProtocol
-  where
-  Columns == (ColumnVector,ColumnVector,ColumnVector,ColumnVector),
-  RowVector == SIMD4<Scalar> {
-  
-  init(
-    _ columnOne: ColumnVector,
-    _ columnTwo: ColumnVector,
-    _ columnThree: ColumnVector,
-    _ columnFour: ColumnVector)
-  
-}
-
-// -------------------------------------------------------------------------- //
-// MARK: Storage Protocols - Rows
-// -------------------------------------------------------------------------- //
-
-public protocol SIMDMatrixNx2StorageProtocol : SIMDMatrixStorageProtocol
-  where
-  Rows == (RowVector,RowVector),
-  ColumnVector == SIMD2<Scalar> {
-  
-}
-
-public protocol SIMDMatrixNx3StorageProtocol : SIMDMatrixStorageProtocol
-  where
-  Rows == (RowVector,RowVector,RowVector),
-  ColumnVector == SIMD3<Scalar> {
-  
-}
-
-public protocol SIMDMatrixNx4StorageProtocol : SIMDMatrixStorageProtocol
-  where
-  Rows == (RowVector,RowVector,RowVector,RowVector),
-  ColumnVector == SIMD4<Scalar> {
-  
-}
-
