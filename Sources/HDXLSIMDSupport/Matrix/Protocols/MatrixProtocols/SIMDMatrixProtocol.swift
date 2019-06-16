@@ -11,24 +11,55 @@ import HDXLCommonUtilities
 // -------------------------------------------------------------------------- //
 
 /// Protocol for storage-backed SIMD matrices; exists to offer default implementations to conformers.
-public protocol SIMDMatrixProtocol : Hashable, Codable {
-  
+public protocol SIMDMatrixProtocol :
+  Hashable,
+  CustomStringConvertible,
+  CustomDebugStringConvertible,
+  Codable,
+  NumericAggregate,
+  ExpressibleByArrayLiteral,
+  MatrixMathProtocol {
+
+  /// The underlying "storage" type that wraps some concrete SIMD matrix.
   associatedtype Storage: SIMDMatrixStorageProtocol
+    where
+    Storage.NumericEntryRepresentation == NumericEntryRepresentation,
+    Storage.ArrayLiteralElement == ArrayLiteralElement,
+    Storage.RowVector == RowVector,
+    Storage.ColumnVector == ColumnVector,
+    Storage.Scalar == Scalar
   
-  typealias Scalar = Storage.Scalar
-  typealias RowVector = Storage.RowVector
-  typealias ColumnVector = Storage.ColumnVector
+  // ------------------------------------------------------------------------ //
+  // MARK: Exported Typealiases
+  // ------------------------------------------------------------------------ //
+
   typealias ShorterAxisVector = Storage.ShorterAxisVector
   typealias LongerAxisVector = Storage.LongerAxisVector
   typealias DiagonalVector = Storage.DiagonalVector
   
   typealias Columns = Storage.Columns
   typealias Rows = Storage.Rows
+
+  // ------------------------------------------------------------------------ //
+  // MARK: Storage-Related Methods
+  // ------------------------------------------------------------------------ //
   
+  /// Construct from the underlying storage.
   init(storage: Storage)
   
+  /// Access the underlying storage.
   var storage: Storage { get set }
+
+  // ------------------------------------------------------------------------ //
+  // MARK: Reflection-Related Methods
+  // ------------------------------------------------------------------------ //
+
+  /// The brief typename (e.g. `Matrix4x4`).
+  static var shortTypeName: String { get }
   
+  /// The complete typename (e.g. `Matrix4x4<Double>`).
+  static var completeTypeName: String { get }
+ 
 }
 
 // -------------------------------------------------------------------------- //
@@ -36,42 +67,7 @@ public protocol SIMDMatrixProtocol : Hashable, Codable {
 // -------------------------------------------------------------------------- //
 
 public extension SIMDMatrixProtocol {
-  
-  @inlinable
-  static var scalarCount: Int {
-    get {
-      return Storage.scalarCount
-    }
-  }
-  
-  @inlinable
-  static var rowCount: Int {
-    get {
-      return Storage.rowCount
-    }
-  }
-
-  @inlinable
-  static var columnCount: Int {
-    get {
-      return Storage.columnCount
-    }
-  }
-  
-  @inlinable
-  static var rowLength: Int {
-    get {
-      return Storage.rowLength
-    }
-  }
-  
-  @inlinable
-  static var columnLength: Int {
-    get {
-      return Storage.columnLength
-    }
-  }
-  
+    
   @inlinable
   subscript(scalarIndex scalarIndex: Int) -> Scalar {
     get {
@@ -148,6 +144,26 @@ public extension SIMDMatrixProtocol {
   }
   
   @inlinable
+  init<S:Sequence>(scalars: S)
+    where S.Element == Scalar {
+      self.init(
+        storage: Storage(
+          scalars: scalars
+        )
+      )
+  }
+
+  @inlinable
+  init<C:Collection>(scalars: C)
+    where C.Element == Scalar {
+      self.init(
+        storage: Storage(
+          scalars: scalars
+        )
+      )
+  }
+  
+  @inlinable
   var columns: Columns {
     get {
       return self.storage.columns
@@ -157,88 +173,80 @@ public extension SIMDMatrixProtocol {
     }
   }
 
-  @inlinable
-  static func ==(lhs: Self, rhs: Self) -> Bool {
-    return lhs.storage == rhs.storage
-  }
-  
-  @inlinable
-  static func !=(lhs: Self, rhs: Self) -> Bool {
-    // b/c why not?
-    return lhs.storage != rhs.storage
-  }
-
-  @inlinable
-  static prefix func -(x: Self) -> Self {
-    return Self(
-      storage: -x.storage
-    )
-  }
-  
-  @inlinable
-  static func + (lhs: Self, rhs: Self) -> Self {
-    return Self.init(
-      storage: lhs.storage + rhs.storage
-    )
-  }
-  
-  @inlinable
-  static func - (lhs: Self, rhs: Self) -> Self {
-    return Self.init(
-      storage: lhs.storage - rhs.storage
-    )
-  }
-  
-  @inlinable
-  static func * (lhs: Self, rhs: Scalar) -> Self {
-    return Self.init(
-      storage: lhs.storage * rhs
-    )
-  }
-  
-  @inlinable
-  static func * (lhs: Scalar, rhs: Self) -> Self {
-    return Self.init(
-      storage: lhs * rhs.storage
-    )
-  }
-  
-  @inlinable
-  static func += (lhs: inout Self, rhs: Self) {
-    lhs.storage += rhs.storage
-  }
-  
-  @inlinable
-  static func -= (lhs: inout Self, rhs: Self) {
-    lhs.storage -= rhs.storage
-  }
-  
-  @inlinable
-  static func *= (lhs: inout Self, rhs: Scalar) {
-    lhs.storage *= rhs
-  }
-  
-  @inlinable
-  static func * (lhs: RowVector, rhs: Self) -> ColumnVector {
-    return lhs * rhs.storage
-  }
-  
-  @inlinable
-  static func * (lhs: Self, rhs: ColumnVector) -> RowVector {
-    return lhs.storage * rhs
-  }
-
 }
 
 // -------------------------------------------------------------------------- //
 // MARK: SIMDMatrixProtocol - Default Implementations - Hashable
 // -------------------------------------------------------------------------- //
 
-extension SIMDMatrixProtocol where Scalar:Hashable {
+public extension SIMDMatrixProtocol where Scalar:Hashable {
   
   @inlinable
-  public func hash(into hasher: inout Hasher) {
+  func hash(into hasher: inout Hasher) {
     self.storage.hash(into: &hasher)
+  }
+  
+}
+
+// -------------------------------------------------------------------------- //
+// MARK: SIMDMatrixProtocol - Default Implementations - CustomStringConvertible
+// -------------------------------------------------------------------------- //
+
+public extension SIMDMatrixProtocol {
+  
+  @inlinable
+  var description: String {
+    get {
+      return "\(Self.shortTypeName): \(String(describing: self.storage))"
+    }
+  }
+
+}
+
+// -------------------------------------------------------------------------- //
+// MARK: SIMDMatrixProtocol - Default Implementations - CustomDebugStringConvertible
+// -------------------------------------------------------------------------- //
+
+public extension SIMDMatrixProtocol {
+  
+  @inlinable
+  var debugDescription: String {
+    get {
+      return "\(Self.completeTypeName)(storage: \(String(reflecting: self.storage))"
+    }
+  }
+  
+}
+
+// -------------------------------------------------------------------------- //
+// MARK: SIMDMatrixProtocol - Default Implementations - ExpressibleByArrayLiteral
+// -------------------------------------------------------------------------- //
+
+public extension SIMDMatrixProtocol {
+  
+  @inlinable
+  init(arrayLiteral elements: ArrayLiteralElement...) {
+    guard elements.count == Self.scalarCount else {
+      fatalError("Invalid array-literal `elements` \(String(reflecting: elements)) for \(String(reflecting: Self.self))")
+    }
+    self.init(
+      storage: Storage(
+        scalars: elements
+      )
+    )
+  }
+  
+}
+
+// -------------------------------------------------------------------------- //
+// MARK: SIMDMatrixProtocol - Default Implementations - NumericAggregate
+// -------------------------------------------------------------------------- //
+
+public extension SIMDMatrixProtocol {
+  
+  @inlinable
+  func allNumericEntriesSatisfy(_ predicate: (NumericEntryRepresentation) -> Bool) -> Bool {
+    return self.storage.allNumericEntriesSatisfy(predicate)
   }
   
 }

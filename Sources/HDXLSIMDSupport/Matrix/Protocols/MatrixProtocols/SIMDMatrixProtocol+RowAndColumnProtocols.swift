@@ -23,6 +23,7 @@ public protocol SIMDMatrix2xNProtocol : SIMDMatrixProtocol
 
 public extension SIMDMatrix2xNProtocol {
   
+  /// Initialize a 2-column matrix directly from the underlying 3 column vectors.
   @inlinable
   init(
     _ columnOne: ColumnVector,
@@ -55,6 +56,7 @@ public protocol SIMDMatrix3xNProtocol : SIMDMatrixProtocol
 
 public extension SIMDMatrix3xNProtocol {
   
+  /// Initialize a 3-column matrix directly from the underlying 3 column vectors.
   @inlinable
   init(
     _ columnOne: ColumnVector,
@@ -79,7 +81,8 @@ public extension SIMDMatrix3xNProtocol {
 public protocol SIMDMatrix4xNProtocol : SIMDMatrixProtocol
   where
   Storage: SIMDMatrix4xNStorageProtocol {
-  
+
+  /// Initialize a 4-column matrix directly from the underlying 4 column vectors.
   init(
     _ columnOne: ColumnVector,
     _ columnTwo: ColumnVector,

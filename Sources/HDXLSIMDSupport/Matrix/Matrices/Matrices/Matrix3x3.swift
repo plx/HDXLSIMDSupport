@@ -1,5 +1,5 @@
 //
-//  Matrix4x4.swift
+//  Matrix3x3.swift
 //
 
 import Foundation
@@ -7,29 +7,29 @@ import simd
 import HDXLCommonUtilities
 
 // -------------------------------------------------------------------------- //
-// MARK: Matrix4x4 - Definition
+// MARK: Matrix3x3 - Definition
 // -------------------------------------------------------------------------- //
 
-/// Intended "public API" for 4x4 matrices.
+/// Intended "public API" for 3x3 matrices.
 ///
-/// - note: Only works as `Matrix4x4<Double>` and `Matrix4x4<Float>`, but can still *write* generic code against it.
+/// - note: Only works as `Matrix3x3<Double>` and `Matrix3x3<Float>`, but can still *write* generic code against it.
 ///
-public struct Matrix4x4<Scalar:SIMDMatrix4x4CapableProtocol> : SIMDMatrix4x4Protocol {
-
+public struct Matrix3x3<Scalar:SIMDMatrix3x3CapableProtocol> : SIMDMatrix3x3Protocol {
+  
   /// The representation used for validating logical attributes (e.g. to get `isFinite` and friends "for free").
   public typealias NumericEntryRepresentation = Scalar
-
+  
   /// The type of a row vector.
-  public typealias RowVector = SIMD4<Scalar>
+  public typealias RowVector = SIMD3<Scalar>
   
   /// The type of a column vector.
-  public typealias ColumnVector = SIMD4<Scalar>
-
+  public typealias ColumnVector = SIMD3<Scalar>
+  
   /// The type of the transpose.
-  public typealias Transpose = Matrix4x4<Scalar>
-
+  public typealias Transpose = Matrix3x3<Scalar>
+  
   /// The type of the backing storage protocol.
-  public typealias Storage = Scalar.SIMDMatrix4x4Storage
+  public typealias Storage = Scalar.SIMDMatrix3x3Storage
   
   /// The type used for array-literal construction.
   public typealias ArrayLiteralElement = Scalar
@@ -47,12 +47,12 @@ public struct Matrix4x4<Scalar:SIMDMatrix4x4CapableProtocol> : SIMDMatrix4x4Prot
   public init(storage: Storage) {
     self.storage = storage
   }
-
+  
   /// Utility used by our `description` default implementation.
   @inlinable
   public static var shortTypeName: String {
     get {
-      return "Matrix4x4"
+      return "Matrix3x3"
     }
   }
   
@@ -60,9 +60,9 @@ public struct Matrix4x4<Scalar:SIMDMatrix4x4CapableProtocol> : SIMDMatrix4x4Prot
   @inlinable
   public static var completeTypeName: String {
     get {
-      return "Matrix4x4<\(String(reflecting: Scalar.self))>"
+      return "Matrix3x3<\(String(reflecting: Scalar.self))>"
     }
   }
   
-
+  
 }

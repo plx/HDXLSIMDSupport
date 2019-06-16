@@ -1,5 +1,5 @@
 //
-//  Double4x4Storage.swift
+//  Double3x3Storage.swift
 //
 
 import Foundation
@@ -7,12 +7,12 @@ import simd
 import HDXLCommonUtilities
 
 // -------------------------------------------------------------------------- //
-// MARK: Double4x4Storage - Definition
+// MARK: Double3x3Storage - Definition
 // -------------------------------------------------------------------------- //
 
-public struct Double4x4Storage {
+public struct Double3x3Storage {
   
-  public typealias Storage = simd_double4x4
+  public typealias Storage = simd_double3x3
   
   public var storage: Storage
   
@@ -24,25 +24,25 @@ public struct Double4x4Storage {
 }
 
 // -------------------------------------------------------------------------- //
-// MARK: Double4x4Storage - SIMDMatrix4x4StorageProtocol
+// MARK: Double3x3Storage - SIMDMatrix3x3StorageProtocol
 // -------------------------------------------------------------------------- //
 
-extension Double4x4Storage : SIMDMatrix4x4StorageProtocol {
+extension Double3x3Storage : SIMDMatrix3x3StorageProtocol {
   
   public typealias NumericEntryRepresentation = Double
   
   public typealias Scalar = Double
-
-  public typealias ShorterAxisVector = SIMD4<Scalar>
-  public typealias LongerAxisVector = SIMD4<Scalar>
   
-  public typealias RowVector = SIMD4<Scalar>
-  public typealias ColumnVector = SIMD4<Scalar>
+  public typealias ShorterAxisVector = SIMD3<Scalar>
+  public typealias LongerAxisVector = SIMD3<Scalar>
   
-  public typealias Rows = (RowVector,RowVector,RowVector,RowVector)
-  public typealias Columns = (ColumnVector,ColumnVector,ColumnVector,ColumnVector)
+  public typealias RowVector = SIMD3<Scalar>
+  public typealias ColumnVector = SIMD3<Scalar>
   
-  public typealias TransposeStorage = Double4x4Storage
+  public typealias Rows = (RowVector,RowVector,RowVector)
+  public typealias Columns = (ColumnVector,ColumnVector,ColumnVector)
+  
+  public typealias TransposeStorage = Double3x3Storage
   
   @inlinable
   public init() {
@@ -64,58 +64,52 @@ extension Double4x4Storage : SIMDMatrix4x4StorageProtocol {
     self.storage = Storage(
       columns.0,
       columns.1,
-      columns.2,
-      columns.3
+      columns.2
     )
   }
-
+  
   @inlinable
   public init(columns: [ColumnVector]) {
-    precondition(columns.count == Double4x4Storage.columnCount)
+    precondition(columns.count == Double3x3Storage.columnCount)
     self.storage = Storage(
       columns[0],
       columns[1],
-      columns[2],
-      columns[3]
+      columns[2]
     )
   }
-
+  
   @inlinable
   public init(rows: Rows) {
     self.storage = Storage(
       rows: [
         rows.0,
         rows.1,
-        rows.2,
-        rows.3
+        rows.2
       ]
     )
   }
-
+  
   @inlinable
   public init(rows: [RowVector]) {
-    precondition(rows.count == Double4x4Storage.rowCount)
+    precondition(rows.count == Double3x3Storage.rowCount)
     self.storage = Storage(
       rows: [
         rows[0],
         rows[1],
-        rows[2],
-        rows[3]
+        rows[2]
       ]
     )
   }
-
+  
   @inlinable
   public init(
     _ columnOne: ColumnVector,
     _ columnTwo: ColumnVector,
-    _ columnThree: ColumnVector,
-    _ columnFour: ColumnVector) {
+    _ columnThree: ColumnVector) {
     self.storage = Storage(
       columnOne,
       columnTwo,
-      columnThree,
-      columnFour
+      columnThree
     )
   }
   
@@ -136,7 +130,7 @@ extension Double4x4Storage : SIMDMatrix4x4StorageProtocol {
         preconditionFailure("init<S:Sequence>(scalars:) supplied an underlong (only \(visitCount) sequence \(String(reflecting: scalars)); final state: \(String(reflecting: self)).")
       }
   }
-
+  
   @inlinable
   public init<C:Collection>(scalars: C)
     where C.Element == Scalar {
@@ -146,11 +140,11 @@ extension Double4x4Storage : SIMDMatrix4x4StorageProtocol {
         self[scalarIndex: scalarIndex] = element
       }
   }
-
+  
   @inlinable
   public init(arrayLiteral elements: Scalar...) {
     guard elements.count == type(of: self).scalarCount else {
-      fatalError("Invalid array-literal construction: \(String(reflecting: elements)) supplied-to `Double4x4Storage`!")
+      fatalError("Invalid array-literal construction: \(String(reflecting: elements)) supplied-to `Double3x3Storage`!")
     }
     self.init(scalars: elements)
   }
@@ -158,14 +152,14 @@ extension Double4x4Storage : SIMDMatrix4x4StorageProtocol {
   @inlinable
   public var description: String {
     get {
-      return "Double4x4Storage(storage: \(String(describing: self.storage)))"
+      return "Double3x3Storage(storage: \(String(describing: self.storage)))"
     }
   }
   
   @inlinable
   public var debugDescription: String {
     get {
-      return "Double4x4Storage(storage: \(String(reflecting: self.storage)))"
+      return "Double3x3Storage(storage: \(String(reflecting: self.storage)))"
     }
   }
   
@@ -182,7 +176,7 @@ extension Double4x4Storage : SIMDMatrix4x4StorageProtocol {
   @inlinable
   public subscript(columnIndex columnIndex: Int) -> ColumnVector {
     get {
-      precondition(Double4x4Storage.columnIndexRange.contains(columnIndex))
+      precondition(Double3x3Storage.columnIndexRange.contains(columnIndex))
       switch columnIndex {
       case 0:
         return self.storage.columns.0
@@ -190,14 +184,12 @@ extension Double4x4Storage : SIMDMatrix4x4StorageProtocol {
         return self.storage.columns.1
       case 2:
         return self.storage.columns.2
-      case 3:
-        return self.storage.columns.3
       default:
         fatalError("Used invalid column-index subscript \(columnIndex) on \(String(reflecting: self))!")
       }
     }
     set {
-      precondition(Double4x4Storage.columnIndexRange.contains(columnIndex))
+      precondition(Double3x3Storage.columnIndexRange.contains(columnIndex))
       switch columnIndex {
       case 0:
         self.storage.columns.0 = newValue
@@ -205,44 +197,6 @@ extension Double4x4Storage : SIMDMatrix4x4StorageProtocol {
         self.storage.columns.1 = newValue
       case 2:
         self.storage.columns.2 = newValue
-      case 3:
-        self.storage.columns.3 = newValue
-      default:
-        fatalError("Used invalid column-index subscript \(columnIndex) on \(String(reflecting: self))!")
-      }
-    }
-  }
-
-  @inlinable
-  public subscript(columnIndex columnIndex: Int, rowIndex rowIndex: Int) -> Scalar {
-    get {
-      precondition(Double4x4Storage.columnIndexRange.contains(columnIndex))
-      precondition(Double4x4Storage.rowIndexRange.contains(rowIndex))
-      switch columnIndex {
-      case 0:
-        return self.storage.columns.0[rowIndex]
-      case 1:
-        return self.storage.columns.1[rowIndex]
-      case 2:
-        return self.storage.columns.2[rowIndex]
-      case 3:
-        return self.storage.columns.3[rowIndex]
-      default:
-        fatalError("Used invalid column-index subscript \(columnIndex) on \(String(reflecting: self))!")
-      }
-    }
-    set {
-      precondition(Double4x4Storage.columnIndexRange.contains(columnIndex))
-      precondition(Double4x4Storage.rowIndexRange.contains(rowIndex))
-      switch columnIndex {
-      case 0:
-        self.storage.columns.0[rowIndex] = newValue
-      case 1:
-        self.storage.columns.1[rowIndex] = newValue
-      case 2:
-        self.storage.columns.2[rowIndex] = newValue
-      case 3:
-        self.storage.columns.3[rowIndex] = newValue
       default:
         fatalError("Used invalid column-index subscript \(columnIndex) on \(String(reflecting: self))!")
       }
@@ -250,8 +204,40 @@ extension Double4x4Storage : SIMDMatrix4x4StorageProtocol {
   }
   
   @inlinable
-  public func negated() -> Double4x4Storage {
-    return Double4x4Storage(
+  public subscript(columnIndex columnIndex: Int, rowIndex rowIndex: Int) -> Scalar {
+    get {
+      precondition(Double3x3Storage.columnIndexRange.contains(columnIndex))
+      precondition(Double3x3Storage.rowIndexRange.contains(rowIndex))
+      switch columnIndex {
+      case 0:
+        return self.storage.columns.0[rowIndex]
+      case 1:
+        return self.storage.columns.1[rowIndex]
+      case 2:
+        return self.storage.columns.2[rowIndex]
+      default:
+        fatalError("Used invalid column-index subscript \(columnIndex) on \(String(reflecting: self))!")
+      }
+    }
+    set {
+      precondition(Double3x3Storage.columnIndexRange.contains(columnIndex))
+      precondition(Double3x3Storage.rowIndexRange.contains(rowIndex))
+      switch columnIndex {
+      case 0:
+        self.storage.columns.0[rowIndex] = newValue
+      case 1:
+        self.storage.columns.1[rowIndex] = newValue
+      case 2:
+        self.storage.columns.2[rowIndex] = newValue
+      default:
+        fatalError("Used invalid column-index subscript \(columnIndex) on \(String(reflecting: self))!")
+      }
+    }
+  }
+  
+  @inlinable
+  public func negated() -> Double3x3Storage {
+    return Double3x3Storage(
       storage: -self.storage
     )
   }
@@ -262,52 +248,52 @@ extension Double4x4Storage : SIMDMatrix4x4StorageProtocol {
   }
   
   @inlinable
-  public func adding(_ other: Double4x4Storage) -> Double4x4Storage {
-    return Double4x4Storage(
+  public func adding(_ other: Double3x3Storage) -> Double3x3Storage {
+    return Double3x3Storage(
       storage: self.storage + other.storage
     )
   }
   
   @inlinable
-  public mutating func formAddition(of other: Double4x4Storage) {
+  public mutating func formAddition(of other: Double3x3Storage) {
     self.storage += other.storage
   }
   
   @inlinable
   public func adding(
-    _ other: Double4x4Storage,
-    multipliedBy factor: Scalar) -> Double4x4Storage {
-    return Double4x4Storage(
+    _ other: Double3x3Storage,
+    multipliedBy factor: Scalar) -> Double3x3Storage {
+    return Double3x3Storage(
       storage: self.storage + (other.storage * factor)
     )
   }
-
+  
   @inlinable
   public mutating func formAddition(
-    of other: Double4x4Storage,
+    of other: Double3x3Storage,
     multipliedBy factor: Scalar) {
     self.storage += (other.storage * factor)
   }
   
   @inlinable
-  public func subtracting(_ other: Double4x4Storage) -> Double4x4Storage {
-    return Double4x4Storage(
+  public func subtracting(_ other: Double3x3Storage) -> Double3x3Storage {
+    return Double3x3Storage(
       storage: other.storage - self.storage
     )
   }
   
   @inlinable
-  public mutating func formSubtraction(of other: Double4x4Storage) {
+  public mutating func formSubtraction(of other: Double3x3Storage) {
     self.storage -= other.storage
   }
   
   @inlinable
-  public func multiplied(by factor: Scalar) -> Double4x4Storage {
-    return Double4x4Storage(
+  public func multiplied(by factor: Scalar) -> Double3x3Storage {
+    return Double3x3Storage(
       storage: self.storage * factor
     )
   }
-
+  
   @inlinable
   public mutating func formMultiplication(by factor: Scalar) {
     self.storage *= factor
@@ -322,31 +308,31 @@ extension Double4x4Storage : SIMDMatrix4x4StorageProtocol {
   public func multiplied(onLeftBy columnVector: ColumnVector) -> RowVector {
     return self.storage * columnVector
   }
-
+  
   @inlinable
-  public func multiplied(onRightBy other: Double4x4Storage) -> Double4x4Storage {
-    return Double4x4Storage(
+  public func multiplied(onRightBy other: Double3x3Storage) -> Double3x3Storage {
+    return Double3x3Storage(
       storage: self.storage * other.storage
     )
   }
   
   @inlinable
-  public func multiplied(onLeftBy other: Double4x4Storage) -> Double4x4Storage {
-    return Double4x4Storage(
+  public func multiplied(onLeftBy other: Double3x3Storage) -> Double3x3Storage {
+    return Double3x3Storage(
       storage: other.storage * self.storage
     )
   }
-
+  
   @inlinable
-  public mutating func formMultiplication(onRightBy other: Double4x4Storage) {
+  public mutating func formMultiplication(onRightBy other: Double3x3Storage) {
     self.storage = self.storage * other.storage
   }
   
   @inlinable
-  public mutating func formMultiplication(onLeftBy other: Double4x4Storage) {
+  public mutating func formMultiplication(onLeftBy other: Double3x3Storage) {
     self.storage = other.storage * self.storage
   }
-
+  
   @inlinable
   public var determinant: Scalar {
     get {
@@ -355,9 +341,9 @@ extension Double4x4Storage : SIMDMatrix4x4StorageProtocol {
   }
   
   @inlinable
-  public var inverse: Double4x4Storage {
+  public var inverse: Double3x3Storage {
     get {
-      return Double4x4Storage(
+      return Double3x3Storage(
         storage: self.storage.inverse
       )
     }
@@ -371,5 +357,5 @@ extension Double4x4Storage : SIMDMatrix4x4StorageProtocol {
       )
     }
   }
-
+  
 }

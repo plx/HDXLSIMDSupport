@@ -22,6 +22,36 @@ public protocol SIMDMatrix2xNStorageProtocol : SIMDMatrixStorageProtocol
   
 }
 
+// `ColumnVector:Hashable` should always be true in practice!
+public extension SIMDMatrix2xNStorageProtocol where ColumnVector:Hashable {
+  
+  @inlinable
+  func hash(into hasher: inout Hasher) {
+    self.columns.0.hash(into: &hasher)
+    self.columns.1.hash(into: &hasher)
+  }
+  
+}
+
+// `ColumnVector:NumericAggregate` and `ColumnVector.Scalar == NumericEntryRepresentation`
+// should always be true in practice!
+public extension SIMDMatrix2xNStorageProtocol
+  where
+  ColumnVector:NumericAggregate,
+  ColumnVector.NumericEntryRepresentation == NumericEntryRepresentation {
+  
+  @inlinable
+  func allNumericEntriesSatisfy(_ predicate: (NumericEntryRepresentation) -> Bool) -> Bool {
+    guard
+      self.columns.0.allNumericEntriesSatisfy(predicate),
+      self.columns.1.allNumericEntriesSatisfy(predicate) else {
+        return false
+    }
+    return true
+  }
+  
+}
+
 // -------------------------------------------------------------------------- //
 // MARK:  SIMDMatrix3xNStorageProtocol
 // -------------------------------------------------------------------------- //
@@ -36,6 +66,38 @@ public protocol SIMDMatrix3xNStorageProtocol : SIMDMatrixStorageProtocol
     _ columnOne: ColumnVector,
     _ columnTwo: ColumnVector,
     _ columnThree: ColumnVector)
+  
+}
+
+// `ColumnVector:Hashable` should always be true in practice!
+public extension SIMDMatrix3xNStorageProtocol where ColumnVector:Hashable {
+  
+  @inlinable
+  func hash(into hasher: inout Hasher) {
+    self.columns.0.hash(into: &hasher)
+    self.columns.1.hash(into: &hasher)
+    self.columns.2.hash(into: &hasher)
+  }
+  
+}
+
+// `ColumnVector:NumericAggregate` and `ColumnVector.Scalar == NumericEntryRepresentation`
+// should always be true in practice!
+public extension SIMDMatrix3xNStorageProtocol
+  where
+  ColumnVector:NumericAggregate,
+  ColumnVector.NumericEntryRepresentation == NumericEntryRepresentation {
+  
+  @inlinable
+  func allNumericEntriesSatisfy(_ predicate: (NumericEntryRepresentation) -> Bool) -> Bool {
+    guard
+      self.columns.0.allNumericEntriesSatisfy(predicate),
+      self.columns.1.allNumericEntriesSatisfy(predicate),
+      self.columns.2.allNumericEntriesSatisfy(predicate) else {
+        return false
+    }
+    return true
+  }
   
 }
 
@@ -54,6 +116,40 @@ public protocol SIMDMatrix4xNStorageProtocol : SIMDMatrixStorageProtocol
     _ columnTwo: ColumnVector,
     _ columnThree: ColumnVector,
     _ columnFour: ColumnVector)
+  
+}
+
+// `ColumnVector:Hashable` should always be true in practice!
+public extension SIMDMatrix4xNStorageProtocol where ColumnVector:Hashable {
+  
+  @inlinable
+  func hash(into hasher: inout Hasher) {
+    self.columns.0.hash(into: &hasher)
+    self.columns.1.hash(into: &hasher)
+    self.columns.2.hash(into: &hasher)
+    self.columns.3.hash(into: &hasher)
+  }
+  
+}
+
+// `ColumnVector:NumericAggregate` and `ColumnVector.Scalar == NumericEntryRepresentation`
+// should always be true in practice!
+public extension SIMDMatrix4xNStorageProtocol
+  where
+  ColumnVector:NumericAggregate,
+  ColumnVector.NumericEntryRepresentation == NumericEntryRepresentation {
+  
+  @inlinable
+  func allNumericEntriesSatisfy(_ predicate: (NumericEntryRepresentation) -> Bool) -> Bool {
+    guard
+      self.columns.0.allNumericEntriesSatisfy(predicate),
+      self.columns.1.allNumericEntriesSatisfy(predicate),
+      self.columns.2.allNumericEntriesSatisfy(predicate),
+      self.columns.3.allNumericEntriesSatisfy(predicate) else {
+        return false
+    }
+    return true
+  }
   
 }
 

@@ -7,61 +7,6 @@ import simd
 import HDXLCommonUtilities
 
 // -------------------------------------------------------------------------- //
-// MARK: SIMDSquareMatrixProtocol
-// -------------------------------------------------------------------------- //
-
-public protocol SIMDSquareMatrixProtocol : SIMDTransposableMatrixProtocol
-  where
-  Transpose == Self,
-  Storage: SIMDSquareMatrixStorageProtocol {
-  
-  var determinant: Scalar { get }
-  var inverse: Self { get }
-  
-  static func * (lhs: Self, rhs: Self) -> Self
-  static func *= (lhs: inout Self, rhs: Self)
-  static func =* (lhs: Self, rhs: inout Self)
-  
-}
-
-public extension SIMDSquareMatrixProtocol {
-  
-  @inlinable
-  var determinant: Scalar {
-    get {
-      return self.storage.determinant
-    }
-  }
-  
-  @inlinable
-  var inverse: Self {
-    get {
-      return Self(
-        storage: self.storage.inverse
-      )
-    }
-  }
-  
-  @inlinable
-  static func * (lhs: Self, rhs: Self) -> Self {
-    return Self(
-      storage: lhs.storage * rhs.storage
-    )
-  }
-
-  @inlinable
-  static func *= (lhs: inout Self, rhs: Self) {
-    lhs.storage *= rhs.storage
-  }
-
-  @inlinable
-  static func =* (lhs: Self, rhs: inout Self) {
-    lhs.storage =* rhs.storage
-  }
-
-}
-
-// -------------------------------------------------------------------------- //
 // MARK: SIMDMatrix2x2Protocol
 // -------------------------------------------------------------------------- //
 
