@@ -33,7 +33,7 @@ public protocol QuaternionStorageProtocol:
   typealias NativeSIMDRotationMatrix4x4 = NativeSIMDQuaternion.NativeSIMDRotationMatrix4x4
 
   /// The zero quaternion
-  init()
+  init()	
   
   /// Directly-initialize
   init(nativeSIMDQuaternion quaternion: NativeSIMDQuaternion)

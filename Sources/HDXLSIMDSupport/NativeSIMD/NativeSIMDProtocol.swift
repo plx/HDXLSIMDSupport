@@ -12,4 +12,7 @@ public protocol NativeSIMDProtocol {
   /// The type of scalar of-which the native SIMD type is comprised.
   associatedtype NativeSIMDScalar
   
+  /// Zero-argument initializer initializing to the zero value.
+  init()
+  
 }
