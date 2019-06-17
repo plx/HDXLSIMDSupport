@@ -1,5 +1,5 @@
 //
-//  Float+NativeSIMDMatrixCapabilityProtocols.swift
+//  Float+NativeSIMDMatrixProtocols.swift
 //
 
 import Foundation
