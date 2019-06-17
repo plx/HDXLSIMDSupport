@@ -9,6 +9,6 @@ import HDXLCommonUtilities
 public protocol QuaternionCapableProtocol {
   
   associatedtype QuaternionStorage: QuaternionStorageProtocol
-    where QuaternionStorage.QuaternionScalar == Self
+    where QuaternionStorage.Scalar == Self
   
 }

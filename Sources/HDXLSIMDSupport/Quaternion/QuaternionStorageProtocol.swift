@@ -13,93 +13,83 @@ public enum QuaternionSlerpType {
   
 }
 
-public protocol QuaternionStorageProtocol : Equatable {
+public protocol QuaternionStorageProtocol:
+  Hashable,
+  CustomStringConvertible,
+  CustomDebugStringConvertible,
+  Codable,
+  ExpressibleByArrayLiteral,
+  QuaternionMathProtocol
+  where
+  Scalar: NativeSIMDQuaternionCapable {
   
-  associatedtype QuaternionScalar: BinaryFloatingPoint & SIMDScalar
+  associatedtype NativeSIMDQuaternion: NativeSIMDQuaternionProtocol
+    where
+    Scalar == NativeSIMDQuaternion.NativeSIMDScalar
   
-  typealias Vector3 = SIMD3<QuaternionScalar>
-  typealias Vector4 = SIMD4<QuaternionScalar>
+  typealias Vector4 = SIMD4<Scalar>
   
+  typealias NativeSIMDRotationMatrix3x3 = NativeSIMDQuaternion.NativeSIMDRotationMatrix3x3
+  typealias NativeSIMDRotationMatrix4x4 = NativeSIMDQuaternion.NativeSIMDRotationMatrix4x4
+
   /// The zero quaternion
   init()
   
-  static func slerpedQuaternion(
-    path: QuaternionSlerpType,
-    from q0: Self,
-    to q1: Self,
-    at t: QuaternionScalar) -> Self
+  /// Directly-initialize
+  init(nativeSIMDQuaternion quaternion: NativeSIMDQuaternion)
   
-  var vector: Vector4 { get }
+  /// Init with i,j,k, and real coefficients.
+  init(i: Scalar, j: Scalar, k: Scalar, real: Scalar)
+  
+  /// Init with x,y,z and real coefficients.
+  init(x: Scalar, y: Scalar, z: Scalar, real: Scalar)
+  
+  /// Construct a quaternion from real and imaginary parts.
+  init(
+    realComponent: Scalar,
+    imaginaryComponent: Vector3)
+  
+  /// A quaternion whose action is a rotation by `angle` radians about `axis`.
+  ///
+  /// - Parameters:
+  ///   - angle: The angle to rotate by measured in radians.
+  ///   - axis: The axis to rotate around.
+  init(
+    angleInRadians angle: Scalar,
+    rotationAxis axis: Vector3)
+  
+  /// A quaternion whose action rotates the vector `origin` onto the vector `destination`.
+  init(
+    rotating origin: Vector3,
+    onto destination: Vector3)
 
-  /// The real (scalar) part of `self`.
-  var real: QuaternionScalar { get set }
+  init(nativeSIMDRotationMatrix rotationMatrix: NativeSIMDRotationMatrix3x3)
+  init(nativeSIMDRotationMatrix rotationMatrix: NativeSIMDRotationMatrix4x4)
   
-  /// The imaginary (vector) part of `self`.
-  var imag: Vector3 { get set }
-  
-  /// The angle (in radians) by which `self`'s action rotates.
-  var angleInRadians: QuaternionScalar { get }
-  
-  /// The normalized axis about which `self`'s action rotates.
-  var rotationAxis: Vector3 { get }
-  
-  /// The conjugate of `self`.
-  var conjugate: Self { get }
-  
-  /// The inverse of `self`.
-  var inverse: Self { get }
-  
-  /// The unit quaternion obtained by normalizing `self`.
-  var normalized: Self { get }
-  
-  /// The length of the quaternion interpreted as a 4d vector.
-  var length: QuaternionScalar { get }
-  
-  /// Applies the rotation represented by a unit quaternion to the vector and
-  /// returns the result.
-  func apply(to vector: Vector3) -> Vector3
-  
-  /// The sum of `lhs` and `rhs`.
-  static func + (lhs: Self, rhs: Self) -> Self
-  
-  /// Add `rhs` to `lhs`.
-  static func += (lhs: inout Self, rhs: Self)
-  
-  /// The difference of `lhs` and `rhs`.
-  static func - (lhs: Self, rhs: Self) -> Self
-  
-  /// Subtract `rhs` from `lhs`.
-  static func -= (lhs: inout Self, rhs: Self)
-  
-  /// The negation of `rhs`.
-  prefix static func - (rhs: Self) -> Self
-  
-  /// The product of `lhs` and `rhs`.
-  static func * (lhs: Self, rhs: Self) -> Self
-  
-  /// The product of `lhs` and `rhs`.
-  static func * (lhs: QuaternionScalar, rhs: Self) -> Self
-  
-  /// The product of `lhs` and `rhs`.
-  static func * (lhs: Self, rhs: QuaternionScalar) -> Self
-  
-  /// Multiply `lhs` by `rhs`.
-  static func *= (lhs: inout Self, rhs: Self)
-  
-  /// Multiply `lhs` by `rhs`.
-  static func *= (lhs: inout Self, rhs: QuaternionScalar)
-  
-  /// The quotient of `lhs` and `rhs`.
-  static func / (lhs: Self, rhs: Self) -> Self
-  
-  /// The quotient of `lhs` and `rhs`.
-  static func / (lhs: Self, rhs: QuaternionScalar) -> Self
-  
-  /// Divide `lhs` by `rhs`.
-  static func /= (lhs: inout Self, rhs: Self)
-  
-  /// Divide `lhs` by `rhs`.
-  static func /= (lhs: inout Self, rhs: QuaternionScalar)
-
 }
 
+// -------------------------------------------------------------------------- //
+// MARK: QuaternionStorageProtocol - Definition
+// -------------------------------------------------------------------------- //
+
+public extension QuaternionStorageProtocol {
+  
+  @inlinable
+  init(nativeSIMDRotationMatrix rotationMatrix: NativeSIMDRotationMatrix3x3) {
+    self.init(
+      nativeSIMDQuaternion: NativeSIMDQuaternion(
+        rotationMatrix: rotationMatrix
+      )
+    )
+  }
+
+  @inlinable
+  init(nativeSIMDRotationMatrix rotationMatrix: NativeSIMDRotationMatrix4x4) {
+    self.init(
+      nativeSIMDQuaternion: NativeSIMDQuaternion(
+        rotationMatrix: rotationMatrix
+      )
+    )
+  }
+
+}

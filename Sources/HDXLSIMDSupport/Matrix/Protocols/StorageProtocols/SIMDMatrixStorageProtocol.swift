@@ -8,6 +8,7 @@ import HDXLCommonUtilities
 
 /// - todo: *move me* somewhere useful
 infix operator =* : AssignmentPrecedence
+infix operator =/ : AssignmentPrecedence
 
 // -------------------------------------------------------------------------- //
 // MARK: SIMDMatrixStorageProtocol - Definition
