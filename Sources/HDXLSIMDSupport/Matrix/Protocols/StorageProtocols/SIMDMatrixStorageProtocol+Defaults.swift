@@ -3,6 +3,8 @@
 //
 
 import Foundation
+import simd
+import HDXLCommonUtilities
 
 // -------------------------------------------------------------------------- //
 // MARK: SIMDMatrixStorageProtocol - Defaults

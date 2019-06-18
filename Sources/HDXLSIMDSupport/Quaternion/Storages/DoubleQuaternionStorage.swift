@@ -1,5 +1,5 @@
 //
-//  FloatQuaternionStorage.swift
+//  DoubleQuaternionStorage.swift
 //
 
 import Foundation
@@ -7,17 +7,17 @@ import simd
 import HDXLCommonUtilities
 
 // -------------------------------------------------------------------------- //
-// MARK: FloatQuaternionStorage - Definition
+// MARK: DoubleQuaternionStorage - Definition
 // -------------------------------------------------------------------------- //
 
-public struct FloatQuaternionStorage {
-
-  public typealias Scalar = Float
-
-  public var storage: simd_quatf
+public struct DoubleQuaternionStorage {
+  
+  public typealias Scalar = Double
+  
+  public var storage: simd_quatd
   
   @usableFromInline
-  internal init(storage: simd_quatf) {
+  internal init(storage: simd_quatd) {
     // /////////////////////////////////////////////////////////////////////////
     //pedantic_assert(storage.isFinite)
     // /////////////////////////////////////////////////////////////////////////
@@ -27,17 +27,17 @@ public struct FloatQuaternionStorage {
   @usableFromInline
   internal init(vector: Vector4) {
     self.init(
-      storage: simd_quatf(vector: vector)
+      storage: simd_quatd(vector: vector)
     )
   }
   
 }
 
 // -------------------------------------------------------------------------- //
-// MARK: FloatQuaternionStorage - Support
+// MARK: DoubleQuaternionStorage - Support
 // -------------------------------------------------------------------------- //
 
-public extension FloatQuaternionStorage {
+public extension DoubleQuaternionStorage {
   
   @inlinable
   var isZero: Bool {
@@ -45,43 +45,43 @@ public extension FloatQuaternionStorage {
       return self.storage.vector == Vector4.zero
     }
   }
-
+  
   @inlinable
   var isNonZero: Bool {
     get {
       return self.storage.vector != Vector4.zero
     }
   }
-
+  
 }
 
 // -------------------------------------------------------------------------- //
-// MARK: FloatQuaternionStorage - Equatable
+// MARK: DoubleQuaternionStorage - Equatable
 // -------------------------------------------------------------------------- //
 
-extension FloatQuaternionStorage : Equatable {
+extension DoubleQuaternionStorage : Equatable {
   
   @inlinable
   public static func ==(
-    lhs: FloatQuaternionStorage,
-    rhs: FloatQuaternionStorage) -> Bool {
+    lhs: DoubleQuaternionStorage,
+    rhs: DoubleQuaternionStorage) -> Bool {
     return lhs.storage == rhs.storage
   }
-
+  
   @inlinable
   public static func !=(
-    lhs: FloatQuaternionStorage,
-    rhs: FloatQuaternionStorage) -> Bool {
+    lhs: DoubleQuaternionStorage,
+    rhs: DoubleQuaternionStorage) -> Bool {
     return lhs.storage != rhs.storage
   }
-
+  
 }
 
 // -------------------------------------------------------------------------- //
-// MARK: FloatQuaternionStorage - Hashable
+// MARK: DoubleQuaternionStorage - Hashable
 // -------------------------------------------------------------------------- //
 
-extension FloatQuaternionStorage : Hashable {
+extension DoubleQuaternionStorage : Hashable {
   
   @inlinable
   public func hash(into hasher: inout Hasher) {
@@ -91,40 +91,40 @@ extension FloatQuaternionStorage : Hashable {
 }
 
 // -------------------------------------------------------------------------- //
-// MARK: FloatQuaternionStorage - CustomStringConvertible
+// MARK: DoubleQuaternionStorage - CustomStringConvertible
 // -------------------------------------------------------------------------- //
 
-extension FloatQuaternionStorage : CustomStringConvertible {
+extension DoubleQuaternionStorage : CustomStringConvertible {
   
   @inlinable
   public var description: String {
     get {
-      return "FloatQuaternionStorage(storage: \(String(describing: self.storage))"
+      return "DoubleQuaternionStorage(storage: \(String(describing: self.storage))"
     }
   }
   
 }
 
 // -------------------------------------------------------------------------- //
-// MARK: FloatQuaternionStorage - CustomDebugStringConvertible
+// MARK: DoubleQuaternionStorage - CustomDebugStringConvertible
 // -------------------------------------------------------------------------- //
 
-extension FloatQuaternionStorage : CustomDebugStringConvertible {
+extension DoubleQuaternionStorage : CustomDebugStringConvertible {
   
   @inlinable
   public var debugDescription: String {
     get {
-      return "FloatQuaternionStorage(storage: \(String(reflecting: self.storage))"
+      return "DoubleQuaternionStorage(storage: \(String(reflecting: self.storage))"
     }
   }
   
 }
 
 // -------------------------------------------------------------------------- //
-// MARK: FloatQuaternionStorage - Codable
+// MARK: DoubleQuaternionStorage - Codable
 // -------------------------------------------------------------------------- //
 
-extension FloatQuaternionStorage : Codable {
+extension DoubleQuaternionStorage : Codable {
   
   @inlinable
   public func encode(to encoder: Encoder) throws {
@@ -141,10 +141,10 @@ extension FloatQuaternionStorage : Codable {
 }
 
 // -------------------------------------------------------------------------- //
-// MARK: FloatQuaternionStorage - ExpressibleByArrayLiteral
+// MARK: DoubleQuaternionStorage - ExpressibleByArrayLiteral
 // -------------------------------------------------------------------------- //
 
-extension FloatQuaternionStorage : ExpressibleByArrayLiteral {
+extension DoubleQuaternionStorage : ExpressibleByArrayLiteral {
   
   public typealias ArrayLiteralElement = Scalar
   
@@ -152,7 +152,7 @@ extension FloatQuaternionStorage : ExpressibleByArrayLiteral {
   @inlinable
   public init(arrayLiteral elements: ArrayLiteralElement...) {
     guard elements.count == 4 else {
-      fatalError("Invalid array-literal construction for FloatQuaternionStorage: \(elements))")
+      fatalError("Invalid array-literal construction for DoubleQuaternionStorage: \(elements))")
     }
     self.init(
       i: elements[0],
@@ -165,10 +165,10 @@ extension FloatQuaternionStorage : ExpressibleByArrayLiteral {
 }
 
 // -------------------------------------------------------------------------- //
-// MARK: FloatQuaternionStorage - NumericAggregate
+// MARK: DoubleQuaternionStorage - NumericAggregate
 // -------------------------------------------------------------------------- //
 
-extension FloatQuaternionStorage : NumericAggregate {
+extension DoubleQuaternionStorage : NumericAggregate {
   
   public typealias NumericEntryRepresentation = Scalar
   
@@ -182,12 +182,12 @@ extension FloatQuaternionStorage : NumericAggregate {
 }
 
 // -------------------------------------------------------------------------- //
-// MARK: FloatQuaternionStorage - NativeSIMDRepresentable
+// MARK: DoubleQuaternionStorage - NativeSIMDRepresentable
 // -------------------------------------------------------------------------- //
 
-extension FloatQuaternionStorage : NativeSIMDRepresentable {
+extension DoubleQuaternionStorage : NativeSIMDRepresentable {
   
-  public typealias NativeSIMDRepresentation = simd_quatf
+  public typealias NativeSIMDRepresentation = simd_quatd
   
   @inlinable
   public init(nativeSIMDRepresentation representation: NativeSIMDRepresentation) {
@@ -195,14 +195,14 @@ extension FloatQuaternionStorage : NativeSIMDRepresentable {
       storage: representation
     )
   }
-
+  
 }
 
 // -------------------------------------------------------------------------- //
-// MARK: FloatQuaternionStorage - QuaternionMathProtocol
+// MARK: DoubleQuaternionStorage - QuaternionMathProtocol
 // -------------------------------------------------------------------------- //
 
-extension FloatQuaternionStorage : QuaternionMathProtocol {
+extension DoubleQuaternionStorage : QuaternionMathProtocol {
   
   @inlinable
   public var realComponent: Scalar {
@@ -255,9 +255,9 @@ extension FloatQuaternionStorage : QuaternionMathProtocol {
   // ------------------------------------------------------------------------ //
   
   @inlinable
-  public func normalized() -> FloatQuaternionStorage {
+  public func normalized() -> DoubleQuaternionStorage {
     precondition(self.isNonZero)
-    return FloatQuaternionStorage(
+    return DoubleQuaternionStorage(
       storage: self.storage.normalized
     )
   }
@@ -273,9 +273,9 @@ extension FloatQuaternionStorage : QuaternionMathProtocol {
   // ------------------------------------------------------------------------ //
   
   @inlinable
-  public func inverted() -> FloatQuaternionStorage {
+  public func inverted() -> DoubleQuaternionStorage {
     precondition(self.isNonZero)
-    return FloatQuaternionStorage(
+    return DoubleQuaternionStorage(
       storage: self.storage.inverse
     )
   }
@@ -291,12 +291,12 @@ extension FloatQuaternionStorage : QuaternionMathProtocol {
   // ------------------------------------------------------------------------ //
   
   @inlinable
-  public func conjugated() -> FloatQuaternionStorage {
-    return FloatQuaternionStorage(
+  public func conjugated() -> DoubleQuaternionStorage {
+    return DoubleQuaternionStorage(
       storage: self.storage.conjugate
     )
   }
-
+  
   @inlinable
   public mutating func formConjugate() {
     self.storage = self.storage.conjugate
@@ -307,8 +307,8 @@ extension FloatQuaternionStorage : QuaternionMathProtocol {
   // ------------------------------------------------------------------------ //
   
   @inlinable
-  public func negated() -> FloatQuaternionStorage {
-    return FloatQuaternionStorage(
+  public func negated() -> DoubleQuaternionStorage {
+    return DoubleQuaternionStorage(
       storage: -self.storage
     )
   }
@@ -323,14 +323,14 @@ extension FloatQuaternionStorage : QuaternionMathProtocol {
   // ------------------------------------------------------------------------ //
   
   @inlinable
-  public func adding(_ other: FloatQuaternionStorage) -> FloatQuaternionStorage {
-    return FloatQuaternionStorage(
+  public func adding(_ other: DoubleQuaternionStorage) -> DoubleQuaternionStorage {
+    return DoubleQuaternionStorage(
       storage: self.storage + other.storage
     )
   }
   
   @inlinable
-  public mutating func formAddition(of other: FloatQuaternionStorage) {
+  public mutating func formAddition(of other: DoubleQuaternionStorage) {
     self.storage += other.storage
   }
   
@@ -340,16 +340,16 @@ extension FloatQuaternionStorage : QuaternionMathProtocol {
   
   @inlinable
   public func adding(
-    _ other: FloatQuaternionStorage,
-    multipliedBy factor: Scalar) -> FloatQuaternionStorage {
-    return FloatQuaternionStorage(
+    _ other: DoubleQuaternionStorage,
+    multipliedBy factor: Scalar) -> DoubleQuaternionStorage {
+    return DoubleQuaternionStorage(
       storage: self.storage + (other.storage * factor)
     )
   }
   
   @inlinable
   public mutating func formAddition(
-    of other: FloatQuaternionStorage,
+    of other: DoubleQuaternionStorage,
     multipliedBy factor: Scalar) {
     self.storage += (other.storage * factor)
   }
@@ -359,14 +359,14 @@ extension FloatQuaternionStorage : QuaternionMathProtocol {
   // ------------------------------------------------------------------------ //
   
   @inlinable
-  public func subtracting(_ other: FloatQuaternionStorage) -> FloatQuaternionStorage {
-    return FloatQuaternionStorage(
+  public func subtracting(_ other: DoubleQuaternionStorage) -> DoubleQuaternionStorage {
+    return DoubleQuaternionStorage(
       storage: self.storage - other.storage
     )
   }
   
   @inlinable
-  public mutating func formSubtraction(of other: FloatQuaternionStorage) {
+  public mutating func formSubtraction(of other: DoubleQuaternionStorage) {
     self.storage -= other.storage
   }
   
@@ -375,8 +375,8 @@ extension FloatQuaternionStorage : QuaternionMathProtocol {
   // ------------------------------------------------------------------------ //
   
   @inlinable
-  public func multiplied(by factor: Scalar) -> FloatQuaternionStorage {
-    return FloatQuaternionStorage(
+  public func multiplied(by factor: Scalar) -> DoubleQuaternionStorage {
+    return DoubleQuaternionStorage(
       storage: self.storage * factor
     )
   }
@@ -391,8 +391,8 @@ extension FloatQuaternionStorage : QuaternionMathProtocol {
   // ------------------------------------------------------------------------ //
   
   @inlinable
-  public func divided(by factor: Scalar) -> FloatQuaternionStorage {
-    return FloatQuaternionStorage(
+  public func divided(by factor: Scalar) -> DoubleQuaternionStorage {
+    return DoubleQuaternionStorage(
       storage: self.storage / factor
     )
   }
@@ -407,26 +407,26 @@ extension FloatQuaternionStorage : QuaternionMathProtocol {
   // ------------------------------------------------------------------------ //
   
   @inlinable
-  public func multiplied(onRightBy other: FloatQuaternionStorage) -> FloatQuaternionStorage {
-    return FloatQuaternionStorage(
+  public func multiplied(onRightBy other: DoubleQuaternionStorage) -> DoubleQuaternionStorage {
+    return DoubleQuaternionStorage(
       storage: self.storage * other.storage
     )
   }
   
   @inlinable
-  public func multiplied(onLeftBy other: FloatQuaternionStorage) -> FloatQuaternionStorage {
-    return FloatQuaternionStorage(
+  public func multiplied(onLeftBy other: DoubleQuaternionStorage) -> DoubleQuaternionStorage {
+    return DoubleQuaternionStorage(
       storage: other.storage * self.storage
     )
   }
   
   @inlinable
-  public mutating func formMultiplication(onRightBy other: FloatQuaternionStorage) {
+  public mutating func formMultiplication(onRightBy other: DoubleQuaternionStorage) {
     self.storage *= other.storage
   }
   
   @inlinable
-  public mutating func formMultiplication(onLeftBy other: FloatQuaternionStorage) {
+  public mutating func formMultiplication(onLeftBy other: DoubleQuaternionStorage) {
     self.storage = other.storage * self.storage
   }
   
@@ -435,41 +435,41 @@ extension FloatQuaternionStorage : QuaternionMathProtocol {
   // ------------------------------------------------------------------------ //
   
   @inlinable
-  public func divided(onRightBy other: FloatQuaternionStorage) -> FloatQuaternionStorage {
+  public func divided(onRightBy other: DoubleQuaternionStorage) -> DoubleQuaternionStorage {
     precondition(other.isNonZero)
-    return FloatQuaternionStorage(
+    return DoubleQuaternionStorage(
       storage: self.storage / other.storage
     )
   }
   
   @inlinable
-  public func divided(onLeftBy other: FloatQuaternionStorage) -> FloatQuaternionStorage {
+  public func divided(onLeftBy other: DoubleQuaternionStorage) -> DoubleQuaternionStorage {
     precondition(other.isNonZero)
-    return FloatQuaternionStorage(
+    return DoubleQuaternionStorage(
       storage: other.storage.inverse * self.storage
     )
   }
   
   @inlinable
-  public mutating func formDivision(onRightBy other: FloatQuaternionStorage) {
+  public mutating func formDivision(onRightBy other: DoubleQuaternionStorage) {
     precondition(other.isNonZero)
     self.storage /= other.storage
   }
   
   @inlinable
-  public mutating func formDivision(onLeftBy other: FloatQuaternionStorage) {
+  public mutating func formDivision(onLeftBy other: DoubleQuaternionStorage) {
     precondition(other.isNonZero)
     self.storage = other.storage.inverse * self.storage
   }
-
+  
 }
 
 
 // -------------------------------------------------------------------------- //
-// MARK: FloatQuaternionStorage - QuaternionStorageProtocol
+// MARK: DoubleQuaternionStorage - QuaternionStorageProtocol
 // -------------------------------------------------------------------------- //
 
-extension FloatQuaternionStorage : QuaternionStorageProtocol {
+extension DoubleQuaternionStorage : QuaternionStorageProtocol {
   
   
   // ------------------------------------------------------------------------ //
@@ -555,6 +555,6 @@ extension FloatQuaternionStorage : QuaternionStorageProtocol {
       nativeSIMDRepresentation: NativeSIMDQuaternion(rotationMatrix)
     )
   }
-
+  
 }
 

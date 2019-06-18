@@ -13,6 +13,7 @@ import HDXLCommonUtilities
 /// Protocol for 2-column matrices.
 public protocol SIMDMatrix2xNStorageProtocol : SIMDMatrixStorageProtocol
   where
+  NativeSIMDRepresentation: NativeSIMDMatrix2xNProtocol,
   Columns == (ColumnVector,ColumnVector),
   RowVector == SIMD2<Scalar> {
   
@@ -59,6 +60,7 @@ public extension SIMDMatrix2xNStorageProtocol
 /// Protocol for 3-column matrices.
 public protocol SIMDMatrix3xNStorageProtocol : SIMDMatrixStorageProtocol
   where
+  NativeSIMDRepresentation: NativeSIMDMatrix3xNProtocol,
   Columns == (ColumnVector,ColumnVector,ColumnVector),
   RowVector == SIMD3<Scalar> {
   
@@ -108,6 +110,7 @@ public extension SIMDMatrix3xNStorageProtocol
 /// Protocol for 4-column matrices.
 public protocol SIMDMatrix4xNStorageProtocol : SIMDMatrixStorageProtocol
   where
+  NativeSIMDRepresentation: NativeSIMDMatrix4xNProtocol,
   Columns == (ColumnVector,ColumnVector,ColumnVector,ColumnVector),
   RowVector == SIMD4<Scalar> {
   
@@ -160,6 +163,7 @@ public extension SIMDMatrix4xNStorageProtocol
 /// Protocol for 2-row matrices.
 public protocol SIMDMatrixNx2StorageProtocol : SIMDMatrixStorageProtocol
   where
+  NativeSIMDRepresentation: NativeSIMDMatrixNx2Protocol,
   Rows == (RowVector,RowVector),
   ColumnVector == SIMD2<Scalar> {
   
@@ -172,6 +176,7 @@ public protocol SIMDMatrixNx2StorageProtocol : SIMDMatrixStorageProtocol
 /// Protocol for 3-row matrices.
 public protocol SIMDMatrixNx3StorageProtocol : SIMDMatrixStorageProtocol
   where
+  NativeSIMDRepresentation: NativeSIMDMatrixNx3Protocol,
   Rows == (RowVector,RowVector,RowVector),
   ColumnVector == SIMD3<Scalar> {
   
@@ -184,6 +189,7 @@ public protocol SIMDMatrixNx3StorageProtocol : SIMDMatrixStorageProtocol
 /// Protocol for 4-row matrices.
 public protocol SIMDMatrixNx4StorageProtocol : SIMDMatrixStorageProtocol
   where
+  NativeSIMDRepresentation: NativeSIMDMatrixNx4Protocol,
   Rows == (RowVector,RowVector,RowVector,RowVector),
   ColumnVector == SIMD4<Scalar> {
   

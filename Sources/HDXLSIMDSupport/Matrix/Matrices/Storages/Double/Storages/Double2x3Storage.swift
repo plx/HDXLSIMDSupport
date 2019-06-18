@@ -24,6 +24,21 @@ public struct Double2x3Storage {
 }
 
 // -------------------------------------------------------------------------- //
+// MARK: Double2x3Storage - NativeSIMDRepresentable
+// -------------------------------------------------------------------------- //
+
+extension Double2x3Storage : NativeSIMDRepresentable {
+  
+  public typealias NativeSIMDRepresentation = Storage
+  
+  @inlinable
+  public init(nativeSIMDRepresentation: NativeSIMDRepresentation) {
+    self.init(storage: nativeSIMDRepresentation)
+  }
+  
+}
+
+// -------------------------------------------------------------------------- //
 // MARK: Double2x3Storage - SIMDMatrix2x3StorageProtocol
 // -------------------------------------------------------------------------- //
 

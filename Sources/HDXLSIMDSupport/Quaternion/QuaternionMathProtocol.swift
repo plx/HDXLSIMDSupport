@@ -6,6 +6,11 @@ import Foundation
 import simd
 import HDXLCommonUtilities
 
+// -------------------------------------------------------------------------- //
+// MARK: QuaternionMathProtocol - Definition
+// -------------------------------------------------------------------------- //
+
+/// Protocol with common math operations by all quaternions (and wrappers thereof).
 public protocol QuaternionMathProtocol {
   
   associatedtype Scalar: SIMDScalar & BinaryFloatingPoint
@@ -70,7 +75,7 @@ public protocol QuaternionMathProtocol {
   // ------------------------------------------------------------------------ //
   
   /// Returns the conjugate of `self`.
-  func conjugate() -> Self
+  func conjugated() -> Self
   
   /// In-place mutates `self` into its conjugate.
   mutating func formConjugate()
@@ -177,6 +182,74 @@ public protocol QuaternionMathProtocol {
   /// In-place sets `self = (1/other) * self`.
   mutating func formDivision(onLeftBy other: Self)
   
+}
+
+// -------------------------------------------------------------------------- //
+// MARK: QuaternionMathProtocol - Default Property Exposures
+// -------------------------------------------------------------------------- //
+
+public extension QuaternionMathProtocol {
+  
+  @inlinable
+  var x: Scalar {
+    get {
+      return self.imaginaryComponent[0]
+    }
+    set {
+      self.imaginaryComponent[0] = newValue
+    }
+  }
+
+  @inlinable
+  var y: Scalar {
+    get {
+      return self.imaginaryComponent[1]
+    }
+    set {
+      self.imaginaryComponent[1] = newValue
+    }
+  }
+
+  @inlinable
+  var z: Scalar {
+    get {
+      return self.imaginaryComponent[2]
+    }
+    set {
+      self.imaginaryComponent[2] = newValue
+    }
+  }
+
+  @inlinable
+  var i: Scalar {
+    get {
+      return self.imaginaryComponent[0]
+    }
+    set {
+      self.imaginaryComponent[0] = newValue
+    }
+  }
+  
+  @inlinable
+  var j: Scalar {
+    get {
+      return self.imaginaryComponent[1]
+    }
+    set {
+      self.imaginaryComponent[1] = newValue
+    }
+  }
+  
+  @inlinable
+  var k: Scalar {
+    get {
+      return self.imaginaryComponent[2]
+    }
+    set {
+      self.imaginaryComponent[2] = newValue
+    }
+  }
+
 }
 
 // -------------------------------------------------------------------------- //

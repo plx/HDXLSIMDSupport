@@ -30,6 +30,26 @@ public protocol NativeSIMDMatrixProtocol : NativeSIMDProtocol
   
 }
 
+public protocol NativeSIMDPreTransposableMatrixProtocol: NativeSIMDMatrixProtocol {
+  
+  associatedtype NativeSIMDTransposeMatrix: NativeSIMDPreTransposableMatrixProtocol
+    where
+    NativeSIMDTransposeMatrix.NativeSIMDScalar == NativeSIMDScalar,
+    NativeSIMDTransposeMatrix.NativeSIMDColumnVector == NativeSIMDRowVector,
+    NativeSIMDTransposeMatrix.NativeSIMDRowVector == NativeSIMDColumnVector,
+    NativeSIMDTransposeMatrix.NativeSIMDColumns == NativeSIMDRows,
+    NativeSIMDTransposeMatrix.NativeSIMDRows == NativeSIMDColumns
+  
+  var transposeMatrix: NativeSIMDTransposeMatrix {get }
+  
+}
+
+public protocol NativeSIMDTransposableMatrixProtocol : NativeSIMDPreTransposableMatrixProtocol
+  where
+  NativeSIMDTransposeMatrix.NativeSIMDTransposeMatrix == Self {
+  
+}
+
 public protocol NativeSIMDMatrix2xNProtocol: NativeSIMDMatrixProtocol
   where
   NativeSIMDColumns == (NativeSIMDColumnVector,NativeSIMDColumnVector),
@@ -87,15 +107,16 @@ public protocol NativeSIMDMatrixNx4Protocol: NativeSIMDMatrixProtocol
   
 }
 
-public protocol NativeSIMDSquareMatrixProtocol : NativeSIMDMatrixProtocol
+public protocol NativeSIMDSquareMatrixProtocol : NativeSIMDTransposableMatrixProtocol
   where
   NativeSIMDColumnVector == NativeSIMDRowVector,
   NativeSIMDDiagonalVector == NativeSIMDColumnVector,
-  NativeSIMDColumns == NativeSIMDRows {
+  NativeSIMDColumns == NativeSIMDRows,
+  NativeSIMDTransposeMatrix == Self {
   
 }
 
-public protocol NativeSIMDNonSquareMatrixProtocol : NativeSIMDMatrixProtocol {
+public protocol NativeSIMDNonSquareMatrixProtocol : NativeSIMDTransposableMatrixProtocol {
   
 }
 
@@ -109,21 +130,27 @@ public protocol NativeSIMDMatrix2x2Protocol :
 public protocol NativeSIMDMatrix2x3Protocol :
   NativeSIMDNonSquareMatrixProtocol,
   NativeSIMDMatrix2xNProtocol,
-  NativeSIMDMatrixNx3Protocol {
+  NativeSIMDMatrixNx3Protocol
+  where
+  NativeSIMDTransposeMatrix:NativeSIMDMatrix3x2Protocol {
   
 }
 
 public protocol NativeSIMDMatrix2x4Protocol :
   NativeSIMDNonSquareMatrixProtocol,
   NativeSIMDMatrix2xNProtocol,
-  NativeSIMDMatrixNx4Protocol {
+  NativeSIMDMatrixNx4Protocol
+  where
+  NativeSIMDTransposeMatrix:NativeSIMDMatrix4x2Protocol {
   
 }
 
 public protocol NativeSIMDMatrix3x2Protocol :
   NativeSIMDNonSquareMatrixProtocol,
   NativeSIMDMatrix3xNProtocol,
-  NativeSIMDMatrixNx2Protocol {
+  NativeSIMDMatrixNx2Protocol
+  where
+  NativeSIMDTransposeMatrix:NativeSIMDMatrix2x3Protocol {
   
 }
 
@@ -132,26 +159,38 @@ public protocol NativeSIMDMatrix3x3Protocol :
   NativeSIMDMatrix3xNProtocol,
   NativeSIMDMatrixNx3Protocol {
   
+  associatedtype NativeSIMDQuaternion: NativeSIMDQuaternionProtocol
+    where
+    NativeSIMDQuaternion.NativeSIMDScalar == NativeSIMDScalar
+  
+  init(quaternion: NativeSIMDQuaternion)
+
 }
 
 public protocol NativeSIMDMatrix3x4Protocol :
   NativeSIMDNonSquareMatrixProtocol,
   NativeSIMDMatrix3xNProtocol,
-  NativeSIMDMatrixNx4Protocol {
+  NativeSIMDMatrixNx4Protocol
+  where
+  NativeSIMDTransposeMatrix:NativeSIMDMatrix4x3Protocol {
   
 }
 
 public protocol NativeSIMDMatrix4x2Protocol :
   NativeSIMDNonSquareMatrixProtocol,
   NativeSIMDMatrix4xNProtocol,
-  NativeSIMDMatrixNx2Protocol {
+  NativeSIMDMatrixNx2Protocol
+  where
+  NativeSIMDTransposeMatrix:NativeSIMDMatrix2x4Protocol {
   
 }
 
 public protocol NativeSIMDMatrix4x3Protocol :
   NativeSIMDNonSquareMatrixProtocol,
   NativeSIMDMatrix4xNProtocol,
-  NativeSIMDMatrixNx3Protocol {
+  NativeSIMDMatrixNx3Protocol
+  where
+  NativeSIMDTransposeMatrix:NativeSIMDMatrix3x4Protocol {
   
 }
 
@@ -159,5 +198,11 @@ public protocol NativeSIMDMatrix4x4Protocol :
   NativeSIMDSquareMatrixProtocol,
   NativeSIMDMatrix4xNProtocol,
   NativeSIMDMatrixNx4Protocol {
+  
+  associatedtype NativeSIMDQuaternion: NativeSIMDQuaternionProtocol
+    where
+    NativeSIMDQuaternion.NativeSIMDScalar == NativeSIMDScalar
+  
+  init(quaternion: NativeSIMDQuaternion)
   
 }

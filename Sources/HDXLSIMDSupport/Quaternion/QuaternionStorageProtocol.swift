@@ -6,26 +6,21 @@ import Foundation
 import simd
 import HDXLCommonUtilities
 
-public enum QuaternionSlerpType {
-  
-  case shortest
-  case longest
-  
-}
-
 public protocol QuaternionStorageProtocol:
   Hashable,
   CustomStringConvertible,
   CustomDebugStringConvertible,
   Codable,
   ExpressibleByArrayLiteral,
-  QuaternionMathProtocol
+  QuaternionMathProtocol,
+  NativeSIMDRepresentable,
+  NumericAggregate
   where
-  Scalar: NativeSIMDQuaternionCapable {
-  
-  associatedtype NativeSIMDQuaternion: NativeSIMDQuaternionProtocol
-    where
-    Scalar == NativeSIMDQuaternion.NativeSIMDScalar
+  NativeSIMDRepresentation: NativeSIMDQuaternionProtocol,
+  Scalar == NativeSIMDRepresentation.NativeSIMDScalar,
+  Scalar == NumericEntryRepresentation {
+
+  typealias NativeSIMDQuaternion = NativeSIMDRepresentation
   
   typealias Vector4 = SIMD4<Scalar>
   
@@ -36,7 +31,7 @@ public protocol QuaternionStorageProtocol:
   init()	
   
   /// Directly-initialize
-  init(nativeSIMDQuaternion quaternion: NativeSIMDQuaternion)
+  init(nativeSIMDRepresentation representation: NativeSIMDRepresentation)
   
   /// Init with i,j,k, and real coefficients.
   init(i: Scalar, j: Scalar, k: Scalar, real: Scalar)
@@ -77,7 +72,7 @@ public extension QuaternionStorageProtocol {
   @inlinable
   init(nativeSIMDRotationMatrix rotationMatrix: NativeSIMDRotationMatrix3x3) {
     self.init(
-      nativeSIMDQuaternion: NativeSIMDQuaternion(
+      nativeSIMDRepresentation: NativeSIMDQuaternion(
         rotationMatrix: rotationMatrix
       )
     )
@@ -86,7 +81,7 @@ public extension QuaternionStorageProtocol {
   @inlinable
   init(nativeSIMDRotationMatrix rotationMatrix: NativeSIMDRotationMatrix4x4) {
     self.init(
-      nativeSIMDQuaternion: NativeSIMDQuaternion(
+      nativeSIMDRepresentation: NativeSIMDQuaternion(
         rotationMatrix: rotationMatrix
       )
     )

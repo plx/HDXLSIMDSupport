@@ -14,6 +14,7 @@ public protocol SIMDSquareMatrixStorageProtocol :
   SquareMatrixMathProtocol,
   SIMDTransposableMatrixStorageProtocol
   where
+  NativeSIMDRepresentation: NativeSIMDSquareMatrixProtocol,
   TransposeStorage == Self {
   
   /// The determinant of `self`.

@@ -22,15 +22,19 @@ public protocol SIMDMatrixStorageProtocol :
   Codable,
   ExpressibleByArrayLiteral,
   NumericAggregate,
-  MatrixMathProtocol
+  MatrixMathProtocol,
+  NativeSIMDRepresentable
   where
-  Scalar: SIMDScalar & BinaryFloatingPoint,
+  Scalar: BinaryFloatingPoint,
+  /*Scalar: SIMDScalar, implied by `Scalar == NativeSIMDRepresentation.NativeSIMDScalar */
   RowVector: SIMD,
   ColumnVector: SIMD,
   Scalar == NumericEntryRepresentation,
   Scalar == RowVector.Scalar,
   Scalar == ColumnVector.Scalar,
-  ArrayLiteralElement == Scalar {
+  ArrayLiteralElement == Scalar,
+  NativeSIMDRepresentation: NativeSIMDMatrixProtocol,
+  Scalar == NativeSIMDRepresentation.NativeSIMDScalar {
   
   /// Type with the vector used by the *shorter* axis.
   ///

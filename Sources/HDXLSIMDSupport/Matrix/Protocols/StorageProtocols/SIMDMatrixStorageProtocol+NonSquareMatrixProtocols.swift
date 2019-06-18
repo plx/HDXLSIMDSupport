@@ -10,7 +10,10 @@ import HDXLCommonUtilities
 // MARK: SIMDNonSquareMatrixStorageProtocol
 // -------------------------------------------------------------------------- //
 
-public protocol SIMDNonSquareMatrixStorageProtocol : SIMDTransposableMatrixStorageProtocol {
+public protocol SIMDNonSquareMatrixStorageProtocol :
+  SIMDTransposableMatrixStorageProtocol
+  where
+  NativeSIMDRepresentation: NativeSIMDNonSquareMatrixProtocol {
   
 }
 
@@ -23,6 +26,7 @@ public protocol SIMDMatrix4x2StorageProtocol :
   SIMDMatrix4xNStorageProtocol,
   SIMDMatrixNx2StorageProtocol
   where
+  NativeSIMDRepresentation: NativeSIMDMatrix4x2Protocol,
   TransposeStorage: SIMDMatrix2x4StorageProtocol {
   
 }
@@ -36,6 +40,7 @@ public protocol SIMDMatrix2x4StorageProtocol :
   SIMDMatrix2xNStorageProtocol,
   SIMDMatrixNx4StorageProtocol
   where
+  NativeSIMDRepresentation: NativeSIMDMatrix2x4Protocol,
   TransposeStorage: SIMDMatrix4x2StorageProtocol {
   
 }
@@ -49,6 +54,7 @@ public protocol SIMDMatrix3x2StorageProtocol :
   SIMDMatrix3xNStorageProtocol,
   SIMDMatrixNx2StorageProtocol
   where
+  NativeSIMDRepresentation: NativeSIMDMatrix3x2Protocol,
   TransposeStorage: SIMDMatrix2x3StorageProtocol {
   
 }
@@ -62,6 +68,7 @@ public protocol SIMDMatrix2x3StorageProtocol :
   SIMDMatrix2xNStorageProtocol,
   SIMDMatrixNx3StorageProtocol
   where
+  NativeSIMDRepresentation: NativeSIMDMatrix2x3Protocol,
   TransposeStorage: SIMDMatrix3x2StorageProtocol {
   
 }
@@ -75,6 +82,7 @@ public protocol SIMDMatrix3x4StorageProtocol :
   SIMDMatrix3xNStorageProtocol,
   SIMDMatrixNx4StorageProtocol
   where
+  NativeSIMDRepresentation: NativeSIMDMatrix3x4Protocol,
   TransposeStorage: SIMDMatrix4x3StorageProtocol {
   
 }
@@ -88,6 +96,7 @@ public protocol SIMDMatrix4x3StorageProtocol :
   SIMDMatrix4xNStorageProtocol,
   SIMDMatrixNx3StorageProtocol
   where
+  NativeSIMDRepresentation: NativeSIMDMatrix4x3Protocol,
   TransposeStorage: SIMDMatrix3x4StorageProtocol {
   
 }
