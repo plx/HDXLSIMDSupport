@@ -10,7 +10,7 @@ import HDXLCommonUtilities
 // MARK: Matrix3x2Protocol - Definition
 // -------------------------------------------------------------------------- //
 
-/// 3x4-specific matrix protocol.
+/// 3x2-specific matrix protocol.
 ///
 /// As stated repeatedly, my earlier attempts included a Matrix4xNProtocol, MatrixNx4Protocol, etc., from
 /// which this protocol inherited; this bought less repetition and a "cleaner, more-elegant feel" but also produced

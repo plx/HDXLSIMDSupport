@@ -60,7 +60,7 @@ public extension MatrixDefaultSupportProtocol {
     // /////////////////////////////////////////////////////////////////////////
     pedantic_assert(Self.linearizedScalarIndexRange.contains(linearizedScalarIndex))
     // /////////////////////////////////////////////////////////////////////////
-    let result = linearizedScalarIndex.quotientAndRemainder(dividingBy: Self.rowCount)
+    let result = linearizedScalarIndex.quotientAndRemainder(dividingBy: Self.rowLength)
     // /////////////////////////////////////////////////////////////////////////
     pedantic_assert(Self.rowIndexRange.contains(result.quotient))
     pedantic_assert(Self.columnIndexRange.contains(result.remainder))

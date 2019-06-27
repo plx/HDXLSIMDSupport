@@ -52,6 +52,31 @@ public extension Passthrough where PassthroughValue: MatrixProtocol {
   }
   
   // ------------------------------------------------------------------------ //
+  // MARK: Shape Ranges
+  // ------------------------------------------------------------------------ //
+  
+  @inlinable
+  static var rowIndexRange: Range<Int> {
+    get {
+      return PassthroughValue.rowIndexRange
+    }
+  }
+
+  @inlinable
+  static var columnIndexRange: Range<Int> {
+    get {
+      return PassthroughValue.columnIndexRange
+    }
+  }
+
+  @inlinable
+  static var linearizedScalarIndexRange: Range<Int> {
+    get {
+      return PassthroughValue.linearizedScalarIndexRange
+    }
+  }
+
+  // ------------------------------------------------------------------------ //
   // MARK: Initialization
   // ------------------------------------------------------------------------ //
   
@@ -317,7 +342,31 @@ public extension Passthrough where PassthroughValue: MatrixProtocol {
       return self.passthroughValue.linearizedScalars
     }
   }
+
+  // ------------------------------------------------------------------------ //
+  // MARK: Almost Equal Elements
+  // ------------------------------------------------------------------------ //
   
+  @inlinable
+  func hasAlmostEqualElements(
+    to other: Self,
+    absoluteTolerance tolerance: PassthroughValue.Scalar) -> Bool {
+    return self.passthroughValue.hasAlmostEqualElements(
+      to: other.passthroughValue,
+      absoluteTolerance: tolerance
+    )
+  }
+
+  @inlinable
+  func hasAlmostEqualElements(
+    to other: Self,
+    relativeTolerance tolerance: PassthroughValue.Scalar) -> Bool {
+    return self.passthroughValue.hasAlmostEqualElements(
+      to: other.passthroughValue,
+      relativeTolerance: tolerance
+    )
+  }
+
   // ------------------------------------------------------------------------ //
   // MARK: Negation
   // ------------------------------------------------------------------------ //

@@ -109,6 +109,19 @@ public protocol MatrixProtocol {
   static var scalarCount: Int { get }
 
   // ------------------------------------------------------------------------ //
+  // MARK: Shape Ranges
+  // ------------------------------------------------------------------------ //
+  
+  /// Range of the valid row indices.
+  static var rowIndexRange: Range<Int> { get }
+  
+  /// Range of the valid column indices.
+  static var columnIndexRange: Range<Int> { get }
+  
+  /// Range of the valid linearized-scalar indices.
+  static var linearizedScalarIndexRange: Range<Int> { get }
+
+  // ------------------------------------------------------------------------ //
   // MARK: Initialization
   // ------------------------------------------------------------------------ //
 
@@ -273,6 +286,26 @@ public protocol MatrixProtocol {
   
   /// Get an array of all scalars (in order).
   var linearizedScalars: [Scalar] { get }
+  
+  // ------------------------------------------------------------------------ //
+  // MARK: Almost Equal Elements
+  // ------------------------------------------------------------------------ //
+  
+  /// `true` iff `self` and `other` have almost-equal elements within an *absolute* `tolerance`.
+  ///
+  /// - note: Abstraction leak: does whatever `simd_almost_equal_elements` does.
+  ///
+  func hasAlmostEqualElements(
+    to other: Self,
+    absoluteTolerance tolerance: Scalar) -> Bool
+
+  /// `true` iff `self` and `other` have almost-equal elements within a *relative* `tolerance`.
+  ///
+  /// - note: Abstraction leak: does whatever `simd_almost_equal_elements_relative` does.
+  ///
+  func hasAlmostEqualElements(
+    to other: Self,
+    relativeTolerance tolerance: Scalar) -> Bool
 
   // ------------------------------------------------------------------------ //
   // MARK: Negation

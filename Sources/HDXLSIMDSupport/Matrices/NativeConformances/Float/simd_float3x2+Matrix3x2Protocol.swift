@@ -212,6 +212,34 @@ extension simd_float3x2 : MatrixDefaultSupportProtocol, Matrix3x2Protocol {
   // var linearizedScalars: [Scalar] { get }
   
   // ------------------------------------------------------------------------ //
+  // MARK: Almost Equal Elements
+  // ------------------------------------------------------------------------ //
+  
+  // we supply:
+  @inlinable
+  public func hasAlmostEqualElements(
+    to other: simd_float3x2,
+    absoluteTolerance tolerance: Scalar) -> Bool {
+    return simd_almost_equal_elements(
+      self,
+      other,
+      tolerance
+    )
+  }
+  
+  // we supply:
+  @inlinable
+  public func hasAlmostEqualElements(
+    to other: simd_float3x2,
+    relativeTolerance tolerance: Scalar) -> Bool {
+    return simd_almost_equal_elements_relative(
+      self,
+      other,
+      tolerance
+    )
+  }
+
+  // ------------------------------------------------------------------------ //
   // MARK: Negation
   // ------------------------------------------------------------------------ //
   
