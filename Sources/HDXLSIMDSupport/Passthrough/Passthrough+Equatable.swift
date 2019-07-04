@@ -15,11 +15,4 @@ public extension Passthrough where PassthroughValue: Equatable {
     return lhs.passthroughValue == rhs.passthroughValue
   }
 
-  @inlinable
-  static func !=(
-    lhs: Self,
-    rhs: Self) -> Bool {
-    return lhs.passthroughValue != rhs.passthroughValue
-  }
-
 }
