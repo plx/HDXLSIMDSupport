@@ -4,6 +4,7 @@
 
 import Foundation
 import simd
+import SwiftUI
 import HDXLCommonUtilities
 
 public struct FloatMatrix3x4Storage :
@@ -15,7 +16,8 @@ public struct FloatMatrix3x4Storage :
   Hashable,
   CustomStringConvertible,
   CustomDebugStringConvertible,
-  Codable {
+  Codable,
+  VectorArithmetic {
   
   public typealias CompatibleMatrix4x4 = FloatMatrix4x4Storage
   public typealias CompatibleMatrix3x3 = FloatMatrix3x3Storage
@@ -168,6 +170,44 @@ public struct FloatMatrix3x4Storage :
         c2
       )
     )
+  }
+
+  // ------------------------------------------------------------------------ //
+  // MARK: VectorArithmetic
+  // ------------------------------------------------------------------------ //
+  
+  @inlinable
+  public static var zero: FloatMatrix3x4Storage {
+    get {
+      return FloatMatrix3x4Storage(repeating: 0.0)
+    }
+  }
+  
+  @inlinable
+  public mutating func scale(by factor: Double) {
+    self.formMultiplication(
+      by: Scalar(factor)
+    )
+  }
+  
+  @inlinable
+  public var componentwiseMagnitudeSquared: Scalar {
+    get {
+      return (
+        simd_length_squared(self.passthroughValue.columns.0)
+        +
+        simd_length_squared(self.passthroughValue.columns.1)
+        +
+        simd_length_squared(self.passthroughValue.columns.2)
+      )
+    }
+  }
+  
+  @inlinable
+  public var magnitudeSquared: Double {
+    get {
+      return Double(self.componentwiseMagnitudeSquared)
+    }
   }
 
 }

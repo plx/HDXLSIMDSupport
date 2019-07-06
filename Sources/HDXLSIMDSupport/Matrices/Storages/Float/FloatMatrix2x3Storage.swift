@@ -17,7 +17,6 @@ public struct FloatMatrix2x3Storage :
   CustomDebugStringConvertible,
   Codable {
 
-  
   public typealias CompatibleMatrix2x2 = FloatMatrix2x2Storage
   public typealias CompatibleMatrix3x3 = FloatMatrix3x3Storage
   public typealias CompatibleMatrix3x2 = FloatMatrix3x2Storage

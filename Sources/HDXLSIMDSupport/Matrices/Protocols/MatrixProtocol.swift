@@ -306,6 +306,13 @@ public protocol MatrixProtocol {
   func hasAlmostEqualElements(
     to other: Self,
     relativeTolerance tolerance: Scalar) -> Bool
+  
+  // ------------------------------------------------------------------------ //
+  // MARK: Norms
+  // ------------------------------------------------------------------------ //
+  
+  /// Returns the sum of the squares of the components of `self`.
+  var componentwiseMagnitudeSquared: Scalar { get }
 
   // ------------------------------------------------------------------------ //
   // MARK: Negation

@@ -298,6 +298,14 @@ public extension Passthrough where PassthroughValue:QuaternionProtocol {
   mutating func formNormalization() {
     self.passthroughValue.formNormalization()
   }
+
+  @inlinable
+  var componentwiseMagnitudeSquared: PassthroughValue.Scalar {
+    get {
+      return self.passthroughValue.componentwiseMagnitudeSquared
+    }
+  }
+
   
   // ------------------------------------------------------------------------ //
   // MARK: Inversion

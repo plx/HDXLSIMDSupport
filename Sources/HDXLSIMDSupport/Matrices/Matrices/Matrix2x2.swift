@@ -4,6 +4,7 @@
 
 import Foundation
 import simd
+import SwiftUI
 import HDXLCommonUtilities
 
 public struct Matrix2x2<Scalar:ExtendedSIMDScalar>  :
@@ -16,7 +17,8 @@ public struct Matrix2x2<Scalar:ExtendedSIMDScalar>  :
   Hashable,
   CustomStringConvertible,
   CustomDebugStringConvertible,
-  Codable {
+  Codable,
+  VectorArithmetic {
   
   public typealias CompatibleMatrix2x3 = Matrix2x3<Scalar>
   public typealias CompatibleMatrix3x2 = Matrix3x2<Scalar>
@@ -71,6 +73,27 @@ public struct Matrix2x2<Scalar:ExtendedSIMDScalar>  :
     get {
       return "Matrix2x2<\(String(reflecting: Scalar.self))>(nativeSIMDRepresentation: \(String(reflecting: self.nativeSIMDRepresentation)))"
     }
+  }
+  
+  @inlinable
+  public static var zero: Matrix2x2<Scalar> {
+    get {
+      return Matrix2x2<Scalar>()
+    }
+  }
+  
+  @inlinable
+  public var magnitudeSquared: Double {
+    get {
+      return Double(self.componentwiseMagnitudeSquared)
+    }
+  }
+  
+  @inlinable
+  public mutating func scale(by factor: Double) {
+    self.formMultiplication(
+      by: Scalar(factor)
+    )
   }
   
 }

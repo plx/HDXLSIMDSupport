@@ -250,6 +250,25 @@ extension simd_double4x3 : MatrixDefaultSupportProtocol, Matrix4x3Protocol {
   }
 
   // ------------------------------------------------------------------------ //
+  // MARK: Norms
+  // ------------------------------------------------------------------------ //
+  
+  @inlinable
+  public var componentwiseMagnitudeSquared: Scalar {
+    get {
+      return (
+        simd_length_squared(self.columns.0)
+          +
+          simd_length_squared(self.columns.1)
+          +
+          simd_length_squared(self.columns.2)
+          +
+          simd_length_squared(self.columns.3)
+      )
+    }
+  }
+
+  // ------------------------------------------------------------------------ //
   // MARK: Negation
   // ------------------------------------------------------------------------ //
   

@@ -240,6 +240,23 @@ extension simd_double3x2 : MatrixDefaultSupportProtocol, Matrix3x2Protocol {
   }
 
   // ------------------------------------------------------------------------ //
+  // MARK: Norms
+  // ------------------------------------------------------------------------ //
+  
+  @inlinable
+  public var componentwiseMagnitudeSquared: Scalar {
+    get {
+      return (
+        simd_length_squared(self.columns.0)
+          +
+          simd_length_squared(self.columns.1)
+          +
+          simd_length_squared(self.columns.2)
+      )
+    }
+  }
+
+  // ------------------------------------------------------------------------ //
   // MARK: Negation
   // ------------------------------------------------------------------------ //
   

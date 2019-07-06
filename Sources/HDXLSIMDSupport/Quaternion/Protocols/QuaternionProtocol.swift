@@ -156,6 +156,13 @@ public protocol QuaternionProtocol {
   mutating func formNormalization()
   
   // ------------------------------------------------------------------------ //
+  // MARK: Norms
+  // ------------------------------------------------------------------------ //
+  
+  /// The square length of the quaternion (e.g. as a 4-vector).
+  var componentwiseMagnitudeSquared: Scalar { get }
+  
+  // ------------------------------------------------------------------------ //
   // MARK: Inversion
   // ------------------------------------------------------------------------ //
   

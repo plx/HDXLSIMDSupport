@@ -244,6 +244,25 @@ extension simd_float4x2 : MatrixDefaultSupportProtocol, Matrix4x2Protocol {
   }
 
   // ------------------------------------------------------------------------ //
+  // MARK: Norms
+  // ------------------------------------------------------------------------ //
+  
+  @inlinable
+  public var componentwiseMagnitudeSquared: Scalar {
+    get {
+      return (
+        simd_length_squared(self.columns.0)
+        +
+        simd_length_squared(self.columns.1)
+        +
+        simd_length_squared(self.columns.2)
+        +
+        simd_length_squared(self.columns.3)
+      )
+    }
+  }
+
+  // ------------------------------------------------------------------------ //
   // MARK: Negation
   // ------------------------------------------------------------------------ //
   

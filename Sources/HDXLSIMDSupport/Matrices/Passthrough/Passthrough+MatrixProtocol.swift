@@ -368,6 +368,17 @@ public extension Passthrough where PassthroughValue: MatrixProtocol {
   }
 
   // ------------------------------------------------------------------------ //
+  // MARK: Norms
+  // ------------------------------------------------------------------------ //
+  
+  @inlinable
+  var componentwiseMagnitudeSquared: PassthroughValue.Scalar {
+    get {
+      return self.passthroughValue.componentwiseMagnitudeSquared
+    }
+  }
+
+  // ------------------------------------------------------------------------ //
   // MARK: Negation
   // ------------------------------------------------------------------------ //
   
