@@ -6,6 +6,7 @@ import Foundation
 import simd
 import HDXLCommonUtilities
 
+@frozen
 public struct FloatMatrix4x2Storage :
   Matrix4x2Protocol,
   MatrixOperatorSupportProtocol,

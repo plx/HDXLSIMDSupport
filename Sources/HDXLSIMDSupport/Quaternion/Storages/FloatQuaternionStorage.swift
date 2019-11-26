@@ -6,6 +6,7 @@ import Foundation
 import simd
 import HDXLCommonUtilities
 
+@frozen
 public struct FloatQuaternionStorage :
   QuaternionProtocol,
   QuaternionOperatorSupportProtocol,

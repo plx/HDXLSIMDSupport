@@ -7,6 +7,7 @@ import simd
 import SwiftUI
 import HDXLCommonUtilities
 
+@frozen
 public struct FloatMatrix3x4Storage :
   Matrix3x4Protocol,
   MatrixOperatorSupportProtocol,

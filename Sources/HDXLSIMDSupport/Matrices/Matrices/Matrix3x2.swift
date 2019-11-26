@@ -7,6 +7,7 @@ import simd
 import SwiftUI
 import HDXLCommonUtilities
 
+@frozen
 public struct Matrix3x2<Scalar:ExtendedSIMDScalar>  :
   Matrix3x2Protocol,
   MatrixOperatorSupportProtocol,

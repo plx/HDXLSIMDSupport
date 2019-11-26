@@ -7,6 +7,7 @@ import simd
 import SwiftUI
 import HDXLCommonUtilities
 
+@frozen
 public struct Quaternion<Scalar:ExtendedSIMDScalar> :
   QuaternionProtocol,
   QuaternionOperatorSupportProtocol,
