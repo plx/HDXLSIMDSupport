@@ -38,4 +38,46 @@ public extension Matrix4x4OperatorSupportProtocol {
     return lhs.multiplied(onRightBy: rhs)
   }
 
+  @inlinable
+  static func *(
+    lhs: Self,
+    rhs: Self) -> Self {
+    return lhs.multiplied(onRightBy: rhs)
+  }
+  
+  @inlinable
+  static func *=(
+    lhs: inout Self,
+    rhs: Self) {
+    lhs.formMultiplication(onRightBy: rhs)
+  }
+  
+  @inlinable
+  static func =*(
+    lhs: Self,
+    rhs: inout Self) {
+    rhs.formMultiplication(onLeftBy: lhs)
+  }
+  
+  @inlinable
+  static func /(
+    lhs: Self,
+    rhs: Self) -> Self {
+    return lhs.divided(onRightBy: rhs)
+  }
+  
+  @inlinable
+  static func /=(
+    lhs: inout Self,
+    rhs: Self) {
+    lhs.formDivision(onRightBy: rhs)
+  }
+  
+  @inlinable
+  static func =/(
+    lhs: Self,
+    rhs: inout Self) {
+    rhs.formDivision(onLeftBy: lhs)
+  }
+
 }
