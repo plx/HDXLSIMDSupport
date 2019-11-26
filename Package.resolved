@@ -6,8 +6,17 @@
         "repositoryURL": "https://github.com/plx/HDXLCommonUtilities",
         "state": {
           "branch": null,
-          "revision": "6cfc9d6150ba5c15e369c8a65ae47b393638a12f",
-          "version": "0.0.29"
+          "revision": "d67d00240fc9a972ebe05190c16f6765413e4a43",
+          "version": "0.0.32"
+        }
+      },
+      {
+        "package": "swift-numerics",
+        "repositoryURL": "https://github.com/apple/swift-numerics",
+        "state": {
+          "branch": null,
+          "revision": "2b63fc844eee63bc95402465513c060b9962c3d9",
+          "version": "0.0.2"
         }
       }
     ]
