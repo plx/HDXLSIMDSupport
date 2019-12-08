@@ -166,6 +166,28 @@ public protocol MatrixProtocol {
   /// - note: Treat `linearizedScalars`
   init(linearizedScalars: [Scalar])
 
+  /// Constructs a matrix from an array-of-arrays of scalars. More-specifically,
+  /// the interpreation will be identical to that of the visual structure:
+  ///
+  /// ```swift
+  /// let foo = Self(
+  ///   scalars: [
+  ///     [a, b, c],
+  ///     [d, e, f],
+  ///     [g, h, i]
+  ///   ]
+  /// )
+  /// ```
+  ///
+  /// ...will have:
+  ///
+  /// - rows `(a,b,c)`, `(d,e,f)` and `(g,h,i)`
+  /// - columns: `(a,d,g)`, `(b,e,h)`, and `(c,f,i)`
+  ///
+  /// This isn't an efficient constructor, but it's very handy when you want
+  /// to write out, say, a literal matrix of some kind.
+  init(scalars: [[Scalar]])
+
   // ------------------------------------------------------------------------ //
   // MARK: Linear Combinations
   // ------------------------------------------------------------------------ //

@@ -34,6 +34,9 @@ let package = Package(
       name: "HDXLSIMDSupportTests",
       dependencies: ["HDXLSIMDSupport"]
     )
+  ],
+  swiftLanguageVersions: [
+    SwiftVersion.v5
   ]
 )
 
