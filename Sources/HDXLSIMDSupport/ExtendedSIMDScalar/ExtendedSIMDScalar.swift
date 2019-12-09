@@ -29,7 +29,7 @@ import HDXLCommonUtilities
 /// interlocking, mutually-compatible storages being basically a manual emulation of something that could be
 /// done almost-trivially if Swift gained higher-kinded types. Oh well.
 ///
-public protocol ExtendedSIMDScalar /* redundant : SIMDScalar, BinaryFloatingPoint */ {
+public protocol ExtendedSIMDScalar : ExtendedFloatingPointMath  /* redundant : SIMDScalar, BinaryFloatingPoint */ {
   
   associatedtype QuaternionStorage: QuaternionProtocol, Passthrough, NumericAggregate, Hashable, Codable
     where
