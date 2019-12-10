@@ -6,7 +6,14 @@ This package provides access to `SIMD`-style, generic quaternions and matrices: 
 
 The package presently can require 30-40+ minutes to compile in both `Debug` and `Release` configurations. This is simultaneously (a) extremely-unfortunate but also (b) a remarkable improvement over the **6-8 hours* required of some earlier versions. 
 
-If I knew *exactly* what it was about this package that caused such ridiculous compile times, I'd just...fix it. As it is, I have some guesses, but haven't explored them, yet--testing any of these guesses would, at minimum, require extensive refactoring and, at maximum, require an essentially-full rewrite.
+**Update:** the problematic code *and* the compile times suggest the extreme compile time is related to these bugs:
+
+- [SR-10130](https://bugs.swift.org/browse/SR-10130)
+- [SR-10461](https://bugs.swift.org/browse/SR-10461)
+
+...where "related" can mean either (a) it's due to *the same* underlying issue or (b) it's due to *distinct-but-similar* issues. For purposes of this library, however, that level of detail doesn't matter: the current state of the compiler means the compile time is what it is, and thus  compile-time issue is what it is--if the package is worth using right now, it's worth it, and if not it's not.
+
+**Previous:** If I knew *exactly* what it was about this package that caused such ridiculous compile times, I'd just...fix it. As it is, I have some guesses, but haven't explored them, yet--testing any of these guesses would, at minimum, require extensive refactoring and, at maximum, require an essentially-full rewrite.
 
 Given that the package *works for my needs*, for now I've deliberately accepted the excessive compile times and moved on; it's something I'd like to improve, and I would be happy to discuss further with any interested parties.
 
@@ -21,6 +28,7 @@ Given that the package *works for my needs*, for now I've deliberately accepted 
 - [Non-Decomposability](#decomposability): defense of "all-or-none" design
 - [Limitations](#limitations): justifying some non-intuitive protocol design
 - [Testing](#testing): why so few tests?
+- [Future Directions](#future): what next?
 
 ### <a name="attitude">Goal: Temporary Placeholder</a>
 
@@ -248,3 +256,82 @@ To elaborate on this, one set of unit tests verifies that the `rowCount` and `co
 For the actual core operations, however, I saw less need: the use of fine-grained types caught a lot of simple transposition errors like "multiplying on the left instead of the right"; the pervasive use of "once per protocol" default implmentations for the forwarding boilerplate logic also tightly-constrained the range of plausible errors.
 
 More testing would still be beneficial--particularly for simple sanity checks and whatnot--but the situation *is* much better than the slim set of unit tests would suggest.
+
+### <a name="future">Future Directions</a>
+
+
+### Demote `ExtendedSIMDScalar`
+
+*Currently* I define `ExtendedSIMDScalar` as `ExtendedSIMDScalar: ExtendedFloatingPointMath`. This is very much an *artificial* decision: I changed that only because doing so makes life easier for me within a downstream package; once the compile-time bugs are addressed I'll happily remove that artificial constraint to make this less-dependent upon `HDXLCommonUtilities`.
+
+### Conveniences & Utilities
+
+My initial goal was to cover what I saw as the core API. Now that that's in place, I will *slowly* be adding convenience APIs, but am planning to do so on a lazily-evaluated, as-needed basis.
+
+### Typed Subscripts
+
+I've been *debating* whether or not I should define type-specific enumerations for subscripts:
+
+```swift
+enum QuaternionComponent {
+  case real
+  case i
+  case j
+  case k
+}
+
+enum Matrix2x2Component {
+  case m11
+  case m12
+  case m21
+  case m22
+}
+```
+
+...and so on and so forth, with 
+
+#### `CGFloat`-flavored Implementation
+
+It is *almost* feasible to have `CGFloat` conform to `ExtendedSIMDScalar`. `ExtendedSIMDScalar`, itself, only requires more boilerplate: `CGFloat` is always a wrapper around a `NativeType`, `NativeType` is always either `Float` or `Double`, and thus we *already have* native-SIMD quaternions and matrices that *should* work. Most of the forwarding could be done with some additional type-level trickery, e.g. something like this:
+
+```swift
+extension CGFloat : Passthrough {
+  typealias PassthroughValue = NativeType
+  
+  var passthroughValue: PassthroughValue {
+    get {
+      return self.native
+    }
+    set {
+      self.native = newValue
+    }
+  }
+  
+  init(passthroughValue: PassthroughValue) {
+    self.init(native: passthroughValue)
+  }
+  
+}
+```
+
+...alongside *another* narrow-purpose type-erasure wrapper like this:
+
+```swift
+struct PassthroughScalarMatrixAdaptor<Scalar:Passthrough,Matrix:MatrixProtocol> 
+  where
+  Scalar.PassthroughValue == Matrix.Scalar {
+    
+    var storage: Matrix
+}
+
+// lots like this:
+extension PassthroughScalarMatrixAdaptor : Matrix4x4Protocol where Matrix:Matrix4x4Protocol {
+  
+}
+```
+
+...wherein the adaptor boilerplate takes care of (a) "converting" the outward-facing values *from* `NativeType` *to* `Scalar` (e.g. `CGFloat`, here) and also (b) "converting"  the inward-facing values *from* `Scalar` *to* `NativeType`.
+
+All of this would work, and could be made to work without *too much trouble*.
+
+Where it would fall apart is `SIMDScalar`: `CGFloat` isn't currently a `SIMDScalar`, and although the same techniques *would* be applicable, having to do a full stack of SIMDN wrappers is *a lot* more work than just doing another set of quaternions and matrices. That aside, it's *generally* ill-advised to "make types you don't control conform to protocols you don't control"--and particularly-so for standard-library types.
