@@ -35,12 +35,7 @@ public extension QuaternionOperatorSupportProtocol {
   static func + (lhs: Self, rhs: Self) -> Self {
     return lhs.adding(rhs)
   }
-  
-  @inlinable
-  static func += (lhs: inout Self, rhs: Self) {
-    lhs.formAddition(of: rhs)
-  }
-  
+    
   @inlinable
   static func + (lhs: Self, rhs: (Scalar,Self)) -> Self {
     return lhs.adding(
@@ -60,11 +55,6 @@ public extension QuaternionOperatorSupportProtocol {
   @inlinable
   static func - (lhs: Self, rhs: Self) -> Self {
     return lhs.subtracting(rhs)
-  }
-  
-  @inlinable
-  static func -= (lhs: inout Self, rhs: Self) {
-    lhs.formSubtraction(of: rhs)
   }
   
   @inlinable
@@ -127,5 +117,42 @@ public extension QuaternionOperatorSupportProtocol {
     return lhs.dotted(with: rhs)
   }
   
+}
+
+// -------------------------------------------------------------------------- //
+// MARK: QuaternionOperatorSupportProtocol - Operators - In-Place `AdditiveArithmetic`
+// -------------------------------------------------------------------------- //
+
+// technical fix: both `AdditiveArithmetic` and `QuaternionOperatorSupportProtocol`
+// define default implementations of `+=` and `-=`. This results in ambiguity
+// if we then have`$MatrixType:AdditiveArithmetic & QuaternionOperatorSupportProtocol`,
+// b/c Swift sees two default implementations (w/out a way to pick a winner).
+//
+// One fix is to delete these operators and use the existing defaults--could be
+// the right decision, actually.
+//
+// Fix I picked is to move the defaults into an extension that applies only to
+// the case of `QuaternionOperatorSupportProtocol where Self:AdditiveArithmetic`,
+// and then *overrides* `AdditiveArithmetic`'s default implementations with our
+// own implementation. This fixes the disambiguity issue; whether it's worth
+// having these remains to be seen (probably not, but don't want to jump the
+// gun on removing them...).
+//
+public extension QuaternionOperatorSupportProtocol where Self:AdditiveArithmetic {
+  
+  @inlinable
+  static func +=(
+    lhs: inout Self,
+    rhs: Self) {
+    return lhs.formAddition(of: rhs)
+  }
+
+  @inlinable
+  static func -=(
+    lhs: inout Self,
+    rhs: Self) {
+    return lhs.formSubtraction(of: rhs)
+  }
+
 }
 
