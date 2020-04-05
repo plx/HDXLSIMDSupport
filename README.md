@@ -2,21 +2,6 @@
 
 This package provides access to `SIMD`-style, generic quaternions and matrices: you can write `Quaternion<Double>`, `Matrix4x4<Float>`, and so on. The package provides this functionality by wrapping Apple's corresponding, non-generic simd types: `Quaternion<Double>` is ultimately a wrapper around `simd_quatd`, `Matrix4x4<Float>` is ultimately a wrapper around `simd_float4x4`, and so on.
 
-## Warning: Compile Time
-
-The package presently can require 30-40+ minutes to compile in both `Debug` and `Release` configurations. This is simultaneously (a) extremely-unfortunate but also (b) a remarkable improvement over the **6-8 hours* required of some earlier versions. 
-
-**Update:** the problematic code *and* the compile times suggest the extreme compile time is related to these bugs:
-
-- [SR-10130](https://bugs.swift.org/browse/SR-10130)
-- [SR-10461](https://bugs.swift.org/browse/SR-10461)
-
-...where "related" can mean either (a) it's due to *the same* underlying issue or (b) it's due to *distinct-but-similar* issues. For purposes of this library, however, that level of detail doesn't matter: the current state of the compiler means the compile time is what it is, and thus  compile-time issue is what it is--if the package is worth using right now, it's worth it, and if not it's not.
-
-**Previous:** If I knew *exactly* what it was about this package that caused such ridiculous compile times, I'd just...fix it. As it is, I have some guesses, but haven't explored them, yet--testing any of these guesses would, at minimum, require extensive refactoring and, at maximum, require an essentially-full rewrite.
-
-Given that the package *works for my needs*, for now I've deliberately accepted the excessive compile times and moved on; it's something I'd like to improve, and I would be happy to discuss further with any interested parties.
-
 ## Miscellaneous Notes
 
 - [Goal](#goal): a placeholder until there's an official equivalent
@@ -32,17 +17,11 @@ Given that the package *works for my needs*, for now I've deliberately accepted 
 
 ### <a name="attitude">Goal: Temporary Placeholder</a>
 
-I don't have grand ambitions for this module: I view it as a simple placeholder until the arrival of the inevitable standard-library equivalent. Perhaps that'll arrive next year, perhaps that'll arrive in a few years, etc., but this package exists simply to plug the gap from now until then.
-
-I'm not *opposed* to expanding it to include more utilities, conveniences, generic (small) matrix and vector algorithms, etc., but nothing along those lines is on my agenda at this time.
+I view this module as a placeholder until the arrival of the inevitable standard-library equivalent. 
 
 ### <a name="perfomance">Performance Status: 5-10% Penalty in `Release`</a>
 
-Within this package I've constrained myself to using only the "public" annotations: I use `@frozen`, `@inlinable`, and `@usableFromInline`, but I don't use underscored annotations like `@_transparent` or `@inline(_always)`. Note that this constraint isn't necessarily *permanent*--I'm open to using them once I have more comfort with their semantics and implications--but it will remain in effect in the near term.
-
-Despite that constraint, in `Release` builds I consistently see only a moderate penalty of 5-10% for using, say, `Matrix4x4<Double>` instead of `simd_double4x4`. Given the triviality of the package's code, I strongly suspect that all it would take to eliminate that gap would be judicious application of `@_transparent` and `@inline(_always)`; investigating this is certainly on my todo list, and any informed advice and guidance would be appreciated.
-
-Now, some bad news: `Debug` build performance is, frankly, atrocious--expect a penalty somewhere between 500% and 1000%. I'm sure some improvement is possible, but don't have much hope; the slowdown seems intrinsic to how Swift handles generics in `Debug` builds, and thus is more of a "language and tooling" issue rather than a "this package, right here" issue.
+Within this package I've constrained myself to using only the "public" annotations: I use `@frozen`, `@inlinable`, and `@usableFromInline`, but *not* `@_transparent` or `@inline(_always)`. In `Release` builds, abstaining from the underscored attributes incurs only about a 5-10% performance penalty vis-a-vis direct use of the underlying type (e.g. `Quaternion<Float>` instead of `simd_quatf`); in `Debug` builds expect a penalty of about 1000%...an outcome as predictable as it is unfortunate.
 
 ### <a name="erasure">Narrow Type Erasure</a>
 
@@ -184,7 +163,7 @@ public protocol QuaternionProtocol {
 }
 ```
 
-Note that although I *have* elided the rest of the protocol, the above is a true-and-correct reproduction of the `associatedtype` declarations--it's not simplified, it's not simplified, that's the actual definition.
+Note that although I *have* elided the rest of the protocol, the above is a true-and-correct reproduction of the `associatedtype` declarations. In other words, that's the actual definition--it's not simplified.
 
 I mention this because--at first glance--the more-natural formulation would be *seemingly* be something like this:
 
