@@ -4,7 +4,6 @@
 
 import Foundation
 import simd
-import HDXLCommonUtilities
 
 // -------------------------------------------------------------------------- //
 // MARK: Positioning Support
@@ -20,7 +19,8 @@ public extension MatrixDefaultSupportProtocol {
     // /////////////////////////////////////////////////////////////////////////
     guard
       Self.rowIndexRange.contains(position.rowIndex),
-      Self.columnIndexRange.contains(position.columnIndex) else {
+      Self.columnIndexRange.contains(position.columnIndex)
+    else {
         return false
     }
     return true
@@ -29,7 +29,7 @@ public extension MatrixDefaultSupportProtocol {
   /// Library-internal tool to let us build our per-type, canonical matrix-position list.
   @usableFromInline
   internal static func prepareMatrixPositionList() -> [MatrixPosition] {
-    return self.linearizedScalarIndexRange.map() {
+    return linearizedScalarIndexRange.map() {
       Self.matrixPosition(
         forLinearizedScalarIndex: $0
       )
@@ -47,7 +47,8 @@ public extension MatrixDefaultSupportProtocol {
   @inlinable
   static func linearizedScalarIndex(
     forColumnIndex columnIndex: Int,
-    rowIndex: Int) -> Int {
+    rowIndex: Int
+  ) -> Int {
     // /////////////////////////////////////////////////////////////////////////
     pedantic_assert(Self.columnIndexRange.contains(columnIndex))
     pedantic_assert(Self.rowIndexRange.contains(rowIndex))
@@ -77,7 +78,7 @@ public extension MatrixDefaultSupportProtocol {
     pedantic_assert(matrixPosition.isValid)
     pedantic_assert(Self.contains(position: matrixPosition))
     // /////////////////////////////////////////////////////////////////////////
-    return self.linearizedScalarIndex(
+    return linearizedScalarIndex(
       forColumnIndex: matrixPosition.columnIndex,
       rowIndex: matrixPosition.rowIndex
     )
@@ -88,7 +89,7 @@ public extension MatrixDefaultSupportProtocol {
     // /////////////////////////////////////////////////////////////////////////
     pedantic_assert(Self.linearizedScalarIndexRange.contains(linearizedScalarIndex))
     // /////////////////////////////////////////////////////////////////////////
-    let (columnIndex, rowIndex) = self.columnRowIndex(
+    let (columnIndex, rowIndex) = columnRowIndex(
       forLinearizedScalarIndex: linearizedScalarIndex
     )
     return MatrixPosition(

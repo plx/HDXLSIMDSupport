@@ -4,7 +4,6 @@
 
 import Foundation
 import simd
-import HDXLCommonUtilities
 
 @frozen
 public struct DoubleMatrix3x3Storage :
@@ -16,7 +15,8 @@ public struct DoubleMatrix3x3Storage :
   Hashable,
   CustomStringConvertible,
   CustomDebugStringConvertible,
-  Codable {
+  Codable
+{
   
   public typealias CompatibleQuaternion = DoubleQuaternionStorage
   
@@ -62,9 +62,9 @@ public struct DoubleMatrix3x3Storage :
   
   @inlinable
   public func hash(into hasher: inout Hasher) {
-    self.columns.0.hash(into: &hasher)
-    self.columns.1.hash(into: &hasher)
-    self.columns.2.hash(into: &hasher)
+    columns.0.hash(into: &hasher)
+    columns.1.hash(into: &hasher)
+    columns.2.hash(into: &hasher)
   }
   
   // ------------------------------------------------------------------------ //
@@ -74,7 +74,7 @@ public struct DoubleMatrix3x3Storage :
   @inlinable
   public var description: String {
     get {
-      return "\(type(of: self).typename): \(String(describing: self.passthroughValue))"
+      return "\(type(of: self).typename): \(String(describing: passthroughValue))"
     }
   }
   
@@ -85,7 +85,7 @@ public struct DoubleMatrix3x3Storage :
   @inlinable
   public var debugDescription: String {
     get {
-      return "\(type(of: self).typename)(passthroughValue: \(String(reflecting: self.passthroughValue)))"
+      return "\(type(of: self).typename)(passthroughValue: \(String(reflecting: passthroughValue)))"
     }
   }
   
@@ -133,15 +133,15 @@ public struct DoubleMatrix3x3Storage :
   public func encode(to encoder: Encoder) throws {
     var container = encoder.container(keyedBy: CodingKeys.self)
     try container.encode(
-      self.columns.0,
+      columns.0,
       forKey: .c0
     )
     try container.encode(
-      self.columns.1,
+      columns.1,
       forKey: .c1
     )
     try container.encode(
-      self.columns.2,
+      columns.2,
       forKey: .c2
     )
   }

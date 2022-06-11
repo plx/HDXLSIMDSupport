@@ -28,6 +28,7 @@ public extension SIMD2 where Scalar:BinaryInteger {
       at: 1
     )
   }
+  
 }
 
 // -------------------------------------------------------------------------- //

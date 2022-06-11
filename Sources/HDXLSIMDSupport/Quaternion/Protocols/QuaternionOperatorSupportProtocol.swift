@@ -4,7 +4,6 @@
 
 import Foundation
 import simd
-import HDXLCommonUtilities
 
 infix operator • : MultiplicationPrecedence
 
@@ -141,16 +140,18 @@ public extension QuaternionOperatorSupportProtocol {
 public extension QuaternionOperatorSupportProtocol where Self:AdditiveArithmetic {
   
   @inlinable
-  static func +=(
+  static func += (
     lhs: inout Self,
-    rhs: Self) {
+    rhs: Self
+  ) {
     return lhs.formAddition(of: rhs)
   }
 
   @inlinable
-  static func -=(
+  static func -= (
     lhs: inout Self,
-    rhs: Self) {
+    rhs: Self
+  ) {
     return lhs.formSubtraction(of: rhs)
   }
 

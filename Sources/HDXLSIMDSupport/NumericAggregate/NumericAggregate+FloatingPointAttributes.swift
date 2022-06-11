@@ -3,7 +3,6 @@
 //
 
 import Foundation
-import HDXLCommonUtilities
 
 // -------------------------------------------------------------------------- //
 // MARK: NumericAggregate - Floating Point Attributes
@@ -18,7 +17,7 @@ public extension NumericAggregate where NumericEntryRepresentation:BinaryFloatin
   @inlinable
   var isFinite: Bool {
     get {
-      return self.allNumericEntriesSatisfy() {
+      return allNumericEntriesSatisfy() {
         $0.isFinite
       }
     }
@@ -31,7 +30,7 @@ public extension NumericAggregate where NumericEntryRepresentation:BinaryFloatin
   @inlinable
   var isZero: Bool {
     get {
-      return self.allNumericEntriesSatisfy() {
+      return allNumericEntriesSatisfy() {
         $0.isZero
       }
     }
@@ -44,7 +43,7 @@ public extension NumericAggregate where NumericEntryRepresentation:BinaryFloatin
   @inlinable
   var isNonZero: Bool {
     get {
-      return self.allNumericEntriesSatisfy() {
+      return allNumericEntriesSatisfy() {
         $0.isNonZero
       }
     }
@@ -57,7 +56,7 @@ public extension NumericAggregate where NumericEntryRepresentation:BinaryFloatin
   @inlinable
   var isFiniteNonZero: Bool {
     get {
-      return self.allNumericEntriesSatisfy() {
+      return allNumericEntriesSatisfy() {
         $0.isFiniteNonZero
       }
     }
@@ -70,7 +69,7 @@ public extension NumericAggregate where NumericEntryRepresentation:BinaryFloatin
   @inlinable
   var isNonNegative: Bool {
     get {
-      return self.allNumericEntriesSatisfy() {
+      return allNumericEntriesSatisfy() {
         $0.isNonNegative
       }
     }
@@ -83,7 +82,7 @@ public extension NumericAggregate where NumericEntryRepresentation:BinaryFloatin
   @inlinable
   var isNonPositive: Bool {
     get {
-      return self.allNumericEntriesSatisfy() {
+      return allNumericEntriesSatisfy() {
         $0.isNonPositive
       }
     }
@@ -96,7 +95,7 @@ public extension NumericAggregate where NumericEntryRepresentation:BinaryFloatin
   @inlinable
   var isStrictlyPositive: Bool {
     get {
-      return self.allNumericEntriesSatisfy() {
+      return allNumericEntriesSatisfy() {
         $0.isStrictlyPositive
       }
     }
@@ -109,7 +108,7 @@ public extension NumericAggregate where NumericEntryRepresentation:BinaryFloatin
   @inlinable
   var isStrictlyNegative: Bool {
     get {
-      return self.allNumericEntriesSatisfy() {
+      return allNumericEntriesSatisfy() {
         $0.isStrictlyNegative
       }
     }
@@ -122,7 +121,7 @@ public extension NumericAggregate where NumericEntryRepresentation:BinaryFloatin
   @inlinable
   var isFiniteNonNegative: Bool {
     get {
-      return self.allNumericEntriesSatisfy() {
+      return allNumericEntriesSatisfy() {
         $0.isFiniteNonNegative
       }
     }
@@ -135,7 +134,7 @@ public extension NumericAggregate where NumericEntryRepresentation:BinaryFloatin
   @inlinable
   var isFiniteStrictlyPositive: Bool {
     get {
-      return self.allNumericEntriesSatisfy() {
+      return allNumericEntriesSatisfy() {
         $0.isFiniteStrictlyPositive
       }
     }
@@ -148,7 +147,7 @@ public extension NumericAggregate where NumericEntryRepresentation:BinaryFloatin
   @inlinable
   var isFiniteNonPositive: Bool {
     get {
-      return self.allNumericEntriesSatisfy() {
+      return allNumericEntriesSatisfy() {
         $0.isFiniteNonPositive
       }
     }
@@ -161,7 +160,7 @@ public extension NumericAggregate where NumericEntryRepresentation:BinaryFloatin
   @inlinable
   var isFiniteStrictlyNegative: Bool {
     get {
-      return self.allNumericEntriesSatisfy() {
+      return allNumericEntriesSatisfy() {
         $0.isFiniteStrictlyNegative
       }
     }

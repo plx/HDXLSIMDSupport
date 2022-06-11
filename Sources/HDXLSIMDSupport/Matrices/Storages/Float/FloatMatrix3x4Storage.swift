@@ -5,7 +5,6 @@
 import Foundation
 import simd
 import SwiftUI
-import HDXLCommonUtilities
 
 @frozen
 public struct FloatMatrix3x4Storage :
@@ -17,8 +16,8 @@ public struct FloatMatrix3x4Storage :
   Hashable,
   CustomStringConvertible,
   CustomDebugStringConvertible,
-  Codable,
-  VectorArithmetic {
+  Codable
+{
   
   public typealias CompatibleMatrix4x4 = FloatMatrix4x4Storage
   public typealias CompatibleMatrix3x3 = FloatMatrix3x3Storage
@@ -65,9 +64,9 @@ public struct FloatMatrix3x4Storage :
   
   @inlinable
   public func hash(into hasher: inout Hasher) {
-    self.columns.0.hash(into: &hasher)
-    self.columns.1.hash(into: &hasher)
-    self.columns.2.hash(into: &hasher)
+    columns.0.hash(into: &hasher)
+    columns.1.hash(into: &hasher)
+    columns.2.hash(into: &hasher)
   }
   
   // ------------------------------------------------------------------------ //
@@ -77,7 +76,7 @@ public struct FloatMatrix3x4Storage :
   @inlinable
   public var description: String {
     get {
-      return "\(type(of: self).typename): \(String(describing: self.passthroughValue))"
+      return "\(type(of: self).typename): \(String(describing: passthroughValue))"
     }
   }
   
@@ -88,7 +87,7 @@ public struct FloatMatrix3x4Storage :
   @inlinable
   public var debugDescription: String {
     get {
-      return "\(type(of: self).typename)(passthroughValue: \(String(reflecting: self.passthroughValue)))"
+      return "\(type(of: self).typename)(passthroughValue: \(String(reflecting: passthroughValue)))"
     }
   }
   
@@ -136,15 +135,15 @@ public struct FloatMatrix3x4Storage :
   public func encode(to encoder: Encoder) throws {
     var container = encoder.container(keyedBy: CodingKeys.self)
     try container.encode(
-      self.columns.0,
+      columns.0,
       forKey: .c0
     )
     try container.encode(
-      self.columns.1,
+      columns.1,
       forKey: .c1
     )
     try container.encode(
-      self.columns.2,
+      columns.2,
       forKey: .c2
     )
   }
@@ -171,44 +170,6 @@ public struct FloatMatrix3x4Storage :
         c2
       )
     )
-  }
-
-  // ------------------------------------------------------------------------ //
-  // MARK: VectorArithmetic
-  // ------------------------------------------------------------------------ //
-  
-  @inlinable
-  public static var zero: FloatMatrix3x4Storage {
-    get {
-      return FloatMatrix3x4Storage(repeating: 0.0)
-    }
-  }
-  
-  @inlinable
-  public mutating func scale(by factor: Double) {
-    self.formMultiplication(
-      by: Scalar(factor)
-    )
-  }
-  
-  @inlinable
-  public var componentwiseMagnitudeSquared: Scalar {
-    get {
-      return (
-        simd_length_squared(self.passthroughValue.columns.0)
-        +
-        simd_length_squared(self.passthroughValue.columns.1)
-        +
-        simd_length_squared(self.passthroughValue.columns.2)
-      )
-    }
-  }
-  
-  @inlinable
-  public var magnitudeSquared: Double {
-    get {
-      return Double(self.componentwiseMagnitudeSquared)
-    }
   }
 
 }

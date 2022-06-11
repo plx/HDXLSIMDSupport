@@ -4,7 +4,6 @@
 
 import Foundation
 import simd
-import HDXLCommonUtilities
 
 extension simd_float3x4 : MatrixDefaultSupportProtocol, Matrix3x4Protocol {
   
@@ -101,7 +100,8 @@ extension simd_float3x4 : MatrixDefaultSupportProtocol, Matrix3x4Protocol {
     of first: simd_float3x4,
     weight firstWeight: Scalar,
     with other: simd_float3x4,
-    weight otherWeight: Scalar) -> simd_float3x4 {
+    weight otherWeight: Scalar
+  ) -> simd_float3x4 {
     return simd_linear_combination(
       firstWeight,
       first,
@@ -127,16 +127,16 @@ extension simd_float3x4 : MatrixDefaultSupportProtocol, Matrix3x4Protocol {
     get {
       precondition(simd_float3x4.rowIndexRange.contains(rowIndex))
       return RowVector(
-        self.columns.0[rowIndex],
-        self.columns.1[rowIndex],
-        self.columns.2[rowIndex]
+        columns.0[rowIndex],
+        columns.1[rowIndex],
+        columns.2[rowIndex]
       )
     }
     set {
       precondition(simd_float3x4.rowIndexRange.contains(rowIndex))
-      self.columns.0[rowIndex] = newValue[0]
-      self.columns.1[rowIndex] = newValue[1]
-      self.columns.2[rowIndex] = newValue[2]
+      columns.0[rowIndex] = newValue[0]
+      columns.1[rowIndex] = newValue[1]
+      columns.2[rowIndex] = newValue[2]
     }
   }
   
@@ -189,24 +189,24 @@ extension simd_float3x4 : MatrixDefaultSupportProtocol, Matrix3x4Protocol {
     get {
       return (
         RowVector(
-          self.columns.0[0],
-          self.columns.1[0],
-          self.columns.2[0]
+          columns.0[0],
+          columns.1[0],
+          columns.2[0]
         ),
         RowVector(
-          self.columns.0[1],
-          self.columns.1[1],
-          self.columns.2[1]
+          columns.0[1],
+          columns.1[1],
+          columns.2[1]
         ),
         RowVector(
-          self.columns.0[2],
-          self.columns.1[2],
-          self.columns.2[2]
+          columns.0[2],
+          columns.1[2],
+          columns.2[2]
         ),
         RowVector(
-          self.columns.0[3],
-          self.columns.1[3],
-          self.columns.2[3]
+          columns.0[3],
+          columns.1[3],
+          columns.2[3]
         )
       )
     }
@@ -229,7 +229,8 @@ extension simd_float3x4 : MatrixDefaultSupportProtocol, Matrix3x4Protocol {
   @inlinable
   public func hasAlmostEqualElements(
     to other: simd_float3x4,
-    absoluteTolerance tolerance: Scalar) -> Bool {
+    absoluteTolerance tolerance: Scalar
+  ) -> Bool {
     return simd_almost_equal_elements(
       self,
       other,
@@ -241,7 +242,8 @@ extension simd_float3x4 : MatrixDefaultSupportProtocol, Matrix3x4Protocol {
   @inlinable
   public func hasAlmostEqualElements(
     to other: simd_float3x4,
-    relativeTolerance tolerance: Scalar) -> Bool {
+    relativeTolerance tolerance: Scalar
+  ) -> Bool {
     return simd_almost_equal_elements_relative(
       self,
       other,
@@ -257,11 +259,11 @@ extension simd_float3x4 : MatrixDefaultSupportProtocol, Matrix3x4Protocol {
   public var componentwiseMagnitudeSquared: Scalar {
     get {
       return (
-        simd_length_squared(self.columns.0)
+        simd_length_squared(columns.0)
         +
-        simd_length_squared(self.columns.1)
+        simd_length_squared(columns.1)
         +
-        simd_length_squared(self.columns.2)
+        simd_length_squared(columns.2)
       )
     }
   }
@@ -316,7 +318,8 @@ extension simd_float3x4 : MatrixDefaultSupportProtocol, Matrix3x4Protocol {
   @inlinable
   public func adding(
     _ other: simd_float3x4,
-    multipliedBy scalar: Scalar) -> simd_float3x4 {
+    multipliedBy scalar: Scalar
+  ) -> simd_float3x4 {
     return self + (other * scalar)
   }
   
@@ -324,7 +327,8 @@ extension simd_float3x4 : MatrixDefaultSupportProtocol, Matrix3x4Protocol {
   @inlinable
   public mutating func formAddition(
     of other: simd_float3x4,
-    multipliedBy scalar: Scalar) {
+    multipliedBy scalar: Scalar
+  ) {
     self += other * scalar
   }
   
@@ -362,14 +366,16 @@ extension simd_float3x4 : MatrixDefaultSupportProtocol, Matrix3x4Protocol {
   @inlinable
   public func subtracting(
     _ other: simd_float3x4,
-    multipliedBy scalar: Scalar) -> simd_float3x4 {
+    multipliedBy scalar: Scalar
+  ) -> simd_float3x4 {
     return self - (other * scalar)
   }
   
   @inlinable
   public mutating func formSubtraction(
     of other: simd_float3x4,
-    multipliedBy scalar: Scalar) {
+    multipliedBy scalar: Scalar
+  ) {
     self -= (other * scalar)
   }
   
@@ -453,7 +459,7 @@ extension simd_float3x4 : MatrixDefaultSupportProtocol, Matrix3x4Protocol {
   // we supply:
   @inlinable
   public func transposed() -> simd_float4x3 {
-    return self.transpose
+    return transpose
   }
   
   // ------------------------------------------------------------------------ //

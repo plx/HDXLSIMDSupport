@@ -4,7 +4,6 @@
 
 import Foundation
 import simd
-import HDXLCommonUtilities
 
 /// Protocol for types ultimately backed-by some system-provided "native SIMD type".
 ///
@@ -17,7 +16,7 @@ import HDXLCommonUtilities
 /// thing; the only reason it *didn't* get eliminated is due to my wanting to hide the "Storage" layer in the
 /// `description` and `debugDescription` implementations for quaternions and matrices.
 /// 
-public protocol NativeSIMDRepresentable {
+public protocol NativeSIMDRepresentable<NativeSIMDRepresentation> {
   
   /// The type of underlying native-SIMD value.
   ///

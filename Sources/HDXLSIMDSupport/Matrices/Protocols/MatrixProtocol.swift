@@ -4,7 +4,6 @@
 
 import Foundation
 import simd
-import HDXLCommonUtilities
 
 // ------------------------------------------------------------------------ //
 // MARK: MatrixProtocol - Supporting Defines
@@ -48,7 +47,7 @@ public typealias T4<T> = (T,T,T,T)
 /// less code, sure, but the code you save is about as much as the hassle of declaring the MxN protocols and
 /// extensions thereof, so...I'll take sub-hour compile times, thanks.
 ///
-public protocol MatrixProtocol {
+public protocol MatrixProtocol<Scalar> {
 
   // ------------------------------------------------------------------------ //
   // MARK: Scalar
@@ -64,17 +63,20 @@ public protocol MatrixProtocol {
   /// The type of a column-vector within this matrix.
   associatedtype ColumnVector: SIMD
     where
-    Scalar == ColumnVector.Scalar
+    Scalar == ColumnVector.Scalar,
+    ColumnVector.MaskStorage == ColumnVector.MaskStorage.MaskStorage
   
   /// The type of a row-vector within this matrix.
   associatedtype RowVector: SIMD
     where
-    Scalar == RowVector.Scalar
+    Scalar == RowVector.Scalar,
+    RowVector.MaskStorage == RowVector.MaskStorage.MaskStorage
   
   /// The type of a diagonal vector within this matrix.
   associatedtype DiagonalVector: SIMD
     where
-    Scalar == DiagonalVector.Scalar
+    Scalar == DiagonalVector.Scalar,
+    DiagonalVector.MaskStorage == DiagonalVector.MaskStorage.MaskStorage
 
   // ------------------------------------------------------------------------ //
   // MARK: Components
@@ -207,7 +209,8 @@ public protocol MatrixProtocol {
     of first: Self,
     weight firstWeight: Scalar,
     with other: Self,
-    weight otherWeight: Scalar) -> Self
+    weight otherWeight: Scalar
+  ) -> Self
 
   // ------------------------------------------------------------------------ //
   // MARK: Subscripting - Columns
@@ -240,7 +243,8 @@ public protocol MatrixProtocol {
   /// Get-or-set the scalar value at the indicated `columnIndex`, `rowIndex` pair.
   subscript(
     columnIndex columnIndex: Int,
-    rowIndex rowIndex: Int) -> Scalar { get set }
+    rowIndex rowIndex: Int
+  ) -> Scalar { get set }
 
   /// Get-or-set a scalar value by the indicated matrix position.
   subscript(position position: MatrixPosition) -> Scalar { get set }
@@ -255,7 +259,8 @@ public protocol MatrixProtocol {
   ///
   static func linearizedScalarIndex(
     forColumnIndex columnIndex: Int,
-    rowIndex: Int) -> Int
+    rowIndex: Int
+  ) -> Int
   
   /// Obtain the `(columnIndex,rowIndex)` pair equivalent-to `linearScalarIndex`.
   ///
@@ -319,7 +324,8 @@ public protocol MatrixProtocol {
   ///
   func hasAlmostEqualElements(
     to other: Self,
-    absoluteTolerance tolerance: Scalar) -> Bool
+    absoluteTolerance tolerance: Scalar
+  ) -> Bool
 
   /// `true` iff `self` and `other` have almost-equal elements within a *relative* `tolerance`.
   ///
@@ -327,7 +333,8 @@ public protocol MatrixProtocol {
   ///
   func hasAlmostEqualElements(
     to other: Self,
-    relativeTolerance tolerance: Scalar) -> Bool
+    relativeTolerance tolerance: Scalar
+  ) -> Bool
   
   // ------------------------------------------------------------------------ //
   // MARK: Norms
@@ -385,7 +392,8 @@ public protocol MatrixProtocol {
   ///
   func adding(
     _ other: Self,
-    multipliedBy scalar: Scalar) -> Self
+    multipliedBy scalar: Scalar
+  ) -> Self
 
   /// In-place adds `scalar * other` to `self`.
   ///
@@ -393,7 +401,8 @@ public protocol MatrixProtocol {
   ///
   mutating func formAddition(
     of other: Self,
-    multipliedBy scalar: Scalar)
+    multipliedBy scalar: Scalar
+  )
   
   // ------------------------------------------------------------------------ //
   // MARK: Subtraction - Matrix
@@ -428,7 +437,8 @@ public protocol MatrixProtocol {
   ///
   func subtracting(
     _ other: Self,
-    multipliedBy scalar: Scalar) -> Self
+    multipliedBy scalar: Scalar
+  ) -> Self
   
   /// In place does `self = self - (other * scalar)`.
   ///
@@ -436,7 +446,8 @@ public protocol MatrixProtocol {
   ///
   mutating func formSubtraction(
     of other: Self,
-    multipliedBy scalar: Scalar)
+    multipliedBy scalar: Scalar
+  )
 
   // ------------------------------------------------------------------------ //
   // MARK: Scalar Multiplication

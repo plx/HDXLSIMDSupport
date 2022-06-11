@@ -4,7 +4,6 @@
 
 import Foundation
 import simd
-import HDXLCommonUtilities
 
 // ------------------------------------------------------------------------ //
 // MARK: Passthrough + Matrix4x2Protocol - Basics
@@ -21,7 +20,8 @@ public extension Passthrough where PassthroughValue:Matrix4x2Protocol {
     _ c0: PassthroughValue.ColumnVector,
     _ c1: PassthroughValue.ColumnVector,
     _ c2: PassthroughValue.ColumnVector,
-    _ c3: PassthroughValue.ColumnVector) {
+    _ c3: PassthroughValue.ColumnVector
+  ) {
     self.init(
       passthroughValue: PassthroughValue(
         c0,
@@ -43,12 +43,13 @@ public extension Passthrough
   Self:Matrix4x2Protocol,
   PassthroughValue:Matrix4x2Protocol,
   CompatibleMatrix2x4:Passthrough,
-  CompatibleMatrix2x4.PassthroughValue == PassthroughValue.CompatibleMatrix2x4 {
+  CompatibleMatrix2x4.PassthroughValue == PassthroughValue.CompatibleMatrix2x4
+{
   
   @inlinable
   func transposed() -> CompatibleMatrix2x4 {
     return CompatibleMatrix2x4(
-      passthroughValue: self.passthroughValue.transposed()
+      passthroughValue: passthroughValue.transposed()
     )
   }
   
@@ -65,12 +66,13 @@ public extension Passthrough
   CompatibleMatrix2x2:Passthrough,
   CompatibleMatrix2x2.PassthroughValue == PassthroughValue.CompatibleMatrix2x2,
   CompatibleMatrix2x4:Passthrough,
-  CompatibleMatrix2x4.PassthroughValue == PassthroughValue.CompatibleMatrix2x4 {
+  CompatibleMatrix2x4.PassthroughValue == PassthroughValue.CompatibleMatrix2x4
+{
   
   @inlinable
   func multiplied(onRightBy rhs: CompatibleMatrix2x4) -> CompatibleMatrix2x2 {
     return CompatibleMatrix2x2(
-      passthroughValue: self.passthroughValue.multiplied(
+      passthroughValue: passthroughValue.multiplied(
         onRightBy: rhs.passthroughValue
       )
     )
@@ -89,12 +91,13 @@ public extension Passthrough
   CompatibleMatrix3x2:Passthrough,
   CompatibleMatrix3x2.PassthroughValue == PassthroughValue.CompatibleMatrix3x2,
   CompatibleMatrix3x4:Passthrough,
-  CompatibleMatrix3x4.PassthroughValue == PassthroughValue.CompatibleMatrix3x4 {
+  CompatibleMatrix3x4.PassthroughValue == PassthroughValue.CompatibleMatrix3x4
+{
   
   @inlinable
   func multiplied(onRightBy rhs: CompatibleMatrix3x4) -> CompatibleMatrix3x2 {
     return CompatibleMatrix3x2(
-      passthroughValue: self.passthroughValue.multiplied(
+      passthroughValue: passthroughValue.multiplied(
         onRightBy: rhs.passthroughValue
       )
     )
@@ -111,12 +114,13 @@ public extension Passthrough
   Self:Matrix4x2Protocol,
   PassthroughValue:Matrix4x2Protocol,
   CompatibleMatrix4x4:Passthrough,
-  CompatibleMatrix4x4.PassthroughValue == PassthroughValue.CompatibleMatrix4x4 {
+  CompatibleMatrix4x4.PassthroughValue == PassthroughValue.CompatibleMatrix4x4
+{
   
   @inlinable
   func multiplied(onRightBy rhs: CompatibleMatrix4x4) -> Self {
     return Self(
-      passthroughValue: self.passthroughValue.multiplied(
+      passthroughValue: passthroughValue.multiplied(
         onRightBy: rhs.passthroughValue
       )
     )
@@ -124,7 +128,7 @@ public extension Passthrough
   
   @inlinable
   mutating func formMultiplication(onRightBy rhs: CompatibleMatrix4x4) {
-    self.passthroughValue.formMultiplication(
+    passthroughValue.formMultiplication(
       onRightBy: rhs.passthroughValue
     )
   }
@@ -142,12 +146,13 @@ public extension Passthrough
   CompatibleMatrix4x3:Passthrough,
   CompatibleMatrix4x3.PassthroughValue == PassthroughValue.CompatibleMatrix4x3,
   CompatibleMatrix2x3:Passthrough,
-  CompatibleMatrix2x3.PassthroughValue == PassthroughValue.CompatibleMatrix2x3 {
+  CompatibleMatrix2x3.PassthroughValue == PassthroughValue.CompatibleMatrix2x3
+{
   
   @inlinable
   func multiplied(onLeftBy rhs: CompatibleMatrix2x3) -> CompatibleMatrix4x3 {
     return CompatibleMatrix4x3(
-      passthroughValue: self.passthroughValue.multiplied(
+      passthroughValue: passthroughValue.multiplied(
         onLeftBy: rhs.passthroughValue
       )
     )
@@ -164,12 +169,13 @@ public extension Passthrough
   Self:Matrix4x2Protocol,
   PassthroughValue:Matrix4x2Protocol,
   CompatibleMatrix2x2:Passthrough,
-  CompatibleMatrix2x2.PassthroughValue == PassthroughValue.CompatibleMatrix2x2 {
+  CompatibleMatrix2x2.PassthroughValue == PassthroughValue.CompatibleMatrix2x2
+{
   
   @inlinable
   func multiplied(onLeftBy rhs: CompatibleMatrix2x2) -> Self {
     return Self(
-      passthroughValue: self.passthroughValue.multiplied(
+      passthroughValue: passthroughValue.multiplied(
         onLeftBy: rhs.passthroughValue
       )
     )
@@ -177,7 +183,7 @@ public extension Passthrough
   
   @inlinable
   mutating func formMultiplication(onLeftBy rhs: CompatibleMatrix2x2) {
-    self.passthroughValue.formMultiplication(
+    passthroughValue.formMultiplication(
       onLeftBy: rhs.passthroughValue
     )
   }
@@ -195,12 +201,13 @@ public extension Passthrough
   CompatibleMatrix2x4:Passthrough,
   CompatibleMatrix2x4.PassthroughValue == PassthroughValue.CompatibleMatrix2x4,
   CompatibleMatrix4x4:Passthrough,
-  CompatibleMatrix4x4.PassthroughValue == PassthroughValue.CompatibleMatrix4x4 {
+  CompatibleMatrix4x4.PassthroughValue == PassthroughValue.CompatibleMatrix4x4
+{
   
   @inlinable
   func multiplied(onLeftBy rhs: CompatibleMatrix2x4) -> CompatibleMatrix4x4 {
     return CompatibleMatrix4x4(
-      passthroughValue: self.passthroughValue.multiplied(
+      passthroughValue: passthroughValue.multiplied(
         onLeftBy: rhs.passthroughValue
       )
     )

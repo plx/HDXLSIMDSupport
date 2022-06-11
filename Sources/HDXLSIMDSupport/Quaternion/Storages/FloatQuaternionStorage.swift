@@ -4,7 +4,6 @@
 
 import Foundation
 import simd
-import HDXLCommonUtilities
 
 @frozen
 public struct FloatQuaternionStorage :
@@ -15,7 +14,8 @@ public struct FloatQuaternionStorage :
   Hashable,
   CustomStringConvertible,
   CustomDebugStringConvertible,
-  Codable {
+  Codable
+{
   
   public typealias CompatibleMatrix3x3 = FloatMatrix3x3Storage
   public typealias CompatibleMatrix4x4 = FloatMatrix4x4Storage
@@ -36,27 +36,27 @@ public struct FloatQuaternionStorage :
   
   @inlinable
   public func hash(into hasher: inout Hasher) {
-    self.passthroughValue.vector.hash(into: &hasher)
+    passthroughValue.vector.hash(into: &hasher)
   }
   
   @inlinable
   public var description: String {
     get {
-      return "FloatQuaternionStorage: \(String(describing: self.passthroughValue))"
+      return "FloatQuaternionStorage: \(String(describing: passthroughValue))"
     }
   }
 
   @inlinable
   public var debugDescription: String {
     get {
-      return "FloatQuaternionStorage(passthroughValue: \(String(reflecting: self.passthroughValue)))"
+      return "FloatQuaternionStorage(passthroughValue: \(String(reflecting: passthroughValue)))"
     }
   }
 
   @inlinable
   public func encode(to encoder: Encoder) throws {
     var container = encoder.singleValueContainer()
-    try container.encode(self.passthroughValue.vector)
+    try container.encode(passthroughValue.vector)
   }
   
   @inlinable

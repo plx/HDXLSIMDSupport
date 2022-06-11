@@ -4,7 +4,6 @@
 
 import Foundation
 import simd
-import HDXLCommonUtilities
 
 extension simd_float4x4 : NumericAggregate {
   
@@ -13,10 +12,11 @@ extension simd_float4x4 : NumericAggregate {
   @inlinable
   public func allNumericEntriesSatisfy(_ predicate: (NumericEntryRepresentation) -> Bool) -> Bool {
     guard
-      self.columns.0.allNumericEntriesSatisfy(predicate),
-      self.columns.1.allNumericEntriesSatisfy(predicate),
-      self.columns.2.allNumericEntriesSatisfy(predicate),
-      self.columns.3.allNumericEntriesSatisfy(predicate) else {
+      columns.0.allNumericEntriesSatisfy(predicate),
+      columns.1.allNumericEntriesSatisfy(predicate),
+      columns.2.allNumericEntriesSatisfy(predicate),
+      columns.3.allNumericEntriesSatisfy(predicate)
+    else {
         return false
     }
     return true

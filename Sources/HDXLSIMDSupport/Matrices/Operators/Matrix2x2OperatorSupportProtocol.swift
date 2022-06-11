@@ -4,7 +4,6 @@
 
 import Foundation
 import simd
-import HDXLCommonUtilities
 
 // -------------------------------------------------------------------------- //
 // MARK: Matrix2x2OperatorSupportProtocol - Definition
@@ -25,58 +24,66 @@ public protocol Matrix2x2OperatorSupportProtocol : Matrix2x2Protocol {
 public extension Matrix2x2OperatorSupportProtocol {
   
   @inlinable
-  static func *(
+  static func * (
     lhs: Self,
-    rhs: CompatibleMatrix3x2) -> CompatibleMatrix3x2 {
+    rhs: CompatibleMatrix3x2
+  ) -> CompatibleMatrix3x2 {
     return lhs.multiplied(onRightBy: rhs)
   }
   
   @inlinable
-  static func *(
+  static func * (
     lhs: Self,
-    rhs: CompatibleMatrix4x2) -> CompatibleMatrix4x2 {
+    rhs: CompatibleMatrix4x2
+  ) -> CompatibleMatrix4x2 {
     return lhs.multiplied(onRightBy: rhs)
   }
   
   @inlinable
-  static func *(
+  static func * (
     lhs: Self,
-    rhs: Self) -> Self {
+    rhs: Self
+  ) -> Self {
     return lhs.multiplied(onRightBy: rhs)
   }
   
   @inlinable
-  static func *=(
+  static func *= (
     lhs: inout Self,
-    rhs: Self) {
+    rhs: Self
+  ) {
     lhs.formMultiplication(onRightBy: rhs)
   }
   
   @inlinable
-  static func =*(
+  static func =* (
     lhs: Self,
-    rhs: inout Self) {
+    rhs: inout Self
+  ) {
     rhs.formMultiplication(onLeftBy: lhs)
   }
   
   @inlinable
-  static func /(
+  static func / (
     lhs: Self,
-    rhs: Self) -> Self {
+    rhs: Self
+  ) -> Self {
     return lhs.divided(onRightBy: rhs)
   }
   
   @inlinable
-  static func /=(
+  static func /= (
     lhs: inout Self,
-    rhs: Self) {
+    rhs: Self
+  ) {
     lhs.formDivision(onRightBy: rhs)
   }
   
   @inlinable
-  static func =/(
+  static func =/ (
     lhs: Self,
-    rhs: inout Self) {
+    rhs: inout Self
+  ) {
     rhs.formDivision(onLeftBy: lhs)
   }
 

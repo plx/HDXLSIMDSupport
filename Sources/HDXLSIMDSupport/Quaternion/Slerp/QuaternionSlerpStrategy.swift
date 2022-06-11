@@ -4,7 +4,6 @@
 
 import Foundation
 import simd
-import HDXLCommonUtilities
 
 // -------------------------------------------------------------------------- //
 // MARK: QuaternionSlerpStrategy - Equatable
@@ -35,19 +34,13 @@ public enum QuaternionSlerpStrategy : Int {
 extension QuaternionSlerpStrategy : Equatable {
   
   @inlinable
-  public static func ==(
+  public static func == (
     lhs: QuaternionSlerpStrategy,
-    rhs: QuaternionSlerpStrategy) -> Bool {
+    rhs: QuaternionSlerpStrategy
+  ) -> Bool {
     return lhs.rawValue == rhs.rawValue
   }
-
-  @inlinable
-  public static func !=(
-    lhs: QuaternionSlerpStrategy,
-    rhs: QuaternionSlerpStrategy) -> Bool {
-    return lhs.rawValue == rhs.rawValue
-  }
-
+  
 }
 
 // -------------------------------------------------------------------------- //
@@ -57,31 +50,11 @@ extension QuaternionSlerpStrategy : Equatable {
 extension QuaternionSlerpStrategy : Comparable {
   
   @inlinable
-  public static func <(
+  public static func < (
     lhs: QuaternionSlerpStrategy,
-    rhs: QuaternionSlerpStrategy) -> Bool {
+    rhs: QuaternionSlerpStrategy
+  ) -> Bool {
     return lhs.rawValue < rhs.rawValue
-  }
-
-  @inlinable
-  public static func >(
-    lhs: QuaternionSlerpStrategy,
-    rhs: QuaternionSlerpStrategy) -> Bool {
-    return lhs.rawValue > rhs.rawValue
-  }
-
-  @inlinable
-  public static func <=(
-    lhs: QuaternionSlerpStrategy,
-    rhs: QuaternionSlerpStrategy) -> Bool {
-    return lhs.rawValue <= rhs.rawValue
-  }
-
-  @inlinable
-  public static func >=(
-    lhs: QuaternionSlerpStrategy,
-    rhs: QuaternionSlerpStrategy) -> Bool {
-    return lhs.rawValue >= rhs.rawValue
   }
 
 }
@@ -94,7 +67,7 @@ extension QuaternionSlerpStrategy : Hashable {
   
   @inlinable
   public func hash(into hasher: inout Hasher) {
-    self.rawValue.hash(into: &hasher)
+    rawValue.hash(into: &hasher)
   }
   
 }
@@ -152,7 +125,7 @@ extension QuaternionSlerpStrategy : Codable {
   @inlinable
   public func encode(to encoder: Encoder) throws {
     var container = encoder.singleValueContainer()
-    try container.encode(self.rawValue)
+    try container.encode(rawValue)
   }
   
   @inlinable

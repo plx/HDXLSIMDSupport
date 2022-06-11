@@ -4,7 +4,6 @@
 
 import Foundation
 import simd
-import HDXLCommonUtilities
 
 // -------------------------------------------------------------------------- //
 // MARK: Matrix3x2Protocol - Definition
@@ -27,7 +26,8 @@ public protocol Matrix3x2Protocol : MatrixProtocol
   ColumnVector == SIMD2<Scalar>,
   DiagonalVector == SIMD2<Scalar>,
   Rows == T2<RowVector>,
-  Columns == T3<ColumnVector> {
+  Columns == T3<ColumnVector>
+{
   
   // ------------------------------------------------------------------------ //
   // MARK: Initialization
@@ -44,7 +44,8 @@ public protocol Matrix3x2Protocol : MatrixProtocol
   init(
     _ c0: ColumnVector,
     _ c1: ColumnVector,
-    _ c2: ColumnVector)
+    _ c2: ColumnVector
+  )
   
   // ------------------------------------------------------------------------ //
   // MARK: Compatible Matrix Types

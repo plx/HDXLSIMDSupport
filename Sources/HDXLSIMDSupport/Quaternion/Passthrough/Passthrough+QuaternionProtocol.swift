@@ -4,7 +4,6 @@
 
 import Foundation
 import simd
-import HDXLCommonUtilities
 
 // -------------------------------------------------------------------------- //
 // MARK: Passthrough + QuaternionProtocol - Matrix3x3
@@ -15,7 +14,8 @@ public extension Passthrough
   Self:QuaternionProtocol,
   PassthroughValue: QuaternionProtocol,
   Self.CompatibleMatrix3x3:Passthrough,
-  Self.CompatibleMatrix3x3.PassthroughValue == PassthroughValue.CompatibleMatrix3x3 {
+  Self.CompatibleMatrix3x3.PassthroughValue == PassthroughValue.CompatibleMatrix3x3
+{
   
   @inlinable
   init(rotationMatrix matrix: CompatibleMatrix3x3) {
@@ -37,7 +37,8 @@ public extension Passthrough
   Self:QuaternionProtocol,
   PassthroughValue: QuaternionProtocol,
   Self.CompatibleMatrix4x4:Passthrough,
-  Self.CompatibleMatrix4x4.PassthroughValue == PassthroughValue.CompatibleMatrix4x4 {
+  Self.CompatibleMatrix4x4.PassthroughValue == PassthroughValue.CompatibleMatrix4x4
+{
   
   @inlinable
   init(rotationMatrix matrix: CompatibleMatrix4x4) {
@@ -84,7 +85,8 @@ public extension Passthrough where PassthroughValue:QuaternionProtocol {
     x: PassthroughValue.Scalar,
     y: PassthroughValue.Scalar,
     z: PassthroughValue.Scalar,
-    real: PassthroughValue.Scalar) {
+    real: PassthroughValue.Scalar
+  ) {
     self.init(
       passthroughValue: PassthroughValue(
         x: x,
@@ -98,7 +100,8 @@ public extension Passthrough where PassthroughValue:QuaternionProtocol {
   @inlinable
   init(
     realComponent: PassthroughValue.Scalar,
-    imaginaryComponent: PassthroughValue.Vector3) {
+    imaginaryComponent: PassthroughValue.Vector3
+  ) {
     self.init(
       passthroughValue: PassthroughValue(
         realComponent: realComponent,
@@ -110,7 +113,8 @@ public extension Passthrough where PassthroughValue:QuaternionProtocol {
   @inlinable
   init(
     angleInRadians angle: PassthroughValue.Scalar,
-    rotationAxis axis: PassthroughValue.Vector3) {
+    rotationAxis axis: PassthroughValue.Vector3
+  ) {
     self.init(
       passthroughValue: PassthroughValue(
         angleInRadians: angle,
@@ -122,7 +126,8 @@ public extension Passthrough where PassthroughValue:QuaternionProtocol {
   @inlinable
   init(
     rotating origin: PassthroughValue.Vector3,
-    onto destination: PassthroughValue.Vector3) {
+    onto destination: PassthroughValue.Vector3
+  ) {
     self.init(
       passthroughValue: PassthroughValue(
         rotating: origin,
@@ -140,22 +145,23 @@ public extension Passthrough where PassthroughValue:QuaternionProtocol {
     _ q0: Self,
     _ q1: Self,
     _ t: PassthroughValue.Scalar,
-    strategy: QuaternionSlerpStrategy) -> Self {
+    strategy: QuaternionSlerpStrategy
+  ) -> Self {
     switch strategy {
     case .automatic:
-      return self.slerpShortest(
+      return slerpShortest(
         q0,
         q1,
         t
       )
     case .shortest:
-      return self.slerpShortest(
+      return slerpShortest(
         q0,
         q1,
         t
       )
     case .longest:
-      return self.slerpLongest(
+      return slerpLongest(
         q0,
         q1,
         t
@@ -167,7 +173,8 @@ public extension Passthrough where PassthroughValue:QuaternionProtocol {
   static func slerpShortest(
     _ q0: Self,
     _ q1: Self,
-    _ t: PassthroughValue.Scalar) -> Self {
+    _ t: PassthroughValue.Scalar
+  ) -> Self {
     return Self(
       passthroughValue: PassthroughValue.slerpShortest(
         q0.passthroughValue,
@@ -181,7 +188,8 @@ public extension Passthrough where PassthroughValue:QuaternionProtocol {
   static func slerpLongest(
     _ q0: Self,
     _ q1: Self,
-    _ t: PassthroughValue.Scalar) -> Self {
+    _ t: PassthroughValue.Scalar
+  ) -> Self {
     return Self(
       passthroughValue: PassthroughValue.slerpLongest(
         q0.passthroughValue,
@@ -197,7 +205,8 @@ public extension Passthrough where PassthroughValue:QuaternionProtocol {
     q1: Self,
     q2: Self,
     q3: Self,
-    t: PassthroughValue.Scalar) -> Self {
+    t: PassthroughValue.Scalar
+  ) -> Self {
     return Self(
       passthroughValue: PassthroughValue.bezier(
         q0: q0.passthroughValue,
@@ -215,7 +224,8 @@ public extension Passthrough where PassthroughValue:QuaternionProtocol {
     q1: Self,
     q2: Self,
     q3: Self,
-    t: PassthroughValue.Scalar) -> Self {
+    t: PassthroughValue.Scalar
+  ) -> Self {
     return Self(
       passthroughValue: PassthroughValue.spline(
         q0: q0.passthroughValue,
@@ -234,41 +244,41 @@ public extension Passthrough where PassthroughValue:QuaternionProtocol {
   @inlinable
   var realComponent: PassthroughValue.Scalar {
     get {
-      return self.passthroughValue.realComponent
+      return passthroughValue.realComponent
     }
     set {
-      self.passthroughValue.realComponent = newValue
+      passthroughValue.realComponent = newValue
     }
   }
   
   @inlinable
   var imaginaryComponent: PassthroughValue.Vector3 {
     get {
-      return self.passthroughValue.imaginaryComponent
+      return passthroughValue.imaginaryComponent
     }
     set {
-      self.passthroughValue.imaginaryComponent = newValue
+      passthroughValue.imaginaryComponent = newValue
     }
   }
   
   @inlinable
   var angleInRadians: PassthroughValue.Scalar {
     get {
-      return self.passthroughValue.angleInRadians
+      return passthroughValue.angleInRadians
     }
   }
   
   @inlinable
   var rotationAxis: PassthroughValue.Vector3 {
     get {
-      return self.passthroughValue.rotationAxis
+      return passthroughValue.rotationAxis
     }
   }
   
   @inlinable
   var length: PassthroughValue.Scalar {
     get {
-      return self.passthroughValue.length
+      return passthroughValue.length
     }
   }
   
@@ -278,7 +288,7 @@ public extension Passthrough where PassthroughValue:QuaternionProtocol {
   
   @inlinable
   func apply(to vector: PassthroughValue.Vector3) -> PassthroughValue.Vector3 {
-    return self.passthroughValue.apply(
+    return passthroughValue.apply(
       to: vector
     )
   }
@@ -290,19 +300,19 @@ public extension Passthrough where PassthroughValue:QuaternionProtocol {
   @inlinable
   func normalized() -> Self {
     return Self(
-      passthroughValue: self.passthroughValue.normalized()
+      passthroughValue: passthroughValue.normalized()
     )
   }
   
   @inlinable
   mutating func formNormalization() {
-    self.passthroughValue.formNormalization()
+    passthroughValue.formNormalization()
   }
 
   @inlinable
   var componentwiseMagnitudeSquared: PassthroughValue.Scalar {
     get {
-      return self.passthroughValue.componentwiseMagnitudeSquared
+      return passthroughValue.componentwiseMagnitudeSquared
     }
   }
 
@@ -314,13 +324,13 @@ public extension Passthrough where PassthroughValue:QuaternionProtocol {
   @inlinable
   func inverted() -> Self {
     return Self(
-      passthroughValue: self.passthroughValue.inverted()
+      passthroughValue: passthroughValue.inverted()
     )
   }
   
   @inlinable
   mutating func formInverse() {
-    self.passthroughValue.formInverse()
+    passthroughValue.formInverse()
   }
   
   // ------------------------------------------------------------------------ //
@@ -330,13 +340,13 @@ public extension Passthrough where PassthroughValue:QuaternionProtocol {
   @inlinable
   func conjugated() -> Self {
     return Self(
-      passthroughValue: self.passthroughValue.conjugated()
+      passthroughValue: passthroughValue.conjugated()
     )
   }
   
   @inlinable
   mutating func formConjugate() {
-    self.passthroughValue.formConjugate()
+    passthroughValue.formConjugate()
   }
   
   // ------------------------------------------------------------------------ //
@@ -346,13 +356,13 @@ public extension Passthrough where PassthroughValue:QuaternionProtocol {
   @inlinable
   func negated() -> Self {
     return Self(
-      passthroughValue: self.passthroughValue.negated()
+      passthroughValue: passthroughValue.negated()
     )
   }
   
   @inlinable
   mutating func formNegation() {
-    self.passthroughValue.formNegation()
+    passthroughValue.formNegation()
   }
   
   // ------------------------------------------------------------------------ //
@@ -362,7 +372,7 @@ public extension Passthrough where PassthroughValue:QuaternionProtocol {
   @inlinable
   func adding(_ other: Self) -> Self {
     return Self(
-      passthroughValue: self.passthroughValue.adding(
+      passthroughValue: passthroughValue.adding(
         other.passthroughValue
       )
     )
@@ -370,7 +380,7 @@ public extension Passthrough where PassthroughValue:QuaternionProtocol {
   
   @inlinable
   mutating func formAddition(of other: Self) {
-    self.passthroughValue.formAddition(
+    passthroughValue.formAddition(
       of: other.passthroughValue
     )
   }
@@ -382,9 +392,10 @@ public extension Passthrough where PassthroughValue:QuaternionProtocol {
   @inlinable
   func adding(
     _ other: Self,
-    multipliedBy factor: PassthroughValue.Scalar) -> Self {
+    multipliedBy factor: PassthroughValue.Scalar
+  ) -> Self {
     return Self(
-      passthroughValue: self.passthroughValue.adding(
+      passthroughValue: passthroughValue.adding(
         other.passthroughValue,
         multipliedBy: factor
       )
@@ -394,8 +405,9 @@ public extension Passthrough where PassthroughValue:QuaternionProtocol {
   @inlinable
   mutating func formAddition(
     of other: Self,
-    multipliedBy factor: PassthroughValue.Scalar) {
-    self.passthroughValue.formAddition(
+    multipliedBy factor: PassthroughValue.Scalar
+  ) {
+    passthroughValue.formAddition(
       of: other.passthroughValue,
       multipliedBy: factor
     )
@@ -408,7 +420,7 @@ public extension Passthrough where PassthroughValue:QuaternionProtocol {
   @inlinable
   func subtracting(_ other: Self) -> Self {
     return Self(
-      passthroughValue: self.passthroughValue.subtracting(
+      passthroughValue: passthroughValue.subtracting(
         other.passthroughValue
       )
     )
@@ -416,7 +428,7 @@ public extension Passthrough where PassthroughValue:QuaternionProtocol {
   
   @inlinable
   mutating func formSubtraction(of other: Self) {
-    self.passthroughValue.formSubtraction(
+    passthroughValue.formSubtraction(
       of: other.passthroughValue
     )
   }
@@ -430,7 +442,7 @@ public extension Passthrough where PassthroughValue:QuaternionProtocol {
     _ other: Self,
     multipliedBy factor: PassthroughValue.Scalar) -> Self {
     return Self(
-      passthroughValue: self.passthroughValue.subtracting(
+      passthroughValue: passthroughValue.subtracting(
         other.passthroughValue,
         multipliedBy: factor
       )
@@ -441,7 +453,7 @@ public extension Passthrough where PassthroughValue:QuaternionProtocol {
   mutating func formSubtraction(
     of other: Self,
     multipliedBy factor: PassthroughValue.Scalar) {
-    self.passthroughValue.formSubtraction(
+    passthroughValue.formSubtraction(
       of: other.passthroughValue,
       multipliedBy: factor
     )
@@ -454,7 +466,7 @@ public extension Passthrough where PassthroughValue:QuaternionProtocol {
   @inlinable
   func multiplied(by factor: PassthroughValue.Scalar) -> Self {
     return Self(
-      passthroughValue: self.passthroughValue.multiplied(
+      passthroughValue: passthroughValue.multiplied(
         by: factor
       )
     )
@@ -462,7 +474,7 @@ public extension Passthrough where PassthroughValue:QuaternionProtocol {
   
   @inlinable
   mutating func formMultiplication(by factor: PassthroughValue.Scalar) {
-    self.passthroughValue.formMultiplication(
+    passthroughValue.formMultiplication(
       by: factor
     )
   }
@@ -474,7 +486,7 @@ public extension Passthrough where PassthroughValue:QuaternionProtocol {
   @inlinable
   func divided(by factor: PassthroughValue.Scalar) -> Self {
     return Self(
-      passthroughValue: self.passthroughValue.divided(
+      passthroughValue: passthroughValue.divided(
         by: factor
       )
     )
@@ -482,7 +494,7 @@ public extension Passthrough where PassthroughValue:QuaternionProtocol {
   
   @inlinable
   mutating func formDivision(by factor: PassthroughValue.Scalar) {
-    self.passthroughValue.formDivision(
+    passthroughValue.formDivision(
       by: factor
     )
   }
@@ -494,7 +506,7 @@ public extension Passthrough where PassthroughValue:QuaternionProtocol {
   @inlinable
   func multiplied(onRightBy other: Self) -> Self {
     return Self(
-      passthroughValue: self.passthroughValue.multiplied(
+      passthroughValue: passthroughValue.multiplied(
         onRightBy: other.passthroughValue
       )
     )
@@ -503,7 +515,7 @@ public extension Passthrough where PassthroughValue:QuaternionProtocol {
   @inlinable
   func multiplied(onLeftBy other: Self) -> Self {
     return Self(
-      passthroughValue: self.passthroughValue.multiplied(
+      passthroughValue: passthroughValue.multiplied(
         onLeftBy: other.passthroughValue
       )
     )
@@ -511,14 +523,14 @@ public extension Passthrough where PassthroughValue:QuaternionProtocol {
   
   @inlinable
   mutating func formMultiplication(onRightBy other: Self) {
-    self.passthroughValue.formMultiplication(
+    passthroughValue.formMultiplication(
       onRightBy: other.passthroughValue
     )
   }
   
   @inlinable
   mutating func formMultiplication(onLeftBy other: Self) {
-    self.passthroughValue.formMultiplication(
+    passthroughValue.formMultiplication(
       onLeftBy: other.passthroughValue
     )
   }
@@ -530,7 +542,7 @@ public extension Passthrough where PassthroughValue:QuaternionProtocol {
   @inlinable
   func divided(onRightBy other: Self) -> Self {
     return Self(
-      passthroughValue: self.passthroughValue.divided(
+      passthroughValue: passthroughValue.divided(
         onRightBy: other.passthroughValue
       )
     )
@@ -539,7 +551,7 @@ public extension Passthrough where PassthroughValue:QuaternionProtocol {
   @inlinable
   func divided(onLeftBy other: Self) -> Self {
     return Self(
-      passthroughValue: self.passthroughValue.divided(
+      passthroughValue: passthroughValue.divided(
         onLeftBy: other.passthroughValue
       )
     )
@@ -547,14 +559,14 @@ public extension Passthrough where PassthroughValue:QuaternionProtocol {
   
   @inlinable
   mutating func formDivision(onRightBy other: Self) {
-    self.passthroughValue.formDivision(
+    passthroughValue.formDivision(
       onRightBy: other.passthroughValue
     )
   }
   
   @inlinable
   mutating func formDivision(onLeftBy other: Self) {
-    self.passthroughValue.formDivision(
+    passthroughValue.formDivision(
       onLeftBy: other.passthroughValue
     )
   }
@@ -565,7 +577,7 @@ public extension Passthrough where PassthroughValue:QuaternionProtocol {
 
   @inlinable
   func dotted(with other: Self) -> PassthroughValue.Scalar {
-    return self.passthroughValue.dotted(
+    return passthroughValue.dotted(
       with: other.passthroughValue
     )
   }

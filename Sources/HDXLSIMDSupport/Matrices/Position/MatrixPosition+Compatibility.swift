@@ -4,7 +4,6 @@
 
 import Foundation
 import simd
-import HDXLCommonUtilities
 
 public extension MatrixPosition {
   
@@ -18,7 +17,8 @@ public extension MatrixPosition {
     get {
       guard
         (0..<2).contains(self.rowIndex),
-        (0..<2).contains(self.columnIndex) else {
+        (0..<2).contains(self.columnIndex)
+      else {
           return false
       }
       return true
@@ -31,7 +31,8 @@ public extension MatrixPosition {
     get {
       guard
         (0..<3).contains(self.rowIndex),
-        (0..<2).contains(self.columnIndex) else {
+        (0..<2).contains(self.columnIndex)
+      else {
           return false
       }
       return true
@@ -44,7 +45,8 @@ public extension MatrixPosition {
     get {
       guard
         (0..<4).contains(self.rowIndex),
-        (0..<2).contains(self.columnIndex) else {
+        (0..<2).contains(self.columnIndex)
+      else {
           return false
       }
       return true
@@ -61,7 +63,8 @@ public extension MatrixPosition {
     get {
       guard
         (0..<2).contains(self.rowIndex),
-        (0..<3).contains(self.columnIndex) else {
+        (0..<3).contains(self.columnIndex)
+      else {
           return false
       }
       return true
@@ -74,7 +77,8 @@ public extension MatrixPosition {
     get {
       guard
         (0..<3).contains(self.rowIndex),
-        (0..<3).contains(self.columnIndex) else {
+        (0..<3).contains(self.columnIndex)
+      else {
           return false
       }
       return true
@@ -87,7 +91,8 @@ public extension MatrixPosition {
     get {
       guard
         (0..<4).contains(self.rowIndex),
-        (0..<3).contains(self.columnIndex) else {
+        (0..<3).contains(self.columnIndex)
+      else {
           return false
       }
       return true
@@ -104,7 +109,8 @@ public extension MatrixPosition {
     get {
       guard
         (0..<2).contains(self.rowIndex),
-        (0..<4).contains(self.columnIndex) else {
+        (0..<4).contains(self.columnIndex)
+      else {
           return false
       }
       return true
@@ -117,7 +123,8 @@ public extension MatrixPosition {
     get {
       guard
         (0..<3).contains(self.rowIndex),
-        (0..<4).contains(self.columnIndex) else {
+        (0..<4).contains(self.columnIndex)
+      else {
           return false
       }
       return true
@@ -130,7 +137,8 @@ public extension MatrixPosition {
     get {
       guard
         (0..<4).contains(self.rowIndex),
-        (0..<4).contains(self.columnIndex) else {
+        (0..<4).contains(self.columnIndex)
+      else {
           return false
       }
       return true

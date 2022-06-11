@@ -4,7 +4,6 @@
 
 import Foundation
 import simd
-import HDXLCommonUtilities
 
 // -------------------------------------------------------------------------- //
 // MARK: QuaternionProtocol - Definition
@@ -45,7 +44,8 @@ public protocol QuaternionProtocol {
   /// Construct a quaternion from real and imaginary parts.
   init(
     realComponent: Scalar,
-    imaginaryComponent: Vector3)
+    imaginaryComponent: Vector3
+  )
   
   /// A quaternion whose action is a rotation by `angle` radians about `axis`.
   ///
@@ -54,12 +54,14 @@ public protocol QuaternionProtocol {
   ///   - axis: The axis to rotate around.
   init(
     angleInRadians angle: Scalar,
-    rotationAxis axis: Vector3)
+    rotationAxis axis: Vector3
+  )
   
   /// A quaternion whose action rotates the vector `origin` onto the vector `destination`.
   init(
     rotating origin: Vector3,
-    onto destination: Vector3)
+    onto destination: Vector3
+  )
   
   /// Initialize a quaternion from a 3x3 rotation matrix.
   init(rotationMatrix matrix: CompatibleMatrix3x3)
@@ -82,13 +84,15 @@ public protocol QuaternionProtocol {
   static func slerpShortest(
     _ q0: Self,
     _ q1: Self,
-    _ t: Scalar) -> Self
+    _ t: Scalar
+  ) -> Self
 
   /// Returns a spherical linearly interpolated value along the longest arc between two quaternions.
   static func slerpLongest(
     _ q0: Self,
     _ q1: Self,
-    _ t: Scalar) -> Self
+    _ t: Scalar
+  ) -> Self
 
   /// Returns the spherical cubic Bezier interpolation between quaternions.
   ///
@@ -99,7 +103,8 @@ public protocol QuaternionProtocol {
     q1: Self,
     q2: Self,
     q3: Self,
-    t: Scalar) -> Self
+    t: Scalar
+  ) -> Self
 
   /// Returns an interpolated value between two quaternions along a spherical cubic spline.
   ///
@@ -110,7 +115,8 @@ public protocol QuaternionProtocol {
     q1: Self,
     q2: Self,
     q3: Self,
-    t: Scalar) -> Self
+    t: Scalar
+  ) -> Self
 
   // ------------------------------------------------------------------------ //
   // MARK: Basic Properties
@@ -216,12 +222,14 @@ public protocol QuaternionProtocol {
   /// Returns the sum of `self` and `factor * other`.
   func adding(
     _ other: Self,
-    multipliedBy factor: Scalar) -> Self
+    multipliedBy factor: Scalar
+  ) -> Self
   
   /// In-place adds `factor * other` into  `self`.
   mutating func formAddition(
     of other: Self,
-    multipliedBy factor: Scalar)
+    multipliedBy factor: Scalar
+  )
   
   // ------------------------------------------------------------------------ //
   // MARK: Subtraction
@@ -240,12 +248,14 @@ public protocol QuaternionProtocol {
   /// Returns `self` minus `factor * other`.
   func subtracting(
     _ other: Self,
-    multipliedBy factor: Scalar) -> Self
+    multipliedBy factor: Scalar
+  ) -> Self
   
   /// In-place subtracts `factor * other` from  `self`.
   mutating func formSubtraction(
     of other: Self,
-    multipliedBy factor: Scalar)
+    multipliedBy factor: Scalar
+  )
 
   // ------------------------------------------------------------------------ //
   // MARK: Scalar Multiplication

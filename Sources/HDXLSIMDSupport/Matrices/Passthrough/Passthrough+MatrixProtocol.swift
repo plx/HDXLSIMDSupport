@@ -4,7 +4,6 @@
 
 import Foundation
 import simd
-import HDXLCommonUtilities
 
 // ------------------------------------------------------------------------ //
 // MARK: Passthrough - MatrixProtocol Support
@@ -159,7 +158,8 @@ public extension Passthrough where PassthroughValue: MatrixProtocol {
     of first: Self,
     weight firstWeight: PassthroughValue.Scalar,
     with other: Self,
-    weight otherWeight: PassthroughValue.Scalar) -> Self {
+    weight otherWeight: PassthroughValue.Scalar
+  ) -> Self {
     return Self(
       passthroughValue: PassthroughValue.linearCombination(
         of: first.passthroughValue,
@@ -177,10 +177,10 @@ public extension Passthrough where PassthroughValue: MatrixProtocol {
   @inlinable
   subscript(columnIndex columnIndex: Int) -> PassthroughValue.ColumnVector {
     get {
-      return self.passthroughValue[columnIndex: columnIndex]
+      return passthroughValue[columnIndex: columnIndex]
     }
     set {
-      self.passthroughValue[columnIndex: columnIndex] = newValue
+      passthroughValue[columnIndex: columnIndex] = newValue
     }
   }
   
@@ -192,10 +192,10 @@ public extension Passthrough where PassthroughValue: MatrixProtocol {
   @inlinable
   subscript(rowIndex rowIndex: Int) -> PassthroughValue.RowVector {
     get {
-      return self.passthroughValue[rowIndex: rowIndex]
+      return passthroughValue[rowIndex: rowIndex]
     }
     set {
-      self.passthroughValue[rowIndex: rowIndex] = newValue
+      passthroughValue[rowIndex: rowIndex] = newValue
     }
   }
   
@@ -206,22 +206,23 @@ public extension Passthrough where PassthroughValue: MatrixProtocol {
   @inlinable
   subscript(linearizedScalarIndex linearizedScalarIndex: Int) -> PassthroughValue.Scalar {
     get {
-      return self.passthroughValue[linearizedScalarIndex: linearizedScalarIndex]
+      return passthroughValue[linearizedScalarIndex: linearizedScalarIndex]
     }
     set {
-      self.passthroughValue[linearizedScalarIndex: linearizedScalarIndex] = newValue
+      passthroughValue[linearizedScalarIndex: linearizedScalarIndex] = newValue
     }
   }
   
   @inlinable
   subscript(
     columnIndex columnIndex: Int,
-    rowIndex rowIndex: Int) -> PassthroughValue.Scalar {
+    rowIndex rowIndex: Int
+  ) -> PassthroughValue.Scalar {
     get {
-      return self.passthroughValue[columnIndex: columnIndex, rowIndex: rowIndex]
+      return passthroughValue[columnIndex: columnIndex, rowIndex: rowIndex]
     }
     set {
-      self.passthroughValue[columnIndex: columnIndex, rowIndex: rowIndex] = newValue
+      passthroughValue[columnIndex: columnIndex, rowIndex: rowIndex] = newValue
     }
     
   }
@@ -229,10 +230,10 @@ public extension Passthrough where PassthroughValue: MatrixProtocol {
   @inlinable
   subscript(position position: MatrixPosition) -> PassthroughValue.Scalar {
     get {
-      return self.passthroughValue[position: position]
+      return passthroughValue[position: position]
     }
     set {
-      self.passthroughValue[position: position] = newValue
+      passthroughValue[position: position] = newValue
     }
   }
   
@@ -308,38 +309,38 @@ public extension Passthrough where PassthroughValue: MatrixProtocol {
   @inlinable
   var columns: PassthroughValue.Columns {
     get {
-      return self.passthroughValue.columns
+      return passthroughValue.columns
     }
     set {
-      self.passthroughValue.columns = newValue
+      passthroughValue.columns = newValue
     }
   }
 
   @inlinable
   var rows: PassthroughValue.Rows {
     get {
-      return self.passthroughValue.rows
+      return passthroughValue.rows
     }
   }
 
   @inlinable
   var columnVectors: [PassthroughValue.ColumnVector] {
     get {
-      return self.passthroughValue.columnVectors
+      return passthroughValue.columnVectors
     }
   }
   
   @inlinable
   var rowVectors: [PassthroughValue.RowVector] {
     get {
-      return self.passthroughValue.rowVectors
+      return passthroughValue.rowVectors
     }
   }
   
   @inlinable
   var linearizedScalars: [PassthroughValue.Scalar] {
     get {
-      return self.passthroughValue.linearizedScalars
+      return passthroughValue.linearizedScalars
     }
   }
 
@@ -350,8 +351,9 @@ public extension Passthrough where PassthroughValue: MatrixProtocol {
   @inlinable
   func hasAlmostEqualElements(
     to other: Self,
-    absoluteTolerance tolerance: PassthroughValue.Scalar) -> Bool {
-    return self.passthroughValue.hasAlmostEqualElements(
+    absoluteTolerance tolerance: PassthroughValue.Scalar
+  ) -> Bool {
+    return passthroughValue.hasAlmostEqualElements(
       to: other.passthroughValue,
       absoluteTolerance: tolerance
     )
@@ -360,8 +362,9 @@ public extension Passthrough where PassthroughValue: MatrixProtocol {
   @inlinable
   func hasAlmostEqualElements(
     to other: Self,
-    relativeTolerance tolerance: PassthroughValue.Scalar) -> Bool {
-    return self.passthroughValue.hasAlmostEqualElements(
+    relativeTolerance tolerance: PassthroughValue.Scalar
+  ) -> Bool {
+    return passthroughValue.hasAlmostEqualElements(
       to: other.passthroughValue,
       relativeTolerance: tolerance
     )
@@ -374,7 +377,7 @@ public extension Passthrough where PassthroughValue: MatrixProtocol {
   @inlinable
   var componentwiseMagnitudeSquared: PassthroughValue.Scalar {
     get {
-      return self.passthroughValue.componentwiseMagnitudeSquared
+      return passthroughValue.componentwiseMagnitudeSquared
     }
   }
 
@@ -385,13 +388,13 @@ public extension Passthrough where PassthroughValue: MatrixProtocol {
   @inlinable
   func negated() -> Self {
     return Self(
-      passthroughValue: self.passthroughValue.negated()
+      passthroughValue: passthroughValue.negated()
     )
   }
   
   @inlinable
   mutating func formNegation() {
-    self.passthroughValue.formNegation()
+    passthroughValue.formNegation()
   }
   
   // ------------------------------------------------------------------------ //
@@ -401,7 +404,7 @@ public extension Passthrough where PassthroughValue: MatrixProtocol {
   @inlinable
   func adding(_ other: Self) -> Self {
     return Self(
-      passthroughValue: self.passthroughValue.adding(
+      passthroughValue: passthroughValue.adding(
         other.passthroughValue
       )
     )
@@ -409,7 +412,7 @@ public extension Passthrough where PassthroughValue: MatrixProtocol {
   
   @inlinable
   mutating func formAddition(of other: Self) {
-    self.passthroughValue.formAddition(
+    passthroughValue.formAddition(
       of: other.passthroughValue
     )
   }
@@ -421,7 +424,7 @@ public extension Passthrough where PassthroughValue: MatrixProtocol {
   @inlinable
   func adding(scalar: PassthroughValue.Scalar) -> Self {
     return Self(
-      passthroughValue: self.passthroughValue.adding(
+      passthroughValue: passthroughValue.adding(
         scalar: scalar
       )
     )
@@ -429,7 +432,7 @@ public extension Passthrough where PassthroughValue: MatrixProtocol {
   
   @inlinable
   mutating func formAddition(ofScalar scalar: PassthroughValue.Scalar) {
-    self.passthroughValue.formAddition(
+    passthroughValue.formAddition(
       ofScalar: scalar
     )
   }
@@ -441,9 +444,10 @@ public extension Passthrough where PassthroughValue: MatrixProtocol {
   @inlinable
   func adding(
     _ other: Self,
-    multipliedBy scalar: PassthroughValue.Scalar) -> Self {
+    multipliedBy scalar: PassthroughValue.Scalar
+  ) -> Self {
     return Self(
-      passthroughValue: self.passthroughValue.adding(
+      passthroughValue: passthroughValue.adding(
         other.passthroughValue,
         multipliedBy: scalar
       )
@@ -453,8 +457,9 @@ public extension Passthrough where PassthroughValue: MatrixProtocol {
   @inlinable
   mutating func formAddition(
     of other: Self,
-    multipliedBy scalar: PassthroughValue.Scalar) {
-    self.passthroughValue.formAddition(
+    multipliedBy scalar: PassthroughValue.Scalar
+  ) {
+    passthroughValue.formAddition(
       of: other.passthroughValue,
       multipliedBy: scalar
     )
@@ -467,7 +472,7 @@ public extension Passthrough where PassthroughValue: MatrixProtocol {
   @inlinable
   func subtracting(_ other: Self) -> Self {
     return Self(
-      passthroughValue: self.passthroughValue.subtracting(
+      passthroughValue: passthroughValue.subtracting(
         other.passthroughValue
       )
     )
@@ -475,7 +480,7 @@ public extension Passthrough where PassthroughValue: MatrixProtocol {
   
   @inlinable
   mutating func formSubtraction(of other: Self) {
-    self.passthroughValue.formSubtraction(
+    passthroughValue.formSubtraction(
       of: other.passthroughValue
     )
   }
@@ -487,7 +492,7 @@ public extension Passthrough where PassthroughValue: MatrixProtocol {
   @inlinable
   func subtracting(scalar: PassthroughValue.Scalar) -> Self {
     return Self(
-      passthroughValue: self.passthroughValue.subtracting(
+      passthroughValue: passthroughValue.subtracting(
         scalar: scalar
       )
     )
@@ -495,7 +500,7 @@ public extension Passthrough where PassthroughValue: MatrixProtocol {
   
   @inlinable
   mutating func formSubtraction(ofScalar scalar: PassthroughValue.Scalar) {
-    self.passthroughValue.formSubtraction(
+    passthroughValue.formSubtraction(
       ofScalar: scalar
     )
   }
@@ -507,9 +512,10 @@ public extension Passthrough where PassthroughValue: MatrixProtocol {
   @inlinable
   func subtracting(
     _ other: Self,
-    multipliedBy scalar: PassthroughValue.Scalar) -> Self {
+    multipliedBy scalar: PassthroughValue.Scalar
+  ) -> Self {
     return Self(
-      passthroughValue: self.passthroughValue.subtracting(
+      passthroughValue: passthroughValue.subtracting(
         other.passthroughValue,
         multipliedBy: scalar
       )
@@ -519,8 +525,9 @@ public extension Passthrough where PassthroughValue: MatrixProtocol {
   @inlinable
   mutating func formSubtraction(
     of other: Self,
-    multipliedBy scalar: PassthroughValue.Scalar) {
-    self.passthroughValue.formSubtraction(
+    multipliedBy scalar: PassthroughValue.Scalar
+  ) {
+    passthroughValue.formSubtraction(
       of: other.passthroughValue,
       multipliedBy: scalar
     )
@@ -533,7 +540,7 @@ public extension Passthrough where PassthroughValue: MatrixProtocol {
   @inlinable
   func multiplied(by scalar: PassthroughValue.Scalar) -> Self {
     return Self(
-      passthroughValue: self.passthroughValue.multiplied(
+      passthroughValue: passthroughValue.multiplied(
         by: scalar
       )
     )
@@ -541,7 +548,7 @@ public extension Passthrough where PassthroughValue: MatrixProtocol {
   
   @inlinable
   mutating func formMultiplication(by scalar: PassthroughValue.Scalar) {
-    self.passthroughValue.formMultiplication(
+    passthroughValue.formMultiplication(
       by: scalar
     )
   }
@@ -553,7 +560,7 @@ public extension Passthrough where PassthroughValue: MatrixProtocol {
   @inlinable
   func divided(by scalar: PassthroughValue.Scalar) -> Self {
     return Self(
-      passthroughValue: self.passthroughValue.divided(
+      passthroughValue: passthroughValue.divided(
         by: scalar
       )
     )
@@ -561,7 +568,7 @@ public extension Passthrough where PassthroughValue: MatrixProtocol {
   
   @inlinable
   mutating func formDivision(by scalar: PassthroughValue.Scalar) {
-    self.passthroughValue.formDivision(
+    passthroughValue.formDivision(
       by: scalar
     )
   }
@@ -572,18 +579,16 @@ public extension Passthrough where PassthroughValue: MatrixProtocol {
   
   @inlinable
   func multiplied(onLeftBy columnVector: PassthroughValue.ColumnVector) -> PassthroughValue.RowVector {
-    return self.passthroughValue.multiplied(
+    return passthroughValue.multiplied(
       onLeftBy: columnVector
     )
   }
   
   @inlinable
   func multiplied(onRightBy rowVector: PassthroughValue.RowVector) -> PassthroughValue.ColumnVector {
-    return self.passthroughValue.multiplied(
+    return passthroughValue.multiplied(
       onRightBy: rowVector
     )
   }
-  
-  
+    
 }
-

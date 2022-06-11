@@ -4,7 +4,6 @@
 
 import Foundation
 import simd
-import HDXLCommonUtilities
 
 /// `Passthrough` is for adoption by types that (a) wrap a single underlying value and (b) largely "pass through"
 /// their calls to that wrapped, underlying value. In other words, for example, `DoubleMatrix4x4Storage`
@@ -30,7 +29,7 @@ import HDXLCommonUtilities
 /// In a lanugage with higher-kinded types I suspect this rigamarole would be mostly-unnecessary, but this
 /// is Swift, so I worked with what was available.
 ///
-public protocol Passthrough {
+public protocol Passthrough<PassthroughValue> {
   
   /// The underlying, wrapped type.
   associatedtype PassthroughValue

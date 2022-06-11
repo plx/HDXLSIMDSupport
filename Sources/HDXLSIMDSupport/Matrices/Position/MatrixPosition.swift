@@ -4,7 +4,6 @@
 
 import Foundation
 import simd
-import HDXLCommonUtilities
 
 // -------------------------------------------------------------------------- //
 // MARK: MatrixPosition - Definition
@@ -32,11 +31,12 @@ public struct MatrixPosition {
   @inlinable
   public init(
     rowIndex: Int,
-    columnIndex: Int) {
+    columnIndex: Int
+  ) {
     // /////////////////////////////////////////////////////////////////////////
     pedantic_assert(rowIndex >= 0)
     pedantic_assert(columnIndex >= 0)
-    defer { pedantic_assert(self.isValid) }
+    defer { pedantic_assert(isValid) }
     // /////////////////////////////////////////////////////////////////////////
     self.rowIndex = rowIndex
     self.columnIndex = columnIndex
@@ -54,7 +54,7 @@ public extension MatrixPosition {
   @inlinable
   var isOnDiagonal: Bool {
     get {
-      return self.rowIndex == self.columnIndex
+      return rowIndex == columnIndex
     }
   }
   
@@ -62,7 +62,7 @@ public extension MatrixPosition {
   @inlinable
   var isOffDiagonal: Bool {
     get {
-      return self.rowIndex != self.columnIndex
+      return rowIndex != columnIndex
     }
   }
   
@@ -78,8 +78,8 @@ public extension MatrixPosition {
   @inlinable
   func transposed() -> MatrixPosition {
     return MatrixPosition(
-      rowIndex: self.columnIndex,
-      columnIndex: self.rowIndex
+      rowIndex: columnIndex,
+      columnIndex: rowIndex
     )
   }
   
@@ -87,8 +87,8 @@ public extension MatrixPosition {
   @inlinable
   mutating func formTranspose() {
     swap(
-      &self.rowIndex,
-      &self.columnIndex
+      &rowIndex,
+      &columnIndex
     )
   }
   
@@ -105,7 +105,7 @@ public extension MatrixPosition {
   func with(rowIndex: Int) -> MatrixPosition {
     return MatrixPosition(
       rowIndex: rowIndex,
-      columnIndex: self.columnIndex
+      columnIndex: columnIndex
     )
   }
   
@@ -113,7 +113,7 @@ public extension MatrixPosition {
   @inlinable
   func with(columnIndex: Int) -> MatrixPosition {
     return MatrixPosition(
-      rowIndex: self.rowIndex,
+      rowIndex: rowIndex,
       columnIndex: columnIndex
     )
   }
@@ -125,14 +125,15 @@ public extension MatrixPosition {
 // MARK: MatrixPosition - Validatable
 // -------------------------------------------------------------------------- //
 
-extension MatrixPosition : Validatable {
+extension MatrixPosition {
   
   @inlinable
   public var isValid: Bool {
     get {
       guard
-        self.rowIndex >= 0,
-        self.columnIndex >= 0 else {
+        rowIndex >= 0,
+        columnIndex >= 0
+      else {
           return false
       }
       return true
@@ -148,9 +149,10 @@ extension MatrixPosition : Validatable {
 extension MatrixPosition : Equatable {
   
   @inlinable
-  public static func ==(
+  public static func == (
     lhs: MatrixPosition,
-    rhs: MatrixPosition) -> Bool {
+    rhs: MatrixPosition
+  ) -> Bool {
     // /////////////////////////////////////////////////////////////////////////
     pedantic_assert(lhs.isValid)
     pedantic_assert(rhs.isValid)
@@ -162,23 +164,6 @@ extension MatrixPosition : Equatable {
     }
     return true
   }
-
-  @inlinable
-  public static func !=(
-    lhs: MatrixPosition,
-    rhs: MatrixPosition) -> Bool {
-    // /////////////////////////////////////////////////////////////////////////
-    pedantic_assert(lhs.isValid)
-    pedantic_assert(rhs.isValid)
-    // /////////////////////////////////////////////////////////////////////////
-    guard
-      lhs.rowIndex == rhs.rowIndex,
-      lhs.columnIndex == rhs.columnIndex else {
-        return true
-    }
-    return false
-  }
-
 }
 
 // -------------------------------------------------------------------------- //
@@ -189,8 +174,8 @@ extension MatrixPosition : Hashable {
   
   @inlinable
   public func hash(into hasher: inout Hasher) {
-    self.rowIndex.hash(into: &hasher)
-    self.columnIndex.hash(into: &hasher)
+    rowIndex.hash(into: &hasher)
+    columnIndex.hash(into: &hasher)
   }
   
 }
@@ -204,7 +189,7 @@ extension MatrixPosition : CustomStringConvertible {
   @inlinable
   public var description: String {
     get {
-      return "(rowIndex: \(self.rowIndex), columnIndex: \(self.columnIndex))"
+      return "(rowIndex: \(rowIndex), columnIndex: \(columnIndex))"
     }
   }
   
@@ -219,7 +204,7 @@ extension MatrixPosition : CustomDebugStringConvertible {
   @inlinable
   public var debugDescription: String {
     get {
-      return "MatrixPosition(rowIndex: \(self.rowIndex), columnIndex: \(self.columnIndex))"
+      return "MatrixPosition(rowIndex: \(rowIndex), columnIndex: \(columnIndex))"
     }
   }
   

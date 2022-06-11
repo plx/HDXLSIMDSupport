@@ -4,7 +4,6 @@
 
 import Foundation
 import simd
-import HDXLCommonUtilities
 
 // -------------------------------------------------------------------------- //
 // MARK: MatrixOperatorSupportProtocol - Definition
@@ -31,14 +30,15 @@ public extension MatrixOperatorSupportProtocol {
   }
   
   @inlinable
-  static func +(
+  static func + (
     lhs: Self,
-    rhs: Self) -> Self {
+    rhs: Self
+  ) -> Self {
     return lhs.adding(rhs)
   }
   
   @inlinable
-  static func +(
+  static func + (
     lhs: Self,
     rhs: (Scalar,Self)) -> Self {
     return lhs.adding(
@@ -48,9 +48,10 @@ public extension MatrixOperatorSupportProtocol {
   }
   
   @inlinable
-  static func +=(
+  static func += (
     lhs: inout Self,
-    rhs: (Scalar,Self)) {
+    rhs: (Scalar,Self)
+  ) {
     return lhs.formAddition(
       of: rhs.1,
       multipliedBy: rhs.0
@@ -58,14 +59,14 @@ public extension MatrixOperatorSupportProtocol {
   }
 
   @inlinable
-  static func -(
+  static func - (
     lhs: Self,
     rhs: Self) -> Self {
     return lhs.subtracting(rhs)
   }
   
   @inlinable
-  static func -(
+  static func - (
     lhs: Self,
     rhs: (Scalar,Self)) -> Self {
     return lhs.subtracting(
@@ -75,7 +76,7 @@ public extension MatrixOperatorSupportProtocol {
   }
   
   @inlinable
-  static func -=(
+  static func -= (
     lhs: inout Self,
     rhs: (Scalar,Self)) {
     return lhs.formSubtraction(
@@ -85,49 +86,49 @@ public extension MatrixOperatorSupportProtocol {
   }
   
   @inlinable
-  static func *(
+  static func * (
     lhs: Self,
     rhs: Scalar) -> Self {
     return lhs.multiplied(by: rhs)
   }
   
   @inlinable
-  static func *(
+  static func * (
     lhs: Scalar,
     rhs: Self) -> Self {
     return rhs.multiplied(by: lhs)
   }
   
   @inlinable
-  static func *=(
+  static func *= (
     lhs: inout Self,
     rhs: Scalar) {
     lhs.formMultiplication(by: rhs)
   }
   
   @inlinable
-  static func /(
+  static func / (
     lhs: Self,
     rhs: Scalar) -> Self {
     return lhs.divided(by: rhs)
   }
   
   @inlinable
-  static func /=(
+  static func /= (
     lhs: inout Self,
     rhs: Scalar) {
     return lhs.formDivision(by: rhs)
   }
   
   @inlinable
-  static func *(
+  static func * (
     lhs: ColumnVector,
     rhs: Self) -> RowVector {
     return rhs.multiplied(onLeftBy: lhs)
   }
   
   @inlinable
-  static func *(
+  static func * (
     lhs: Self,
     rhs: RowVector) -> ColumnVector {
     return lhs.multiplied(onRightBy: rhs)
@@ -157,16 +158,18 @@ public extension MatrixOperatorSupportProtocol {
 public extension MatrixOperatorSupportProtocol where Self:AdditiveArithmetic {
   
   @inlinable
-  static func +=(
+  static func += (
     lhs: inout Self,
-    rhs: Self) {
+    rhs: Self
+  ) {
     return lhs.formAddition(of: rhs)
   }
 
   @inlinable
-  static func -=(
+  static func -= (
     lhs: inout Self,
-    rhs: Self) {
+    rhs: Self
+  ) {
     return lhs.formSubtraction(of: rhs)
   }
 

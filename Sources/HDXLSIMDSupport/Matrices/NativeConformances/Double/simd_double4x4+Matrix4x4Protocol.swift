@@ -4,7 +4,6 @@
 
 import Foundation
 import simd
-import HDXLCommonUtilities
 
 extension simd_double4x4 : MatrixDefaultSupportProtocol, Matrix4x4Protocol {
   
@@ -101,7 +100,8 @@ extension simd_double4x4 : MatrixDefaultSupportProtocol, Matrix4x4Protocol {
     of first: simd_double4x4,
     weight firstWeight: Scalar,
     with other: simd_double4x4,
-    weight otherWeight: Scalar) -> simd_double4x4 {
+    weight otherWeight: Scalar
+  ) -> simd_double4x4 {
     return simd_linear_combination(
       firstWeight,
       first,
@@ -127,18 +127,18 @@ extension simd_double4x4 : MatrixDefaultSupportProtocol, Matrix4x4Protocol {
     get {
       precondition(simd_double4x4.rowIndexRange.contains(rowIndex))
       return RowVector(
-        self.columns.0[rowIndex],
-        self.columns.1[rowIndex],
-        self.columns.2[rowIndex],
-        self.columns.3[rowIndex]
+        columns.0[rowIndex],
+        columns.1[rowIndex],
+        columns.2[rowIndex],
+        columns.3[rowIndex]
       )
     }
     set {
       precondition(simd_double4x4.rowIndexRange.contains(rowIndex))
-      self.columns.0[rowIndex] = newValue[0]
-      self.columns.1[rowIndex] = newValue[1]
-      self.columns.2[rowIndex] = newValue[2]
-      self.columns.3[rowIndex] = newValue[3]
+      columns.0[rowIndex] = newValue[0]
+      columns.1[rowIndex] = newValue[1]
+      columns.2[rowIndex] = newValue[2]
+      columns.3[rowIndex] = newValue[3]
     }
   }
   
@@ -191,28 +191,28 @@ extension simd_double4x4 : MatrixDefaultSupportProtocol, Matrix4x4Protocol {
     get {
       return (
         RowVector(
-          self.columns.0[0],
-          self.columns.1[0],
-          self.columns.2[0],
-          self.columns.3[0]
+          columns.0[0],
+          columns.1[0],
+          columns.2[0],
+          columns.3[0]
         ),
         RowVector(
-          self.columns.0[1],
-          self.columns.1[1],
-          self.columns.2[1],
-          self.columns.3[1]
+          columns.0[1],
+          columns.1[1],
+          columns.2[1],
+          columns.3[1]
         ),
         RowVector(
-          self.columns.0[2],
-          self.columns.1[2],
-          self.columns.2[2],
-          self.columns.3[2]
+          columns.0[2],
+          columns.1[2],
+          columns.2[2],
+          columns.3[2]
         ),
         RowVector(
-          self.columns.0[3],
-          self.columns.1[3],
-          self.columns.2[3],
-          self.columns.3[3]
+          columns.0[3],
+          columns.1[3],
+          columns.2[3],
+          columns.3[3]
         )
       )
     }
@@ -235,7 +235,8 @@ extension simd_double4x4 : MatrixDefaultSupportProtocol, Matrix4x4Protocol {
   @inlinable
   public func hasAlmostEqualElements(
     to other: simd_double4x4,
-    absoluteTolerance tolerance: Scalar) -> Bool {
+    absoluteTolerance tolerance: Scalar
+  ) -> Bool {
     return simd_almost_equal_elements(
       self,
       other,
@@ -247,7 +248,8 @@ extension simd_double4x4 : MatrixDefaultSupportProtocol, Matrix4x4Protocol {
   @inlinable
   public func hasAlmostEqualElements(
     to other: simd_double4x4,
-    relativeTolerance tolerance: Scalar) -> Bool {
+    relativeTolerance tolerance: Scalar
+  ) -> Bool {
     return simd_almost_equal_elements_relative(
       self,
       other,
@@ -263,13 +265,13 @@ extension simd_double4x4 : MatrixDefaultSupportProtocol, Matrix4x4Protocol {
   public var componentwiseMagnitudeSquared: Scalar {
     get {
       return (
-        simd_length_squared(self.columns.0)
-          +
-          simd_length_squared(self.columns.1)
-          +
-          simd_length_squared(self.columns.2)
-          +
-          simd_length_squared(self.columns.3)
+        simd_length_squared(columns.0)
+        +
+        simd_length_squared(columns.1)
+        +
+        simd_length_squared(columns.2)
+        +
+        simd_length_squared(columns.3)
       )
     }
   }
@@ -324,7 +326,8 @@ extension simd_double4x4 : MatrixDefaultSupportProtocol, Matrix4x4Protocol {
   @inlinable
   public func adding(
     _ other: simd_double4x4,
-    multipliedBy scalar: Scalar) -> simd_double4x4 {
+    multipliedBy scalar: Scalar
+  ) -> simd_double4x4 {
     return self + (other * scalar)
   }
   
@@ -332,7 +335,8 @@ extension simd_double4x4 : MatrixDefaultSupportProtocol, Matrix4x4Protocol {
   @inlinable
   public mutating func formAddition(
     of other: simd_double4x4,
-    multipliedBy scalar: Scalar) {
+    multipliedBy scalar: Scalar
+  ) {
     self += other * scalar
   }
   
@@ -370,14 +374,16 @@ extension simd_double4x4 : MatrixDefaultSupportProtocol, Matrix4x4Protocol {
   @inlinable
   public func subtracting(
     _ other: simd_double4x4,
-    multipliedBy scalar: Scalar) -> simd_double4x4 {
+    multipliedBy scalar: Scalar
+  ) -> simd_double4x4 {
     return self - (other * scalar)
   }
 
   @inlinable
   public mutating func formSubtraction(
     of other: simd_double4x4,
-    multipliedBy scalar: Scalar) {
+    multipliedBy scalar: Scalar
+  ) {
     self -= (other * scalar)
   }
   
@@ -472,13 +478,13 @@ extension simd_double4x4 : MatrixDefaultSupportProtocol, Matrix4x4Protocol {
   // we supply:
   @inlinable
   public func inverted() -> simd_double4x4 {
-    return self.inverse
+    return inverse
   }
   
   // we supply:
   @inlinable
   public mutating func formInverse() {
-    self = self.inverse
+    self = inverse
   }
   
   // ------------------------------------------------------------------------ //
@@ -544,13 +550,13 @@ extension simd_double4x4 : MatrixDefaultSupportProtocol, Matrix4x4Protocol {
   // we supply:
   @inlinable
   public func transposed() -> simd_double4x4 {
-    return self.transpose
+    return transpose
   }
   
   // we supply:
   @inlinable
   public mutating func formTranspose() {
-    self = self.transpose
+    self = transpose
   }
   
   // ------------------------------------------------------------------------ //
@@ -584,6 +590,5 @@ extension simd_double4x4 : MatrixDefaultSupportProtocol, Matrix4x4Protocol {
   public func multiplied(onLeftBy lhs: CompatibleMatrix4x2) -> CompatibleMatrix4x2 {
     return lhs * self
   }
-
   
 }

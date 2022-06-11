@@ -4,7 +4,6 @@
 
 import Foundation
 import simd
-import HDXLCommonUtilities
 
 // -------------------------------------------------------------------------- //
 // MARK: simd_quatf - NumericAggregate
@@ -17,8 +16,9 @@ extension simd_quatf : NumericAggregate {
   @inlinable
   public func allNumericEntriesSatisfy(_ predicate: (NumericEntryRepresentation) -> Bool) -> Bool {
     guard
-      predicate(self.real),
-      self.imag.allNumericEntriesSatisfy(predicate) else {
+      predicate(real),
+      imag.allNumericEntriesSatisfy(predicate)
+    else {
         return false
     }
     return true
@@ -37,8 +37,9 @@ extension simd_quatd : NumericAggregate {
   @inlinable
   public func allNumericEntriesSatisfy(_ predicate: (NumericEntryRepresentation) -> Bool) -> Bool {
     guard
-      predicate(self.real),
-      self.imag.allNumericEntriesSatisfy(predicate) else {
+      predicate(real),
+      imag.allNumericEntriesSatisfy(predicate)
+    else {
         return false
     }
     return true

@@ -4,7 +4,6 @@
 
 import Foundation
 import simd
-import HDXLCommonUtilities
 
 // -------------------------------------------------------------------------- //
 // MARK: Scalar Construction Support
@@ -17,7 +16,8 @@ internal extension MatrixProtocol {
   static func canConstruct(from scalars: [[Scalar]]) -> Bool {
     guard
       scalars.count == Self.rowCount,
-      scalars.allSatisfy({ $0.count == Self.columnCount }) else {
+      scalars.allSatisfy({ $0.count == Self.columnCount })
+    else {
       return false
     }
     return true

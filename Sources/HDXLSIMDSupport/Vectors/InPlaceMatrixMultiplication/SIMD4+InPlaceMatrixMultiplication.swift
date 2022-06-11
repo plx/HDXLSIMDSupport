@@ -4,7 +4,6 @@
 
 import Foundation
 import simd
-import HDXLCommonUtilities
 
 // note: the out-of-place operators already exist and are defined on the
 // correponding matrix types; this is specifically patching the gap wherein we
@@ -38,7 +37,8 @@ public extension SIMD4 where Scalar:ExtendedSIMDScalar {
   @inlinable
   static func *= (
     lhs: inout Self,
-    rhs: Matrix4x4<Scalar>) {
+    rhs: Matrix4x4<Scalar>
+  ) {
     lhs.formMultiplication(
       onLeftBy: rhs
     )
@@ -47,7 +47,8 @@ public extension SIMD4 where Scalar:ExtendedSIMDScalar {
   @inlinable
   static func =* (
     lhs: Matrix4x4<Scalar>,
-    rhs: inout Self) {
+    rhs: inout Self
+  ) {
     rhs.formMultiplication(
       onRightBy: lhs
     )

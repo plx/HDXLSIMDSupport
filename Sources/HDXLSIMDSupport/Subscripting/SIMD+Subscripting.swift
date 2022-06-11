@@ -18,7 +18,7 @@ public extension SIMD {
   /// Convenience for asserts/preconditions: is `index` a valid index?
   @inlinable
   static func canSubscript(at index: Int) -> Bool {
-    return self.subscriptableIndexRange.contains(index)
+    return subscriptableIndexRange.contains(index)
   }
   
 }

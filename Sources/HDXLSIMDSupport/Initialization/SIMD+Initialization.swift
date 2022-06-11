@@ -11,7 +11,8 @@ public extension SIMD where Scalar:BinaryInteger {
   @inlinable
   init(
     value: Scalar,
-    at index: Int) {
+    at index: Int
+  ) {
     precondition(Self.canSubscript(at: index))
     self.init(repeating: 0)
     self[index] = value
@@ -25,7 +26,8 @@ public extension SIMD where Scalar:BinaryFloatingPoint {
   @inlinable
   init(
     value: Scalar,
-    at index: Int) {
+    at index: Int
+  ) {
     precondition(Self.canSubscript(at: index))
     self.init(repeating: 0)
     self[index] = value

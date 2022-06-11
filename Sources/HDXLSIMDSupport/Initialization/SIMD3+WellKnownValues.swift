@@ -4,7 +4,6 @@
 
 import Foundation
 import simd
-import HDXLCommonUtilities
 
 public extension SIMD3 where Scalar:BinaryFloatingPoint {
   

@@ -4,7 +4,6 @@
 
 import Foundation
 import simd
-import HDXLCommonUtilities
 
 extension simd_quatd : QuaternionProtocol {
   
@@ -49,7 +48,8 @@ extension simd_quatd : QuaternionProtocol {
   @inlinable
   public init(
     realComponent: Scalar,
-    imaginaryComponent: Vector3) {
+    imaginaryComponent: Vector3
+  ) {
     self.init(
       real: realComponent,
       imag: imaginaryComponent
@@ -60,7 +60,8 @@ extension simd_quatd : QuaternionProtocol {
   @inlinable
   public init(
     angleInRadians angle: Scalar,
-    rotationAxis axis: Vector3) {
+    rotationAxis axis: Vector3
+  ) {
     self.init(
       angle: angle,
       axis: axis
@@ -71,7 +72,8 @@ extension simd_quatd : QuaternionProtocol {
   @inlinable
   public init(
     rotating origin: Vector3,
-    onto destination: Vector3) {
+    onto destination: Vector3
+  ) {
     self.init(
       from: origin,
       to: destination
@@ -100,7 +102,8 @@ extension simd_quatd : QuaternionProtocol {
     _ q0: simd_quatd,
     _ q1: simd_quatd,
     _ t: Scalar,
-    strategy: QuaternionSlerpStrategy) -> simd_quatd {
+    strategy: QuaternionSlerpStrategy
+  ) -> simd_quatd {
     switch strategy {
     case .automatic:
       return simd_quatd.slerpShortest(
@@ -128,7 +131,8 @@ extension simd_quatd : QuaternionProtocol {
   public static func slerpShortest(
     _ q0: simd_quatd,
     _ q1: simd_quatd,
-    _ t: Scalar) -> simd_quatd {
+    _ t: Scalar
+  ) -> simd_quatd {
     return simd_slerp(
       q0,
       q1,
@@ -141,7 +145,8 @@ extension simd_quatd : QuaternionProtocol {
   public static func slerpLongest(
     _ q0: simd_quatd,
     _ q1: simd_quatd,
-    _ t: Scalar) -> simd_quatd {
+    _ t: Scalar
+  ) -> simd_quatd {
     return simd_slerp_longest(
       q0,
       q1,
@@ -156,7 +161,8 @@ extension simd_quatd : QuaternionProtocol {
     q1: simd_quatd,
     q2: simd_quatd,
     q3: simd_quatd,
-    t: Scalar) -> simd_quatd {
+    t: Scalar
+  ) -> simd_quatd {
     return simd_bezier(
       q0,
       q1,
@@ -173,7 +179,8 @@ extension simd_quatd : QuaternionProtocol {
     q1: simd_quatd,
     q2: simd_quatd,
     q3: simd_quatd,
-    t: Scalar) -> simd_quatd {
+    t: Scalar
+  ) -> simd_quatd {
     return simd_spline(
       q0,
       q1,
@@ -191,10 +198,10 @@ extension simd_quatd : QuaternionProtocol {
   @inlinable
   public var realComponent: Scalar {
     get {
-      return self.real
+      return real
     }
     set {
-      self.real = newValue
+      real = newValue
     }
   }
   
@@ -202,10 +209,10 @@ extension simd_quatd : QuaternionProtocol {
   @inlinable
   public var imaginaryComponent: Vector3 {
     get {
-      return self.imag
+      return imag
     }
     set {
-      self.imag = newValue
+      imag = newValue
     }
   }
   
@@ -213,7 +220,7 @@ extension simd_quatd : QuaternionProtocol {
   @inlinable
   public var angleInRadians: Scalar {
     get {
-      return self.angle
+      return angle
     }
   }
   
@@ -221,7 +228,7 @@ extension simd_quatd : QuaternionProtocol {
   @inlinable
   public var rotationAxis: Vector3 {
     get {
-      return self.axis
+      return axis
     }
   }
   
@@ -235,7 +242,7 @@ extension simd_quatd : QuaternionProtocol {
   // we supply (rename):
   @inlinable
   public func apply(to vector: Vector3) -> Vector3 {
-    return self.act(vector)
+    return act(vector)
   }
   
   // ------------------------------------------------------------------------ //
@@ -244,12 +251,12 @@ extension simd_quatd : QuaternionProtocol {
   
   @inlinable
   public func normalized() -> simd_quatd {
-    return self.normalized
+    return normalized
   }
   
   @inlinable
   public mutating func formNormalization() {
-    self = self.normalized
+    self = normalized
   }
   
   // ------------------------------------------------------------------------ //
@@ -259,7 +266,7 @@ extension simd_quatd : QuaternionProtocol {
   @inlinable
   public var componentwiseMagnitudeSquared: Scalar {
     get {
-      return simd_length_squared(self.vector)
+      return simd_length_squared(vector)
     }
   }
 
@@ -269,12 +276,12 @@ extension simd_quatd : QuaternionProtocol {
   
   @inlinable
   public func inverted() -> simd_quatd {
-    return self.inverse
+    return inverse
   }
   
   @inlinable
   public mutating func formInverse() {
-    self = self.inverse
+    self = inverse
   }
   
   // ------------------------------------------------------------------------ //
@@ -283,12 +290,12 @@ extension simd_quatd : QuaternionProtocol {
   
   @inlinable
   public func conjugated() -> simd_quatd {
-    return self.conjugate
+    return conjugate
   }
   
   @inlinable
   public mutating func formConjugate() {
-    self = self.conjugate
+    self = conjugate
   }
   
   // ------------------------------------------------------------------------ //
@@ -326,14 +333,16 @@ extension simd_quatd : QuaternionProtocol {
   @inlinable
   public func adding(
     _ other: simd_quatd,
-    multipliedBy factor: Scalar) -> simd_quatd {
+    multipliedBy factor: Scalar
+  ) -> simd_quatd {
     return self + (other * factor)
   }
   
   @inlinable
   public mutating func formAddition(
     of other: simd_quatd,
-    multipliedBy factor: Scalar) {
+    multipliedBy factor: Scalar
+  ) {
     self += (other * factor)
   }
   
@@ -358,14 +367,16 @@ extension simd_quatd : QuaternionProtocol {
   @inlinable
   public func subtracting(
     _ other: simd_quatd,
-    multipliedBy factor: Scalar) -> simd_quatd {
+    multipliedBy factor: Scalar
+  ) -> simd_quatd {
     return self - (other * factor)
   }
   
   @inlinable
   public mutating func formSubtraction(
     of other: simd_quatd,
-    multipliedBy factor: Scalar) {
+    multipliedBy factor: Scalar
+  ) {
     self -= (other * factor)
   }
   

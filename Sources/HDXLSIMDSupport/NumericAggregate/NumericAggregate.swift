@@ -4,7 +4,6 @@
 
 import Foundation
 import simd
-import HDXLCommonUtilities
 
 /// Semi-artificial protocol for SIMD-liked fixed-size "numeric aggregates".
 ///
@@ -18,7 +17,7 @@ import HDXLCommonUtilities
 ///
 /// I should probably rename the protocol before flipping to the 0.1.x series, but for now this works.
 ///
-public protocol NumericAggregate {
+public protocol NumericAggregate<NumericEntryRepresentation> {
   
   /// The type of the individual numeric entries w/in the aggregate.
   associatedtype NumericEntryRepresentation

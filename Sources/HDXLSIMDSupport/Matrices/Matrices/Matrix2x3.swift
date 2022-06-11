@@ -5,7 +5,6 @@
 import Foundation
 import simd
 import SwiftUI
-import HDXLCommonUtilities
 
 @frozen
 public struct Matrix2x3<Scalar:ExtendedSIMDScalar>  :
@@ -19,7 +18,8 @@ public struct Matrix2x3<Scalar:ExtendedSIMDScalar>  :
   CustomStringConvertible,
   CustomDebugStringConvertible,
   Codable,
-  VectorArithmetic {
+  VectorArithmetic
+{
   
   public typealias CompatibleMatrix2x2 = Matrix2x2<Scalar>
   public typealias CompatibleMatrix3x3 = Matrix3x3<Scalar>
@@ -49,10 +49,10 @@ public struct Matrix2x3<Scalar:ExtendedSIMDScalar>  :
   @inlinable
   public var nativeSIMDRepresentation: NativeSIMDRepresentation {
     get {
-      return self.passthroughValue.passthroughValue
+      return passthroughValue.passthroughValue
     }
     set {
-      self.passthroughValue.passthroughValue = newValue
+      passthroughValue.passthroughValue = newValue
     }
   }
   
@@ -68,14 +68,14 @@ public struct Matrix2x3<Scalar:ExtendedSIMDScalar>  :
   @inlinable
   public var description: String {
     get {
-      return "Matrix2x3: \(String(describing: self.nativeSIMDRepresentation))"
+      return "Matrix2x3: \(String(describing: nativeSIMDRepresentation))"
     }
   }
   
   @inlinable
   public var debugDescription: String {
     get {
-      return "Matrix2x3<\(String(reflecting: Scalar.self))>(nativeSIMDRepresentation: \(String(reflecting: self.nativeSIMDRepresentation)))"
+      return "Matrix2x3<\(String(reflecting: Scalar.self))>(nativeSIMDRepresentation: \(String(reflecting: nativeSIMDRepresentation)))"
     }
   }
   
@@ -89,13 +89,13 @@ public struct Matrix2x3<Scalar:ExtendedSIMDScalar>  :
   @inlinable
   public var magnitudeSquared: Double {
     get {
-      return Double(self.componentwiseMagnitudeSquared)
+      return Double(componentwiseMagnitudeSquared)
     }
   }
   
   @inlinable
   public mutating func scale(by factor: Double) {
-    self.formMultiplication(
+    formMultiplication(
       by: Scalar(factor)
     )
   }

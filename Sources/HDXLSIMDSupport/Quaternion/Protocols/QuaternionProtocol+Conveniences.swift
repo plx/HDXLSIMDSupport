@@ -4,7 +4,6 @@
 
 import Foundation
 import simd
-import HDXLCommonUtilities
 
 // I've tried to minimize the amount of utilities I add atop the core API,
 // but I'm including in this extension a handful of things for which the absence
@@ -76,7 +75,7 @@ public extension QuaternionProtocol {
   @inlinable
   static var x: Self {
     get {
-      return self.i
+      return i
     }
   }
 
@@ -84,7 +83,7 @@ public extension QuaternionProtocol {
   @inlinable
   static var y: Self {
     get {
-      return self.j
+      return j
     }
   }
 
@@ -92,7 +91,7 @@ public extension QuaternionProtocol {
   @inlinable
   static var z: Self {
     get {
-      return self.k
+      return k
     }
   }
 

@@ -5,7 +5,6 @@
 import Foundation
 import simd
 import SwiftUI
-import HDXLCommonUtilities
 
 @frozen
 public struct Matrix4x4<Scalar:ExtendedSIMDScalar>  :
@@ -19,7 +18,8 @@ public struct Matrix4x4<Scalar:ExtendedSIMDScalar>  :
   CustomStringConvertible,
   CustomDebugStringConvertible,
   Codable,
-  VectorArithmetic {
+  VectorArithmetic
+{
   
   public typealias CompatibleQuaternion = Quaternion<Scalar>
   
@@ -48,10 +48,10 @@ public struct Matrix4x4<Scalar:ExtendedSIMDScalar>  :
   @inlinable
   public var nativeSIMDRepresentation: NativeSIMDRepresentation {
     get {
-      return self.passthroughValue.passthroughValue
+      return passthroughValue.passthroughValue
     }
     set {
-      self.passthroughValue.passthroughValue = newValue
+      passthroughValue.passthroughValue = newValue
     }
   }
   
@@ -67,14 +67,14 @@ public struct Matrix4x4<Scalar:ExtendedSIMDScalar>  :
   @inlinable
   public var description: String {
     get {
-      return "Matrix4x4: \(String(describing: self.nativeSIMDRepresentation))"
+      return "Matrix4x4: \(String(describing: nativeSIMDRepresentation))"
     }
   }
   
   @inlinable
   public var debugDescription: String {
     get {
-      return "Matrix4x4<\(String(reflecting: Scalar.self))>(nativeSIMDRepresentation: \(String(reflecting: self.nativeSIMDRepresentation)))"
+      return "Matrix4x4<\(String(reflecting: Scalar.self))>(nativeSIMDRepresentation: \(String(reflecting: nativeSIMDRepresentation)))"
     }
   }
 
@@ -88,13 +88,13 @@ public struct Matrix4x4<Scalar:ExtendedSIMDScalar>  :
   @inlinable
   public var magnitudeSquared: Double {
     get {
-      return Double(self.componentwiseMagnitudeSquared)
+      return Double(componentwiseMagnitudeSquared)
     }
   }
   
   @inlinable
   public mutating func scale(by factor: Double) {
-    self.formMultiplication(
+    formMultiplication(
       by: Scalar(factor)
     )
   }

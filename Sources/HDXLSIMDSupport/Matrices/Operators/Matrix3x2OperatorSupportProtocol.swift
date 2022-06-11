@@ -4,7 +4,6 @@
 
 import Foundation
 import simd
-import HDXLCommonUtilities
 
 // -------------------------------------------------------------------------- //
 // MARK: Matrix3x2OperatorSupportProtocol - Definition
@@ -25,37 +24,42 @@ public protocol Matrix3x2OperatorSupportProtocol : Matrix3x2Protocol {
 public extension Matrix3x2OperatorSupportProtocol {
   
   @inlinable
-  static func *(
+  static func * (
     lhs: Self,
-    rhs: CompatibleMatrix2x3) -> CompatibleMatrix2x2 {
+    rhs: CompatibleMatrix2x3
+  ) -> CompatibleMatrix2x2 {
     return lhs.multiplied(onRightBy: rhs)
   }
   
   @inlinable
-  static func *(
+  static func * (
     lhs: Self,
-    rhs: CompatibleMatrix3x3) -> Self {
+    rhs: CompatibleMatrix3x3
+  ) -> Self {
     return lhs.multiplied(onRightBy: rhs)
   }
   
   @inlinable
-  static func *(
+  static func * (
     lhs: Self,
-    rhs: CompatibleMatrix4x3) -> CompatibleMatrix4x2 {
+    rhs: CompatibleMatrix4x3
+  ) -> CompatibleMatrix4x2 {
     return lhs.multiplied(onRightBy: rhs)
   }
   
   @inlinable
-  static func *=(
+  static func *= (
     lhs: inout Self,
-    rhs: CompatibleMatrix3x3) {
+    rhs: CompatibleMatrix3x3
+  ) {
     lhs.formMultiplication(onRightBy: rhs)
   }
   
   @inlinable
-  static func =*(
+  static func =* (
     lhs: CompatibleMatrix2x2,
-    rhs: inout Self) {
+    rhs: inout Self
+  ) {
     rhs.formMultiplication(onLeftBy: lhs)
   }
 

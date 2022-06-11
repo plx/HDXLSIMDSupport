@@ -4,7 +4,6 @@
 
 import Foundation
 import simd
-import HDXLCommonUtilities
 
 /// `ExtendedSIMDScalar` extends `SIMDScalar` by adding *mutually-compatible* storages for
 /// (a) a quaternion and also (b) all of the currently-available matrix types (2x2 ... 4x4). The key point here
@@ -29,7 +28,7 @@ import HDXLCommonUtilities
 /// interlocking, mutually-compatible storages being basically a manual emulation of something that could be
 /// done almost-trivially if Swift gained higher-kinded types. Oh well.
 ///
-public protocol ExtendedSIMDScalar : ExtendedFloatingPointMath  /* redundant : SIMDScalar, BinaryFloatingPoint */ {
+public protocol ExtendedSIMDScalar : SIMDScalar, BinaryFloatingPoint, Codable {
   
   associatedtype QuaternionStorage: QuaternionProtocol, Passthrough, NumericAggregate, Hashable, Codable
     where

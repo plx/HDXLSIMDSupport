@@ -5,10 +5,9 @@
 import Foundation
 import simd
 import SwiftUI
-import HDXLCommonUtilities
 
 @frozen
-public struct Matrix2x2<Scalar:ExtendedSIMDScalar>  :
+public struct Matrix2x2<Scalar:ExtendedSIMDScalar> :
   Matrix2x2Protocol,
   MatrixOperatorSupportProtocol,
   Matrix2x2OperatorSupportProtocol,
@@ -19,7 +18,8 @@ public struct Matrix2x2<Scalar:ExtendedSIMDScalar>  :
   CustomStringConvertible,
   CustomDebugStringConvertible,
   Codable,
-  VectorArithmetic {
+  VectorArithmetic
+{
   
   public typealias CompatibleMatrix2x3 = Matrix2x3<Scalar>
   public typealias CompatibleMatrix3x2 = Matrix3x2<Scalar>
@@ -46,10 +46,10 @@ public struct Matrix2x2<Scalar:ExtendedSIMDScalar>  :
   @inlinable
   public var nativeSIMDRepresentation: NativeSIMDRepresentation {
     get {
-      return self.passthroughValue.passthroughValue
+      return passthroughValue.passthroughValue
     }
     set {
-      self.passthroughValue.passthroughValue = newValue
+      passthroughValue.passthroughValue = newValue
     }
   }
   
@@ -65,14 +65,14 @@ public struct Matrix2x2<Scalar:ExtendedSIMDScalar>  :
   @inlinable
   public var description: String {
     get {
-      return "Matrix2x2: \(String(describing: self.nativeSIMDRepresentation))"
+      return "Matrix2x2: \(String(describing: nativeSIMDRepresentation))"
     }
   }
   
   @inlinable
   public var debugDescription: String {
     get {
-      return "Matrix2x2<\(String(reflecting: Scalar.self))>(nativeSIMDRepresentation: \(String(reflecting: self.nativeSIMDRepresentation)))"
+      return "Matrix2x2<\(String(reflecting: Scalar.self))>(nativeSIMDRepresentation: \(String(reflecting: nativeSIMDRepresentation)))"
     }
   }
   
@@ -86,13 +86,13 @@ public struct Matrix2x2<Scalar:ExtendedSIMDScalar>  :
   @inlinable
   public var magnitudeSquared: Double {
     get {
-      return Double(self.componentwiseMagnitudeSquared)
+      return Double(componentwiseMagnitudeSquared)
     }
   }
   
   @inlinable
   public mutating func scale(by factor: Double) {
-    self.formMultiplication(
+    formMultiplication(
       by: Scalar(factor)
     )
   }

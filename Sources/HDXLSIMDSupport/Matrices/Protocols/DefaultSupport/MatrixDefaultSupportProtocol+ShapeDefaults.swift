@@ -4,7 +4,6 @@
 
 import Foundation
 import simd
-import HDXLCommonUtilities
 
 // -------------------------------------------------------------------------- //
 // MARK: Shape Defaults
@@ -15,7 +14,7 @@ public extension MatrixDefaultSupportProtocol {
   @inlinable
   static var scalarCount: Int {
     get {
-      return self.rowCount * self.columnCount
+      return rowCount * columnCount
     }
   }
 
@@ -111,8 +110,8 @@ public extension MatrixDefaultSupportProtocol
   var rowVectors: [RowVector] {
     get {
       return [
-        self.rows.0,
-        self.rows.1
+        rows.0,
+        rows.1
       ]
     }
   }
@@ -156,9 +155,9 @@ public extension MatrixDefaultSupportProtocol
   var rowVectors: [RowVector] {
     get {
       return [
-        self.rows.0,
-        self.rows.1,
-        self.rows.2
+        rows.0,
+        rows.1,
+        rows.2
       ]
     }
   }
@@ -203,10 +202,10 @@ public extension MatrixDefaultSupportProtocol
   var rowVectors: [RowVector] {
     get {
       return [
-        self.rows.0,
-        self.rows.1,
-        self.rows.2,
-        self.rows.3
+        rows.0,
+        rows.1,
+        rows.2,
+        rows.3
       ]
     }
   }
@@ -241,9 +240,9 @@ public extension MatrixDefaultSupportProtocol
       precondition(Self.columnIndexRange.contains(columnIndex))
       switch columnIndex {
       case 0:
-        return self.columns.0
+        return columns.0
       case 1:
-        return self.columns.1
+        return columns.1
       default:
         fatalError("Used invalid `columnIndex` \(columnIndex) to subscript \(String(reflecting: self))!")
       }
@@ -252,9 +251,9 @@ public extension MatrixDefaultSupportProtocol
       precondition(Self.columnIndexRange.contains(columnIndex))
       switch columnIndex {
       case 0:
-        self.columns.0 = newValue
+        columns.0 = newValue
       case 1:
-        self.columns.1 = newValue
+        columns.1 = newValue
       default:
         fatalError("Used invalid `columnIndex` \(columnIndex) to subscript \(String(reflecting: self))!")
       }
@@ -265,8 +264,8 @@ public extension MatrixDefaultSupportProtocol
   var columnVectors: [ColumnVector] {
     get {
       return [
-        self.columns.0,
-        self.columns.1
+        columns.0,
+        columns.1
       ]
     }
   }
@@ -275,8 +274,8 @@ public extension MatrixDefaultSupportProtocol
   func adding(scalar: Scalar) -> Self {
     return Self(
       columns: (
-        self.columns.0 + scalar,
-        self.columns.1 + scalar
+        columns.0 + scalar,
+        columns.1 + scalar
       )
     )
   }
@@ -285,22 +284,22 @@ public extension MatrixDefaultSupportProtocol
   func subtracting(scalar: Scalar) -> Self {
     return Self(
       columns: (
-        self.columns.0 - scalar,
-        self.columns.1 - scalar
+        columns.0 - scalar,
+        columns.1 - scalar
       )
     )
   }
   
   @inlinable
   mutating func formAddition(ofScalar scalar: Scalar) {
-    self.columns.0 += scalar
-    self.columns.1 += scalar
+    columns.0 += scalar
+    columns.1 += scalar
   }
   
   @inlinable
   mutating func formSubtraction(ofScalar scalar: Scalar) {
-    self.columns.0 -= scalar
-    self.columns.1 -= scalar
+    columns.0 -= scalar
+    columns.1 -= scalar
   }
 
 }
@@ -333,11 +332,11 @@ public extension MatrixDefaultSupportProtocol
       precondition(Self.columnIndexRange.contains(columnIndex))
       switch columnIndex {
       case 0:
-        return self.columns.0
+        return columns.0
       case 1:
-        return self.columns.1
+        return columns.1
       case 2:
-        return self.columns.2
+        return columns.2
       default:
         fatalError("Used invalid `columnIndex` \(columnIndex) to subscript \(String(reflecting: self))!")
       }
@@ -346,11 +345,11 @@ public extension MatrixDefaultSupportProtocol
       precondition(Self.columnIndexRange.contains(columnIndex))
       switch columnIndex {
       case 0:
-        self.columns.0 = newValue
+        columns.0 = newValue
       case 1:
-        self.columns.1 = newValue
+        columns.1 = newValue
       case 2:
-        self.columns.2 = newValue
+        columns.2 = newValue
       default:
         fatalError("Used invalid `columnIndex` \(columnIndex) to subscript \(String(reflecting: self))!")
       }
@@ -361,9 +360,9 @@ public extension MatrixDefaultSupportProtocol
   var columnVectors: [ColumnVector] {
     get {
       return [
-        self.columns.0,
-        self.columns.1,
-        self.columns.2
+        columns.0,
+        columns.1,
+        columns.2
       ]
     }
   }
@@ -372,9 +371,9 @@ public extension MatrixDefaultSupportProtocol
   func adding(scalar: Scalar) -> Self {
     return Self(
       columns: (
-        self.columns.0 + scalar,
-        self.columns.1 + scalar,
-        self.columns.2 + scalar
+        columns.0 + scalar,
+        columns.1 + scalar,
+        columns.2 + scalar
       )
     )
   }
@@ -383,25 +382,25 @@ public extension MatrixDefaultSupportProtocol
   func subtracting(scalar: Scalar) -> Self {
     return Self(
       columns: (
-        self.columns.0 - scalar,
-        self.columns.1 - scalar,
-        self.columns.2 - scalar
+        columns.0 - scalar,
+        columns.1 - scalar,
+        columns.2 - scalar
       )
     )
   }
   
   @inlinable
   mutating func formAddition(ofScalar scalar: Scalar) {
-    self.columns.0 += scalar
-    self.columns.1 += scalar
-    self.columns.2 += scalar
+    columns.0 += scalar
+    columns.1 += scalar
+    columns.2 += scalar
   }
   
   @inlinable
   mutating func formSubtraction(ofScalar scalar: Scalar) {
-    self.columns.0 -= scalar
-    self.columns.1 -= scalar
-    self.columns.2 -= scalar
+    columns.0 -= scalar
+    columns.1 -= scalar
+    columns.2 -= scalar
   }
 
 }
@@ -434,13 +433,13 @@ public extension MatrixDefaultSupportProtocol
       precondition(Self.columnIndexRange.contains(columnIndex))
       switch columnIndex {
       case 0:
-        return self.columns.0
+        return columns.0
       case 1:
-        return self.columns.1
+        return columns.1
       case 2:
-        return self.columns.2
+        return columns.2
       case 3:
-        return self.columns.3
+        return columns.3
       default:
         fatalError("Used invalid `columnIndex` \(columnIndex) to subscript \(String(reflecting: self))!")
       }
@@ -449,13 +448,13 @@ public extension MatrixDefaultSupportProtocol
       precondition(Self.columnIndexRange.contains(columnIndex))
       switch columnIndex {
       case 0:
-        self.columns.0 = newValue
+        columns.0 = newValue
       case 1:
-        self.columns.1 = newValue
+        columns.1 = newValue
       case 2:
-        self.columns.2 = newValue
+        columns.2 = newValue
       case 3:
-        self.columns.3 = newValue
+        columns.3 = newValue
       default:
         fatalError("Used invalid `columnIndex` \(columnIndex) to subscript \(String(reflecting: self))!")
       }
@@ -466,10 +465,10 @@ public extension MatrixDefaultSupportProtocol
   var columnVectors: [ColumnVector] {
     get {
       return [
-        self.columns.0,
-        self.columns.1,
-        self.columns.2,
-        self.columns.3
+        columns.0,
+        columns.1,
+        columns.2,
+        columns.3
       ]
     }
   }
@@ -478,10 +477,10 @@ public extension MatrixDefaultSupportProtocol
   func adding(scalar: Scalar) -> Self {
     return Self(
       columns: (
-        self.columns.0 + scalar,
-        self.columns.1 + scalar,
-        self.columns.2 + scalar,
-        self.columns.3 + scalar
+        columns.0 + scalar,
+        columns.1 + scalar,
+        columns.2 + scalar,
+        columns.3 + scalar
       )
     )
   }
@@ -490,28 +489,28 @@ public extension MatrixDefaultSupportProtocol
   func subtracting(scalar: Scalar) -> Self {
     return Self(
       columns: (
-        self.columns.0 - scalar,
-        self.columns.1 - scalar,
-        self.columns.2 - scalar,
-        self.columns.3 - scalar
+        columns.0 - scalar,
+        columns.1 - scalar,
+        columns.2 - scalar,
+        columns.3 - scalar
       )
     )
   }
 
   @inlinable
   mutating func formAddition(ofScalar scalar: Scalar) {
-    self.columns.0 += scalar
-    self.columns.1 += scalar
-    self.columns.2 += scalar
-    self.columns.3 += scalar
+    columns.0 += scalar
+    columns.1 += scalar
+    columns.2 += scalar
+    columns.3 += scalar
   }
 
   @inlinable
   mutating func formSubtraction(ofScalar scalar: Scalar) {
-    self.columns.0 -= scalar
-    self.columns.1 -= scalar
-    self.columns.2 -= scalar
-    self.columns.3 -= scalar
+    columns.0 -= scalar
+    columns.1 -= scalar
+    columns.2 -= scalar
+    columns.3 -= scalar
   }
 
 }
