@@ -10,7 +10,7 @@ import simd
 // -------------------------------------------------------------------------- //
 
 /// Protocol with common math operations by all quaternions (and wrappers thereof).
-public protocol QuaternionProtocol {
+public protocol QuaternionProtocol<Scalar> {
 
   // ------------------------------------------------------------------------ //
   // MARK: Compatible Types
@@ -78,7 +78,8 @@ public protocol QuaternionProtocol {
     _ q0: Self,
     _ q1: Self,
     _ t: Scalar,
-    strategy: QuaternionSlerpStrategy) -> Self
+    strategy: QuaternionSlerpStrategy
+  ) -> Self
   
   /// Returns a spherical linearly interpolated value along the shortest arc between two quaternions.
   static func slerpShortest(

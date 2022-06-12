@@ -9,11 +9,11 @@ import simd
 // but I'm including in this extension a handful of things for which the absence
 // has proven not mereely frustrating but outright painful.
 
-public extension QuaternionProtocol {
+extension QuaternionProtocol {
 
   /// The (multiplicative) identity quaternion.
   @inlinable
-  static var identity: Self {
+  public static var identity: Self {
     get {
       return .one
     }
@@ -21,7 +21,7 @@ public extension QuaternionProtocol {
   
   /// The quaterion with real part 1, imaginary part 0.
   @inlinable
-  static var one: Self {
+  public static var one: Self {
     get {
       return Self(
         realComponent: 1,
@@ -36,7 +36,7 @@ public extension QuaternionProtocol {
   
   /// The pure-`i` unit quaternion.
   @inlinable
-  static var i: Self {
+  public static var i: Self {
     get {
       return Self(
         realComponent: 0,
@@ -47,7 +47,7 @@ public extension QuaternionProtocol {
 
   /// The pure-`j` unit quaternion.
   @inlinable
-  static var j: Self {
+  public static var j: Self {
     get {
       return Self(
         realComponent: 0,
@@ -58,7 +58,7 @@ public extension QuaternionProtocol {
 
   /// The pure-`k` unit quaternion.
   @inlinable
-  static var k: Self {
+  public static var k: Self {
     get {
       return Self(
         realComponent: 0,
@@ -73,7 +73,7 @@ public extension QuaternionProtocol {
   
   /// The pure-`x` unit quaternion; synonym for `.i`.
   @inlinable
-  static var x: Self {
+  public static var x: Self {
     get {
       return i
     }
@@ -81,7 +81,7 @@ public extension QuaternionProtocol {
 
   /// The pure-`y` unit quaternion; synonym for `.j`.
   @inlinable
-  static var y: Self {
+  public static var y: Self {
     get {
       return j
     }
@@ -89,10 +89,11 @@ public extension QuaternionProtocol {
 
   /// The pure-`z` unit quaternion; synonym for `.k`.
   @inlinable
-  static var z: Self {
+  public static var z: Self {
     get {
       return k
     }
   }
 
 }
+
