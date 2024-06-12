@@ -90,3 +90,5 @@ public struct Quaternion<Scalar:ExtendedSIMDScalar> :
   }
 
 }
+
+extension Quaternion: Sendable where Scalar.QuaternionStorage: Sendable { }

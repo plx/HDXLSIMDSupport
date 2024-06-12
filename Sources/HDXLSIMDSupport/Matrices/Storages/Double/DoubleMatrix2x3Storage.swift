@@ -15,7 +15,8 @@ public struct DoubleMatrix2x3Storage :
   Hashable,
   CustomStringConvertible,
   CustomDebugStringConvertible,
-  Codable
+  Codable,
+  Sendable
 {
   
   public typealias CompatibleMatrix2x2 = DoubleMatrix2x2Storage

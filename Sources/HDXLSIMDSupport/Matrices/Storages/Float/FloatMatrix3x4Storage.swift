@@ -16,7 +16,8 @@ public struct FloatMatrix3x4Storage :
   Hashable,
   CustomStringConvertible,
   CustomDebugStringConvertible,
-  Codable
+  Codable,
+  Sendable
 {
   
   public typealias CompatibleMatrix4x4 = FloatMatrix4x4Storage

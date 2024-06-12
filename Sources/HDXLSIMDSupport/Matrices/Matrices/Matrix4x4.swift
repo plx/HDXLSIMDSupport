@@ -100,3 +100,5 @@ public struct Matrix4x4<Scalar:ExtendedSIMDScalar>  :
   }
 
 }
+
+extension Matrix4x4: Sendable where Scalar.Matrix4x4Storage: Sendable { }

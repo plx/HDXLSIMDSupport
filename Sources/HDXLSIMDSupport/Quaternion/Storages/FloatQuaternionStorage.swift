@@ -14,7 +14,8 @@ public struct FloatQuaternionStorage :
   Hashable,
   CustomStringConvertible,
   CustomDebugStringConvertible,
-  Codable
+  Codable,
+  Sendable
 {
   
   public typealias CompatibleMatrix3x3 = FloatMatrix3x3Storage
