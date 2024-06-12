@@ -1,7 +1,3 @@
-//
-//  DoubleMatrix3x4Storage.swift
-//
-
 import Foundation
 import simd
 
@@ -42,9 +38,7 @@ public struct DoubleMatrix3x4Storage :
   
   @usableFromInline
   internal static var typename: String {
-    get {
-      return "DoubleMatrix3x4Storage"
-    }
+    "DoubleMatrix3x4Storage"
   }
   
   // ------------------------------------------------------------------------ //
@@ -70,28 +64,6 @@ public struct DoubleMatrix3x4Storage :
   }
   
   // ------------------------------------------------------------------------ //
-  // MARK: CustomStringConvertible
-  // ------------------------------------------------------------------------ //
-  
-  @inlinable
-  public var description: String {
-    get {
-      return "\(type(of: self).typename): \(String(describing: passthroughValue))"
-    }
-  }
-  
-  // ------------------------------------------------------------------------ //
-  // MARK: CustomDebugStringConvertible
-  // ------------------------------------------------------------------------ //
-  
-  @inlinable
-  public var debugDescription: String {
-    get {
-      return "\(type(of: self).typename)(passthroughValue: \(String(reflecting: passthroughValue)))"
-    }
-  }
-  
-  // ------------------------------------------------------------------------ //
   // MARK: Codable
   // ------------------------------------------------------------------------ //
   
@@ -103,15 +75,13 @@ public struct DoubleMatrix3x4Storage :
     
     @inlinable
     public var intValue: Int? {
-      get {
-        switch self {
-        case .c0:
-          return 0
-        case .c1:
-          return 1
-        case .c2:
-          return 2
-        }
+      switch self {
+      case .c0:
+        return 0
+      case .c1:
+        return 1
+      case .c2:
+        return 2
       }
     }
     

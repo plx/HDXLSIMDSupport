@@ -1,7 +1,3 @@
-//
-//  Passthrough+Matrix3x3Protocol.swift
-//
-
 import Foundation
 import simd
 
@@ -9,14 +5,14 @@ import simd
 // MARK: Passthrough - Matrix3x3Protocol Support
 // ------------------------------------------------------------------------ //
 
-public extension Passthrough where PassthroughValue: Matrix3x3Protocol {
+extension Passthrough where Self: Matrix3x3Protocol, PassthroughValue: Matrix3x3Protocol {
   
   // ------------------------------------------------------------------------ //
   // MARK: Initialization
   // ------------------------------------------------------------------------ //
   
   @inlinable
-  init(
+  public init(
     _ c0: PassthroughValue.ColumnVector,
     _ c1: PassthroughValue.ColumnVector,
     _ c2: PassthroughValue.ColumnVector
@@ -35,10 +31,8 @@ public extension Passthrough where PassthroughValue: Matrix3x3Protocol {
   // ------------------------------------------------------------------------ //
   
   @inlinable
-  var determinant: PassthroughValue.Scalar {
-    get {
-      return passthroughValue.determinant
-    }
+  public var determinant: PassthroughValue.Scalar {
+    passthroughValue.determinant
   }
   
   // ------------------------------------------------------------------------ //
@@ -46,14 +40,14 @@ public extension Passthrough where PassthroughValue: Matrix3x3Protocol {
   // ------------------------------------------------------------------------ //
   
   @inlinable
-  func inverted() -> Self {
-    return Self(
+  public func inverted() -> Self {
+    Self(
       passthroughValue: passthroughValue.inverted()
     )
   }
   
   @inlinable
-  mutating func formInverse() {
+  public mutating func formInverse() {
     passthroughValue.formInverse()
   }
   
@@ -62,8 +56,8 @@ public extension Passthrough where PassthroughValue: Matrix3x3Protocol {
   // ------------------------------------------------------------------------ //
   
   @inlinable
-  func multiplied(onRightBy rhs: Self) -> Self {
-    return Self(
+  public func multiplied(onRightBy rhs: Self) -> Self {
+    Self(
       passthroughValue: passthroughValue.multiplied(
         onRightBy: rhs.passthroughValue
       )
@@ -71,8 +65,8 @@ public extension Passthrough where PassthroughValue: Matrix3x3Protocol {
   }
   
   @inlinable
-  func multiplied(onLeftBy lhs: Self) -> Self {
-    return Self(
+  public func multiplied(onLeftBy lhs: Self) -> Self {
+    Self(
       passthroughValue: passthroughValue.multiplied(
         onLeftBy: lhs.passthroughValue
       )
@@ -80,14 +74,14 @@ public extension Passthrough where PassthroughValue: Matrix3x3Protocol {
   }
   
   @inlinable
-  mutating func formMultiplication(onRightBy rhs: Self) {
+  public mutating func formMultiplication(onRightBy rhs: Self) {
     passthroughValue.formMultiplication(
       onRightBy: rhs.passthroughValue
     )
   }
   
   @inlinable
-  mutating func formMultiplication(onLeftBy lhs: Self) {
+  public mutating func formMultiplication(onLeftBy lhs: Self) {
     passthroughValue.formMultiplication(
       onLeftBy: lhs.passthroughValue
     )
@@ -98,8 +92,8 @@ public extension Passthrough where PassthroughValue: Matrix3x3Protocol {
   // ------------------------------------------------------------------------ //
   
   @inlinable
-  func divided(onRightBy rhs: Self) -> Self {
-    return Self(
+  public func divided(onRightBy rhs: Self) -> Self {
+    Self(
       passthroughValue: passthroughValue.divided(
         onRightBy: rhs.passthroughValue
       )
@@ -107,8 +101,8 @@ public extension Passthrough where PassthroughValue: Matrix3x3Protocol {
   }
   
   @inlinable
-  func divided(onLeftBy lhs: Self) -> Self {
-    return Self(
+  public func divided(onLeftBy lhs: Self) -> Self {
+    Self(
       passthroughValue: passthroughValue.divided(
         onLeftBy: lhs.passthroughValue
       )
@@ -116,14 +110,14 @@ public extension Passthrough where PassthroughValue: Matrix3x3Protocol {
   }
   
   @inlinable
-  mutating func formDivision(onRightBy rhs: Self) {
+  public mutating func formDivision(onRightBy rhs: Self) {
     passthroughValue.formDivision(
       onRightBy: rhs.passthroughValue
     )
   }
   
   @inlinable
-  mutating func formDivision(onLeftBy lhs: Self) {
+  public mutating func formDivision(onLeftBy lhs: Self) {
     passthroughValue.formDivision(
       onLeftBy: lhs.passthroughValue
     )
@@ -134,14 +128,14 @@ public extension Passthrough where PassthroughValue: Matrix3x3Protocol {
   // ------------------------------------------------------------------------ //
   
   @inlinable
-  func transposed() -> Self {
-    return Self(
+  public func transposed() -> Self {
+    Self(
       passthroughValue: passthroughValue.transposed()
     )
   }
   
   @inlinable
-  mutating func formTranspose() {
+  public mutating func formTranspose() {
     passthroughValue.formTranspose()
   }
   
@@ -151,7 +145,7 @@ public extension Passthrough where PassthroughValue: Matrix3x3Protocol {
 // MARK: Passthrough - Matrix3x3Protocol Support - 2x3 Right-Multiplication
 // ------------------------------------------------------------------------ //
 
-public extension Passthrough
+extension Passthrough
   where
   Self:Matrix3x3Protocol,
   PassthroughValue: Matrix3x3Protocol,
@@ -160,8 +154,8 @@ public extension Passthrough
 {
   
   @inlinable
-  func multiplied(onRightBy rhs: CompatibleMatrix2x3) -> CompatibleMatrix2x3 {
-    return CompatibleMatrix2x3(
+  public func multiplied(onRightBy rhs: CompatibleMatrix2x3) -> CompatibleMatrix2x3 {
+    CompatibleMatrix2x3(
       passthroughValue: passthroughValue.multiplied(
         onRightBy: rhs.passthroughValue
       )
@@ -174,7 +168,7 @@ public extension Passthrough
 // MARK: Passthrough - Matrix3x3Protocol Support - 4x3 Right-Multiplication
 // ------------------------------------------------------------------------ //
 
-public extension Passthrough
+extension Passthrough
   where
   Self:Matrix3x3Protocol,
   PassthroughValue: Matrix3x3Protocol,
@@ -183,8 +177,8 @@ public extension Passthrough
 {
   
   @inlinable
-  func multiplied(onRightBy rhs: CompatibleMatrix4x3) -> CompatibleMatrix4x3 {
-    return CompatibleMatrix4x3(
+  public func multiplied(onRightBy rhs: CompatibleMatrix4x3) -> CompatibleMatrix4x3 {
+    CompatibleMatrix4x3(
       passthroughValue: passthroughValue.multiplied(
         onRightBy: rhs.passthroughValue
       )
@@ -197,7 +191,7 @@ public extension Passthrough
 // MARK: Passthrough - Matrix3x3Protocol Support - 3x2 Left-Multiplication
 // ------------------------------------------------------------------------ //
 
-public extension Passthrough
+extension Passthrough
   where
   Self:Matrix3x3Protocol,
   PassthroughValue: Matrix3x3Protocol,
@@ -206,8 +200,8 @@ public extension Passthrough
 {
   
   @inlinable
-  func multiplied(onLeftBy rhs: CompatibleMatrix3x2) -> CompatibleMatrix3x2 {
-    return CompatibleMatrix3x2(
+  public func multiplied(onLeftBy rhs: CompatibleMatrix3x2) -> CompatibleMatrix3x2 {
+    CompatibleMatrix3x2(
       passthroughValue: passthroughValue.multiplied(
         onLeftBy: rhs.passthroughValue
       )
@@ -220,7 +214,7 @@ public extension Passthrough
 // MARK: Passthrough - Matrix3x3Protocol Support - 3x4 Left-Multiplication
 // ------------------------------------------------------------------------ //
 
-public extension Passthrough
+extension Passthrough
   where
   Self:Matrix3x3Protocol,
   PassthroughValue: Matrix3x3Protocol,
@@ -229,8 +223,8 @@ public extension Passthrough
 {
   
   @inlinable
-  func multiplied(onLeftBy rhs: CompatibleMatrix3x4) -> CompatibleMatrix3x4 {
-    return CompatibleMatrix3x4(
+  public func multiplied(onLeftBy rhs: CompatibleMatrix3x4) -> CompatibleMatrix3x4 {
+    CompatibleMatrix3x4(
       passthroughValue: passthroughValue.multiplied(
         onLeftBy: rhs.passthroughValue
       )
@@ -243,7 +237,7 @@ public extension Passthrough
 // MARK: Passthrough - Matrix3x3Protocol Support - Quaternion
 // ------------------------------------------------------------------------ //
 
-public extension Passthrough
+extension Passthrough
   where
   Self:Matrix3x3Protocol,
   PassthroughValue: Matrix3x3Protocol,
@@ -252,7 +246,7 @@ public extension Passthrough
 {
   
   @inlinable
-  init(quaternion: CompatibleQuaternion) {
+  public init(quaternion: CompatibleQuaternion) {
     self.init(
       passthroughValue: PassthroughValue(
         quaternion: quaternion.passthroughValue

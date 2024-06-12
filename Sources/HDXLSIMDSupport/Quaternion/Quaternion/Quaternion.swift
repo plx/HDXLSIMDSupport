@@ -1,11 +1,8 @@
-//
-//  Quaternion.swift
-//
-
 import Foundation
 import simd
 import SwiftUI
 
+//@DebugDescription
 @frozen
 public struct Quaternion<Scalar:ExtendedSIMDScalar> :
   QuaternionProtocol,
@@ -38,7 +35,7 @@ public struct Quaternion<Scalar:ExtendedSIMDScalar> :
   @inlinable
   public var nativeSIMDRepresentation: NativeSIMDRepresentation {
     get {
-      return passthroughValue.passthroughValue
+      passthroughValue.passthroughValue
     }
     set {
       passthroughValue.passthroughValue = newValue
@@ -55,31 +52,13 @@ public struct Quaternion<Scalar:ExtendedSIMDScalar> :
   }
 
   @inlinable
-  public var description: String {
-    get {
-      return "Quaternion: \(String(describing: nativeSIMDRepresentation))"
-    }
-  }
-  
-  @inlinable
-  public var debugDescription: String {
-    get {
-      return "Quaternion<\(String(reflecting: Scalar.self))>(nativeSIMDRepresentation: \(String(reflecting: nativeSIMDRepresentation)))"
-    }
-  }
-
-  @inlinable
   public static var zero: Quaternion<Scalar> {
-    get {
-      return Quaternion<Scalar>()
-    }
+    Quaternion<Scalar>()
   }
   
   @inlinable
   public var magnitudeSquared: Double {
-    get {
-      return Double(componentwiseMagnitudeSquared)
-    }
+    Double(componentwiseMagnitudeSquared)
   }
   
   @inlinable

@@ -1,7 +1,3 @@
-//
-//  Matrix2x3.swift
-//
-
 import Foundation
 import simd
 import SwiftUI
@@ -49,7 +45,7 @@ public struct Matrix2x3<Scalar:ExtendedSIMDScalar>  :
   @inlinable
   public var nativeSIMDRepresentation: NativeSIMDRepresentation {
     get {
-      return passthroughValue.passthroughValue
+      passthroughValue.passthroughValue
     }
     set {
       passthroughValue.passthroughValue = newValue
@@ -66,31 +62,13 @@ public struct Matrix2x3<Scalar:ExtendedSIMDScalar>  :
   }
 
   @inlinable
-  public var description: String {
-    get {
-      return "Matrix2x3: \(String(describing: nativeSIMDRepresentation))"
-    }
-  }
-  
-  @inlinable
-  public var debugDescription: String {
-    get {
-      return "Matrix2x3<\(String(reflecting: Scalar.self))>(nativeSIMDRepresentation: \(String(reflecting: nativeSIMDRepresentation)))"
-    }
-  }
-  
-  @inlinable
   public static var zero: Matrix2x3<Scalar> {
-    get {
-      return Matrix2x3<Scalar>()
-    }
+    Matrix2x3<Scalar>()
   }
   
   @inlinable
   public var magnitudeSquared: Double {
-    get {
-      return Double(componentwiseMagnitudeSquared)
-    }
+    Double(componentwiseMagnitudeSquared)
   }
   
   @inlinable

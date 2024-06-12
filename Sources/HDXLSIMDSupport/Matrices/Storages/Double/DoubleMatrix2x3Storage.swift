@@ -1,7 +1,3 @@
-//
-//  DoubleMatrix2x3Storage.swift
-//
-
 import Foundation
 import simd
 
@@ -42,9 +38,7 @@ public struct DoubleMatrix2x3Storage :
   
   @usableFromInline
   internal static var typename: String {
-    get {
-      return "DoubleMatrix2x3Storage"
-    }
+    "DoubleMatrix2x3Storage"
   }
   
   // ------------------------------------------------------------------------ //
@@ -67,29 +61,7 @@ public struct DoubleMatrix2x3Storage :
     columns.0.hash(into: &hasher)
     columns.1.hash(into: &hasher)
   }
-  
-  // ------------------------------------------------------------------------ //
-  // MARK: CustomStringConvertible
-  // ------------------------------------------------------------------------ //
-  
-  @inlinable
-  public var description: String {
-    get {
-      return "\(type(of: self).typename): \(String(describing: passthroughValue))"
-    }
-  }
-  
-  // ------------------------------------------------------------------------ //
-  // MARK: CustomDebugStringConvertible
-  // ------------------------------------------------------------------------ //
-  
-  @inlinable
-  public var debugDescription: String {
-    get {
-      return "\(type(of: self).typename)(passthroughValue: \(String(reflecting: passthroughValue)))"
-    }
-  }
-  
+    
   // ------------------------------------------------------------------------ //
   // MARK: Codable
   // ------------------------------------------------------------------------ //
@@ -101,13 +73,11 @@ public struct DoubleMatrix2x3Storage :
     
     @inlinable
     public var intValue: Int? {
-      get {
-        switch self {
-        case .c0:
-          return 0
-        case .c1:
-          return 1
-        }
+      switch self {
+      case .c0:
+        return 0
+      case .c1:
+        return 1
       }
     }
     
