@@ -2,8 +2,8 @@ import Foundation
 
 extension Collection {
   @inlinable
-  var enumeratedValues: some Collection<EnumeratedValue<Element>> {
-    enumerated().lazy.map { index, value in
+  var enumeratedValues: [EnumeratedValue<Element>] {
+    enumerated().map { index, value in
       EnumeratedValue(index: index, value: value)
     }
   }
@@ -23,3 +23,5 @@ internal struct EnumeratedValue<Value> {
     self.value = value
   }
 }
+
+extension EnumeratedValue: Sendable where Value: Sendable { }
