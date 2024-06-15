@@ -1,378 +1,323 @@
-//
-//  MatrixPositionCompatibilityTests.swift
-//
-
-import XCTest
+import Testing
 import simd
 @testable import HDXLSIMDSupport
 
-class MatrixPositionCompatibilityTests: XCTestCase {
-  
-  // ------------------------------------------------------------------------ //
-  // MARK: Test Management
-  // ------------------------------------------------------------------------ //
+// MARK: `MatrixPosition` Validation Support
 
-  override func setUp() {
-    super.setUp()
-    self.continueAfterFailure = false
-  }
-  
-  override func tearDown() {
-    super.tearDown()
-    self.continueAfterFailure = true
-  }
-  
-  let positions: [[MatrixPosition]] = [
-    [
-      MatrixPosition(rowIndex: 0, columnIndex: 0),
-      MatrixPosition(rowIndex: 0, columnIndex: 1),
-      MatrixPosition(rowIndex: 0, columnIndex: 2),
-      MatrixPosition(rowIndex: 0, columnIndex: 3),
-      MatrixPosition(rowIndex: 0, columnIndex: 4),
-      MatrixPosition(rowIndex: 0, columnIndex: 5)
-    ],
-    [
-      MatrixPosition(rowIndex: 1, columnIndex: 0),
-      MatrixPosition(rowIndex: 1, columnIndex: 1),
-      MatrixPosition(rowIndex: 1, columnIndex: 2),
-      MatrixPosition(rowIndex: 1, columnIndex: 3),
-      MatrixPosition(rowIndex: 1, columnIndex: 4),
-      MatrixPosition(rowIndex: 1, columnIndex: 5)
-    ],
-    [
-      MatrixPosition(rowIndex: 2, columnIndex: 0),
-      MatrixPosition(rowIndex: 2, columnIndex: 1),
-      MatrixPosition(rowIndex: 2, columnIndex: 2),
-      MatrixPosition(rowIndex: 2, columnIndex: 3),
-      MatrixPosition(rowIndex: 2, columnIndex: 4),
-      MatrixPosition(rowIndex: 2, columnIndex: 5)
-    ],
-    [
-      MatrixPosition(rowIndex: 3, columnIndex: 0),
-      MatrixPosition(rowIndex: 3, columnIndex: 1),
-      MatrixPosition(rowIndex: 3, columnIndex: 2),
-      MatrixPosition(rowIndex: 3, columnIndex: 3),
-      MatrixPosition(rowIndex: 3, columnIndex: 4),
-      MatrixPosition(rowIndex: 3, columnIndex: 5)
-    ],
-    [
-      MatrixPosition(rowIndex: 4, columnIndex: 0),
-      MatrixPosition(rowIndex: 4, columnIndex: 1),
-      MatrixPosition(rowIndex: 4, columnIndex: 2),
-      MatrixPosition(rowIndex: 4, columnIndex: 3),
-      MatrixPosition(rowIndex: 4, columnIndex: 4),
-      MatrixPosition(rowIndex: 4, columnIndex: 5)
-    ],
-    [
-      MatrixPosition(rowIndex: 5, columnIndex: 0),
-      MatrixPosition(rowIndex: 5, columnIndex: 1),
-      MatrixPosition(rowIndex: 5, columnIndex: 2),
-      MatrixPosition(rowIndex: 5, columnIndex: 3),
-      MatrixPosition(rowIndex: 5, columnIndex: 4),
-      MatrixPosition(rowIndex: 5, columnIndex: 5)
-    ]
-  ]
-
-  // ------------------------------------------------------------------------ //
-  // MARK: Position Tests
-  // ------------------------------------------------------------------------ //
-  
-  func testCannedPositionValidity() {
-    for rowIndex in 0...5 {
-      for columnIndex in 0...5 {
-        let position = self.positions[rowIndex][columnIndex]
-        XCTAssertEqual(
-          rowIndex,
-          position.rowIndex
+func confirmCompatibility(
+  _ condition: (MatrixPosition) -> Bool,
+  for positions: some Collection<(Int, Int)>
+) {
+  for position in positions {
+    #expect(
+      condition(
+        MatrixPosition(
+          rowIndex: position.1,
+          columnIndex: position.0
         )
-        XCTAssertEqual(
-          columnIndex,
-          position.columnIndex
-        )
-      }
-    }
-  }
-
-  // ------------------------------------------------------------------------ //
-  // MARK: Explicit Check Support
-  // ------------------------------------------------------------------------ //
-  
-  // Note closure isn't final parameter, but reads nicer like this:
-  fileprivate func confirm(
-    _ compatibility: (MatrixPosition) -> Bool,
-    isConsistentWith expectations: [[Bool]]) {
-    XCTAssertEqual(
-      expectations.count,
-      self.positions.count
-    )
-    XCTAssertTrue(expectations.allSatisfy({$0.count == self.positions.count}))
-    for rowIndex in 0...5 {
-      for columnIndex in 0...5 {
-        XCTAssertEqual(
-          expectations[rowIndex][columnIndex],
-          compatibility(self.positions[rowIndex][columnIndex])
-        )
-      }
-    }
-  }
-  
-  fileprivate func expectations(
-    forCompatiblePositions compatiblePositions: [(Int,Int)]) -> [[Bool]] {
-    var expectations: [[Bool]] = [[Bool]](
-      repeating: [Bool](
-        repeating: false,
-        count: 6
-      ),
-      count: 6
-    )
-    for (rowIndex, columnIndex) in compatiblePositions {
-      expectations[rowIndex][columnIndex] = true
-    }
-    return expectations
-  }
-
-  // ------------------------------------------------------------------------ //
-  // MARK: Explicit Compatibility Checks
-  // ------------------------------------------------------------------------ //
-  
-  func testPosition2x2Compatibility() {
-    self.confirm(
-      {$0.isCompatibleWith2x2Matrices},
-      isConsistentWith: self.expectations(
-        forCompatiblePositions: [
-          (0,0),(0,1),
-          (1,0),(1,1)
-        ]
       )
     )
   }
+}
 
-  func testPosition2x3Compatibility() {
-    self.confirm(
-      {$0.isCompatibleWith2x3Matrices},
-      isConsistentWith: self.expectations(
-        forCompatiblePositions: [
-          (0,0),(0,1),
-          (1,0),(1,1),
-          (2,0),(2,1)
-        ]
-      )
+// MARK: `matrixPositions` Validation Support
+
+func confirmPositions<Matrix>(
+  of matrixType: Matrix.Type,
+  satisfy condition: (MatrixPosition) -> Bool
+) where Matrix: MatrixProtocol {
+  for matrixPosition in matrixType.matrixPositions {
+    #expect(condition(matrixPosition))
+  }
+}
+
+func confirmPositions<each Matrix: MatrixProtocol>(
+  satisfy condition: (MatrixPosition) -> Bool,
+  forMatrixTypes matrixTypes: (repeat (each Matrix).Type)
+) {
+  for matrixType in repeat each matrixTypes {
+    confirmPositions(
+      of: matrixType,
+      satisfy: condition
     )
   }
+}
 
-  func testPosition2x4Compatibility() {
-    self.confirm(
-      {$0.isCompatibleWith2x4Matrices},
-      isConsistentWith: self.expectations(
-        forCompatiblePositions: [
-          (0,0),(0,1),
-          (1,0),(1,1),
-          (2,0),(2,1),
-          (3,0),(3,1)
-        ]
-      )
+// MARK: 2xN Compatibility - Concrete
+
+@Test("2x2 position-compatibility")
+func test2x2PositionCompatibility() {
+  confirmCompatibility(
+    \.isCompatibleWith2x2Matrices,
+     for: [
+       (0, 0), (0, 1),
+       (1, 0), (1, 1)
+     ]
+  )
+}
+
+@Test("2x3 position-compatibility")
+func test2x3PositionCompatibility() {
+  confirmCompatibility(
+    \.isCompatibleWith2x3Matrices,
+     for: [
+       (0, 0), (0, 1), (0, 2),
+       (1, 0), (1, 1), (1, 2)
+     ]
+  )
+}
+
+@Test("2x4 position-compatibility")
+func test2x4PositionCompatibility() {
+  confirmCompatibility(
+    \.isCompatibleWith2x4Matrices,
+     for: [
+       (0, 0), (0, 1), (0, 2), (0, 3),
+       (1, 0), (1, 1), (1, 2), (1, 3)
+     ]
+  )
+}
+
+// MARK: 3xN Compatibility - Concrete
+
+@Test("3x2 position-compatibility")
+func test3x2PositionCompatibility() {
+  confirmCompatibility(
+    \.isCompatibleWith3x2Matrices,
+     for: [
+       (0, 0), (0, 1),
+       (1, 0), (1, 1),
+       (2, 0), (2, 1)
+     ]
+  )
+}
+
+@Test("3x3 position-compatibility")
+func test3x3PositionCompatibility() {
+  confirmCompatibility(
+    \.isCompatibleWith3x3Matrices,
+     for: [
+       (0, 0), (0, 1), (0, 2),
+       (1, 0), (1, 1), (1, 2),
+       (2, 0), (2, 1), (2, 2)
+     ]
+  )
+}
+
+@Test("3x4 position-compatibility")
+func test3x4PositionCompatibility() {
+  confirmCompatibility(
+    \.isCompatibleWith3x4Matrices,
+     for: [
+       (0, 0), (0, 1), (0, 2), (0, 3),
+       (1, 0), (1, 1), (1, 2), (1, 3),
+       (2, 0), (2, 1), (2, 2), (2, 3)
+     ]
+  )
+}
+
+// MARK: 4xN Compatibility - Concrete
+
+@Test("4x2 position-compatibility")
+func test4x2PositionCompatibility() {
+  confirmCompatibility(
+    \.isCompatibleWith4x2Matrices,
+     for: [
+       (0, 0), (0, 1),
+       (1, 0), (1, 1),
+       (2, 0), (2, 1),
+       (3, 0), (3, 1)
+     ]
+  )
+}
+
+@Test("4x3 position-compatibility")
+func test4x3PositionCompatibility() {
+  confirmCompatibility(
+    \.isCompatibleWith4x3Matrices,
+     for: [
+       (0, 0), (0, 1), (0, 2),
+       (1, 0), (1, 1), (0, 2),
+       (2, 0), (2, 1), (2, 2),
+       (3, 0), (3, 1), (3, 2)
+     ]
+  )
+}
+
+@Test("4x4 position-compatibility")
+func test4x4PositionCompatibility() {
+  confirmCompatibility(
+    \.isCompatibleWith4x4Matrices,
+     for: [
+       (0, 0), (0, 1), (0, 2), (0, 3),
+       (1, 0), (1, 1), (1, 2), (1, 3),
+       (2, 0), (2, 1), (2, 2), (2, 3),
+       (3, 0), (3, 1), (3, 2), (3, 3)
+     ]
+  )
+}
+
+
+// TODO: add test for the counts making sense
+// TODO: add test for validity being consistent with the expected ranges
+
+// MARK: 2xN Compatibility - `matrixPositions`
+
+@Test("2x2 `matrixPositions` compatibility.")
+func test2x2MatrixPositions() {
+  confirmPositions(
+    satisfy: \.isCompatibleWith2x2Matrices,
+    forMatrixTypes: (
+      Matrix2x2<Float>.self,
+      Matrix2x2<Double>.self
     )
-  }
+  )
+}
 
-  func testPosition3x2Compatibility() {
-    self.confirm(
-      {$0.isCompatibleWith3x2Matrices},
-      isConsistentWith: self.expectations(
-        forCompatiblePositions: [
-          (0,0),(0,1),(0,2),
-          (1,0),(1,1),(1,2)
-        ]
-      )
+@Test("2x3 `matrixPositions` compatibility.")
+func test2x3MatrixPositions() {
+  confirmPositions(
+    satisfy: \.isCompatibleWith2x3Matrices,
+    forMatrixTypes: (
+      Matrix2x3<Float>.self,
+      Matrix2x3<Double>.self
     )
-  }
-  
-  func testPosition3x3Compatibility() {
-    self.confirm(
-      {$0.isCompatibleWith3x3Matrices},
-      isConsistentWith: self.expectations(
-        forCompatiblePositions: [
-          (0,0),(0,1),(0,2),
-          (1,0),(1,1),(1,2),
-          (2,0),(2,1),(2,2)
-        ]
-      )
+  )
+}
+
+@Test("2x4 `matrixPositions` compatibility.")
+func test2x4MatrixPositions() {
+  confirmPositions(
+    satisfy: \.isCompatibleWith2x4Matrices,
+    forMatrixTypes: (
+      Matrix2x4<Float>.self,
+      Matrix2x4<Double>.self
     )
-  }
-  
-  func testPosition3x4Compatibility() {
-    self.confirm(
-      {$0.isCompatibleWith3x4Matrices},
-      isConsistentWith: self.expectations(
-        forCompatiblePositions: [
-          (0,0),(0,1),(0,2),
-          (1,0),(1,1),(1,2),
-          (2,0),(2,1),(2,2),
-          (3,0),(3,1),(3,2)
-        ]
-      )
+  )
+}
+
+// MARK: 3xN Compatibility - `matrixPositions`
+
+@Test("3x2 `matrixPositions` compatibility.")
+func test3x2MatrixPositions() {
+  confirmPositions(
+    satisfy: \.isCompatibleWith3x2Matrices,
+    forMatrixTypes: (
+      Matrix3x2<Float>.self,
+      Matrix3x2<Double>.self
     )
-  }
+  )
+}
 
-  func testPosition4x2Compatibility() {
-    self.confirm(
-      {$0.isCompatibleWith4x2Matrices},
-      isConsistentWith: self.expectations(
-        forCompatiblePositions: [
-          (0,0),(0,1),(0,2),(0,3),
-          (1,0),(1,1),(1,2),(1,3)
-        ]
-      )
+@Test("3x3 `matrixPositions` compatibility.")
+func test3x3MatrixPositions() {
+  confirmPositions(
+    satisfy: \.isCompatibleWith3x3Matrices,
+    forMatrixTypes: (
+      Matrix3x3<Float>.self,
+      Matrix3x3<Double>.self
     )
-  }
-  
-  func testPosition4x3Compatibility() {
-    self.confirm(
-      {$0.isCompatibleWith4x3Matrices},
-      isConsistentWith: self.expectations(
-        forCompatiblePositions: [
-          (0,0),(0,1),(0,2),(0,3),
-          (1,0),(1,1),(1,2),(1,3),
-          (2,0),(2,1),(2,2),(2,3)
-        ]
-      )
+  )
+}
+
+@Test("3x4 `matrixPositions` compatibility.")
+func test3x4MatrixPositions() {
+  confirmPositions(
+    satisfy: \.isCompatibleWith3x4Matrices,
+    forMatrixTypes: (
+      Matrix3x4<Float>.self,
+      Matrix3x4<Double>.self
     )
-  }
-  
-  func testPosition4x4Compatibility() {
-    self.confirm(
-      {$0.isCompatibleWith4x4Matrices},
-      isConsistentWith: self.expectations(
-        forCompatiblePositions: [
-          (0,0),(0,1),(0,2),(0,3),
-          (1,0),(1,1),(1,2),(1,3),
-          (2,0),(2,1),(2,2),(2,3),
-          (3,0),(3,1),(3,2),(3,3)
-        ]
-      )
+  )
+}
+
+// MARK: 4xN Compatibility - `matrixPositions`
+
+@Test("4x2 `matrixPositions` compatibility.")
+func test4x2MatrixPositions() {
+  confirmPositions(
+    satisfy: \.isCompatibleWith4x2Matrices,
+    forMatrixTypes: (
+      Matrix4x2<Float>.self,
+      Matrix4x2<Double>.self
     )
-  }
+  )
+}
 
-  // ------------------------------------------------------------------------ //
-  // MARK: Sanity Tests
-  // ------------------------------------------------------------------------ //
-  
-  func testUniverallyIncompatiblePosition() {
-    let position = MatrixPosition(rowIndex: 5, columnIndex: 5)
-    XCTAssertFalse(position.isCompatibleWith2x2Matrices)
-    XCTAssertFalse(position.isCompatibleWith2x3Matrices)
-    XCTAssertFalse(position.isCompatibleWith2x4Matrices)
-    XCTAssertFalse(position.isCompatibleWith3x2Matrices)
-    XCTAssertFalse(position.isCompatibleWith3x3Matrices)
-    XCTAssertFalse(position.isCompatibleWith3x4Matrices)
-    XCTAssertFalse(position.isCompatibleWith4x2Matrices)
-    XCTAssertFalse(position.isCompatibleWith4x3Matrices)
-    XCTAssertFalse(position.isCompatibleWith4x4Matrices)
-  }
-  
-  func testUniversallyCompatiblePosition() {
-    let position = MatrixPosition(rowIndex: 0, columnIndex: 0)
-    XCTAssertTrue(position.isCompatibleWith2x2Matrices)
-    XCTAssertTrue(position.isCompatibleWith2x3Matrices)
-    XCTAssertTrue(position.isCompatibleWith2x4Matrices)
-    XCTAssertTrue(position.isCompatibleWith3x2Matrices)
-    XCTAssertTrue(position.isCompatibleWith3x3Matrices)
-    XCTAssertTrue(position.isCompatibleWith3x4Matrices)
-    XCTAssertTrue(position.isCompatibleWith4x2Matrices)
-    XCTAssertTrue(position.isCompatibleWith4x3Matrices)
-    XCTAssertTrue(position.isCompatibleWith4x4Matrices)
-  }
+@Test("4x3 `matrixPositions` compatibility.")
+func test4x3MatrixPositions() {
+  confirmPositions(
+    satisfy: \.isCompatibleWith4x3Matrices,
+    forMatrixTypes: (
+      Matrix4x3<Float>.self,
+      Matrix4x3<Double>.self
+    )
+  )
+}
 
-  // ------------------------------------------------------------------------ //
-  // MARK: (2, _) Compatibility
-  // ------------------------------------------------------------------------ //
-  
-  func testMatrix2x2PositionCompatibility() {
-    Matrix2x2<Double>.matrixPositions.forEach() {
-      XCTAssertTrue($0.isCompatibleWith2x2Matrices)
-    }
-    Matrix2x2<Float>.matrixPositions.forEach() {
-      XCTAssertTrue($0.isCompatibleWith2x2Matrices)
-    }
-  }
-  
-  func testMatrix2x3PositionCompatibility() {
-    Matrix2x3<Double>.matrixPositions.forEach() {
-      XCTAssertTrue($0.isCompatibleWith2x3Matrices)
-    }
-    Matrix2x3<Float>.matrixPositions.forEach() {
-      XCTAssertTrue($0.isCompatibleWith2x3Matrices)
-    }
-  }
-  
-  func testMatrix2x4PositionCompatibility() {
-    Matrix2x4<Double>.matrixPositions.forEach() {
-      XCTAssertTrue($0.isCompatibleWith2x4Matrices)
-    }
-    Matrix2x4<Float>.matrixPositions.forEach() {
-      XCTAssertTrue($0.isCompatibleWith2x4Matrices)
-    }
-  }
+@Test("4x4 `matrixPositions` compatibility.")
+func test4x4MatrixPositions() {
+  confirmPositions(
+    satisfy: \.isCompatibleWith4x4Matrices,
+    forMatrixTypes: (
+      Matrix4x4<Float>.self,
+      Matrix4x4<Double>.self
+    )
+  )
+}
 
-  // ------------------------------------------------------------------------ //
-  // MARK: (3, _) Compatibility
-  // ------------------------------------------------------------------------ //
+// MARK: Simple Sanity Tests
 
-  func testMatrix3x2PositionCompatibility() {
-    Matrix3x2<Double>.matrixPositions.forEach() {
-      XCTAssertTrue($0.isCompatibleWith3x2Matrices)
-    }
-    Matrix3x2<Float>.matrixPositions.forEach() {
-      XCTAssertTrue($0.isCompatibleWith3x2Matrices)
-    }
-  }
-  
-  func testMatrix3x3PositionCompatibility() {
-    Matrix3x3<Double>.matrixPositions.forEach() {
-      XCTAssertTrue($0.isCompatibleWith3x3Matrices)
-    }
-    Matrix3x3<Float>.matrixPositions.forEach() {
-      XCTAssertTrue($0.isCompatibleWith3x3Matrices)
-    }
-  }
-  
-  func testMatrix3x4PositionCompatibility() {
-    Matrix3x4<Double>.matrixPositions.forEach() {
-      XCTAssertTrue($0.isCompatibleWith3x4Matrices)
-    }
-    Matrix3x4<Float>.matrixPositions.forEach() {
-      XCTAssertTrue($0.isCompatibleWith3x4Matrices)
-    }
-  }
+@Test(
+  "Universally-compatible positions are compatible with everything.",
+  arguments: matrixPositions(
+    rowIndices: 0...1,
+    columnIndices: 0...1
+  )
+)
+func testUniversallyCompatiblePositionsAreCompatibleWithEverything(
+  position: MatrixPosition
+) {
+  #expect(position.isCompatibleWith2x2Matrices)
+  #expect(position.isCompatibleWith2x3Matrices)
+  #expect(position.isCompatibleWith2x4Matrices)
+  #expect(position.isCompatibleWith3x2Matrices)
+  #expect(position.isCompatibleWith3x3Matrices)
+  #expect(position.isCompatibleWith3x4Matrices)
+  #expect(position.isCompatibleWith4x2Matrices)
+  #expect(position.isCompatibleWith4x3Matrices)
+  #expect(position.isCompatibleWith4x4Matrices)
+}
 
-  // ------------------------------------------------------------------------ //
-  // MARK: (4, _) Compatibility
-  // ------------------------------------------------------------------------ //
-
-  func testMatrix4x2PositionCompatibility() {
-    Matrix4x2<Double>.matrixPositions.forEach() {
-      XCTAssertTrue($0.isCompatibleWith4x2Matrices)
-    }
-    Matrix4x2<Float>.matrixPositions.forEach() {
-      XCTAssertTrue($0.isCompatibleWith4x2Matrices)
-    }
-  }
-
-  func testMatrix4x3PositionCompatibility() {
-    Matrix4x3<Double>.matrixPositions.forEach() {
-      XCTAssertTrue($0.isCompatibleWith4x3Matrices)
-    }
-    Matrix4x3<Float>.matrixPositions.forEach() {
-      XCTAssertTrue($0.isCompatibleWith4x3Matrices)
-    }
-  }
-
-  func testMatrix4x4PositionCompatibility() {
-    Matrix4x4<Double>.matrixPositions.forEach() {
-      XCTAssertTrue($0.isCompatibleWith4x4Matrices)
-    }
-    Matrix4x4<Float>.matrixPositions.forEach() {
-      XCTAssertTrue($0.isCompatibleWith4x4Matrices)
-    }
-  }
-  
+@Test(
+  "Universally-incompatible positions are incompatible with everything.",
+  arguments: (
+    matrixPositions(
+      rowIndices: 5...7,
+      columnIndices: 5...7
+    )
+    + 
+    matrixPositions(
+      rowIndices: 0...3,
+      columnIndices: 5...7
+    )
+    +
+    matrixPositions(
+      rowIndices: 5...7,
+      columnIndices: 0...3
+    )
+  )
+)
+func testUniversallyIncompatiblePositionsAreIncompatibleWithEverything(
+  position: MatrixPosition
+) {
+  #expect(!position.isCompatibleWith2x2Matrices)
+  #expect(!position.isCompatibleWith2x3Matrices)
+  #expect(!position.isCompatibleWith2x4Matrices)
+  #expect(!position.isCompatibleWith3x2Matrices)
+  #expect(!position.isCompatibleWith3x3Matrices)
+  #expect(!position.isCompatibleWith3x4Matrices)
+  #expect(!position.isCompatibleWith4x2Matrices)
+  #expect(!position.isCompatibleWith4x3Matrices)
+  #expect(!position.isCompatibleWith4x4Matrices)
 }

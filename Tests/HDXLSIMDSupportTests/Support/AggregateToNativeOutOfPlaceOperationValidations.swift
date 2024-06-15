@@ -19,12 +19,9 @@ func HDXLAssertNativeAndAggregateWithinEpsilon<Distance, Aggregate, Native>(
   line: UInt = #line,
   column: UInt = #column
 ) where
-  Aggregate: NativeSIMDRepresentable,
-  Native == Aggregate.NativeSIMDRepresentation,
-  Aggregate: L1DistanceMeasureable,
-  Native: L1DistanceMeasureable,
-  Distance == Aggregate.L1Distance,
-  Distance == Native.L1Distance
+  Aggregate: NativeSIMDRepresentable<Native>,
+  Aggregate: L1DistanceMeasureable<Distance>,
+  Native: L1DistanceMeasureable<Distance>
 {
   let distanceAsAggregates = aggregate.l1Distance(to: Aggregate(nativeSIMDRepresentation: native))
   let distanceAsNatives = native.l1Distance(to: aggregate.nativeSIMDRepresentation)
@@ -73,16 +70,11 @@ func HDXLValidateOutOfPlaceScalarAggregateToScalarOperation<Scalar, Aggregate, N
   line: UInt = #line,
   column: UInt = #column
 ) async throws where
-  Aggregate: NativeSIMDRepresentable,
-  Native == Aggregate.NativeSIMDRepresentation,
-  Aggregate: IntegerTupleConstructible,
-  Native: IntegerTupleConstructible,
-  Aggregate.IntegerTuple == IntegerTuple,
-  Native.IntegerTuple == IntegerTuple,
-  Aggregate: L1DistanceMeasureable,
-  Native: L1DistanceMeasureable,
-  Scalar == Aggregate.L1Distance,
-  Scalar == Native.L1Distance
+  Aggregate: NativeSIMDRepresentable<Native>,
+  Aggregate: IntegerTupleConstructible<IntegerTuple>,
+  Native: IntegerTupleConstructible<IntegerTuple>,
+  Aggregate: L1DistanceMeasureable<Scalar>,
+  Native: L1DistanceMeasureable<Scalar>
 {
   for lhs in lhses {
     for try await rhs in rhses {
@@ -114,12 +106,9 @@ func _HDXLValidateOutOfPlaceScalarAggregateToScalarOperation<Scalar, Aggregate, 
   line: UInt = #line,
   column: UInt = #column
 ) where
-  Aggregate: NativeSIMDRepresentable,
-  Native == Aggregate.NativeSIMDRepresentation,
-  Aggregate: L1DistanceMeasureable,
-  Native: L1DistanceMeasureable,
-  Scalar == Aggregate.L1Distance,
-  Scalar == Native.L1Distance
+  Aggregate: NativeSIMDRepresentable<Native>,
+  Aggregate: L1DistanceMeasureable<Scalar>,
+  Native: L1DistanceMeasureable<Scalar>
 {
   // ///////////////////////////////////////////////////////////////////////////
   HDXLAssertNativeAndAggregateWithinEpsilon(
@@ -184,16 +173,11 @@ func HDXLValidateOutOfPlaceAggregateScalarToScalarOperation<Scalar, Aggregate, N
   line: UInt = #line,
   column: UInt = #column
 ) async throws where
-  Aggregate: NativeSIMDRepresentable,
-  Native == Aggregate.NativeSIMDRepresentation,
-  Aggregate: IntegerTupleConstructible,
-  Native: IntegerTupleConstructible,
-  Aggregate.IntegerTuple == IntegerTuple,
-  Native.IntegerTuple == IntegerTuple,
-  Aggregate: L1DistanceMeasureable,
-  Native: L1DistanceMeasureable,
-  Scalar == Aggregate.L1Distance,
-  Scalar == Native.L1Distance
+  Aggregate: NativeSIMDRepresentable<Native>,
+  Aggregate: IntegerTupleConstructible<IntegerTuple>,
+  Native: IntegerTupleConstructible<IntegerTuple>,
+  Aggregate: L1DistanceMeasureable<Scalar>,
+  Native: L1DistanceMeasureable<Scalar>
 {
   for try await lhs in lhses {
     for rhs in rhses {
@@ -225,12 +209,9 @@ func _HDXLValidateOutOfPlaceAggregateScalarToScalarOperation<Scalar, Aggregate, 
   line: UInt = #line,
   column: UInt = #column
 ) where
-  Aggregate: NativeSIMDRepresentable,
-  Native == Aggregate.NativeSIMDRepresentation,
-  Aggregate: L1DistanceMeasureable,
-  Native: L1DistanceMeasureable,
-  Scalar == Aggregate.L1Distance,
-  Scalar == Native.L1Distance
+  Aggregate: NativeSIMDRepresentable<Native>,
+  Aggregate: L1DistanceMeasureable<Scalar>,
+  Native: L1DistanceMeasureable<Scalar>
 {
   // ///////////////////////////////////////////////////////////////////////////
   HDXLAssertNativeAndAggregateWithinEpsilon(
@@ -295,16 +276,11 @@ func HDXLValidateOutOfPlaceAggregateAggregateToScalarOperation<Scalar, Aggregate
   line: UInt = #line,
   column: UInt = #column
 ) async throws where
-  Aggregate: NativeSIMDRepresentable,
-  Native == Aggregate.NativeSIMDRepresentation,
-  Aggregate: IntegerTupleConstructible,
-  Native: IntegerTupleConstructible,
-  Aggregate.IntegerTuple == IntegerTuple,
-  Native.IntegerTuple == IntegerTuple,
-  Aggregate: L1DistanceMeasureable,
-  Native: L1DistanceMeasureable,
-  Scalar == Aggregate.L1Distance,
-  Scalar == Native.L1Distance
+  Aggregate: NativeSIMDRepresentable<Native>,
+  Aggregate: IntegerTupleConstructible<IntegerTuple>,
+  Native: IntegerTupleConstructible<IntegerTuple>,
+  Aggregate: L1DistanceMeasureable<Scalar>,
+  Native: L1DistanceMeasureable<Scalar>
 {
   for try await lhs in lhses {
     for try await rhs in rhses {
@@ -338,12 +314,9 @@ func _HDXLValidateOutOfPlaceAggregateAggregateToScalarOperation<Scalar, Aggregat
   line: UInt = #line,
   column: UInt = #column
 ) where
-  Aggregate: NativeSIMDRepresentable,
-  Native == Aggregate.NativeSIMDRepresentation,
-  Aggregate: L1DistanceMeasureable,
-  Native: L1DistanceMeasureable,
-  Scalar == Aggregate.L1Distance,
-  Scalar == Native.L1Distance
+  Aggregate: NativeSIMDRepresentable<Native>,
+  Aggregate: L1DistanceMeasureable<Scalar>,
+  Native: L1DistanceMeasureable<Scalar>
 {
   // ///////////////////////////////////////////////////////////////////////////
   HDXLAssertNativeAndAggregateWithinEpsilon(
@@ -418,16 +391,11 @@ func HDXLValidateOutOfPlaceScalarAggregateToAggregateOperation<Scalar, Aggregate
   line: UInt = #line,
   column: UInt = #column
 ) async throws where
-  Aggregate: NativeSIMDRepresentable,
-  Native == Aggregate.NativeSIMDRepresentation,
-  Aggregate: IntegerTupleConstructible,
-  Native: IntegerTupleConstructible,
-  Aggregate.IntegerTuple == IntegerTuple,
-  Native.IntegerTuple == IntegerTuple,
-  Aggregate: L1DistanceMeasureable,
-  Native: L1DistanceMeasureable,
-  Scalar == Aggregate.L1Distance,
-  Scalar == Native.L1Distance
+  Aggregate: NativeSIMDRepresentable<Native>,
+  Aggregate: IntegerTupleConstructible<IntegerTuple>,
+  Native: IntegerTupleConstructible<IntegerTuple>,
+  Aggregate: L1DistanceMeasureable<Scalar>,
+  Native: L1DistanceMeasureable<Scalar>
 {
   for lhs in lhses {
     for try await rhs in rhses {
@@ -460,12 +428,9 @@ func _HDXLValidateOutOfPlaceScalarAggregateToAggregateOperation<Scalar, Aggregat
   line: UInt = #line,
   column: UInt = #column
 ) where
-  Aggregate: NativeSIMDRepresentable,
-  Native == Aggregate.NativeSIMDRepresentation,
-  Aggregate: L1DistanceMeasureable,
-  Native: L1DistanceMeasureable,
-  Scalar == Aggregate.L1Distance,
-  Scalar == Native.L1Distance
+  Aggregate: NativeSIMDRepresentable<Native>,
+  Aggregate: L1DistanceMeasureable<Scalar>,
+  Native: L1DistanceMeasureable<Scalar>
 {
   // ///////////////////////////////////////////////////////////////////////////
   HDXLAssertNativeAndAggregateWithinEpsilon(
@@ -537,16 +502,11 @@ func HDXLValidateOutOfPlaceAggregateScalarToAggregateOperation<Scalar, Aggregate
   line: UInt = #line,
   column: UInt = #column
 ) async throws where
-  Aggregate: NativeSIMDRepresentable,
-  Native == Aggregate.NativeSIMDRepresentation,
-  Aggregate: IntegerTupleConstructible,
-  Native: IntegerTupleConstructible,
-  Aggregate.IntegerTuple == IntegerTuple,
-  Native.IntegerTuple == IntegerTuple,
-  Aggregate: L1DistanceMeasureable,
-  Native: L1DistanceMeasureable,
-  Scalar == Aggregate.L1Distance,
-  Scalar == Native.L1Distance
+  Aggregate: NativeSIMDRepresentable<Native>,
+  Aggregate: IntegerTupleConstructible<IntegerTuple>,
+  Native: IntegerTupleConstructible<IntegerTuple>,
+  Aggregate: L1DistanceMeasureable<Scalar>,
+  Native: L1DistanceMeasureable<Scalar>
 {
   for try await lhs in lhses {
     for rhs in rhses {
@@ -579,12 +539,9 @@ func _HDXLValidateOutOfPlaceAggregateScalarToAggregateOperation<Scalar, Aggregat
   line: UInt = #line,
   column: UInt = #column
 ) where
-  Aggregate: NativeSIMDRepresentable,
-  Native == Aggregate.NativeSIMDRepresentation,
-  Aggregate: L1DistanceMeasureable,
-  Native: L1DistanceMeasureable,
-  Scalar == Aggregate.L1Distance,
-  Scalar == Native.L1Distance
+  Aggregate: NativeSIMDRepresentable<Native>,
+  Aggregate: L1DistanceMeasureable<Scalar>,
+  Native: L1DistanceMeasureable<Scalar>
 {
   // ///////////////////////////////////////////////////////////////////////////
   HDXLAssertNativeAndAggregateWithinEpsilon(
@@ -656,16 +613,11 @@ func HDXLValidateOutOfPlaceAggregateAggregateToAggregateOperation<Distance, Aggr
   line: UInt = #line,
   column: UInt = #column
 ) async throws where
-  Aggregate: NativeSIMDRepresentable,
-  Native == Aggregate.NativeSIMDRepresentation,
-  Aggregate: IntegerTupleConstructible,
-  Native: IntegerTupleConstructible,
-  Aggregate.IntegerTuple == IntegerTuple,
-  Native.IntegerTuple == IntegerTuple,
-  Aggregate: L1DistanceMeasureable,
-  Native: L1DistanceMeasureable,
-  Distance == Aggregate.L1Distance,
-  Distance == Native.L1Distance
+  Aggregate: NativeSIMDRepresentable<Native>,
+  Aggregate: IntegerTupleConstructible<IntegerTuple>,
+  Native: IntegerTupleConstructible<IntegerTuple>,
+  Aggregate: L1DistanceMeasureable<Distance>,
+  Native: L1DistanceMeasureable<Distance>
 {
   for try await lhs in lhses {
     for try await rhs in rhses {
@@ -699,12 +651,9 @@ func _HDXLValidateOutOfPlaceAggregateAggregateToAggregateOperation<Distance, Agg
   line: UInt = #line,
   column: UInt = #column
 ) where
-  Aggregate: NativeSIMDRepresentable,
-  Native == Aggregate.NativeSIMDRepresentation,
-  Aggregate: L1DistanceMeasureable,
-  Native: L1DistanceMeasureable,
-  Distance == Aggregate.L1Distance,
-  Distance == Native.L1Distance
+  Aggregate: NativeSIMDRepresentable<Native>,
+  Aggregate: L1DistanceMeasureable<Distance>,
+  Native: L1DistanceMeasureable<Distance>
 {
   // ///////////////////////////////////////////////////////////////////////////
   HDXLAssertNativeAndAggregateWithinEpsilon(
@@ -791,16 +740,11 @@ func HDXLValidateOutOfPlaceAggregateToAggregateOperation<Distance, Aggregate, Na
   line: UInt = #line,
   column: UInt = #column
 ) async throws where
-  Aggregate: NativeSIMDRepresentable,
-  Native == Aggregate.NativeSIMDRepresentation,
-  Aggregate: IntegerTupleConstructible,
-  Native: IntegerTupleConstructible,
-  Aggregate.IntegerTuple == IntegerTuple,
-  Native.IntegerTuple == IntegerTuple,
-  Aggregate: L1DistanceMeasureable,
-  Native: L1DistanceMeasureable,
-  Distance == Aggregate.L1Distance,
-  Distance == Native.L1Distance
+  Aggregate: NativeSIMDRepresentable<Native>,
+  Aggregate: IntegerTupleConstructible<IntegerTuple>,
+  Native: IntegerTupleConstructible<IntegerTuple>,
+  Aggregate: L1DistanceMeasureable<Distance>,
+  Native: L1DistanceMeasureable<Distance>
 {
   for try await probe in probes {
     _HDXLValidateOutOfPlaceAggregateToAggregateOperation(
@@ -829,12 +773,9 @@ func _HDXLValidateOutOfPlaceAggregateToAggregateOperation<Distance, Aggregate, N
   line: UInt = #line,
   column: UInt = #column
 ) where
-  Aggregate: NativeSIMDRepresentable,
-  Native == Aggregate.NativeSIMDRepresentation,
-  Aggregate: L1DistanceMeasureable,
-  Native: L1DistanceMeasureable,
-  Distance == Aggregate.L1Distance,
-  Distance == Native.L1Distance
+  Aggregate: NativeSIMDRepresentable<Native>,
+  Aggregate: L1DistanceMeasureable<Distance>,
+  Native: L1DistanceMeasureable<Distance>
 {
   // ///////////////////////////////////////////////////////////////////////////
   HDXLAssertNativeAndAggregateWithinEpsilon(
@@ -920,28 +861,17 @@ func HDXLValidateOutOfPlaceHeterogeneousAggregateAggregateToCommonOutputOperatio
   line: UInt = #line,
   column: UInt = #column
 ) async throws where
-  AggregateLHS: NativeSIMDRepresentable,
-  AggregateLHS.NativeSIMDRepresentation == NativeLHS,
-  AggregateLHS: IntegerTupleConstructible,
-  AggregateLHS.IntegerTuple == IntegerTupleLHS,
-  AggregateLHS: L1DistanceMeasureable,
-  AggregateLHS.L1Distance == Distance,
-  NativeLHS: IntegerTupleConstructible,
-  NativeLHS.IntegerTuple == IntegerTupleLHS,
-  NativeLHS: L1DistanceMeasureable,
-  NativeLHS.L1Distance == Distance,
-  AggregateRHS: NativeSIMDRepresentable,
-  AggregateRHS.NativeSIMDRepresentation == NativeRHS,
-  AggregateRHS: IntegerTupleConstructible,
-  AggregateRHS.IntegerTuple == IntegerTupleRHS,
-  AggregateRHS: L1DistanceMeasureable,
-  AggregateRHS.L1Distance == Distance,
-  NativeRHS: IntegerTupleConstructible,
-  NativeRHS.IntegerTuple == IntegerTupleRHS,
-  NativeRHS: L1DistanceMeasureable,
-  NativeRHS.L1Distance == Distance,
-  CommonOutput: L1DistanceMeasureable,
-  CommonOutput.L1Distance == Distance
+  AggregateLHS: NativeSIMDRepresentable<NativeLHS>,
+  AggregateLHS: IntegerTupleConstructible<IntegerTupleLHS>,
+  AggregateLHS: L1DistanceMeasureable<Distance>,
+  NativeLHS: IntegerTupleConstructible<IntegerTupleLHS>,
+  NativeLHS: L1DistanceMeasureable<Distance>,
+  AggregateRHS: NativeSIMDRepresentable<NativeRHS>,
+  AggregateRHS: IntegerTupleConstructible<IntegerTupleRHS>,
+  AggregateRHS: L1DistanceMeasureable<Distance>,
+  NativeRHS: IntegerTupleConstructible<IntegerTupleRHS>,
+  NativeRHS: L1DistanceMeasureable<Distance>,
+  CommonOutput: L1DistanceMeasureable<Distance>
 {
   for try await lhs in lhses {
     for try await rhs in rhses {
@@ -982,20 +912,13 @@ func _HDXLValidateOutOfPlaceHeterogeneousAggregateAggregateToCommonOutputOperati
   line: UInt = #line,
   column: UInt = #column
 ) where
-  AggregateLHS: NativeSIMDRepresentable,
-  NativeLHS == AggregateLHS.NativeSIMDRepresentation,
-  AggregateRHS: NativeSIMDRepresentable,
-  NativeRHS == AggregateRHS.NativeSIMDRepresentation,
-  AggregateLHS: L1DistanceMeasureable,
-  NativeLHS: L1DistanceMeasureable,
-  AggregateRHS: L1DistanceMeasureable,
-  NativeRHS: L1DistanceMeasureable,
-  CommonOutput: L1DistanceMeasureable,
-  Distance == AggregateLHS.L1Distance,
-  Distance == NativeLHS.L1Distance,
-  Distance == AggregateRHS.L1Distance,
-  Distance == NativeRHS.L1Distance,
-  Distance == CommonOutput.L1Distance
+  AggregateLHS: NativeSIMDRepresentable<NativeLHS>,
+  AggregateRHS: NativeSIMDRepresentable<NativeRHS>,
+  AggregateLHS: L1DistanceMeasureable<Distance>,
+  NativeLHS: L1DistanceMeasureable<Distance>,
+  AggregateRHS: L1DistanceMeasureable<Distance>,
+  NativeRHS: L1DistanceMeasureable<Distance>,
+  CommonOutput: L1DistanceMeasureable<Distance>
 {
   // ///////////////////////////////////////////////////////////////////////////
   HDXLAssertNativeAndAggregateWithinEpsilon(
@@ -1083,32 +1006,19 @@ func HDXLValidateOutOfPlaceHeterogeneousAggregateAggregateToAggregateOperation<
   line: UInt = #line,
   column: UInt = #column
 ) async throws where
-  AggregateLHS: NativeSIMDRepresentable,
-  AggregateLHS.NativeSIMDRepresentation == NativeLHS,
-  AggregateLHS: IntegerTupleConstructible,
-  AggregateLHS.IntegerTuple == IntegerTupleLHS,
-  AggregateLHS: L1DistanceMeasureable,
-  AggregateLHS.L1Distance == Distance,
-  NativeLHS: IntegerTupleConstructible,
-  NativeLHS.IntegerTuple == IntegerTupleLHS,
-  NativeLHS: L1DistanceMeasureable,
-  NativeLHS.L1Distance == Distance,
-  AggregateRHS: NativeSIMDRepresentable,
-  AggregateRHS.NativeSIMDRepresentation == NativeRHS,
-  AggregateRHS: IntegerTupleConstructible,
-  AggregateRHS.IntegerTuple == IntegerTupleRHS,
-  AggregateRHS: L1DistanceMeasureable,
-  AggregateRHS.L1Distance == Distance,
-  NativeRHS: IntegerTupleConstructible,
-  NativeRHS.IntegerTuple == IntegerTupleRHS,
-  NativeRHS: L1DistanceMeasureable,
-  NativeRHS.L1Distance == Distance,
-  AggregateOutput: L1DistanceMeasureable,
-  AggregateOutput.L1Distance == Distance,
-  AggregateOutput: NativeSIMDRepresentable,
-  AggregateOutput.NativeSIMDRepresentation == NativeOutput,
-  NativeOutput: L1DistanceMeasureable,
-  NativeOutput.L1Distance == Distance
+  AggregateLHS: NativeSIMDRepresentable<NativeLHS>,
+  AggregateLHS: IntegerTupleConstructible<IntegerTupleLHS>,
+  AggregateLHS: L1DistanceMeasureable<Distance>,
+  NativeLHS: IntegerTupleConstructible<IntegerTupleLHS>,
+  NativeLHS: L1DistanceMeasureable<Distance>,
+  AggregateRHS: NativeSIMDRepresentable<NativeRHS>,
+  AggregateRHS: IntegerTupleConstructible<IntegerTupleRHS>,
+  AggregateRHS: L1DistanceMeasureable<Distance>,
+  NativeRHS: IntegerTupleConstructible<IntegerTupleRHS>,
+  NativeRHS: L1DistanceMeasureable<Distance>,
+  AggregateOutput: L1DistanceMeasureable<Distance>,
+  AggregateOutput: NativeSIMDRepresentable<NativeOutput>,
+  NativeOutput: L1DistanceMeasureable<Distance>
 {
   for try await lhs in lhses {
     for try await rhs in rhses {
@@ -1150,24 +1060,15 @@ func _HDXLValidateOutOfPlaceHeterogeneousAggregateAggregateToAggregateOperation<
   line: UInt = #line,
   column: UInt = #column
 ) where
-  AggregateLHS: NativeSIMDRepresentable,
-  NativeLHS == AggregateLHS.NativeSIMDRepresentation,
-  AggregateRHS: NativeSIMDRepresentable,
-  NativeRHS == AggregateRHS.NativeSIMDRepresentation,
-  AggregateLHS: L1DistanceMeasureable,
-  NativeLHS: L1DistanceMeasureable,
-  AggregateRHS: L1DistanceMeasureable,
-  NativeRHS: L1DistanceMeasureable,
-  AggregateOutput: L1DistanceMeasureable,
-  AggregateOutput: NativeSIMDRepresentable,
-  AggregateOutput.NativeSIMDRepresentation == NativeOutput,
-  NativeOutput: L1DistanceMeasureable,
-  Distance == AggregateLHS.L1Distance,
-  Distance == NativeLHS.L1Distance,
-  Distance == AggregateRHS.L1Distance,
-  Distance == NativeRHS.L1Distance,
-  Distance == AggregateOutput.L1Distance,
-  Distance == NativeOutput.L1Distance
+  AggregateLHS: NativeSIMDRepresentable<NativeLHS>,
+  AggregateRHS: NativeSIMDRepresentable<NativeRHS>,
+  AggregateLHS: L1DistanceMeasureable<Distance>,
+  NativeLHS: L1DistanceMeasureable<Distance>,
+  AggregateRHS: L1DistanceMeasureable<Distance>,
+  NativeRHS: L1DistanceMeasureable<Distance>,
+  AggregateOutput: L1DistanceMeasureable<Distance>,
+  AggregateOutput: NativeSIMDRepresentable<NativeOutput>,
+  NativeOutput: L1DistanceMeasureable<Distance>
 {
   // ///////////////////////////////////////////////////////////////////////////
   HDXLAssertNativeAndAggregateWithinEpsilon(
