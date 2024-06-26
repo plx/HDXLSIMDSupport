@@ -5,26 +5,17 @@ import HDXLSIMDSupportMacros
 
 @frozen
 @AddNativeSIMDBacking
+@AddInferredScalar
+@AddMatrixRowsAndColumns
 @Add4x4CompatibleMatrices
+@AddCompatibleQuaternion
 @FourColumnNumericAggregate
 @FourColumnNativeSIMDHashable
 @FourColumnNativeSIMDCodable
+@DescriptionFromStorage
+@DebugDescriptionFromNativeSIMDRepresentation
 public struct FloatMatrix4x4Storage :
   Matrix4x4Protocol,
-  Passthrough,
-  NativeSIMDRepresentable,
-  CustomStringConvertible,
-  CustomDebugStringConvertible,
   Sendable
 {
-  
-  public typealias CompatibleQuaternion = FloatQuaternionStorage
-  
-  public typealias Scalar = PassthroughValue.Scalar
-  public typealias RowVector = PassthroughValue.RowVector
-  public typealias ColumnVector = PassthroughValue.ColumnVector
-  public typealias DiagonalVector = PassthroughValue.DiagonalVector
-  public typealias Rows = PassthroughValue.Rows
-  public typealias Columns = PassthroughValue.Columns
-  
 }

@@ -116,7 +116,7 @@ extension SIMDMatrixShape {
 
 extension SIMDMatrixShape {
   
-  public var rowCount: Int {
+  public var columnCount: Int {
     switch self {
     case ._2x2:
       2
@@ -139,7 +139,7 @@ extension SIMDMatrixShape {
     }
   }
   
-  public var columnCount: Int {
+  public var rowCount: Int {
     switch self {
     case ._2x2:
       2
@@ -160,6 +160,65 @@ extension SIMDMatrixShape {
     case ._4x4:
       4
     }
+  }
+
+  public var rowLength: Int {
+    switch self {
+    case ._2x2:
+      2
+    case ._2x3:
+      2
+    case ._2x4:
+      2
+    case ._3x2:
+      3
+    case ._3x3:
+      3
+    case ._3x4:
+      3
+    case ._4x2:
+      4
+    case ._4x3:
+      4
+    case ._4x4:
+      4
+    }
+  }
+  
+  public var columnLength: Int {
+    switch self {
+    case ._2x2:
+      2
+    case ._2x3:
+      3
+    case ._2x4:
+      4
+    case ._3x2:
+      2
+    case ._3x3:
+      3
+    case ._3x4:
+      4
+    case ._4x2:
+      2
+    case ._4x3:
+      3
+    case ._4x4:
+      4
+    }
+  }
+  
+  public var isCompatibleWithQuaternions: Bool {
+    switch self {
+    case ._3x3, ._4x4:
+      return true
+    default:
+      return false
+    }
+  }
+
+  public var diagonalLength: Int {
+    Swift.min(rowLength, columnLength)
   }
   
   public var isSquare: Bool {
@@ -173,24 +232,24 @@ extension SIMDMatrixShape {
   
   public var transpose: Self {
     switch self {
-    case _2x2:
-      _2x2
-    case _2x3:
-      _3x2
-    case _2x4:
-      _4x2
-    case _3x2:
-      _2x3
-    case _3x3:
-      _3x3
-    case _3x4:
-      _4x3
-    case _4x2:
-      _2x4
-    case _4x3:
-      _3x4
-    case _4x4:
-      _4x4
+    case ._2x2:
+      ._2x2
+    case ._2x3:
+      ._3x2
+    case ._2x4:
+      ._4x2
+    case ._3x2:
+      ._2x3
+    case ._3x3:
+      ._3x3
+    case ._3x4:
+      ._4x3
+    case ._4x2:
+      ._2x4
+    case ._4x3:
+      ._3x4
+    case ._4x4:
+      ._4x4
     }
   }
   
@@ -227,8 +286,8 @@ extension SIMDMatrixShape {
       unhandledShapes.remove(compatibleShape)
       if !compatibleShape.isSquare {
         let transposedCompatibleShape = compatibleShape.transpose
-        shapesOrderedAesthetically.append(compatibleShape.transpose)
-        unhandledShapes.remove(compatibleShape.transpose)
+        shapesOrderedAesthetically.append(transposedCompatibleShape.transpose)
+        unhandledShapes.remove(transposedCompatibleShape.transpose)
       }
     }
     

@@ -19,7 +19,6 @@ extension NativeSIMDColumnarHashableMacroProtocol {
     conformingTo protocols: [TypeSyntax],
     in context: some MacroExpansionContext
   ) throws -> [ExtensionDeclSyntax] {
-    let typeName = type.trimmed
 
     let hashOperations = (0..<simdColumnCount)
       .lazy

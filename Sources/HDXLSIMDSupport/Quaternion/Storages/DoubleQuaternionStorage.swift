@@ -1,12 +1,12 @@
 import Foundation
 import simd
+import HDXLSIMDSupportProtocols
+import HDXLSIMDSupportMacros
 
 //@DebugDescription
 @frozen
 public struct DoubleQuaternionStorage :
   QuaternionProtocol,
-  QuaternionOperatorSupportProtocol,
-  Passthrough,
   NumericAggregate,
   Hashable,
   CustomStringConvertible,

@@ -5,22 +5,17 @@ import HDXLSIMDSupportMacros
 
 @frozen
 @AddNativeSIMDBacking
+@AddInferredScalar
+@AddMatrixRowsAndColumns
 @Add2x3CompatibleMatrices
 @TwoColumnNumericAggregate
 @TwoColumnNativeSIMDHashable
 @TwoColumnNativeSIMDCodable
+@DescriptionFromStorage
+@DebugDescriptionFromNativeSIMDRepresentation
 public struct FloatMatrix2x3Storage :
   Matrix2x3Protocol,
-  CustomStringConvertible,
-  CustomDebugStringConvertible,
   Sendable
 {
-
-  public typealias Scalar = PassthroughValue.Scalar
-  public typealias RowVector = PassthroughValue.RowVector
-  public typealias ColumnVector = PassthroughValue.ColumnVector
-  public typealias DiagonalVector = PassthroughValue.DiagonalVector
-  public typealias Rows = PassthroughValue.Rows
-  public typealias Columns = PassthroughValue.Columns
 
 }

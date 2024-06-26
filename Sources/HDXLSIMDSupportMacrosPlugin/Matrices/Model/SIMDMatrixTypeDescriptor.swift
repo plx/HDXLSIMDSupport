@@ -64,19 +64,19 @@ extension SIMDMatrixTypeDescriptor {
     fromSwiftTypeName swiftTypeName: String
   ) -> Self? {
     guard
-      let shape = SIMDMatrixShape.extract(
-        fromTypeName: swiftTypeName
-      ),
-      let scalar = SIMDMatrixScalar.extract(
+      let scalar = SIMDMatrixScalar.extracting(
         fromSwiftTypeName: swiftTypeName
+      ),
+      let shape = SIMDMatrixShape.extracting(
+        fromTypeName: swiftTypeName
       )
     else {
       return nil
     }
     
     return Self(
-      shape: shape,
-      scalar: scalar
+      scalar: scalar,
+      shape: shape
     )
   }
   

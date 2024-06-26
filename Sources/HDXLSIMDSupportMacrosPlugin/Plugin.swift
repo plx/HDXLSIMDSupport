@@ -12,6 +12,12 @@ struct HDXLSIMDSupportMacrosPlugin: CompilerPlugin {
     AddMatrixStorageMacro.self,
     AddCompatibleMatrixDeclarationsMacro.self,
     AddNativeSIMDBackingMacro.self,
+    AddInferredScalarMacro.self,
+    AddMatrixRowsAndColumnsMacro.self,
+    AddCompatibleQuaternionDeclarationsMacro.self,
+    
+    DescriptionFromStorageMacro.self,
+    DebugDescriptionFromNativeSIMDRepresentationMacro.self,
     
     SwiftUIVectorArithmeticMacro.self,
     StorageNativeSIMDRepresentableMacro.self,

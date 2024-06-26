@@ -33,8 +33,6 @@ extension NativeSIMDColumnarCodableMacroProtocol {
     conformingTo protocols: [TypeSyntax],
     in context: some MacroExpansionContext
   ) throws -> [ExtensionDeclSyntax] {
-    let typeName = type.trimmed
-
     let encodeOperations = (0..<simdColumnCount)
       .lazy
       .map {

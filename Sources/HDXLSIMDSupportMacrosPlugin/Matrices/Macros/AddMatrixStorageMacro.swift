@@ -9,7 +9,7 @@ public struct AddMatrixStorageMacro { }
 
 extension AddMatrixStorageMacro: MemberMacro {
 
-  static func expansion(
+  public static func expansion(
     of node: AttributeSyntax,
     providingMembersOf declaration: some DeclGroupSyntax,
     in context: some MacroExpansionContext
@@ -22,24 +22,23 @@ extension AddMatrixStorageMacro: MemberMacro {
     }
     
     return [
-        """
-        /// The backing concrete type for this matrix.
-        @usableFromInline
-        internal typealias Storage = \(matrixStructDecl.name.trimmed)Storage
-        """,
-        """
-        /// The underlying storage for this matrix's backing concrete type.
-        @usableFromInline
-        internal var storage: Storage
-        """,
-        """
-        /// The preferred, primary initializer for this matrix.
-        @inlinable
-        internal init(storage: Storage) {
-          self.storage = storage
-        }
-        """
-      )
+      """
+      /// The backing concrete type for this matrix.
+      @usableFromInline
+      internal typealias Storage = \(matrixStructDecl.name.trimmed)Storage
+      """,
+      """
+      /// The underlying storage for this matrix's backing concrete type.
+      @usableFromInline
+      internal var storage: Storage
+      """,
+      """
+      /// The preferred, primary initializer for this matrix.
+      @inlinable
+      internal init(storage: Storage) {
+        self.storage = storage
+      }
+      """
     ]
   }
 }

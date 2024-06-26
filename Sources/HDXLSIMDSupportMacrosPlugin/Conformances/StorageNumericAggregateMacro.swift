@@ -8,18 +8,7 @@ import SwiftDiagnostics
 public struct StorageNumericAggregateMacro { }
 
 extension StorageNumericAggregateMacro: ExtensionMacro {
-  static func extractNumericEntryRepresentation(from typeName: String) throws -> String {
-    if typeName.hasPrefix("Float16") {
-      return "Float16"
-    } else if typeName.hasPrefix("Float") {
-      return "Float"
-    } else if typeName.hasPrefix("Double") {
-      return "Double"
-    } else {
-      fatalError() // TODO: real errors
-    }
-  }
-
+  
   public static func expansion(
     of node: AttributeSyntax,
     attachedTo declaration: some DeclGroupSyntax,
@@ -29,7 +18,15 @@ extension StorageNumericAggregateMacro: ExtensionMacro {
   ) throws -> [ExtensionDeclSyntax] {
     // TODO: attachment-site validation, real errors, etc.
     
-    let numericEntryRepresentation = try extractNumericEntryRepresentation(from: "\(type.trimmed)")
+    let typeName: String = "\(type.trimmed)"
+    
+    let numericEntryRepresentation: String
+    switch SIMDMatrixScalar.extracting(fromSwiftTypeName: typeName) {
+    case .some(let scalarType):
+      numericEntryRepresentation = scalarType.swiftTypeName
+    case .none:
+      numericEntryRepresentation = "Scalar"
+    }
     
     return [
       try ExtensionDeclSyntax(
@@ -49,4 +46,5 @@ extension StorageNumericAggregateMacro: ExtensionMacro {
       )
     ]
   }
+  
 }

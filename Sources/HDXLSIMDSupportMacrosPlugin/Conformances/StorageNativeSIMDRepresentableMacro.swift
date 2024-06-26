@@ -28,9 +28,7 @@ extension StorageNativeSIMDRepresentableMacro: ExtensionMacro {
     in context: some MacroExpansionContext
   ) throws -> [ExtensionDeclSyntax] {
     // TODO: attachment-site validation, real errors, etc.
-    
-    let numericEntryRepresentation = try extractNumericEntryRepresentation(from: "\(type.trimmed)")
-    
+        
     return [
       try ExtensionDeclSyntax(
         """

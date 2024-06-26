@@ -28,13 +28,13 @@ extension AddCompatibleMatrixDeclarationsMacro: MemberMacro {
     }
   }
   
-  static func expansion(
+  public static func expansion(
     of node: AttributeSyntax,
     providingMembersOf declaration: some DeclGroupSyntax,
     in context: some MacroExpansionContext
   ) throws -> [DeclSyntax] {
     guard
-      let matrixStructDecl = declaration.as(StructDeclSyntax.self),
+      let matrixStructDecl = declaration.as(StructDeclSyntax.self)
     else {
       // TODO: attachment-site validation, real errors, etc.
       fatalError()
@@ -43,17 +43,12 @@ extension AddCompatibleMatrixDeclarationsMacro: MemberMacro {
     let typeName = "\(matrixStructDecl.name.trimmed)"
     
     guard let matrixShape = SIMDMatrixShape.extracting(
-      from: typeName
+      fromTypeName: typeName
     ) else {
       // TODO: attachment-site validation, real errors, etc.
       fatalError()
     }
 
-    
-    
-    
-    let compatibleTypeSuffix = typeName.hasSuffix("Storage") ? "Storage" : ""
-    
     return try matrixShape
       .allCompatibleMatrixShapesInAestheticOrdering
       .lazy
@@ -63,11 +58,10 @@ extension AddCompatibleMatrixDeclarationsMacro: MemberMacro {
           shape: compatibleShape
         )
         
-        """
+        return """
         /// The type of the corresponding \(raw: String(describing: compatibleShape)) matrix.
         public typealias CompatibleMatrix\(raw: compatibleShape.typeNameComponent) = \(raw: compatibleName)
-        """
+        """ as DeclSyntax
       }
-      .joined(separator: "\n")
   }
 }

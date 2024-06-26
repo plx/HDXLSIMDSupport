@@ -77,7 +77,7 @@ extension SIMDMatrixScalar {
   }
   
   /// This type's representation in Swift (e.g. `Float16` for `half`).
-  public var swiftTypeNamne: String {
+  public var swiftTypeName: String {
     switch self {
     case .double:
       "Double"
@@ -100,7 +100,8 @@ extension SIMDMatrixScalar {
   public static func extracting(
     fromSwiftTypeName swiftTypeName: String
   ) -> Self? {
-    for candidate in allCasesInExtractionSearchOrdering where swiftTypeName.hasPrefix(candidate) {
+    for candidate in allCasesInExtractionSearchOrdering
+    where swiftTypeName.hasPrefix(candidate.swiftTypeName) {
       return candidate
     }
     return nil

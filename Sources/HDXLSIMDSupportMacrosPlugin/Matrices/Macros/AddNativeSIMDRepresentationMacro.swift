@@ -8,13 +8,14 @@ import SwiftDiagnostics
 public struct AddNativeSIMDBackingMacro { }
 
 extension AddNativeSIMDBackingMacro: MemberMacro {
-  static func expansion(
+  
+  public static func expansion(
     of node: AttributeSyntax,
     providingMembersOf declaration: some DeclGroupSyntax,
     in context: some MacroExpansionContext
   ) throws -> [DeclSyntax] {
     guard
-      let matrixStructDecl = declaration.as(StructDeclSyntax.self),
+      let matrixStructDecl = declaration.as(StructDeclSyntax.self)
     else {
       // TODO: attachment-site validation, real errors, etc.
       fatalError()
@@ -48,6 +49,7 @@ extension AddNativeSIMDBackingMacro: MemberMacro {
       """
     ]
   }
+  
 }
 
 extension AddNativeSIMDBackingMacro: ExtensionMacro {
@@ -60,7 +62,7 @@ extension AddNativeSIMDBackingMacro: ExtensionMacro {
     in context: some MacroExpansionContext
   ) throws -> [ExtensionDeclSyntax] {
     guard
-      let matrixStructDecl = declaration.as(StructDeclSyntax.self),
+      let matrixStructDecl = declaration.as(StructDeclSyntax.self)
     else {
       // TODO: attachment-site validation, real errors, etc.
       fatalError()
@@ -77,7 +79,7 @@ extension AddNativeSIMDBackingMacro: ExtensionMacro {
     return [
       try ExtensionDeclSyntax(
         """
-        extension \(typeName) : NativeSIMDRepresentable {
+        extension \(raw: typeName) : NativeSIMDRepresentable {
         
           @usableFromInline
           package typealias NativeSIMDRepresentation = \(raw: matrixTypeDescriptor.nativeSIMDMatrixTypeName)
