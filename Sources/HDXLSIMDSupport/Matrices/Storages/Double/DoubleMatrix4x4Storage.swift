@@ -1,14 +1,14 @@
 import Foundation
 import simd
+import HDXLSIMDSupportProtocols
+import HDXLSIMDSupportMacros
 
 @frozen
+@FourColumnNativeSIMDHashable
 public struct DoubleMatrix4x4Storage :
   Matrix4x4Protocol,
-  MatrixOperatorSupportProtocol,
-  Matrix4x4OperatorSupportProtocol,
   Passthrough,
   NumericAggregate,
-  Hashable,
   CustomStringConvertible,
   CustomDebugStringConvertible,
   Codable,
@@ -32,15 +32,6 @@ public struct DoubleMatrix4x4Storage :
   public typealias NumericEntryRepresentation = PassthroughValue.NumericEntryRepresentation
 
   // ------------------------------------------------------------------------ //
-  // MARK: Typename
-  // ------------------------------------------------------------------------ //
-  
-  @usableFromInline
-  internal static var typename: String {
-    "DoubleMatrix4x4Storage"
-  }
-
-  // ------------------------------------------------------------------------ //
   // MARK: Passthrough
   // ------------------------------------------------------------------------ //
 
@@ -49,18 +40,6 @@ public struct DoubleMatrix4x4Storage :
   @inlinable
   public init(passthroughValue: PassthroughValue) {
     self.passthroughValue = passthroughValue
-  }
-
-  // ------------------------------------------------------------------------ //
-  // MARK: Hashable
-  // ------------------------------------------------------------------------ //
-
-  @inlinable
-  public func hash(into hasher: inout Hasher) {
-    columns.0.hash(into: &hasher)
-    columns.1.hash(into: &hasher)
-    columns.2.hash(into: &hasher)
-    columns.3.hash(into: &hasher)
   }
 
   // ------------------------------------------------------------------------ //

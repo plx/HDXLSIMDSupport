@@ -33,15 +33,6 @@ public struct DoubleMatrix3x2Storage :
   public typealias NumericEntryRepresentation = PassthroughValue.NumericEntryRepresentation
 
   // ------------------------------------------------------------------------ //
-  // MARK: Typename
-  // ------------------------------------------------------------------------ //
-  
-  @usableFromInline
-  internal static var typename: String {
-    "DoubleMatrix3x2Storage"
-  }
-  
-  // ------------------------------------------------------------------------ //
   // MARK: Passthrough
   // ------------------------------------------------------------------------ //
   

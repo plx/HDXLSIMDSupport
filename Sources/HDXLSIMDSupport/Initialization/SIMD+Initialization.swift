@@ -1,15 +1,11 @@
-//
-//  SIMD+Initialization.swift
-//
-
 import Foundation
 import simd
 
-public extension SIMD where Scalar:BinaryInteger {
+extension SIMD where Scalar:BinaryInteger {
   
   /// Initialize to zero, except with `value` at `index`.
   @inlinable
-  init(
+  public init(
     value: Scalar,
     at index: Int
   ) {
@@ -20,11 +16,11 @@ public extension SIMD where Scalar:BinaryInteger {
   
 }
 
-public extension SIMD where Scalar:BinaryFloatingPoint {
+extension SIMD where Scalar:BinaryFloatingPoint {
 
   /// Initialize to zero, except with `value` at `index`.
   @inlinable
-  init(
+  public init(
     value: Scalar,
     at index: Int
   ) {

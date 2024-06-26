@@ -1,22 +1,21 @@
-//
-//  SIMD+NumericAggregate.swift
-//
-
 import Foundation
 import simd
+import HDXLSIMDSupportProtocols
 
 // -------------------------------------------------------------------------- //
 // MARK: SIMD2 - NumericAggregate
 // -------------------------------------------------------------------------- //
 
-extension SIMD2 : NumericAggregate {
+extension SIMD2 : @retroactive NumericAggregate {
   
   public typealias NumericEntryRepresentation = Scalar
   
   @inlinable
-  public func allNumericEntriesSatisfy(_ predicate: (NumericEntryRepresentation) -> Bool) -> Bool {
+  public func allNumericEntriesSatisfy(
+    _ predicate: (NumericEntryRepresentation) throws -> Bool
+  ) rethrows -> Bool {
     for index in Self.subscriptableIndexRange {
-      guard predicate(self[index]) else {
+      guard try predicate(self[index]) else {
         return false
       }
     }
@@ -29,14 +28,16 @@ extension SIMD2 : NumericAggregate {
 // MARK: SIMD3 - NumericAggregate
 // -------------------------------------------------------------------------- //
 
-extension SIMD3 : NumericAggregate {
+extension SIMD3 : @retroactive NumericAggregate {
   
   public typealias NumericEntryRepresentation = Scalar
   
   @inlinable
-  public func allNumericEntriesSatisfy(_ predicate: (NumericEntryRepresentation) -> Bool) -> Bool {
+  public func allNumericEntriesSatisfy(
+    _ predicate: (NumericEntryRepresentation) throws -> Bool
+  ) rethrows -> Bool {
     for index in Self.subscriptableIndexRange {
-      guard predicate(self[index]) else {
+      guard try predicate(self[index]) else {
         return false
       }
     }
@@ -49,14 +50,16 @@ extension SIMD3 : NumericAggregate {
 // MARK: SIMD4 - NumericAggregate
 // -------------------------------------------------------------------------- //
 
-extension SIMD4 : NumericAggregate {
+extension SIMD4 : @retroactive NumericAggregate {
   
   public typealias NumericEntryRepresentation = Scalar
   
   @inlinable
-  public func allNumericEntriesSatisfy(_ predicate: (NumericEntryRepresentation) -> Bool) -> Bool {
+  public func allNumericEntriesSatisfy(
+    _ predicate: (NumericEntryRepresentation) throws -> Bool
+  ) rethrows -> Bool {
     for index in Self.subscriptableIndexRange {
-      guard predicate(self[index]) else {
+      guard try predicate(self[index]) else {
         return false
       }
     }
@@ -69,14 +72,16 @@ extension SIMD4 : NumericAggregate {
 // MARK: SIMD8 - NumericAggregate
 // -------------------------------------------------------------------------- //
 
-extension SIMD8 : NumericAggregate {
+extension SIMD8 : @retroactive NumericAggregate {
   
   public typealias NumericEntryRepresentation = Scalar
   
   @inlinable
-  public func allNumericEntriesSatisfy(_ predicate: (NumericEntryRepresentation) -> Bool) -> Bool {
+  public func allNumericEntriesSatisfy(
+    _ predicate: (NumericEntryRepresentation) throws -> Bool
+  ) rethrows -> Bool {
     for index in Self.subscriptableIndexRange {
-      guard predicate(self[index]) else {
+      guard try predicate(self[index]) else {
         return false
       }
     }
@@ -89,14 +94,16 @@ extension SIMD8 : NumericAggregate {
 // MARK: SIMD16 - NumericAggregate
 // -------------------------------------------------------------------------- //
 
-extension SIMD16 : NumericAggregate {
+extension SIMD16 : @retroactive NumericAggregate {
   
   public typealias NumericEntryRepresentation = Scalar
   
   @inlinable
-  public func allNumericEntriesSatisfy(_ predicate: (NumericEntryRepresentation) -> Bool) -> Bool {
+  public func allNumericEntriesSatisfy(
+    _ predicate: (NumericEntryRepresentation) throws -> Bool
+  ) rethrows -> Bool {
     for index in Self.subscriptableIndexRange {
-      guard predicate(self[index]) else {
+      guard try predicate(self[index]) else {
         return false
       }
     }
@@ -109,14 +116,16 @@ extension SIMD16 : NumericAggregate {
 // MARK: SIMD32 - NumericAggregate
 // -------------------------------------------------------------------------- //
 
-extension SIMD32 : NumericAggregate {
+extension SIMD32 : @retroactive NumericAggregate {
   
   public typealias NumericEntryRepresentation = Scalar
   
   @inlinable
-  public func allNumericEntriesSatisfy(_ predicate: (NumericEntryRepresentation) -> Bool) -> Bool {
+  public func allNumericEntriesSatisfy(
+    _ predicate: (NumericEntryRepresentation) throws -> Bool
+  ) rethrows -> Bool {
     for index in Self.subscriptableIndexRange {
-      guard predicate(self[index]) else {
+      guard try predicate(self[index]) else {
         return false
       }
     }
@@ -129,14 +138,16 @@ extension SIMD32 : NumericAggregate {
 // MARK: SIMD64 - NumericAggregate
 // -------------------------------------------------------------------------- //
 
-extension SIMD64 : NumericAggregate {
+extension SIMD64 : @retroactive NumericAggregate {
   
   public typealias NumericEntryRepresentation = Scalar
   
   @inlinable
-  public func allNumericEntriesSatisfy(_ predicate: (NumericEntryRepresentation) -> Bool) -> Bool {
+  public func allNumericEntriesSatisfy(
+    _ predicate: (NumericEntryRepresentation) throws -> Bool
+  ) rethrows -> Bool {
     for index in Self.subscriptableIndexRange {
-      guard predicate(self[index]) else {
+      guard try predicate(self[index]) else {
         return false
       }
     }

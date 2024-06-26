@@ -1,23 +1,20 @@
-//
-//  simd_float2x3+NumericAggregate.swift
-//
-
 import Foundation
 import simd
+import HDXLSIMDSupportProtocols
 
-extension simd_float2x3 : NumericAggregate {
+extension simd_float2x3 : @retroactive NumericAggregate {
   
   public typealias NumericEntryRepresentation = Float
   
   @inlinable
-  public func allNumericEntriesSatisfy(_ predicate: (NumericEntryRepresentation) -> Bool) -> Bool {
-    guard
-      columns.0.allNumericEntriesSatisfy(predicate),
+  public func allNumericEntriesSatisfy(
+    _ predicate: (NumericEntryRepresentation) throws -> Bool
+  ) rethrows -> Bool {
+    try (
+      columns.0.allNumericEntriesSatisfy(predicate)
+      &&
       columns.1.allNumericEntriesSatisfy(predicate)
-    else {
-        return false
-    }
-    return true
+    )
   }
 
 }

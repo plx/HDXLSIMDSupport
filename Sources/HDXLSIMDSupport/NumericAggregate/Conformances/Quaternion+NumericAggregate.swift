@@ -1,27 +1,24 @@
-//
-//  Quaternion+NumericAggregate.swift
-//
-
 import Foundation
 import simd
+import HDXLSIMDSupportProtocols
 
 // -------------------------------------------------------------------------- //
 // MARK: simd_quatf - NumericAggregate
 // -------------------------------------------------------------------------- //
 
-extension simd_quatf : NumericAggregate {
+extension simd_quatf : @retroactive NumericAggregate {
   
   public typealias NumericEntryRepresentation = Float
   
   @inlinable
-  public func allNumericEntriesSatisfy(_ predicate: (NumericEntryRepresentation) -> Bool) -> Bool {
-    guard
-      predicate(real),
+  public func allNumericEntriesSatisfy(
+    _ predicate: (NumericEntryRepresentation) throws -> Bool
+  ) rethrows -> Bool {
+    try (
+      predicate(real)
+      &&
       imag.allNumericEntriesSatisfy(predicate)
-    else {
-        return false
-    }
-    return true
+    )
   }
   
 }
@@ -30,19 +27,19 @@ extension simd_quatf : NumericAggregate {
 // MARK: simd_quatd - NumericAggregate
 // -------------------------------------------------------------------------- //
 
-extension simd_quatd : NumericAggregate {
+extension simd_quatd : @retroactive NumericAggregate {
   
   public typealias NumericEntryRepresentation = Double
   
   @inlinable
-  public func allNumericEntriesSatisfy(_ predicate: (NumericEntryRepresentation) -> Bool) -> Bool {
-    guard
-      predicate(real),
+  public func allNumericEntriesSatisfy(
+    _ predicate: (NumericEntryRepresentation) throws -> Bool
+  ) rethrows -> Bool {
+    try (
+      predicate(real)
+      &&
       imag.allNumericEntriesSatisfy(predicate)
-    else {
-        return false
-    }
-    return true
+    )
   }
-  
+
 }

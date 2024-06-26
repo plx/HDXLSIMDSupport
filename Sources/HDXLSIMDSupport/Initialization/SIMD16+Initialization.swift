@@ -1,7 +1,3 @@
-//
-//  SIMD16+Initialization.swift
-//
-
 import Foundation
 import simd
 
@@ -9,7 +5,7 @@ import simd
 // MARK: SIMD16 - Initialization - BinaryInteger
 // -------------------------------------------------------------------------- //
 
-public extension SIMD16 where Scalar:BinaryInteger {
+extension SIMD16 where Scalar:BinaryInteger {
   
   /// Initialize to zero except for`a`.
   @inlinable
@@ -22,7 +18,7 @@ public extension SIMD16 where Scalar:BinaryInteger {
   
   /// Initialize to zero except for`b`.
   @inlinable
-  init(b: Scalar) {
+  public init(b: Scalar) {
     self.init(
       value: b,
       at: 1
@@ -31,7 +27,7 @@ public extension SIMD16 where Scalar:BinaryInteger {
   
   /// Initialize to zero except for`c`.
   @inlinable
-  init(c: Scalar) {
+  public init(c: Scalar) {
     self.init(
       value: c,
       at: 2
@@ -40,7 +36,7 @@ public extension SIMD16 where Scalar:BinaryInteger {
   
   /// Initialize to zero except for`d`.
   @inlinable
-  init(d: Scalar) {
+  public init(d: Scalar) {
     self.init(
       value: d,
       at: 3
@@ -49,7 +45,7 @@ public extension SIMD16 where Scalar:BinaryInteger {
 
   /// Initialize to zero except for`e`.
   @inlinable
-  init(e: Scalar) {
+  public init(e: Scalar) {
     self.init(
       value: e,
       at: 4
@@ -58,7 +54,7 @@ public extension SIMD16 where Scalar:BinaryInteger {
   
   /// Initialize to zero except for`f`.
   @inlinable
-  init(f: Scalar) {
+  public init(f: Scalar) {
     self.init(
       value: f,
       at: 5
@@ -67,7 +63,7 @@ public extension SIMD16 where Scalar:BinaryInteger {
   
   /// Initialize to zero except for`g`.
   @inlinable
-  init(g: Scalar) {
+  public init(g: Scalar) {
     self.init(
       value: g,
       at: 6
@@ -76,7 +72,7 @@ public extension SIMD16 where Scalar:BinaryInteger {
   
   /// Initialize to zero except for`h`.
   @inlinable
-  init(h: Scalar) {
+  public init(h: Scalar) {
     self.init(
       value: h,
       at: 7
@@ -85,7 +81,7 @@ public extension SIMD16 where Scalar:BinaryInteger {
 
   /// Initialize to zero except for`i`.
   @inlinable
-  init(i: Scalar) {
+  public init(i: Scalar) {
     self.init(
       value: i,
       at: 8
@@ -94,7 +90,7 @@ public extension SIMD16 where Scalar:BinaryInteger {
   
   /// Initialize to zero except for`j`.
   @inlinable
-  init(j: Scalar) {
+  public init(j: Scalar) {
     self.init(
       value: j,
       at: 9
@@ -103,7 +99,7 @@ public extension SIMD16 where Scalar:BinaryInteger {
   
   /// Initialize to zero except for`k`.
   @inlinable
-  init(k: Scalar) {
+  public init(k: Scalar) {
     self.init(
       value: k,
       at: 10
@@ -112,7 +108,7 @@ public extension SIMD16 where Scalar:BinaryInteger {
   
   /// Initialize to zero except for`l`.
   @inlinable
-  init(l: Scalar) {
+  public init(l: Scalar) {
     self.init(
       value: l,
       at: 11
@@ -121,7 +117,7 @@ public extension SIMD16 where Scalar:BinaryInteger {
   
   /// Initialize to zero except for`m`.
   @inlinable
-  init(m: Scalar) {
+  public init(m: Scalar) {
     self.init(
       value: m,
       at: 12
@@ -130,7 +126,7 @@ public extension SIMD16 where Scalar:BinaryInteger {
   
   /// Initialize to zero except for`n`.
   @inlinable
-  init(n: Scalar) {
+  public init(n: Scalar) {
     self.init(
       value: n,
       at: 13
@@ -139,7 +135,7 @@ public extension SIMD16 where Scalar:BinaryInteger {
   
   /// Initialize to zero except for`o`.
   @inlinable
-  init(o: Scalar) {
+  public init(o: Scalar) {
     self.init(
       value: o,
       at: 14
@@ -148,7 +144,7 @@ public extension SIMD16 where Scalar:BinaryInteger {
   
   /// Initialize to zero except for`p`.
   @inlinable
-  init(p: Scalar) {
+  public init(p: Scalar) {
     self.init(
       value: p,
       at: 15
@@ -161,11 +157,11 @@ public extension SIMD16 where Scalar:BinaryInteger {
 // MARK: SIMD16 - Initialization - BinaryFloatingPoint
 // -------------------------------------------------------------------------- //
 
-public extension SIMD16 where Scalar:BinaryFloatingPoint {
+extension SIMD16 where Scalar:BinaryFloatingPoint {
   
   /// Initialize to zero except for`a`.
   @inlinable
-  init(a: Scalar) {
+  public init(a: Scalar) {
     self.init(
       value: a,
       at: 0
@@ -174,7 +170,7 @@ public extension SIMD16 where Scalar:BinaryFloatingPoint {
   
   /// Initialize to zero except for`b`.
   @inlinable
-  init(b: Scalar) {
+  public init(b: Scalar) {
     self.init(
       value: b,
       at: 1
@@ -183,7 +179,7 @@ public extension SIMD16 where Scalar:BinaryFloatingPoint {
   
   /// Initialize to zero except for`c`.
   @inlinable
-  init(c: Scalar) {
+  public init(c: Scalar) {
     self.init(
       value: c,
       at: 2
@@ -192,7 +188,7 @@ public extension SIMD16 where Scalar:BinaryFloatingPoint {
   
   /// Initialize to zero except for`d`.
   @inlinable
-  init(d: Scalar) {
+  public init(d: Scalar) {
     self.init(
       value: d,
       at: 3
@@ -201,7 +197,7 @@ public extension SIMD16 where Scalar:BinaryFloatingPoint {
   
   /// Initialize to zero except for`e`.
   @inlinable
-  init(e: Scalar) {
+  public init(e: Scalar) {
     self.init(
       value: e,
       at: 4
@@ -210,7 +206,7 @@ public extension SIMD16 where Scalar:BinaryFloatingPoint {
   
   /// Initialize to zero except for`f`.
   @inlinable
-  init(f: Scalar) {
+  public init(f: Scalar) {
     self.init(
       value: f,
       at: 5
@@ -219,7 +215,7 @@ public extension SIMD16 where Scalar:BinaryFloatingPoint {
   
   /// Initialize to zero except for`g`.
   @inlinable
-  init(g: Scalar) {
+  public init(g: Scalar) {
     self.init(
       value: g,
       at: 6
@@ -228,7 +224,7 @@ public extension SIMD16 where Scalar:BinaryFloatingPoint {
   
   /// Initialize to zero except for`h`.
   @inlinable
-  init(h: Scalar) {
+  public init(h: Scalar) {
     self.init(
       value: h,
       at: 7
@@ -237,7 +233,7 @@ public extension SIMD16 where Scalar:BinaryFloatingPoint {
   
   /// Initialize to zero except for`i`.
   @inlinable
-  init(i: Scalar) {
+  public init(i: Scalar) {
     self.init(
       value: i,
       at: 8
@@ -246,7 +242,7 @@ public extension SIMD16 where Scalar:BinaryFloatingPoint {
   
   /// Initialize to zero except for`j`.
   @inlinable
-  init(j: Scalar) {
+  public init(j: Scalar) {
     self.init(
       value: j,
       at: 9
@@ -255,7 +251,7 @@ public extension SIMD16 where Scalar:BinaryFloatingPoint {
   
   /// Initialize to zero except for`k`.
   @inlinable
-  init(k: Scalar) {
+  public init(k: Scalar) {
     self.init(
       value: k,
       at: 10
@@ -264,7 +260,7 @@ public extension SIMD16 where Scalar:BinaryFloatingPoint {
   
   /// Initialize to zero except for`l`.
   @inlinable
-  init(l: Scalar) {
+  public init(l: Scalar) {
     self.init(
       value: l,
       at: 11
@@ -273,7 +269,7 @@ public extension SIMD16 where Scalar:BinaryFloatingPoint {
   
   /// Initialize to zero except for`m`.
   @inlinable
-  init(m: Scalar) {
+  public init(m: Scalar) {
     self.init(
       value: m,
       at: 12
@@ -282,7 +278,7 @@ public extension SIMD16 where Scalar:BinaryFloatingPoint {
   
   /// Initialize to zero except for`n`.
   @inlinable
-  init(n: Scalar) {
+  public init(n: Scalar) {
     self.init(
       value: n,
       at: 13
@@ -291,7 +287,7 @@ public extension SIMD16 where Scalar:BinaryFloatingPoint {
   
   /// Initialize to zero except for`o`.
   @inlinable
-  init(o: Scalar) {
+  public init(o: Scalar) {
     self.init(
       value: o,
       at: 14
@@ -300,7 +296,7 @@ public extension SIMD16 where Scalar:BinaryFloatingPoint {
   
   /// Initialize to zero except for`p`.
   @inlinable
-  init(p: Scalar) {
+  public init(p: Scalar) {
     self.init(
       value: p,
       at: 15

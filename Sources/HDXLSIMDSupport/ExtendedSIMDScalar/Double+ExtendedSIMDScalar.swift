@@ -1,11 +1,8 @@
-//
-//  Double+ExtendedSIMDScalar.swift
-//
-
 import Foundation
 import simd
+import HDXLSIMDSupportProtocols
 
-extension Double : ExtendedSIMDScalar {
+extension Double : @retroactive ExtendedSIMDScalar {
   
   public typealias QuaternionStorage = DoubleQuaternionStorage
   

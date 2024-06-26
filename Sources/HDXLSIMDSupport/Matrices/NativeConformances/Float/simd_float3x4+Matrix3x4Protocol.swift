@@ -4,6 +4,7 @@
 
 import Foundation
 import simd
+import HDXLSIMDSupportProtocols
 
 extension simd_float3x4 : MatrixDefaultSupportProtocol, Matrix3x4Protocol {
   
