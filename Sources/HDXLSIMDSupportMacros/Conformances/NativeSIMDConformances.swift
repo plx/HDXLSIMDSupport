@@ -13,7 +13,7 @@ package macro StorageNativeSIMDRepresentable() = #externalMacro(
   type: "StorageNativeSIMDRepresentableMacro"
 )
 
-// MARK: AddNativeSIMDBacking
+// MARK: AddNativeSIMDMatrixBacking
 
 @attached(
   member,
@@ -24,7 +24,23 @@ package macro StorageNativeSIMDRepresentable() = #externalMacro(
   conformances: NativeSIMDRepresentable,
   names: named(NativeSIMDRepresentation), named(nativeSIMDRepresentation), named(init(nativeSIMDRepresentation:))
 )
-package macro AddNativeSIMDBacking() = #externalMacro(
+package macro AddNativeSIMDMatrixBacking() = #externalMacro(
   module: "HDXLSIMDSupportMacrosPlugin",
-  type: "AddNativeSIMDBackingMacro"
+  type: "AddNativeSIMDMatrixBackingMacro"
+)
+
+// MARK: AddNativeSIMDQuaternionBacking
+
+@attached(
+  member,
+  names: named(Storage), named(storage), named(init(storage:))
+)
+@attached(
+  extension,
+  conformances: NativeSIMDRepresentable,
+  names: named(NativeSIMDRepresentation), named(nativeSIMDRepresentation), named(init(nativeSIMDRepresentation:))
+)
+package macro AddNativeSIMDQuaternionBacking() = #externalMacro(
+  module: "HDXLSIMDSupportMacrosPlugin",
+  type: "AddNativeSIMDQuaternionBackingMacro"
 )

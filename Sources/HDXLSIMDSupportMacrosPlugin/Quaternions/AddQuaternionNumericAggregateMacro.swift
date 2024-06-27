@@ -5,9 +5,9 @@ import SwiftSyntaxMacros
 import SwiftSyntaxBuilder
 import SwiftDiagnostics
 
-public struct StorageNumericAggregateMacro { }
+public struct AddQuaternionNumericAggregateMacro: SIMDSupportMacro { }
 
-extension StorageNumericAggregateMacro: ExtensionMacro {
+extension AddQuaternionNumericAggregateMacro: ExtensionMacro {
   
   public static func expansion(
     of node: AttributeSyntax,
@@ -16,30 +16,34 @@ extension StorageNumericAggregateMacro: ExtensionMacro {
     conformingTo protocols: [TypeSyntax],
     in context: some MacroExpansionContext
   ) throws -> [ExtensionDeclSyntax] {
-    // TODO: attachment-site validation, real errors, etc.
+    let quaternionStructDecl = try requiredStructDeclaration(
+      node: node,
+      declaration: declaration
+    )
     
-    let typeName: String = "\(type.trimmed)"
+    let typeName = "\(quaternionStructDecl.name.trimmed)"
     
-    let numericEntryRepresentation: String
-    switch SIMDAggregateScalar.extracting(fromSwiftTypeName: typeName) {
-    case .some(let scalarType):
-      numericEntryRepresentation = scalarType.swiftTypeName
-    case .none:
-      numericEntryRepresentation = "Scalar"
-    }
-    
+    let scalar = try requiredScalar(
+      node: node,
+      typeName: typeName
+    )
+
     return [
       try ExtensionDeclSyntax(
         """
         extension \(type.trimmed) : @retroactive NumericAggregate {
         
-          public typealias NumericEntryRepresentation = \(raw: numericEntryRepresentation)
+          public typealias NumericEntryRepresentation = \(raw: scalar.swiftTypeName)
         
           @inlinable
           public func allNumericEntriesSatisfy(
             _ predicate: (NumericEntryRepresentation) throws -> Bool
           ) rethrows -> Bool {
-            try storage.allNumericEntriesSatisfy(predicate)
+            try (
+            predicate(realComponent)
+            &&
+            imaginaryComponent.allNumericEntriesSatisfy(predicate)
+            )
           }
         }
         """
@@ -48,3 +52,4 @@ extension StorageNumericAggregateMacro: ExtensionMacro {
   }
   
 }
+

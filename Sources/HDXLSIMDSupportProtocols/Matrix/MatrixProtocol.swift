@@ -2,19 +2,6 @@ import Foundation
 import simd
 
 // ------------------------------------------------------------------------ //
-// MARK: MatrixProtocol - Supporting Defines
-// ------------------------------------------------------------------------ //
-
-/// Shorthand for a 2-tuple with all types identically-`T`.
-public typealias T2<T> = (T,T)
-
-/// Shorthand for a 3-tuple with all types identically-`T`.
-public typealias T3<T> = (T,T,T)
-
-/// Shorthand for a 4-tuple with all types identically-`T`.
-public typealias T4<T> = (T,T,T,T)
-
-// ------------------------------------------------------------------------ //
 // MARK: MatrixProtocol - Definition
 // ------------------------------------------------------------------------ //
 

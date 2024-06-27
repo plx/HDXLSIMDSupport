@@ -20,7 +20,7 @@ import simd
 /// Also, this protocol *must* be adoptable by (a) the native SIMD types, (b) the storage types, and finally
 /// (c) the `Matrix3x3<Scalar>` type, thus we can't define the operators on it directly; we must, instead,
 /// define a `Matrix3x3OperatorSupportProtocol` against-which we can define those operators.
-public protocol Matrix3x3Protocol<Scalar> : MatrixProtocol
+public protocol Matrix3x3Protocol<Scalar> : MatrixProtocol, SquareMatrixProtocol
   where
   RowVector == SIMD3<Scalar>,
   ColumnVector == SIMD3<Scalar>,
@@ -68,61 +68,6 @@ public protocol Matrix3x3Protocol<Scalar> : MatrixProtocol
     _ c1: ColumnVector,
     _ c2: ColumnVector
   )
-  
-  // ------------------------------------------------------------------------ //
-  // MARK: Square-Matrix Math - Determinants
-  // ------------------------------------------------------------------------ //
-  
-  /// Obtain the matrices determinant.
-  var determinant: Scalar { get }
-  
-  // ------------------------------------------------------------------------ //
-  // MARK: Square-Matrix Math - Inversion
-  // ------------------------------------------------------------------------ //
-  
-  /// Returns the inversion of `self`.
-  ///
-  /// - warning: Behavior on non-invertible matrices is whatever the underlying type is; yes, this is *another* abstraction leak!
-  ///
-  func inverted() -> Self
-  
-  /// Inverts `self` in-place.
-  ///
-  /// - warning: Behavior on non-invertible matrices is whatever the underlying type is; yes, this is *another* abstraction leak!
-  ///
-  mutating func formInverse()
-  
-  // ------------------------------------------------------------------------ //
-  // MARK: Square-Matrix Math - Multiplication
-  // ------------------------------------------------------------------------ //
-  
-  /// Returns `self`right-multiplied by `rhs` (e.g. `self * rhs`).
-  func multiplied(onRightBy rhs: Self) -> Self
-  
-  /// Returns `self` left-multiplied by `lhs` (e.g. `lhs * self`).
-  func multiplied(onLeftBy lhs: Self) -> Self
-  
-  /// In place right-multiplies `self` by `rhs` (e.g. `self = self * rhs`).
-  mutating func formMultiplication(onRightBy rhs: Self)
-  
-  /// In place left-multiplies `self` by `lhs` (e.g. `self = lhs * self`).
-  mutating func formMultiplication(onLeftBy lhs: Self)
-  
-  // ------------------------------------------------------------------------ //
-  // MARK: Square-Matrix Math - Multiplication
-  // ------------------------------------------------------------------------ //
-  
-  /// Returns `self` right-divided by `rhs` (e.g. `self / rhs`).
-  func divided(onRightBy rhs: Self) -> Self
-  
-  /// Returns `self` left-divided by `lhs` (e.g.: `lhs.inverted() * self`
-  func divided(onLeftBy lhs: Self) -> Self
-  
-  /// In-place right-divides `self` by `rhs` (e.g. `self = self / rhs`).
-  mutating func formDivision(onRightBy rhs: Self)
-  
-  /// In-place left-divides `self` by `lhs` (e.g. `self = lhs.inverted() * self`).
-  mutating func formDivision(onLeftBy lhs: Self)
   
   // ------------------------------------------------------------------------ //
   // MARK: Transposition

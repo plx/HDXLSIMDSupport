@@ -7,22 +7,21 @@ import SwiftDiagnostics
 
 public struct AddCompatibleMatrixDeclarationsMacro { }
 
-extension AddCompatibleMatrixDeclarationsMacro: MemberMacro {
+extension AddCompatibleMatrixDeclarationsMacro: MemberMacro, SIMDSupportMacro {
 
   static func compatibleMatrixTypeName(
+    node: AttributeSyntax,
     typeName: String,
     shape: SIMDMatrixShape
-  ) throws -> String {
+  ) throws -> String? {
     switch typeName.hasSuffix("Storage") {
     case false:
       return "Matrix\(shape.typeNameComponent)<Scalar>"
     case true:
-      guard let scalarType = SIMDMatrixScalar.extracting(
-        fromSwiftTypeName: typeName
-      ) else {
-        // TODO: real errors!
-        fatalError()
-      }
+      let scalarType = try requiredScalar(
+        node: node,
+        typeName: typeName
+      )
       
       return "\(scalarType.swiftTypeName)\(shape.typeNameComponent)Storage"
     }
@@ -33,27 +32,24 @@ extension AddCompatibleMatrixDeclarationsMacro: MemberMacro {
     providingMembersOf declaration: some DeclGroupSyntax,
     in context: some MacroExpansionContext
   ) throws -> [DeclSyntax] {
-    guard
-      let matrixStructDecl = declaration.as(StructDeclSyntax.self)
-    else {
-      // TODO: attachment-site validation, real errors, etc.
-      fatalError()
-    }
+    let matrixStructDecl = try requiredStructDeclaration(
+      node: node,
+      declaration: declaration
+    )
     
     let typeName = "\(matrixStructDecl.name.trimmed)"
     
-    guard let matrixShape = SIMDMatrixShape.extracting(
-      fromTypeName: typeName
-    ) else {
-      // TODO: attachment-site validation, real errors, etc.
-      fatalError()
-    }
+    let matrixShape = try requiredShape(
+      node: node,
+      typeName: typeName
+    )
 
     return try matrixShape
       .allCompatibleMatrixShapesInAestheticOrdering
       .lazy
       .map { compatibleShape in
         let compatibleName = try compatibleMatrixTypeName(
+          node: node,
           typeName: typeName,
           shape: compatibleShape
         )

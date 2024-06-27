@@ -131,7 +131,20 @@ let package = Package(
     .testTarget(
       name: "HDXLSIMDSupportTests",
       dependencies: ["HDXLSIMDSupport"]
-    )
+    ),
+    .testTarget(
+      name: "HDXLSIMDSupportProtocolsTests",
+      dependencies: [
+        "HDXLSIMDSupportProtocols"
+      ]
+    ),
+    .testTarget(
+      name: "HDXLSIMDSupportMacrosTests",
+      dependencies: [
+        "HDXLSIMDSupportProtocols",
+        "HDXLSIMDSupportMacrosPlugin"
+      ]
+    ),
   ],
   swiftLanguageVersions: [
     .v6

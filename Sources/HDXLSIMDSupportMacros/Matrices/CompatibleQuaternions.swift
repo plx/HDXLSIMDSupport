@@ -7,5 +7,5 @@ import HDXLSIMDSupportProtocols
 )
 package macro AddCompatibleQuaternion() = #externalMacro(
   module: "HDXLSIMDSupportMacrosPlugin",
-  type: "AddCompatibleQuaternionDeclarationsMacro"
+  type: "AddMatrixCompatibleQuaternionDeclarationMacro"
 )

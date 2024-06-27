@@ -37,7 +37,23 @@ public struct MatrixPosition {
 }
 
 // -------------------------------------------------------------------------- //
-// MARK: MatrixPosition - Diagonal
+// MARK: - Synthesized Conformances
+// -------------------------------------------------------------------------- //
+
+extension MatrixPosition : Sendable { }
+extension MatrixPosition : Equatable { }
+extension MatrixPosition : Hashable { }
+extension MatrixPosition : Codable { }
+extension MatrixPosition : Identifiable {
+  public typealias ID = Self
+  
+  @inlinable
+  public var id: ID { self }
+}
+
+
+// -------------------------------------------------------------------------- //
+// MARK: - Diagonal
 // -------------------------------------------------------------------------- //
 
 extension MatrixPosition {
@@ -57,7 +73,7 @@ extension MatrixPosition {
 }
 
 // -------------------------------------------------------------------------- //
-// MARK: MatrixPosition - Tranposition
+// MARK: - Tranposition
 // -------------------------------------------------------------------------- //
 
 extension MatrixPosition {
@@ -83,7 +99,7 @@ extension MatrixPosition {
 }
 
 // -------------------------------------------------------------------------- //
-// MARK: MatrixPosition - With
+// MARK: - With
 // -------------------------------------------------------------------------- //
 
 extension MatrixPosition {
@@ -110,7 +126,7 @@ extension MatrixPosition {
 
 
 // -------------------------------------------------------------------------- //
-// MARK: MatrixPosition - Validatable
+// MARK: - Validatable
 // -------------------------------------------------------------------------- //
 
 extension MatrixPosition {
@@ -123,22 +139,7 @@ extension MatrixPosition {
 }
 
 // -------------------------------------------------------------------------- //
-// MARK: MatrixPosition - Equatable
-// -------------------------------------------------------------------------- //
-
-extension MatrixPosition : Sendable { }
-extension MatrixPosition : Equatable { }
-extension MatrixPosition : Hashable { }
-extension MatrixPosition : Codable { }
-extension MatrixPosition : Identifiable {
-  public typealias ID = Self
-  
-  @inlinable
-  public var id: ID { self }
-}
-
-// -------------------------------------------------------------------------- //
-// MARK: MatrixPosition - CustomStringConvertible
+// MARK: - CustomStringConvertible
 // -------------------------------------------------------------------------- //
 
 extension MatrixPosition : CustomStringConvertible {
@@ -151,7 +152,7 @@ extension MatrixPosition : CustomStringConvertible {
 }
 
 // -------------------------------------------------------------------------- //
-// MARK: MatrixPosition - CustomDebugStringConvertible
+// MARK: - CustomDebugStringConvertible
 // -------------------------------------------------------------------------- //
 
 extension MatrixPosition : CustomDebugStringConvertible {

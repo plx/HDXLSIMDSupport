@@ -11,11 +11,16 @@ struct HDXLSIMDSupportMacrosPlugin: CompilerPlugin {
     
     AddMatrixStorageMacro.self,
     AddCompatibleMatrixDeclarationsMacro.self,
-    AddNativeSIMDBackingMacro.self,
+    AddNativeSIMDMatrixBackingMacro.self,
     AddInferredScalarMacro.self,
     AddMatrixRowsAndColumnsMacro.self,
-    AddCompatibleQuaternionDeclarationsMacro.self,
-    
+    AddMatrixCompatibleQuaternionDeclarationMacro.self,
+
+    AddNativeSIMDQuaternionBackingMacro.self,
+    AddQuaternionNumericAggregateMacro.self,
+    AddQVectorSerializationMacro.self,
+    AddQuaternionCompatibleMatrixDeclarationsMacro.self,
+
     DescriptionFromStorageMacro.self,
     DebugDescriptionFromNativeSIMDRepresentationMacro.self,
     

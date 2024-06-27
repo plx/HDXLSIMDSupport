@@ -2,11 +2,11 @@ import Foundation
 
 public struct SIMDMatrixTypeDescriptor {
   
-  public var scalar: SIMDMatrixScalar
+  public var scalar: SIMDAggregateScalar
   public var shape: SIMDMatrixShape
   
   public init(
-    scalar: SIMDMatrixScalar,
+    scalar: SIMDAggregateScalar,
     shape: SIMDMatrixShape
   ) {
     self.scalar = scalar
@@ -23,7 +23,7 @@ extension SIMDMatrixTypeDescriptor : CaseIterable {
   
   public static let allCases: [Self] = {
     var result: [Self] = []
-    let allScalars = SIMDMatrixScalar.allCases
+    let allScalars = SIMDAggregateScalar.allCases
     let allShapes = SIMDMatrixShape.allCases
     result.reserveCapacity(allScalars.count * allShapes.count)
     
@@ -64,7 +64,7 @@ extension SIMDMatrixTypeDescriptor {
     fromSwiftTypeName swiftTypeName: String
   ) -> Self? {
     guard
-      let scalar = SIMDMatrixScalar.extracting(
+      let scalar = SIMDAggregateScalar.extracting(
         fromSwiftTypeName: swiftTypeName
       ),
       let shape = SIMDMatrixShape.extracting(

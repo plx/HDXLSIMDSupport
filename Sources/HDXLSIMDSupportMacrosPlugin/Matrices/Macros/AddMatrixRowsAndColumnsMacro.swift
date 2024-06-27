@@ -7,25 +7,24 @@ import SwiftDiagnostics
 
 public struct AddMatrixRowsAndColumnsMacro { }
 
-extension AddMatrixRowsAndColumnsMacro: MemberMacro {
+extension AddMatrixRowsAndColumnsMacro: MemberMacro, SIMDSupportMacro {
   
   public static func expansion(
     of node: AttributeSyntax,
     providingMembersOf declaration: some DeclGroupSyntax,
     in context: some MacroExpansionContext
   ) throws -> [DeclSyntax] {
-    guard 
-      let matrixStructDecl = declaration.as(StructDeclSyntax.self)
-    else {
-      fatalError()
-    }
+    let matrixStructDecl = try requiredStructDeclaration(
+      node: node,
+      declaration: declaration
+    )
     
     let typeName = "\(matrixStructDecl.name.trimmed)"
-    guard
-      let matrixShape = SIMDMatrixShape.extracting(fromTypeName: typeName)
-    else {
-      fatalError()
-    }
+    
+    let matrixShape = try requiredShape(
+      node: node,
+      typeName: typeName
+    )
     
     return [
       """

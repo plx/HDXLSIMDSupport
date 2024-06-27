@@ -1,6 +1,19 @@
 import Foundation
 import HDXLSIMDSupportProtocols
 
+// MARK: AddQuaternionNumericAggregate
+
+@attached(
+  extension,
+  conformances: NumericAggregate,
+  names: named(allNumericEntriesSatisfy(_:)), named(NumericEntryRepresentation)
+)
+package macro AddQuaternionNumericAggregate() = #externalMacro(
+  module: "HDXLSIMDSupportMacrosPlugin",
+  type: "AddQuaternionNumericAggregateMacro"
+)
+
+
 // MARK: StorageNumericAggregate
 
 @attached(

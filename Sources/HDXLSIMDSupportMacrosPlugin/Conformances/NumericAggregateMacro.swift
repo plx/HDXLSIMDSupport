@@ -5,24 +5,13 @@ import SwiftSyntaxMacros
 import SwiftSyntaxBuilder
 import SwiftDiagnostics
 
-public protocol ColumnarNumericAggregateMacroProtocol: ExtensionMacro {
+public protocol ColumnarNumericAggregateMacroProtocol: ExtensionMacro, SIMDSupportMacro {
   
   static var simdColumnCount: Int { get }
  
 }
 
 extension ColumnarNumericAggregateMacroProtocol {
-  static func extractNumericEntryRepresentation(from typeName: String) throws -> String {
-    if typeName.hasPrefix("Float16") {
-      return "Float16"
-    } else if typeName.hasPrefix("Float") {
-      return "Float"
-    } else if typeName.hasPrefix("Double") {
-      return "Double"
-    } else {
-      fatalError() // TODO: real errors
-    }
-  }
 
   public static func expansion(
     of node: AttributeSyntax,
@@ -36,7 +25,10 @@ extension ColumnarNumericAggregateMacroProtocol {
       .map { "columns.\($0).allNumericEntriesSatisfy(predicate)" }
       .joined(separator: "\n&&\n")
     
-    let numericEntryRepresentation = try extractNumericEntryRepresentation(from: "\(type.trimmed)")
+    let numericEntryRepresentation = try requiredScalar(
+      node: node,
+      typeName: "\(type.trimmed)"
+    )
     
     return [
       try ExtensionDeclSyntax(
@@ -60,14 +52,14 @@ extension ColumnarNumericAggregateMacroProtocol {
   }
 }
 
-public struct TwoColumnNumericAggregateMacro: ColumnarNumericAggregateMacroProtocol {
+public struct TwoColumnNumericAggregateMacro: ColumnarNumericAggregateMacroProtocol, SIMDSupportMacro {
   public static let simdColumnCount: Int = 2
 }
 
-public struct ThreeColumnNumericAggregateMacro: ColumnarNumericAggregateMacroProtocol {
+public struct ThreeColumnNumericAggregateMacro: ColumnarNumericAggregateMacroProtocol, SIMDSupportMacro {
   public static let simdColumnCount: Int = 3
 }
 
-public struct FourColumnNumericAggregateMacro: ColumnarNumericAggregateMacroProtocol {
+public struct FourColumnNumericAggregateMacro: ColumnarNumericAggregateMacroProtocol, SIMDSupportMacro {
   public static let simdColumnCount: Int = 4
 }

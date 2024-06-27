@@ -1,7 +1,16 @@
 import Foundation
 import simd
 
-public extension MatrixPosition {
+extension MatrixPosition {
+
+  // ------------------------------------------------------------------------ //
+  // MARK: Compatibility
+  // ------------------------------------------------------------------------ //
+
+  @inlinable
+  internal func isCompatible(with shape: (Int, Int)) -> Bool {
+    (0...shape.1).contains(rowIndex) && (0...shape.1).contains(columnIndex)
+  }
   
   // ------------------------------------------------------------------------ //
   // MARK: (2, _) Compatibility
@@ -9,44 +18,20 @@ public extension MatrixPosition {
 
   /// `true` iff the indicated position *exists* in a 2x2 matrix.
   @inlinable
-  var isCompatibleWith2x2Matrices: Bool {
-    get {
-      guard
-        (0..<2).contains(self.rowIndex),
-        (0..<2).contains(self.columnIndex)
-      else {
-          return false
-      }
-      return true
-    }
+  public var isCompatibleWith2x2Matrices: Bool {
+    isCompatible(with: (2, 2))
   }
 
   /// `true` iff the indicated position *exists* in a 2x3 matrix.
   @inlinable
-  var isCompatibleWith2x3Matrices: Bool {
-    get {
-      guard
-        (0..<3).contains(self.rowIndex),
-        (0..<2).contains(self.columnIndex)
-      else {
-          return false
-      }
-      return true
-    }
+  public var isCompatibleWith2x3Matrices: Bool {
+    isCompatible(with: (2, 3))
   }
 
   /// `true` iff the indicated position *exists* in a 2x4 matrix.
   @inlinable
-  var isCompatibleWith2x4Matrices: Bool {
-    get {
-      guard
-        (0..<4).contains(self.rowIndex),
-        (0..<2).contains(self.columnIndex)
-      else {
-          return false
-      }
-      return true
-    }
+  public var isCompatibleWith2x4Matrices: Bool {
+    isCompatible(with: (2, 4))
   }
 
   // ------------------------------------------------------------------------ //
@@ -55,44 +40,20 @@ public extension MatrixPosition {
 
   /// `true` iff the indicated position *exists* in a 3x2 matrix.
   @inlinable
-  var isCompatibleWith3x2Matrices: Bool {
-    get {
-      guard
-        (0..<2).contains(self.rowIndex),
-        (0..<3).contains(self.columnIndex)
-      else {
-          return false
-      }
-      return true
-    }
+  public var isCompatibleWith3x2Matrices: Bool {
+    isCompatible(with: (3, 2))
   }
 
   /// `true` iff the indicated position *exists* in a 3x3 matrix.
   @inlinable
-  var isCompatibleWith3x3Matrices: Bool {
-    get {
-      guard
-        (0..<3).contains(self.rowIndex),
-        (0..<3).contains(self.columnIndex)
-      else {
-          return false
-      }
-      return true
-    }
+  public var isCompatibleWith3x3Matrices: Bool {
+    isCompatible(with: (3, 3))
   }
 
   /// `true` iff the indicated position *exists* in a 3x4 matrix.
   @inlinable
-  var isCompatibleWith3x4Matrices: Bool {
-    get {
-      guard
-        (0..<4).contains(self.rowIndex),
-        (0..<3).contains(self.columnIndex)
-      else {
-          return false
-      }
-      return true
-    }
+  public var isCompatibleWith3x4Matrices: Bool {
+    isCompatible(with: (3, 4))
   }
 
   // ------------------------------------------------------------------------ //
@@ -101,44 +62,20 @@ public extension MatrixPosition {
 
   /// `true` iff the indicated position *exists* in a 4x2 matrix.
   @inlinable
-  var isCompatibleWith4x2Matrices: Bool {
-    get {
-      guard
-        (0..<2).contains(self.rowIndex),
-        (0..<4).contains(self.columnIndex)
-      else {
-          return false
-      }
-      return true
-    }
+  public var isCompatibleWith4x2Matrices: Bool {
+    isCompatible(with: (4, 2))
   }
 
   /// `true` iff the indicated position *exists* in a 4x3 matrix.
   @inlinable
   var isCompatibleWith4x3Matrices: Bool {
-    get {
-      guard
-        (0..<3).contains(self.rowIndex),
-        (0..<4).contains(self.columnIndex)
-      else {
-          return false
-      }
-      return true
-    }
+    isCompatible(with: (4, 3))
   }
 
   /// `true` iff the indicated position *exists* in a 4x4 matrix.
   @inlinable
-  var isCompatibleWith4x4Matrices: Bool {
-    get {
-      guard
-        (0..<4).contains(self.rowIndex),
-        (0..<4).contains(self.columnIndex)
-      else {
-          return false
-      }
-      return true
-    }
+  public var isCompatibleWith4x4Matrices: Bool {
+    isCompatible(with: (4, 4))
   }
   
 }

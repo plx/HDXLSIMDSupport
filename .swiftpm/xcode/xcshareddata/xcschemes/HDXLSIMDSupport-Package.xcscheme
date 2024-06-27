@@ -104,6 +104,26 @@
                ReferencedContainer = "container:">
             </BuildableReference>
          </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "HDXLSIMDSupportMacrosTests"
+               BuildableName = "HDXLSIMDSupportMacrosTests"
+               BlueprintName = "HDXLSIMDSupportMacrosTests"
+               ReferencedContainer = "container:">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "HDXLSIMDSupportProtocolsTests"
+               BuildableName = "HDXLSIMDSupportProtocolsTests"
+               BlueprintName = "HDXLSIMDSupportProtocolsTests"
+               ReferencedContainer = "container:">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
    </TestAction>
    <LaunchAction

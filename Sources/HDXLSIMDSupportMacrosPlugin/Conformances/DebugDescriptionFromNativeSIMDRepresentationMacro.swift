@@ -23,7 +23,7 @@ extension DebugDescriptionFromNativeSIMDRepresentationMacro: ExtensionMacro {
         extension \(type.trimmed) : CustomDebugStringConvertible {
         
           @inlinable
-          public var description: String {
+          public var debugDescription: String {
             "\\(String(reflecting: Self.self))(nativeSIMDRepresentation: \\(String(reflecting: nativeSIMDRepresentation)))"
           }
         

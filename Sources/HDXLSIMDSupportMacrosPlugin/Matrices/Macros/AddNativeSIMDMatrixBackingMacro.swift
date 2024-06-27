@@ -5,29 +5,26 @@ import SwiftSyntaxMacros
 import SwiftSyntaxBuilder
 import SwiftDiagnostics
 
-public struct AddNativeSIMDBackingMacro { }
+public struct AddNativeSIMDMatrixBackingMacro: SIMDSupportMacro { }
 
-extension AddNativeSIMDBackingMacro: MemberMacro {
+extension AddNativeSIMDMatrixBackingMacro: MemberMacro {
   
   public static func expansion(
     of node: AttributeSyntax,
     providingMembersOf declaration: some DeclGroupSyntax,
     in context: some MacroExpansionContext
   ) throws -> [DeclSyntax] {
-    guard
-      let matrixStructDecl = declaration.as(StructDeclSyntax.self)
-    else {
-      // TODO: attachment-site validation, real errors, etc.
-      fatalError()
-    }
+    let matrixStructDecl = try requiredStructDeclaration(
+      node: node,
+      declaration: declaration
+    )
     
     let typeName = "\(matrixStructDecl.name.trimmed)"
     
-    guard let matrixTypeDescriptor = SIMDMatrixTypeDescriptor.extracting(
-      fromSwiftTypeName: typeName
-    ) else {
-      fatalError()
-    }
+    let matrixTypeDescriptor = try requiredMatrixTypeDescriptor(
+      node: node,
+      typeName: typeName
+    )
 
     return [
       """
@@ -52,7 +49,7 @@ extension AddNativeSIMDBackingMacro: MemberMacro {
   
 }
 
-extension AddNativeSIMDBackingMacro: ExtensionMacro {
+extension AddNativeSIMDMatrixBackingMacro: ExtensionMacro {
 
   public static func expansion(
     of node: AttributeSyntax,
@@ -61,20 +58,17 @@ extension AddNativeSIMDBackingMacro: ExtensionMacro {
     conformingTo protocols: [TypeSyntax],
     in context: some MacroExpansionContext
   ) throws -> [ExtensionDeclSyntax] {
-    guard
-      let matrixStructDecl = declaration.as(StructDeclSyntax.self)
-    else {
-      // TODO: attachment-site validation, real errors, etc.
-      fatalError()
-    }
+    let matrixStructDecl = try requiredStructDeclaration(
+      node: node,
+      declaration: declaration
+    )
     
     let typeName = "\(matrixStructDecl.name.trimmed)"
     
-    guard let matrixTypeDescriptor = SIMDMatrixTypeDescriptor.extracting(
-      fromSwiftTypeName: typeName
-    ) else {
-      fatalError()
-    }
+    let matrixTypeDescriptor = try requiredMatrixTypeDescriptor(
+      node: node,
+      typeName: typeName
+    )
 
     return [
       try ExtensionDeclSyntax(

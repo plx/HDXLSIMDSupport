@@ -1,6 +1,6 @@
 import Foundation
 
-public enum SIMDMatrixScalar {
+public enum SIMDAggregateScalar {
   
   case double
   case float
@@ -8,19 +8,19 @@ public enum SIMDMatrixScalar {
   
 }
 
-extension SIMDMatrixScalar: Sendable { }
-extension SIMDMatrixScalar: Equatable { }
-extension SIMDMatrixScalar: Hashable { }
-extension SIMDMatrixScalar: CaseIterable { }
-extension SIMDMatrixScalar: Codable { }
+extension SIMDAggregateScalar: Sendable { }
+extension SIMDAggregateScalar: Equatable { }
+extension SIMDAggregateScalar: Hashable { }
+extension SIMDAggregateScalar: CaseIterable { }
+extension SIMDAggregateScalar: Codable { }
 
-extension SIMDMatrixScalar: Identifiable {
+extension SIMDAggregateScalar: Identifiable {
   public typealias ID = Self
   
   public var id: ID { self }
 }
 
-extension SIMDMatrixScalar: CustomStringConvertible {
+extension SIMDAggregateScalar: CustomStringConvertible {
   
   public var description: String {
     switch self {
@@ -35,22 +35,22 @@ extension SIMDMatrixScalar: CustomStringConvertible {
   
 }
 
-extension SIMDMatrixScalar: CustomDebugStringConvertible {
+extension SIMDAggregateScalar: CustomDebugStringConvertible {
   
   public var debugDescription: String {
     switch self {
     case .double:
-      "SIMDMatrixScalar.double"
+      "SIMDAggregateScalar.double"
     case .float:
-      "SIMDMatrixScalar.float"
+      "SIMDAggregateScalar.float"
     case .half:
-      "SIMDMatrixScalar.half"
+      "SIMDAggregateScalar.half"
     }
   }
   
 }
 
-extension SIMDMatrixScalar {
+extension SIMDAggregateScalar {
   
   /// This type's representation within longer simd types, e.g. the `float` within `simd_float4x4`.
   public var simdInfixTypeName: String {
@@ -76,6 +76,16 @@ extension SIMDMatrixScalar {
     }
   }
   
+  /// This full name of this type's simd quaternion (e.g. `simd_quatd`).
+  public var nativeSIMDQuaternionTypeName: String {
+    "simd_quat\(simdSuffixTypeCode)"
+  }
+  
+  /// The full name of the quaternion-storage type for this scalar (e.g. `FloatQuaternionStorage`).
+  public var quaternionStorageTypeName: String {
+    "\(swiftTypeName)QuaternionStorage"
+  }
+  
   /// This type's representation in Swift (e.g. `Float16` for `half`).
   public var swiftTypeName: String {
     switch self {
@@ -90,7 +100,7 @@ extension SIMDMatrixScalar {
 
 }
 
-extension SIMDMatrixScalar {
+extension SIMDAggregateScalar {
   internal static let allCasesInExtractionSearchOrdering: [Self] = [
     .half,
     .float,

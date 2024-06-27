@@ -4,7 +4,10 @@ import HDXLSIMDSupportProtocols
 @attached(
   extension,
   conformances: Codable,
-  names: named(SerializationKeys), named(encode(into:)), named(init(from:))
+  names: 
+    named(SerializationKeys),
+    named(encode(into:)),
+    named(init(from:))
 )
 package macro TwoColumnNativeSIMDCodable() = #externalMacro(
   module: "HDXLSIMDSupportMacrosPlugin",
@@ -14,7 +17,10 @@ package macro TwoColumnNativeSIMDCodable() = #externalMacro(
 @attached(
   extension,
   conformances: Codable,
-  names: named(SerializationKeys), named(encode(into:)), named(init(from:))
+  names:
+    named(SerializationKeys),
+    named(encode(into:)),
+    named(init(from:))
 )
 package macro ThreeColumnNativeSIMDCodable() = #externalMacro(
   module: "HDXLSIMDSupportMacrosPlugin",
@@ -24,7 +30,10 @@ package macro ThreeColumnNativeSIMDCodable() = #externalMacro(
 @attached(
   extension,
   conformances: Codable,
-  names: named(SerializationKeys), named(encode(into:)), named(init(from:))
+  names: 
+    named(SerializationKeys),
+    named(encode(into:)),
+    named(init(from:))
 )
 package macro FourColumnNativeSIMDCodable() = #externalMacro(
   module: "HDXLSIMDSupportMacrosPlugin",

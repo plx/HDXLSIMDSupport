@@ -13,12 +13,11 @@ import HDXLSIMDSupportMacros
 @SwiftUIVectorArithmetic
 @DescriptionFromStorage
 @DebugDescriptionFromNativeSIMDRepresentation
-public struct Matrix4x3<Scalar:ExtendedSIMDScalar>  :
+public struct Matrix4x3<Scalar:ExtendedSIMDScalar> :
   Matrix4x3Protocol,
+  Sendable,
   Hashable,
   Codable
 {
   
 }
-
-extension Matrix4x3: Sendable where Scalar.Matrix4x3Storage: Sendable { }

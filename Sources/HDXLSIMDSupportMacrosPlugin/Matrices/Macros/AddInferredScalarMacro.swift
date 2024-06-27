@@ -7,25 +7,26 @@ import SwiftDiagnostics
 
 public struct AddInferredScalarMacro { }
 
-extension AddInferredScalarMacro: MemberMacro {
+extension AddInferredScalarMacro: MemberMacro, SIMDSupportMacro {
   
   public static func expansion(
     of node: AttributeSyntax,
     providingMembersOf declaration: some DeclGroupSyntax,
     in context: some MacroExpansionContext
   ) throws -> [DeclSyntax] {
-    guard
-      let matrixStructDecl = declaration.as(StructDeclSyntax.self),
-      let matrixTypeDescriptor = SIMDMatrixTypeDescriptor.extracting(
-        fromSwiftTypeName: "\(matrixStructDecl.name.trimmed)"
-      )
-    else {
-      // TODO: attachment-site validation, real errors, etc.
-      fatalError()
-    }
+    let matrixStructDecl = try requiredStructDeclaration(
+      node: node,
+      declaration: declaration
+    )
     
     let typeName = "\(matrixStructDecl.name.trimmed)"
-    let scalarTypeName = matrixTypeDescriptor.scalar.swiftTypeName
+    
+    let scalar = try requiredScalar(
+      node: node,
+      typeName: typeName
+    )
+
+    let scalarTypeName = scalar.swiftTypeName
     
     return [
       """

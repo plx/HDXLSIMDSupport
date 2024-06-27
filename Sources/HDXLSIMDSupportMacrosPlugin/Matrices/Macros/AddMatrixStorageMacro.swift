@@ -7,20 +7,18 @@ import SwiftDiagnostics
 
 public struct AddMatrixStorageMacro { }
 
-extension AddMatrixStorageMacro: MemberMacro {
+extension AddMatrixStorageMacro: MemberMacro, SIMDSupportMacro {
 
   public static func expansion(
     of node: AttributeSyntax,
     providingMembersOf declaration: some DeclGroupSyntax,
     in context: some MacroExpansionContext
   ) throws -> [DeclSyntax] {
-    guard
-      let matrixStructDecl = declaration.as(StructDeclSyntax.self) 
-    else {
-      // TODO: attachment-site validation, real errors, etc.
-      fatalError()
-    }
-    
+    let matrixStructDecl = try requiredStructDeclaration(
+      node: node,
+      declaration: declaration
+    )
+
     return [
       """
       /// The backing concrete type for this matrix.

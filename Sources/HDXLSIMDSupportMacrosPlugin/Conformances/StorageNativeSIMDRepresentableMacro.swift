@@ -8,18 +8,7 @@ import SwiftDiagnostics
 public struct StorageNativeSIMDRepresentableMacro { }
 
 extension StorageNativeSIMDRepresentableMacro: ExtensionMacro {
-  static func extractNumericEntryRepresentation(from typeName: String) throws -> String {
-    if typeName.hasPrefix("Float16") {
-      return "Float16"
-    } else if typeName.hasPrefix("Float") {
-      return "Float"
-    } else if typeName.hasPrefix("Double") {
-      return "Double"
-    } else {
-      fatalError() // TODO: real errors
-    }
-  }
-
+  
   public static func expansion(
     of node: AttributeSyntax,
     attachedTo declaration: some DeclGroupSyntax,
@@ -28,7 +17,7 @@ extension StorageNativeSIMDRepresentableMacro: ExtensionMacro {
     in context: some MacroExpansionContext
   ) throws -> [ExtensionDeclSyntax] {
     // TODO: attachment-site validation, real errors, etc.
-        
+    
     return [
       try ExtensionDeclSyntax(
         """
@@ -54,5 +43,5 @@ extension StorageNativeSIMDRepresentableMacro: ExtensionMacro {
       )
     ]
   }
+  
 }
-

@@ -4,7 +4,7 @@ import HDXLSIMDSupportProtocols
 import HDXLSIMDSupportMacros
 
 @frozen
-@AddNativeSIMDBacking
+@AddNativeSIMDMatrixBacking
 @AddInferredScalar
 @AddMatrixRowsAndColumns
 @Add4x4CompatibleMatrices
