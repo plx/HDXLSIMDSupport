@@ -1,6 +1,7 @@
 import SwiftSyntax
 import SwiftDiagnostics
 import SwiftSyntaxMacros
+import HDXLSIMDSupportProtocols
 
 extension SIMDSupportMacro {
 

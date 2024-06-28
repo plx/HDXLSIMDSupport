@@ -1,49 +1,7 @@
 import Testing
 import simd
-@testable import HDXLSIMDSupportMacrosPlugin
-/*
- public func rowVectorTypeName(scalar: SIMDAggregateScalar) -> String {
- rowVectorTypeName(genericParameterName: scalar.swiftTypeName)
- }
- 
- public func columnVectorTypeName(scalar: SIMDAggregateScalar) -> String {
- columnVectorTypeName(genericParameterName: scalar.swiftTypeName)
- }
- 
- public func diagonalVectorTypeName(scalar: SIMDAggregateScalar) -> String {
- diagonalVectorTypeName(genericParameterName: scalar.swiftTypeName)
- }
- 
- public func rowVectorTypeName(genericParameterName: String = "Scalar") -> String {
- "SIMD\(rowLength)<\(genericParameterName)>"
- }
- 
- public func columnVectorTypeName(genericParameterName: String = "Scalar") -> String {
- "SIMD\(columnLength)<\(genericParameterName)>"
- }
- 
- public func diagonalVectorTypeName(genericParameterName: String = "Scalar") -> String {
- "SIMD\(diagonalLength)<\(genericParameterName)>"
- }
- 
- public var rowsTypeName: String {
- let interior = (0..<rowCount)
- .lazy
- .map { _ in "RowVector" }
- .joined(separator: ", ")
- return "(\(interior))"
- }
- 
- public var columnsTypeName: String {
- let interior = (0..<columnCount)
- .lazy
- .map { _ in "ColumnCount" }
- .joined(separator: ", ")
- return "(\(interior))"
- }
- */
-
-// MARK: xxxTypeName(scalar:)
+@testable import HDXLSIMDSupportProtocols
+import HDXLSIMDSupportProtocolsTestSupport
 
 @Test(
   "`SIMDMatrixShape.rowVectorTypeName(scalar:)` (properties)",
@@ -206,7 +164,7 @@ func testSIMDMatrixShapeRowsTypeNamePropertiesFor2ColumnShapes(
 
 @Test(
   "`SIMDMatrixShape.columnsTypeName` (3-columns, properties)",
-  arguments: matrixShapes(forRowCount: 3)
+  arguments: matrixShapes(forColumnCount: 3)
 )
 func testSIMDMatrixShapeColumnsTypeNamePropertiesFor3ColumnShapes(
   shape: SIMDMatrixShape

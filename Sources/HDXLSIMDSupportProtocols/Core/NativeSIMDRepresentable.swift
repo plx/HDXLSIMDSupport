@@ -11,7 +11,7 @@ import simd
 /// `Passthrough` protocol, but in the interest of sane compilation times it's now a minimal, "just in case"
 /// thing; the only reason it *didn't* get eliminated is due to my wanting to hide the "Storage" layer in the
 /// `description` and `debugDescription` implementations for quaternions and matrices.
-/// 
+@usableFromInline
 package protocol NativeSIMDRepresentable<NativeSIMDRepresentation> {
   
   /// The type of underlying native-SIMD value.

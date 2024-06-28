@@ -1,6 +1,7 @@
 import Foundation
 
-public enum SIMDMatrixShape: Int {
+@usableFromInline
+package enum SIMDMatrixShape: Int {
   
   case _2x2 = 22
   case _2x3 = 23
@@ -21,7 +22,8 @@ extension SIMDMatrixShape: CaseIterable { }
 extension SIMDMatrixShape: Codable { }
 
 extension SIMDMatrixShape: Comparable {
-  public static func < (
+  @inlinable
+  package static func < (
     lhs: Self,
     rhs: Self
   ) -> Bool {
@@ -30,14 +32,17 @@ extension SIMDMatrixShape: Comparable {
 }
 
 extension SIMDMatrixShape: Identifiable {
-  public typealias ID = Self
+  @usableFromInline
+  package typealias ID = Self
   
-  public var id: ID { self }
+  @usableFromInline
+  package var id: ID { self }
 }
 
 extension SIMDMatrixShape: CustomStringConvertible {
   
-  public var description: String {
+  @inlinable
+  package var description: String {
     typeNameComponent
   }
   
@@ -45,7 +50,8 @@ extension SIMDMatrixShape: CustomStringConvertible {
 
 extension SIMDMatrixShape: CustomDebugStringConvertible {
 
-  public var debugDescription: String {
+  @inlinable
+  package var debugDescription: String {
     switch self {
     case ._2x2:
       "SIMDMatrixShape._2x2"
@@ -73,7 +79,8 @@ extension SIMDMatrixShape: CustomDebugStringConvertible {
 extension SIMDMatrixShape {
   
   /// This shape's representation within type names, e.g. the `4x4` within `simd_float4x4`.
-  public var typeNameComponent: String {
+  @inlinable
+  package var typeNameComponent: String {
     switch self {
     case ._2x2:
       "2x2"
@@ -100,7 +107,8 @@ extension SIMDMatrixShape {
 
 extension SIMDMatrixShape {
   
-  static func extracting(fromTypeName typeName: String) -> Self? {
+  @inlinable
+  package static func extracting(fromTypeName typeName: String) -> Self? {
     guard typeName.count >= 3 else {
       return nil
     }
@@ -116,7 +124,8 @@ extension SIMDMatrixShape {
 
 extension SIMDMatrixShape {
   
-  public var columnCount: Int {
+  @inlinable
+  package var columnCount: Int {
     switch self {
     case ._2x2:
       2
@@ -139,7 +148,8 @@ extension SIMDMatrixShape {
     }
   }
   
-  public var rowCount: Int {
+  @inlinable
+  package var rowCount: Int {
     switch self {
     case ._2x2:
       2
@@ -162,7 +172,8 @@ extension SIMDMatrixShape {
     }
   }
 
-  public var rowLength: Int {
+  @inlinable
+  package var rowLength: Int {
     switch self {
     case ._2x2:
       2
@@ -185,7 +196,8 @@ extension SIMDMatrixShape {
     }
   }
   
-  public var columnLength: Int {
+  @inlinable
+  package var columnLength: Int {
     switch self {
     case ._2x2:
       2
@@ -208,7 +220,8 @@ extension SIMDMatrixShape {
     }
   }
   
-  public var isCompatibleWithQuaternions: Bool {
+  @inlinable
+  package var isCompatibleWithQuaternions: Bool {
     switch self {
     case ._3x3, ._4x4:
       return true
@@ -217,11 +230,13 @@ extension SIMDMatrixShape {
     }
   }
 
-  public var diagonalLength: Int {
+  @inlinable
+  package var diagonalLength: Int {
     Swift.min(rowLength, columnLength)
   }
   
-  public var isSquare: Bool {
+  @inlinable
+  package var isSquare: Bool {
     switch self {
     case ._2x2, ._3x3, ._4x4:
       true
@@ -230,7 +245,8 @@ extension SIMDMatrixShape {
     }
   }
   
-  public var transpose: Self {
+  @inlinable
+  package var transpose: Self {
     switch self {
     case ._2x2:
       ._2x2
@@ -253,15 +269,18 @@ extension SIMDMatrixShape {
     }
   }
   
-  public var allAxisLengths: Set<Int> {
+  @inlinable
+  package var allAxisLengths: Set<Int> {
     [ rowCount, columnCount ]
   }
   
-  public func isCompatible(with other: Self) -> Bool {
+  @inlinable
+  package func isCompatible(with other: Self) -> Bool {
     !allAxisLengths.isDisjoint(with: other.allAxisLengths)
   }
   
-  public var allCompatibleMatrixShapes: Set<Self> {
+  @inlinable
+  package var allCompatibleMatrixShapes: Set<Self> {
     Set(
       Self
       .allCases
@@ -273,7 +292,8 @@ extension SIMDMatrixShape {
     )
   }
   
-  public var allCompatibleMatrixShapesInAestheticOrdering: [Self] {
+  @inlinable
+  package var allCompatibleMatrixShapesInAestheticOrdering: [Self] {
     let allCompatibleMatrixShapes = allCompatibleMatrixShapes
     let shapesOrderedAscending = allCompatibleMatrixShapes.sorted()
     

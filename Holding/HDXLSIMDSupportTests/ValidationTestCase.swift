@@ -10,9 +10,9 @@ class ValidationTestCase: XCTestCase {
     var continueAfterFailure: Bool {
       switch self {
       case .continueExecution:
-        true
+        return true
       case .haltImmediately:
-        false
+        return false
       }
     }
     
@@ -28,7 +28,7 @@ class ValidationTestCase: XCTestCase {
   
   var failureReaction: FailureReaction {
     get {
-      FailureReaction(continueAfterFailure: continueAfterFailure)
+      return FailureReaction(continueAfterFailure: continueAfterFailure)
     }
     set {
       continueAfterFailure = newValue.continueAfterFailure
@@ -40,9 +40,16 @@ class ValidationTestCase: XCTestCase {
     _ work: () async throws -> R
   ) async rethrows -> R {
     let previousReaction = self.failureReaction
-    self.failureReaction = failureReaction
     defer { self.failureReaction = previousReaction }
     return try await work()
   }
-  
+//  
+//  func withFailureReaction<R>(
+//    _ failureReaction: FailureReaction,
+//    _ work: () throws -> R
+//  ) rethrows -> R {
+//    let previousReaction = self.failureReaction
+//    defer { self.failureReaction = previousReaction }
+//    return try work()
+//  }
 }

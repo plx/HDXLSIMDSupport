@@ -1,10 +1,9 @@
 import Testing
 import simd
-@testable import HDXLSIMDSupportMacrosPlugin
-
+@testable import HDXLSIMDSupportProtocols
 
 @Test("`SIMDAggregateScalar.simdInfixTypeName`")
-func testSIMDAggregateScalarSIMDInfixTypeName() {
+func testSIMDAggregateScalarSIMDInfixTypeName() throws {
   #expect(
     "double" == SIMDAggregateScalar.double.simdInfixTypeName
   )
@@ -17,14 +16,14 @@ func testSIMDAggregateScalarSIMDInfixTypeName() {
   
   // then double-check ourselves for uniqueness:
   #expect(
-    SIMDAggregateScalar
+    try SIMDAggregateScalar
       .allCases
       .obtainsDistinctValues(for: \.simdInfixTypeName)
   )
 }
 
 @Test("`SIMDAggregateScalar.simdSuffixTypeCode`")
-func testSIMDAggregateScalarSIMDSuffixTypeCode() {
+func testSIMDAggregateScalarSIMDSuffixTypeCode() throws {
   #expect(
     "d" == SIMDAggregateScalar.double.simdSuffixTypeCode
   )
@@ -37,7 +36,7 @@ func testSIMDAggregateScalarSIMDSuffixTypeCode() {
   
   // then double-check ourselves for uniqueness:
   #expect(
-    SIMDAggregateScalar
+    try SIMDAggregateScalar
       .allCases
       .obtainsDistinctValues(for: \.simdSuffixTypeCode)
   )
@@ -60,7 +59,7 @@ func testSIMDAggregateScalarQuaternionStorageTypeName(
 }
 
 @Test("`SIMDAggregateScalar.nativeSIMDQuaternionTypeName`")
-func testSIMDAggregateScalarNativeSIMDQuaternionTypeName() {
+func testSIMDAggregateScalarNativeSIMDQuaternionTypeName() throws {
   // check we get the expected results:
   #expect(
     "simd_quatd" == SIMDAggregateScalar.double.nativeSIMDQuaternionTypeName
@@ -74,36 +73,36 @@ func testSIMDAggregateScalarNativeSIMDQuaternionTypeName() {
   
   // double-check we have the names correct:
   #expect(
-    String(reflecting: simd_quatd.self) == "simd_quatd"
+    String(describing: simd_quatd.self) == "simd_quatd"
   )
   #expect(
-    String(reflecting: simd_quatf.self) == "simd_quatf"
+    String(describing: simd_quatf.self) == "simd_quatf"
   )
   #expect(
-    String(reflecting: simd_quath.self) == "simd_quath"
+    String(describing: simd_quath.self) == "simd_quath"
   )
 
   // triple-check we get the expected results:
   #expect(
-    String(reflecting: simd_quatd.self) == SIMDAggregateScalar.double.nativeSIMDQuaternionTypeName
+    String(describing: simd_quatd.self) == SIMDAggregateScalar.double.nativeSIMDQuaternionTypeName
   )
   #expect(
-    String(reflecting: simd_quatf.self) == SIMDAggregateScalar.float.nativeSIMDQuaternionTypeName
+    String(describing: simd_quatf.self) == SIMDAggregateScalar.float.nativeSIMDQuaternionTypeName
   )
   #expect(
-    String(reflecting: simd_quath.self) == SIMDAggregateScalar.half.nativeSIMDQuaternionTypeName
+    String(describing: simd_quath.self) == SIMDAggregateScalar.half.nativeSIMDQuaternionTypeName
   )
 
   // then quadruple-check ourselves for uniqueness:
   #expect(
-    SIMDAggregateScalar
+    try SIMDAggregateScalar
       .allCases
       .obtainsDistinctValues(for: \.nativeSIMDQuaternionTypeName)
   )
 }
 
 @Test("`SIMDAggregateScalar.swiftTypeName`")
-func testSIMDAggregateScalarSIMDSwiftTypeName() {
+func testSIMDAggregateScalarSIMDSwiftTypeName() throws {
   #expect(
     "Double" == SIMDAggregateScalar.double.swiftTypeName
   )
@@ -116,7 +115,7 @@ func testSIMDAggregateScalarSIMDSwiftTypeName() {
   
   // then double-check ourselves for uniqueness:
   #expect(
-    SIMDAggregateScalar
+    try SIMDAggregateScalar
       .allCases
       .obtainsDistinctValues(for: \.swiftTypeName)
   )
@@ -173,4 +172,3 @@ func testSIMDAggregateScalarExtractingFromSwiftTypeNameOnInvalidInput(
 ) throws {
   #expect(nil == SIMDAggregateScalar.extracting(fromSwiftTypeName: example))
 }
-

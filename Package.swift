@@ -130,7 +130,9 @@ let package = Package(
     ),
     .macro(
       name: "HDXLSIMDSupportMacrosPlugin",
-      dependencies: macroPluginDependencies
+      dependencies: [
+        "HDXLSIMDSupportProtocols"
+      ] + macroPluginDependencies
     ),
     .testTarget(
       name: "HDXLSIMDSupportTests",

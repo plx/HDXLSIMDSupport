@@ -1,11 +1,11 @@
 import Testing
 import simd
-@testable import HDXLSIMDSupportMacrosPlugin
+@testable import HDXLSIMDSupportProtocols
 
 @Test("`SIMDMatrixShape.description` (uniqueness)")
-func testSIMDMatrixShapeDescriptionCoherence() {
+func testSIMDMatrixShapeDescriptionCoherence() throws {
   #expect(
-    SIMDMatrixShape
+    try SIMDMatrixShape
       .allCases
       .obtainsDistinctValues(for: \.description)
   )
@@ -24,9 +24,9 @@ func testSIMDMatrixShapeDescriptionContainsShape(
 }
 
 @Test("`SIMDMatrixShape.debugDescription` (uniqueness)")
-func testSIMDMatrixShapeDebugDescriptionCoherence() {
+func testSIMDMatrixShapeDebugDescriptionCoherence() throws {
   #expect(
-    SIMDMatrixShape
+    try SIMDMatrixShape
       .allCases
       .obtainsDistinctValues(for: \.debugDescription)
   )
@@ -49,7 +49,7 @@ func testSIMDMatrixShapeDebugDescriptionContainsShapeAndTypeName(
 
 
 @Test("`SIMDMatrixShape.typeNameComponent`")
-func testSIMDMatrixShapeTypeNameComponent() {
+func testSIMDMatrixShapeTypeNameComponent() throws {
   // manual check:
   #expect(
     "2x2" == SIMDMatrixShape._2x2.typeNameComponent
@@ -81,14 +81,14 @@ func testSIMDMatrixShapeTypeNameComponent() {
   
   // coherency check:
   #expect(
-    SIMDMatrixShape
+    try SIMDMatrixShape
       .allCases
       .obtainsDistinctValues(for: \.typeNameComponent)
   )
 }
 
 @Test(
-  "`SIMDMatrixShape.columnCount`",
+  "`SIMDMatrixShape.columnLength`",
   arguments: zip(
     [2, 3, 4],
     [
@@ -98,17 +98,17 @@ func testSIMDMatrixShapeTypeNameComponent() {
     ]
   )
 )
-func testSIMDMatrixShapeColumnCount(
-  columnCount: Int,
+func testSIMDMatrixShapeColumnLength(
+  columnLength: Int,
   examples: [SIMDMatrixShape]
 ) {
   for example in examples {
-    #expect(columnCount == example.columnCount)
+    #expect(columnLength == example.columnLength)
   }
 }
 
 @Test(
-  "`SIMDMatrixShape.rowCount`",
+  "`SIMDMatrixShape.rowLength`",
   arguments: zip(
     [2, 3, 4],
     [
@@ -118,12 +118,12 @@ func testSIMDMatrixShapeColumnCount(
     ]
   )
 )
-func testSIMDMatrixShapeRowCount(
-  rowCount: Int,
+func testSIMDMatrixShapeRowLength(
+  rowLength: Int,
   examples: [SIMDMatrixShape]
 ) {
   for example in examples {
-    #expect(rowCount == example.rowCount)
+    #expect(rowLength == example.rowLength)
   }
 }
 
@@ -148,14 +148,14 @@ func testSIMDMatrixShapeRowCount(
 }
 
 @Test(
-  "Cross-check row-counts and column-counts w/type-name-component",
+  "Cross-check row-length and column-lengths w/type-name-component",
   arguments: SIMDMatrixShape.allCases
 )
-func testSIMDMatrixTypeNameComponentAgainstRowCountsAndColumnCounts(
+func testSIMDMatrixTypeNameComponentAgainstRowLengthsAndColumnLengths(
   matrixShape: SIMDMatrixShape
 ) {
   #expect(
-    matrixShape.typeNameComponent == "\(matrixShape.rowCount)x\(matrixShape.columnCount)"
+    matrixShape.typeNameComponent == "\(matrixShape.rowLength)x\(matrixShape.columnLength)"
   )
 }
 
@@ -351,7 +351,7 @@ func testSIMDMatrixShapeAllCompatibleMatrixShapes(
     #expect(shape.isCompatible(with: compatibleShape))
   }
   
-  for candidate in SIMDMatrixShape.allCases {
+  for candidate in SIMDMatrixShape.allCases where candidate != shape {
     #expect(
       shape.isCompatible(with: candidate)
       ==

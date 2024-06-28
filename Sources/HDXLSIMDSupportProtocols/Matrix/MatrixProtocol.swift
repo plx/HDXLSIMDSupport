@@ -90,6 +90,9 @@ public protocol MatrixProtocol<Scalar> {
   /// The length of a column in matrices of this type.
   static var columnLength: Int { get }
   
+  /// The length of the diagonal.
+  static var diagonalLength: Int { get }
+  
   /// Number of scalars within matrices of this type.
   static var scalarCount: Int { get }
 

@@ -4,6 +4,7 @@ import SwiftParser
 import SwiftSyntaxMacros
 import SwiftSyntaxBuilder
 import SwiftDiagnostics
+import HDXLSIMDSupportProtocols
 
 public struct StorageNumericAggregateMacro { }
 

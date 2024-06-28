@@ -9,7 +9,7 @@ import Testing
 )
 func testMatrixPositionIsOnDiagonal(
   position: MatrixPosition
-) {
+) throws {
   #expect(
     position.isOnDiagonal
     ==
@@ -23,7 +23,7 @@ func testMatrixPositionIsOnDiagonal(
 )
 func testMatrixPositionIsOffDiagonal(
   position: MatrixPosition
-) {
+) throws {
   #expect(
     position.isOffDiagonal
     ==
@@ -37,7 +37,7 @@ func testMatrixPositionIsOffDiagonal(
 )
 func testMatrixPositionDiagonalCrossChecks(
   position: MatrixPosition
-) {
+) throws {
   #expect(
     position.isOnDiagonal
     ==
@@ -53,7 +53,7 @@ func testMatrixPositionDiagonalCrossChecks(
 )
 func testMatrixPositionTransposed(
   position: MatrixPosition
-) {
+) throws {
   #expect(position == position.transposed().transposed())
   #expect(position.rowIndex == position.transposed().columnIndex)
   #expect(position.columnIndex == position.transposed().rowIndex)
@@ -77,7 +77,7 @@ func testMatrixPositionTransposed(
 )
 func testMatrixPositionFormTranspose(
   position: MatrixPosition
-) {
+) throws {
   var probe = position
   #expect(probe == position)
   probe.formTranspose()
@@ -102,7 +102,7 @@ func testMatrixPositionFormTranspose(
 func testMatrixPositionWithRowIndex(
   position: MatrixPosition,
   rowIndex newRowIndex: Int
-) {
+) throws {
   let result = position.with(rowIndex: newRowIndex)
   #expect(result.rowIndex == newRowIndex)
   #expect(result.columnIndex == position.columnIndex)
@@ -115,7 +115,7 @@ func testMatrixPositionWithRowIndex(
 func testMatrixPositionWithRowIndex(
   position: MatrixPosition,
   columnIndex newColumnIndex: Int
-) {
+) throws {
   let result = position.with(columnIndex: newColumnIndex)
   #expect(result.rowIndex == position.rowIndex)
   #expect(result.columnIndex == newColumnIndex)
@@ -124,19 +124,19 @@ func testMatrixPositionWithRowIndex(
 // MARK: stringification
 
 @Test("`MatrixPosition.description` (coherence)")
-func testMatrixPositionDescriptionCoherence() {
+func testMatrixPositionDescriptionCoherence() throws {
   #expect(
-    MatrixPosition
+    try MatrixPosition
       .allValidMatrixPositions
       .obtainsDistinctValues(for: \.description)
   )
 }
 
 @Test("`MatrixPosition.debugDescription` (coherence)")
-func testMatrixPositionDebugDescriptionCoherence() {
+func testMatrixPositionDebugDescriptionCoherence() throws {
   #expect(
-    MatrixPosition
+    try MatrixPosition
       .allValidMatrixPositions
-      .obtainsDistinctValues(for: \.description)
+      .obtainsDistinctValues(for: \.debugDescription)
   )
 }

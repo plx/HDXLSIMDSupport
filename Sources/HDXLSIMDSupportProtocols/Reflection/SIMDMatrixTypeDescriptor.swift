@@ -1,11 +1,16 @@
 import Foundation
 
-public struct SIMDMatrixTypeDescriptor {
+@usableFromInline
+package struct SIMDMatrixTypeDescriptor {
   
-  public var scalar: SIMDAggregateScalar
-  public var shape: SIMDMatrixShape
+  @usableFromInline
+  package var scalar: SIMDAggregateScalar
   
-  public init(
+  @usableFromInline
+  package var shape: SIMDMatrixShape
+  
+  @inlinable
+  package init(
     scalar: SIMDAggregateScalar,
     shape: SIMDMatrixShape
   ) {
@@ -21,7 +26,8 @@ extension SIMDMatrixTypeDescriptor : Codable { }
 
 extension SIMDMatrixTypeDescriptor : CaseIterable {
   
-  public static let allCases: [Self] = {
+  @usableFromInline
+  package static let allCases: [Self] = {
     var result: [Self] = []
     let allScalars = SIMDAggregateScalar.allCases
     let allShapes = SIMDMatrixShape.allCases
@@ -44,7 +50,8 @@ extension SIMDMatrixTypeDescriptor : CaseIterable {
 
 extension SIMDMatrixTypeDescriptor: CustomStringConvertible {
   
-  public var description: String {
+  @inlinable
+  package var description: String {
     "(\(String(describing: scalar)), \(String(describing: shape)))"
   }
   
@@ -52,7 +59,8 @@ extension SIMDMatrixTypeDescriptor: CustomStringConvertible {
 
 extension SIMDMatrixTypeDescriptor: CustomDebugStringConvertible {
   
-  public var debugDescription: String {
+  @inlinable
+  package var debugDescription: String {
     "SIMDMatrixTypeDescriptor(scalar: \(String(describing: scalar)), shape: \(String(describing: shape)))"
   }
   
@@ -60,7 +68,8 @@ extension SIMDMatrixTypeDescriptor: CustomDebugStringConvertible {
 
 extension SIMDMatrixTypeDescriptor {
   
-  public static func extracting(
+  @inlinable
+  package static func extracting(
     fromSwiftTypeName swiftTypeName: String
   ) -> Self? {
     guard
@@ -80,7 +89,8 @@ extension SIMDMatrixTypeDescriptor {
     )
   }
   
-  public var nativeSIMDMatrixTypeName: String {
+  @inlinable
+  package var nativeSIMDMatrixTypeName: String {
     "simd_\(scalar.simdInfixTypeName)\(shape.typeNameComponent)"
   }
   

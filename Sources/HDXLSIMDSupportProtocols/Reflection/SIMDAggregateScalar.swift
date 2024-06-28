@@ -1,6 +1,7 @@
 import Foundation
 
-public enum SIMDAggregateScalar {
+@usableFromInline
+package enum SIMDAggregateScalar {
   
   case double
   case float
@@ -15,14 +16,17 @@ extension SIMDAggregateScalar: CaseIterable { }
 extension SIMDAggregateScalar: Codable { }
 
 extension SIMDAggregateScalar: Identifiable {
-  public typealias ID = Self
+  @usableFromInline
+  package typealias ID = Self
   
-  public var id: ID { self }
+  @inlinable
+  package var id: ID { self }
 }
 
 extension SIMDAggregateScalar: CustomStringConvertible {
   
-  public var description: String {
+  @inlinable
+  package var description: String {
     switch self {
     case .double:
       ".double"
@@ -37,7 +41,8 @@ extension SIMDAggregateScalar: CustomStringConvertible {
 
 extension SIMDAggregateScalar: CustomDebugStringConvertible {
   
-  public var debugDescription: String {
+  @inlinable
+  package var debugDescription: String {
     switch self {
     case .double:
       "SIMDAggregateScalar.double"
@@ -53,7 +58,8 @@ extension SIMDAggregateScalar: CustomDebugStringConvertible {
 extension SIMDAggregateScalar {
   
   /// This type's representation within longer simd types, e.g. the `float` within `simd_float4x4`.
-  public var simdInfixTypeName: String {
+  @inlinable
+  package var simdInfixTypeName: String {
     switch self {
     case .double:
       "double"
@@ -65,7 +71,8 @@ extension SIMDAggregateScalar {
   }
 
   /// This type's representation as a suffix (e.g. the `d` in `simd_quatd`).
-  public var simdSuffixTypeCode: String {
+  @inlinable
+  package var simdSuffixTypeCode: String {
     switch self {
     case .double:
       "d"
@@ -77,17 +84,20 @@ extension SIMDAggregateScalar {
   }
   
   /// This full name of this type's simd quaternion (e.g. `simd_quatd`).
-  public var nativeSIMDQuaternionTypeName: String {
+  @inlinable
+  package var nativeSIMDQuaternionTypeName: String {
     "simd_quat\(simdSuffixTypeCode)"
   }
   
   /// The full name of the quaternion-storage type for this scalar (e.g. `FloatQuaternionStorage`).
-  public var quaternionStorageTypeName: String {
+  @inlinable
+  package var quaternionStorageTypeName: String {
     "\(swiftTypeName)QuaternionStorage"
   }
   
   /// This type's representation in Swift (e.g. `Float16` for `half`).
-  public var swiftTypeName: String {
+  @inlinable
+  package var swiftTypeName: String {
     switch self {
     case .double:
       "Double"
@@ -101,13 +111,15 @@ extension SIMDAggregateScalar {
 }
 
 extension SIMDAggregateScalar {
-  internal static let allCasesInExtractionSearchOrdering: [Self] = [
+  @usableFromInline
+  package static let allCasesInExtractionSearchOrdering: [Self] = [
     .half,
     .float,
     .double
   ]
   
-  public static func extracting(
+  @inlinable
+  package static func extracting(
     fromSwiftTypeName swiftTypeName: String
   ) -> Self? {
     for candidate in allCasesInExtractionSearchOrdering
