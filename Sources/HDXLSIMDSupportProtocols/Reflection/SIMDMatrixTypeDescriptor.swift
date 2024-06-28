@@ -88,10 +88,4 @@ extension SIMDMatrixTypeDescriptor {
       shape: shape
     )
   }
-  
-  @inlinable
-  package var nativeSIMDMatrixTypeName: String {
-    "simd_\(scalar.simdInfixTypeName)\(shape.typeNameComponent)"
-  }
-  
 }
