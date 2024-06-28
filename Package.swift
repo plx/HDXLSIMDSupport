@@ -118,6 +118,10 @@ let package = Package(
       dependencies: []
     ),
     .target(
+      name: "HDXLSIMDSupportProtocolsTestSupport",
+      dependencies: ["HDXLSIMDSupportProtocols"]
+    ),
+    .target(
       name: "HDXLSIMDSupportMacros",
       dependencies: [
         "HDXLSIMDSupportMacrosPlugin",
@@ -130,12 +134,16 @@ let package = Package(
     ),
     .testTarget(
       name: "HDXLSIMDSupportTests",
-      dependencies: ["HDXLSIMDSupport"]
+      dependencies: [
+        "HDXLSIMDSupport",
+        "HDXLSIMDSupportProtocolsTestSupport"
+      ]
     ),
     .testTarget(
       name: "HDXLSIMDSupportProtocolsTests",
       dependencies: [
-        "HDXLSIMDSupportProtocols"
+        "HDXLSIMDSupportProtocols",
+        "HDXLSIMDSupportProtocolsTestSupport"
       ]
     ),
     .testTarget(
