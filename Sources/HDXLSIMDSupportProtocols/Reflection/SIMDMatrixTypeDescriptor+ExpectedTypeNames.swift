@@ -11,6 +11,12 @@ package enum SIMDMatrixTypeNameArchetype {
   
 }
 
+@usableFromInline
+package enum SIMDMatrixTier {
+  case publicWrapper
+  case scalarStorage
+}
+
 extension SIMDMatrixTypeDescriptor {
   
   @inlinable
@@ -55,6 +61,17 @@ extension SIMDMatrixTypeDescriptor {
   package var nativeSIMDMatrixTypeName: String {
     "simd_\(scalar.simdInfixTypeName)\(shape.typeNameComponent)"
   }
-  
+
+  @inlinable
+  package func testMethodSuffix(
+    forTier tier: SIMDMatrixTier
+  ) -> String {
+    switch tier {
+    case .scalarStorage:
+      scalarStorageTypeName
+    case .publicWrapper:
+      "\(publicWrapperTypeName)_\(scalar.swiftTypeName)"
+    }
+  }
 
 }

@@ -25,6 +25,7 @@ MatrixType: MatrixProtocol<Scalar>
   
   package let matrixTypeDescriptor: SIMDMatrixTypeDescriptor
   package let matrixTypeArchetype: SIMDMatrixTypeNameArchetype
+  package let matrixTier: SIMDMatrixTier
   
   package var scalarType: SIMDAggregateScalar {
     matrixTypeDescriptor.scalar
@@ -37,10 +38,11 @@ MatrixType: MatrixProtocol<Scalar>
   package init(
     matrixTypeDescriptor: SIMDMatrixTypeDescriptor,
     matrixTypeArchetype: SIMDMatrixTypeNameArchetype,
-    operationTarget: DelegatedOperationTarget
+    matrixTier: SIMDMatrixTier
   ) {
     self.matrixTypeDescriptor = matrixTypeDescriptor
     self.matrixTypeArchetype = matrixTypeArchetype
+    self.matrixTier = matrixTier
   }
   
 }
@@ -62,7 +64,13 @@ extension MatrixMatrixAdditionOperation {
     }
   }
   
-  package func provideOutOfPlaceOperationTestFunction(
+  package func testMethodName(
+    forSemanticName semanticName: String
+  ) -> String {
+    "\(semanticName)_\(matrixTypeDescriptor.testMethodSuffix(forTier: matrixTier))"
+  }
+  
+  package func provideOperationTestCases(
     node: AttributeSyntax,
     in context: some MacroExpansionContext,
     lhsProviders: some ExprSyntaxProtocol,
@@ -90,18 +98,20 @@ extension MatrixMatrixAdditionOperation {
       lhs: "lhs",
       rhs: "rhs"
     )
-
+    
     return [
       """
       @Test(
         "Out-of-place addition (\(raw: matrixShape.typeNameComponent))",
         arguments: \(lhsProviders), \(rhsProviders),
         @tags(
+          .macroGenerated,
           .matrixAddition,
+          .outOfPlace,
           .matrix\(raw: matrixShape.typeNameComponent)
         )
       )
-      func testOutOfPlaceAddition(
+      func \(raw: testMethodName(forSemanticName: "testOutOfPlaceAddition"))(
         lhsProvider: MatrixExampleProvider<MatrixType>,
         rhsProvider: MatrixExampleProvider<MatrixType>
       ) async throws {
@@ -128,7 +138,48 @@ extension MatrixMatrixAdditionOperation {
           )
         }
       }
+      """,
       """
+      @Test(
+        "In-place addition cross-validation (\(raw: matrixShape.typeNameComponent))",
+        arguments: \(lhsProviders), \(rhsProviders),
+        @tags(
+          .macroGenerated,
+          .matrixAddition,
+          .outOfPlace,
+          .inPlace,
+          .crossValidation,
+          .matrix\(raw: matrixShape.typeNameComponent)
+        )
+      )
+      func \(raw: testMethodName(forSemanticName: "testInPlaceAdditionWithOutOfPlaceAddition"))(
+        lhsProvider: MatrixExampleProvider<MatrixType>,
+        rhsProvider: MatrixExampleProvider<MatrixType>
+      ) async throws {
+        try await validateOutOfPlaceMatrixMatrixMatrixOperations(
+          lhses: try lhsProvider.examples(),
+          rhses: try rhsProvider.examples(),
+          operation: "out-of-place addition (\(raw: matrixShape.typeNameComponent), `\(raw: abstractOperation)`)",
+          metric: \(metric)
+          tolerance: \(tolerance)
+        ) {
+          (lhs, rhs)
+          in
+          \(raw: matrixOperation)
+        } nativeEquivalent: {
+          (lhs, rhs)
+          in
+          \(raw: nativeOperation)
+        } additionalValidation: {
+          validationExample
+          in
+          try validateMatrixMatrixAdditionProperties(
+            example: validationExample,
+            tolerance: \(tolerance)
+          )
+        }
+      }
+      """,
     ]
   }
 
