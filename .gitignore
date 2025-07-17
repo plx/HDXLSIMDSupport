@@ -2,3 +2,4 @@
 /.swiftpm/xcode/package.xcworkspace/xcuserdata/plx.xcuserdatad/UserInterfaceState.xcuserstate
 /Sources/HDXLSIMDSupport/Matrices/.DS_Store
 .DS_Store
+.build/
