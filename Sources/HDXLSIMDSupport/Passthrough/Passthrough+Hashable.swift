@@ -1,14 +1,10 @@
-//
-//  Passthrough+Hashable.swift
-//
-
 import Foundation
 import simd
 
-public extension Passthrough where PassthroughValue: Hashable {
+extension Passthrough where Self: Hashable, PassthroughValue: Hashable {
   
   @inlinable
-  func hash(into hasher: inout Hasher) {
+  public func hash(into hasher: inout Hasher) {
     passthroughValue.hash(into: &hasher)
   }
   

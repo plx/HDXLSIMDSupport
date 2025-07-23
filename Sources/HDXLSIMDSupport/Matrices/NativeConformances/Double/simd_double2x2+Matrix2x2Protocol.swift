@@ -172,7 +172,7 @@ extension simd_double2x2 : MatrixDefaultSupportProtocol, Matrix2x2Protocol {
   // static func matrixPosition(forLinearizedScalarIndex linearizedScalarIndex: Int) -> MatrixPosition
   
   // we supply:
-  public static let matrixPositions: [MatrixPosition] = simd_double2x2.prepareMatrixPositionList()
+  nonisolated(unsafe) public static let matrixPositions: [MatrixPosition] = simd_double2x2.prepareMatrixPositionList()
   
   // ------------------------------------------------------------------------ //
   // MARK: Bulk Properties

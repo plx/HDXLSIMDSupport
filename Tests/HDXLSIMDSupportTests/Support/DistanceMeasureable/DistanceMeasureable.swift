@@ -1,6 +1,6 @@
 import Foundation
 
-protocol L1DistanceMeasureable {
+protocol L1DistanceMeasureable<L1Distance> {
   associatedtype L1Distance: BinaryFloatingPoint
   
   func l1Distance(to other: Self) -> L1Distance
@@ -17,7 +17,7 @@ extension L1DistanceMeasureable {
   }
 }
 
-protocol LInfinityDistanceMeasureable {
+protocol LInfinityDistanceMeasureable<LInfinityDistance> {
   associatedtype LInfinityDistance: BinaryFloatingPoint
   
   func lInfinityDistance(to other: Self) -> LInfinityDistance

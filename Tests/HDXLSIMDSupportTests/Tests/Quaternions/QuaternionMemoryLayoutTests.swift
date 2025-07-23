@@ -1,25 +1,26 @@
-//
-//  QuaternionMemoryLayoutTests.swift
-//
-
-import XCTest
+import Testing
 import simd
 @testable import HDXLSIMDSupport
 
-class QuaternionMemoryLayoutTests: XCTestCase {
-  
-  func testFloatQuaternionNoPaddingAdded() {
-    AssertMemoryEquivalentMemoryLayouts(
-      simd_quatf.self,
-      FloatQuaternionStorage.self
+@Test("Float Quaternion Memory Layout")
+func testFloatQuaternionMemoryLayout() {
+  validateEquivalentMemoryLayouts(
+    reference: simd_quatf.self,
+    candidates: (
+      FloatQuaternionStorage.self,
+      Quaternion<Float>.self
     )
-  }
-
-  func testDoubleQuaternionNoPaddingAdded() {
-    AssertMemoryEquivalentMemoryLayouts(
-      simd_quatd.self,
-      DoubleQuaternionStorage.self
-    )
-  }
-
+  )
 }
+
+@Test("Double Quaternion Memory Layout")
+func testDoubleQuaternionMemoryLayout() {
+  validateEquivalentMemoryLayouts(
+    reference: simd_quatd.self,
+    candidates: (
+      DoubleQuaternionStorage.self,
+      Quaternion<Double>.self
+    )
+  )
+}
+

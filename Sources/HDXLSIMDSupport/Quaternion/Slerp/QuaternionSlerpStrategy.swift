@@ -1,7 +1,3 @@
-//
-//  QuaternionSlerpStrategy.swift
-//
-
 import Foundation
 import simd
 
@@ -28,23 +24,17 @@ public enum QuaternionSlerpStrategy : Int {
 }
 
 // -------------------------------------------------------------------------- //
-// MARK: QuaternionSlerpStrategy - Equatable
+// MARK: - Synthesized Conformances
 // -------------------------------------------------------------------------- //
 
-extension QuaternionSlerpStrategy : Equatable {
-  
-  @inlinable
-  public static func == (
-    lhs: QuaternionSlerpStrategy,
-    rhs: QuaternionSlerpStrategy
-  ) -> Bool {
-    return lhs.rawValue == rhs.rawValue
-  }
-  
-}
+extension QuaternionSlerpStrategy : Sendable { }
+extension QuaternionSlerpStrategy : Equatable { }
+extension QuaternionSlerpStrategy : Hashable { }
+extension QuaternionSlerpStrategy : Codable { }
+extension QuaternionSlerpStrategy : CaseIterable { }
 
 // -------------------------------------------------------------------------- //
-// MARK: QuaternionSlerpStrategy - Comparable
+// MARK: - Comparable
 // -------------------------------------------------------------------------- //
 
 extension QuaternionSlerpStrategy : Comparable {
@@ -54,114 +44,46 @@ extension QuaternionSlerpStrategy : Comparable {
     lhs: QuaternionSlerpStrategy,
     rhs: QuaternionSlerpStrategy
   ) -> Bool {
-    return lhs.rawValue < rhs.rawValue
+    lhs.rawValue < rhs.rawValue
   }
 
 }
 
 // -------------------------------------------------------------------------- //
-// MARK: QuaternionSlerpStrategy - Hashable
-// -------------------------------------------------------------------------- //
-
-extension QuaternionSlerpStrategy : Hashable {
-  
-  @inlinable
-  public func hash(into hasher: inout Hasher) {
-    rawValue.hash(into: &hasher)
-  }
-  
-}
-
-// -------------------------------------------------------------------------- //
-// MARK: QuaternionSlerpStrategy - CustomStringConvertible
+// MARK: - CustomStringConvertible
 // -------------------------------------------------------------------------- //
 
 extension QuaternionSlerpStrategy : CustomStringConvertible {
   
   @inlinable
   public var description: String {
-    get {
-      switch self {
-      case .automatic:
-        return ".automatic"
-      case .shortest:
-        return ".shortest"
-      case .longest:
-        return ".longest"
-      }
+    switch self {
+    case .automatic:
+      return ".automatic"
+    case .shortest:
+      return ".shortest"
+    case .longest:
+      return ".longest"
     }
   }
   
 }
 
 // -------------------------------------------------------------------------- //
-// MARK: QuaternionSlerpStrategy - CustomDebugStringConvertible
+// MARK: - CustomDebugStringConvertible
 // -------------------------------------------------------------------------- //
 
 extension QuaternionSlerpStrategy : CustomDebugStringConvertible {
   
   @inlinable
   public var debugDescription: String {
-    get {
-      switch self {
-      case .automatic:
-        return "QuaternionSlerpStrategy.automatic"
-      case .shortest:
-        return "QuaternionSlerpStrategy.shortest"
-      case .longest:
-        return "QuaternionSlerpStrategy.longest"
-      }
-    }
-  }
-  
-}
-
-// -------------------------------------------------------------------------- //
-// MARK: QuaternionSlerpStrategy - Codable
-// -------------------------------------------------------------------------- //
-
-extension QuaternionSlerpStrategy : Codable {
-  
-  @inlinable
-  public func encode(to encoder: Encoder) throws {
-    var container = encoder.singleValueContainer()
-    try container.encode(rawValue)
-  }
-  
-  @inlinable
-  public init(from decoder: Decoder) throws {
-    let container = try decoder.singleValueContainer()
-    let rawValue = try container.decode(RawValue.self)
-    guard let value = QuaternionSlerpStrategy(rawValue: rawValue) else {
-      // TODO: use our own error
-      throw DecodingError.dataCorrupted(
-        DecodingError.Context(
-          codingPath: [],
-          debugDescription: "Got invalid `rawValue` \(rawValue) for `QuaternionSlerpStrategy",
-          underlyingError: nil
-        )
-      )
-    }
-    self = value
-  }
-  
-}
-
-// -------------------------------------------------------------------------- //
-// MARK: QuaternionSlerpStrategy - CaseIterable
-// -------------------------------------------------------------------------- //
-
-extension QuaternionSlerpStrategy : CaseIterable {
-  
-  public typealias AllCases = [QuaternionSlerpStrategy]
-  
-  public static var allCases: AllCases {
-    get {
-      return [
-        .automatic,
-        .shortest,
-        .longest
-      ]
+    switch self {
+    case .automatic:
+      return "QuaternionSlerpStrategy.automatic"
+    case .shortest:
+      return "QuaternionSlerpStrategy.shortest"
+    case .longest:
+      return "QuaternionSlerpStrategy.longest"
     }
   }
   

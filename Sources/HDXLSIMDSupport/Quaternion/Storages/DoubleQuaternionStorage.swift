@@ -1,10 +1,7 @@
-//
-//  DoubleQuaternionStorage.swift
-//
-
 import Foundation
 import simd
 
+//@DebugDescription
 @frozen
 public struct DoubleQuaternionStorage :
   QuaternionProtocol,
@@ -14,7 +11,8 @@ public struct DoubleQuaternionStorage :
   Hashable,
   CustomStringConvertible,
   CustomDebugStringConvertible,
-  Codable
+  Codable,
+  Sendable
 {
   
   public typealias CompatibleMatrix3x3 = DoubleMatrix3x3Storage
@@ -39,20 +37,6 @@ public struct DoubleQuaternionStorage :
     passthroughValue.vector.hash(into: &hasher)
   }
   
-  @inlinable
-  public var description: String {
-    get {
-      return "DoubleQuaternionStorage: \(String(describing: passthroughValue))"
-    }
-  }
-
-  @inlinable
-  public var debugDescription: String {
-    get {
-      return "DoubleQuaternionStorage(passthroughValue: \(String(reflecting: passthroughValue)))"
-    }
-  }
-
   @inlinable
   public func encode(to encoder: Encoder) throws {
     var container = encoder.singleValueContainer()

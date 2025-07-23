@@ -1,7 +1,3 @@
-//
-//  FloatMatrix2x2Storage.swift
-//
-
 import Foundation
 import simd
 
@@ -15,7 +11,8 @@ public struct FloatMatrix2x2Storage :
   Hashable,
   CustomStringConvertible,
   CustomDebugStringConvertible,
-  Codable
+  Codable,
+  Sendable
 {
 
   public typealias CompatibleMatrix2x3 = FloatMatrix2x3Storage
@@ -38,9 +35,7 @@ public struct FloatMatrix2x2Storage :
   
   @usableFromInline
   internal static var typename: String {
-    get {
-      return "FloatMatrix2x2Storage"
-    }
+    "FloatMatrix2x2Storage"
   }
   
   // ------------------------------------------------------------------------ //
@@ -65,28 +60,6 @@ public struct FloatMatrix2x2Storage :
   }
   
   // ------------------------------------------------------------------------ //
-  // MARK: CustomStringConvertible
-  // ------------------------------------------------------------------------ //
-  
-  @inlinable
-  public var description: String {
-    get {
-      return "\(type(of: self).typename): \(String(describing: passthroughValue))"
-    }
-  }
-  
-  // ------------------------------------------------------------------------ //
-  // MARK: CustomDebugStringConvertible
-  // ------------------------------------------------------------------------ //
-  
-  @inlinable
-  public var debugDescription: String {
-    get {
-      return "\(type(of: self).typename)(passthroughValue: \(String(reflecting: passthroughValue)))"
-    }
-  }
-  
-  // ------------------------------------------------------------------------ //
   // MARK: Codable
   // ------------------------------------------------------------------------ //
   
@@ -97,13 +70,11 @@ public struct FloatMatrix2x2Storage :
     
     @inlinable
     public var intValue: Int? {
-      get {
-        switch self {
-        case .c0:
-          return 0
-        case .c1:
-          return 1
-        }
+      switch self {
+      case .c0:
+        return 0
+      case .c1:
+        return 1
       }
     }
     

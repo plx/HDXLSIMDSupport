@@ -5,7 +5,7 @@
 import Foundation
 import simd
 
-extension Passthrough where PassthroughValue: Equatable {
+extension Passthrough where Self: Equatable, PassthroughValue: Equatable {
   
   @inlinable
   public static func == (

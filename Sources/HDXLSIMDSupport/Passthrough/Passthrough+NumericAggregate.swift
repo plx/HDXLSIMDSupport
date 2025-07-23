@@ -1,15 +1,11 @@
-//
-//  Passthrough+NumericAggregate.swift
-//
-
 import Foundation
 import simd
 
-public extension Passthrough where PassthroughValue:NumericAggregate {
+extension Passthrough where Self: NumericAggregate, PassthroughValue:NumericAggregate {
   
   @inlinable
-  func allNumericEntriesSatisfy(_ predicate: (PassthroughValue.NumericEntryRepresentation) -> Bool) -> Bool {
-    return passthroughValue.allNumericEntriesSatisfy(predicate)
+  public func allNumericEntriesSatisfy(_ predicate: (PassthroughValue.NumericEntryRepresentation) -> Bool) -> Bool {
+    passthroughValue.allNumericEntriesSatisfy(predicate)
   }
 
 }

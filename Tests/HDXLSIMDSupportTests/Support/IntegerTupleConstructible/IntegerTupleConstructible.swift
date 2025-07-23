@@ -1,6 +1,6 @@
 import Foundation
 
-protocol IntegerTupleConstructible {
+protocol IntegerTupleConstructible<IntegerTuple> {
   associatedtype IntegerTuple
   
   init(integerTuple: IntegerTuple)
