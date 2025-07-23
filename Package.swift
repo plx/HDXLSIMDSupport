@@ -29,7 +29,7 @@ let package = Package(
       dependencies: ["HDXLSIMDSupport"]
     )
   ],
-  swiftLanguageVersions: [
+  swiftLanguageModes: [
     .v6
   ]
 )

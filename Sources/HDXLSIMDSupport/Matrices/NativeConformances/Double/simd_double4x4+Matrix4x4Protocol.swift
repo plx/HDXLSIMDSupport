@@ -176,7 +176,7 @@ extension simd_double4x4 : MatrixDefaultSupportProtocol, Matrix4x4Protocol {
   // static func matrixPosition(forLinearizedScalarIndex linearizedScalarIndex: Int) -> MatrixPosition
 
   // we supply:
-  public static let matrixPositions: [MatrixPosition] = simd_double4x4.prepareMatrixPositionList()
+  nonisolated(unsafe) public static let matrixPositions: [MatrixPosition] = simd_double4x4.prepareMatrixPositionList()
   
   // ------------------------------------------------------------------------ //
   // MARK: Bulk Properties
