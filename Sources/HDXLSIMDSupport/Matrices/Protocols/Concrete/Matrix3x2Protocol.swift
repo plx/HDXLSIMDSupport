@@ -5,9 +5,7 @@
 import Foundation
 import simd
 
-// -------------------------------------------------------------------------- //
 // MARK: Matrix3x2Protocol - Definition
-// -------------------------------------------------------------------------- //
 
 /// 3x2-specific matrix protocol.
 ///
@@ -29,10 +27,8 @@ public protocol Matrix3x2Protocol : MatrixProtocol
   Columns == T3<ColumnVector>
 {
   
-  // ------------------------------------------------------------------------ //
-  // MARK: Initialization
-  // ------------------------------------------------------------------------ //
-  
+    // MARK: Initialization
+    
   /// Initialize a matrix from an "unpacked `Columns`" value.
   ///
   /// - parameter c0: The first column-vector.
@@ -47,10 +43,8 @@ public protocol Matrix3x2Protocol : MatrixProtocol
     _ c2: ColumnVector
   )
   
-  // ------------------------------------------------------------------------ //
-  // MARK: Compatible Matrix Types
-  // ------------------------------------------------------------------------ //
-  
+    // MARK: Compatible Matrix Types
+    
   /// Type of the compatible 2x2 matrix.
   associatedtype CompatibleMatrix2x2
   
@@ -72,17 +66,13 @@ public protocol Matrix3x2Protocol : MatrixProtocol
   /// Type of the compatible 4x3 matrix.
   associatedtype CompatibleMatrix4x3
 
-  // ------------------------------------------------------------------------ //
-  // MARK: Transposition
-  // ------------------------------------------------------------------------ //
-  
+    // MARK: Transposition
+    
   /// Obtain the (compatible) transposition of `self`.
   func transposed() -> CompatibleMatrix2x3
   
-  // ------------------------------------------------------------------------ //
-  // MARK: Right-Hand Multiplication
-  // ------------------------------------------------------------------------ //
-  
+    // MARK: Right-Hand Multiplication
+    
   /// Returns the `2x2`-sized result of `self * rhs`.
   func multiplied(onRightBy rhs: CompatibleMatrix2x3) -> CompatibleMatrix2x2
   
@@ -95,10 +85,8 @@ public protocol Matrix3x2Protocol : MatrixProtocol
   /// Returns the `4x2`-sized result of `self * rhs`.
   func multiplied(onRightBy rhs: CompatibleMatrix4x3) -> CompatibleMatrix4x2
   
-  // ------------------------------------------------------------------------ //
-  // MARK: Left-Hand Multiplication
-  // ------------------------------------------------------------------------ //
-  
+    // MARK: Left-Hand Multiplication
+    
   /// Returns the `3x2`-sized result of `lhs * self`.
   func multiplied(onLeftBy lhs: CompatibleMatrix2x2) -> Self
   

@@ -7,31 +7,23 @@ import simd
 
 extension simd_double4x3 : MatrixDefaultSupportProtocol, Matrix4x3Protocol {
   
-  // ------------------------------------------------------------------------ //
-  // MARK: Scalar
-  // ------------------------------------------------------------------------ //
-  
+    // MARK: Scalar
+    
   public typealias Scalar = Double
   
-  // ------------------------------------------------------------------------ //
-  // MARK: Vectors
-  // ------------------------------------------------------------------------ //
-
+    // MARK: Vectors
+  
   public typealias RowVector = SIMD4<Scalar>
   public typealias ColumnVector = SIMD3<Scalar>
   public typealias DiagonalVector = SIMD3<Scalar>
   
-  // ------------------------------------------------------------------------ //
-  // MARK: Components
-  // ------------------------------------------------------------------------ //
-  
+    // MARK: Components
+    
   public typealias Columns = T4<ColumnVector>
   public typealias Rows = T3<RowVector>
   
-  // ------------------------------------------------------------------------ //
-  // MARK: Shape Parameters
-  // ------------------------------------------------------------------------ //
-  
+    // MARK: Shape Parameters
+    
   // defaults should supply:
   /*
    static var rowCount: Int { get }
@@ -41,10 +33,8 @@ extension simd_double4x3 : MatrixDefaultSupportProtocol, Matrix4x3Protocol {
    static var scalarCount: Int { get }
    */
   
-  // ------------------------------------------------------------------------ //
-  // MARK: Initialization
-  // ------------------------------------------------------------------------ //
-  
+    // MARK: Initialization
+    
   // should already exist:
   // init()
   
@@ -91,10 +81,8 @@ extension simd_double4x3 : MatrixDefaultSupportProtocol, Matrix4x3Protocol {
     )
   }
   
-  // ------------------------------------------------------------------------ //
-  // MARK: Linear Combinations
-  // ------------------------------------------------------------------------ //
-  
+    // MARK: Linear Combinations
+    
   @inlinable
   public static func linearCombination(
     of first: simd_double4x3,
@@ -110,17 +98,13 @@ extension simd_double4x3 : MatrixDefaultSupportProtocol, Matrix4x3Protocol {
     )
   }
   
-  // ------------------------------------------------------------------------ //
-  // MARK: Subscripting - Columns
-  // ------------------------------------------------------------------------ //
-  
+    // MARK: Subscripting - Columns
+    
   // defaults should supply:
   // subscript(columnIndex columnIndex: Int) -> ColumnVector { get set }
   
-  // ------------------------------------------------------------------------ //
-  // MARK: Subscripting - Rows
-  // ------------------------------------------------------------------------ //
-  
+    // MARK: Subscripting - Rows
+    
   // we supply:
   @inlinable
   public subscript(rowIndex rowIndex: Int) -> RowVector {
@@ -142,10 +126,8 @@ extension simd_double4x3 : MatrixDefaultSupportProtocol, Matrix4x3Protocol {
     }
   }
   
-  // ------------------------------------------------------------------------ //
-  // MARK: Subscripting - Scalars
-  // ------------------------------------------------------------------------ //
-  
+    // MARK: Subscripting - Scalars
+    
   // defaults should supply:
   // subscript(linearizedScalarIndex linearizedScalarIndex: Int) -> Scalar { get set }
   
@@ -157,10 +139,8 @@ extension simd_double4x3 : MatrixDefaultSupportProtocol, Matrix4x3Protocol {
   // defaults should supply:
   // subscript(position position: MatrixPosition) -> Scalar { get set }
   
-  // ------------------------------------------------------------------------ //
-  // MARK: Position & Linearization
-  // ------------------------------------------------------------------------ //
-  
+    // MARK: Position & Linearization
+    
   // defaults should supply:
   // static func linearizedScalarIndex(
   //  forColumnIndex columnIndex: Int,
@@ -176,12 +156,10 @@ extension simd_double4x3 : MatrixDefaultSupportProtocol, Matrix4x3Protocol {
   // static func matrixPosition(forLinearizedScalarIndex linearizedScalarIndex: Int) -> MatrixPosition
   
   // we supply:
-  nonisolated(unsafe) public static let matrixPositions: [MatrixPosition] = simd_double4x3.prepareMatrixPositionList()
+  public static let matrixPositions: [MatrixPosition] = simd_double4x3.prepareMatrixPositionList()
   
-  // ------------------------------------------------------------------------ //
-  // MARK: Bulk Properties
-  // ------------------------------------------------------------------------ //
-  
+    // MARK: Bulk Properties
+    
   // should already exist:
   // var columns: Columns { get set }
   
@@ -221,10 +199,8 @@ extension simd_double4x3 : MatrixDefaultSupportProtocol, Matrix4x3Protocol {
   // defaults should supply:
   // var linearizedScalars: [Scalar] { get }
   
-  // ------------------------------------------------------------------------ //
-  // MARK: Almost Equal Elements
-  // ------------------------------------------------------------------------ //
-  
+    // MARK: Almost Equal Elements
+    
   // we supply:
   @inlinable
   public func hasAlmostEqualElements(
@@ -251,10 +227,8 @@ extension simd_double4x3 : MatrixDefaultSupportProtocol, Matrix4x3Protocol {
     )
   }
 
-  // ------------------------------------------------------------------------ //
-  // MARK: Norms
-  // ------------------------------------------------------------------------ //
-  
+    // MARK: Norms
+    
   @inlinable
   public var componentwiseMagnitudeSquared: Scalar {
     get {
@@ -270,10 +244,8 @@ extension simd_double4x3 : MatrixDefaultSupportProtocol, Matrix4x3Protocol {
     }
   }
 
-  // ------------------------------------------------------------------------ //
-  // MARK: Negation
-  // ------------------------------------------------------------------------ //
-  
+    // MARK: Negation
+    
   // we supply:
   @inlinable
   public func negated() -> simd_double4x3 {
@@ -286,10 +258,8 @@ extension simd_double4x3 : MatrixDefaultSupportProtocol, Matrix4x3Protocol {
     self = -self
   }
   
-  // ------------------------------------------------------------------------ //
-  // MARK: Addition - Matrix
-  // ------------------------------------------------------------------------ //
-  
+    // MARK: Addition - Matrix
+    
   // we supply:
   @inlinable
   public func adding(_ other: simd_double4x3) -> simd_double4x3 {
@@ -302,20 +272,16 @@ extension simd_double4x3 : MatrixDefaultSupportProtocol, Matrix4x3Protocol {
     self += other
   }
   
-  // ------------------------------------------------------------------------ //
-  // MARK: Addition - Scalar
-  // ------------------------------------------------------------------------ //
-  
+    // MARK: Addition - Scalar
+    
   // defaults should supply:
   // func adding(scalar: Scalar) -> Self
   
   // defaults should supply:
   // mutating func formAddition(ofScalar scalar: Scalar)
   
-  // ------------------------------------------------------------------------ //
-  // MARK: FMA
-  // ------------------------------------------------------------------------ //
-  
+    // MARK: FMA
+    
   // we supply:
   @inlinable
   public func adding(
@@ -334,10 +300,8 @@ extension simd_double4x3 : MatrixDefaultSupportProtocol, Matrix4x3Protocol {
     self += other * scalar
   }
   
-  // ------------------------------------------------------------------------ //
-  // MARK: Subtraction - Matrix
-  // ------------------------------------------------------------------------ //
-  
+    // MARK: Subtraction - Matrix
+    
   // we supply:
   @inlinable
   public func subtracting(_ other: simd_double4x3) -> simd_double4x3 {
@@ -350,20 +314,16 @@ extension simd_double4x3 : MatrixDefaultSupportProtocol, Matrix4x3Protocol {
     self -= other
   }
   
-  // ------------------------------------------------------------------------ //
-  // MARK: Subtraction - Scalar
-  // ------------------------------------------------------------------------ //
-  
+    // MARK: Subtraction - Scalar
+    
   // defaults should supply:
   // func subtracting(scalar: Scalar) -> Self
   
   // defaults should supply:
   // mutating func formSubtraction(ofScalar scalar: Scalar)
   
-  // ------------------------------------------------------------------------ //
-  // MARK: FMS
-  // ------------------------------------------------------------------------ //
-  
+    // MARK: FMS
+    
   // we supply:
   @inlinable
   public func subtracting(
@@ -381,10 +341,8 @@ extension simd_double4x3 : MatrixDefaultSupportProtocol, Matrix4x3Protocol {
     self -= (other * scalar)
   }
   
-  // ------------------------------------------------------------------------ //
-  // MARK: Scalar Multiplication
-  // ------------------------------------------------------------------------ //
-  
+    // MARK: Scalar Multiplication
+    
   // we supply:
   @inlinable
   public func multiplied(by scalar: Scalar) -> simd_double4x3 {
@@ -397,10 +355,8 @@ extension simd_double4x3 : MatrixDefaultSupportProtocol, Matrix4x3Protocol {
     self *= scalar
   }
   
-  // ------------------------------------------------------------------------ //
-  // MARK: Scalar Division
-  // ------------------------------------------------------------------------ //
-  
+    // MARK: Scalar Division
+    
   // we supply:
   @inlinable
   public func divided(by scalar: Scalar) -> simd_double4x3 {
@@ -415,10 +371,8 @@ extension simd_double4x3 : MatrixDefaultSupportProtocol, Matrix4x3Protocol {
     self *= (1.0/scalar)
   }
   
-  // ------------------------------------------------------------------------ //
-  // MARK: Vector Multiplication
-  // ------------------------------------------------------------------------ //
-  
+    // MARK: Vector Multiplication
+    
   // we supply:
   @inlinable
   public func multiplied(onLeftBy columnVector: ColumnVector) -> RowVector {
@@ -431,10 +385,8 @@ extension simd_double4x3 : MatrixDefaultSupportProtocol, Matrix4x3Protocol {
     return self * rowVector
   }
   
-  // ------------------------------------------------------------------------ //
-  // MARK: Compatible Matrix Types
-  // ------------------------------------------------------------------------ //
-  
+    // MARK: Compatible Matrix Types
+    
   public typealias CompatibleMatrix4x4 = simd_double4x4
   public typealias CompatibleMatrix3x3 = simd_double3x3
   public typealias CompatibleMatrix2x3 = simd_double2x3
@@ -443,10 +395,8 @@ extension simd_double4x3 : MatrixDefaultSupportProtocol, Matrix4x3Protocol {
   public typealias CompatibleMatrix4x2 = simd_double4x2
   public typealias CompatibleMatrix3x4 = simd_double3x4
 
-  // ------------------------------------------------------------------------ //
-  // MARK: Initialization
-  // ------------------------------------------------------------------------ //
-  
+    // MARK: Initialization
+    
   // should already exist:
   // init(
   // _ c0: ColumnVector,
@@ -455,20 +405,16 @@ extension simd_double4x3 : MatrixDefaultSupportProtocol, Matrix4x3Protocol {
   // _ c3: ColumnVector)
   
   
-  // ------------------------------------------------------------------------ //
-  // MARK: Transposition
-  // ------------------------------------------------------------------------ //
-  
+    // MARK: Transposition
+    
   // we supply:
   @inlinable
   public func transposed() -> simd_double3x4 {
     return transpose
   }
   
-  // ------------------------------------------------------------------------ //
-  // MARK: Right-Hand Multiplication
-  // ------------------------------------------------------------------------ //
-  
+    // MARK: Right-Hand Multiplication
+    
   @inlinable
   public func multiplied(onRightBy rhs: CompatibleMatrix2x4) -> CompatibleMatrix2x3 {
     return self * rhs
@@ -489,10 +435,8 @@ extension simd_double4x3 : MatrixDefaultSupportProtocol, Matrix4x3Protocol {
     self = self * rhs
   }
   
-  // ------------------------------------------------------------------------ //
-  // MARK: Left-Hand Multiplication
-  // ------------------------------------------------------------------------ //
-  
+    // MARK: Left-Hand Multiplication
+    
   @inlinable
   public func multiplied(onLeftBy lhs: CompatibleMatrix3x2) -> CompatibleMatrix4x2 {
     return lhs * self

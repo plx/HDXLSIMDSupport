@@ -7,18 +7,14 @@ import simd
 
 extension simd_quatd : QuaternionProtocol {
   
-  // ------------------------------------------------------------------------ //
-  // MARK: Compatible Types
-  // ------------------------------------------------------------------------ //
-  
+    // MARK: Compatible Types
+    
   public typealias Scalar = Double
   public typealias CompatibleMatrix3x3 = simd_double3x3
   public typealias CompatibleMatrix4x4 = simd_double4x4
   
-  // ------------------------------------------------------------------------ //
-  // MARK: Initialization
-  // ------------------------------------------------------------------------ //
-  
+    // MARK: Initialization
+    
   // already exists:
   // init()
   
@@ -92,10 +88,8 @@ extension simd_quatd : QuaternionProtocol {
     self.init(matrix)
   }
   
-  // ------------------------------------------------------------------------ //
-  // MARK: Other Constructors
-  // ------------------------------------------------------------------------ //
-  
+    // MARK: Other Constructors
+    
   // we supply:
   @inlinable
   public static func slerp(
@@ -190,10 +184,8 @@ extension simd_quatd : QuaternionProtocol {
     )
   }
   
-  // ------------------------------------------------------------------------ //
-  // MARK: Basic Properties
-  // ------------------------------------------------------------------------ //
-  
+    // MARK: Basic Properties
+    
   // we supply (rename):
   @inlinable
   public var realComponent: Scalar {
@@ -235,20 +227,16 @@ extension simd_quatd : QuaternionProtocol {
   // already exists:
   // var length: Scalar { get }
   
-  // ------------------------------------------------------------------------ //
-  // MARK: Applying to Vectors
-  // ------------------------------------------------------------------------ //
-  
+    // MARK: Applying to Vectors
+    
   // we supply (rename):
   @inlinable
   public func apply(to vector: Vector3) -> Vector3 {
     return act(vector)
   }
   
-  // ------------------------------------------------------------------------ //
-  // MARK: Normalization
-  // ------------------------------------------------------------------------ //
-  
+    // MARK: Normalization
+    
   @inlinable
   public func normalized() -> simd_quatd {
     return normalized
@@ -259,10 +247,8 @@ extension simd_quatd : QuaternionProtocol {
     self = normalized
   }
   
-  // ------------------------------------------------------------------------ //
-  // MARK: Norms
-  // ------------------------------------------------------------------------ //
-
+    // MARK: Norms
+  
   @inlinable
   public var componentwiseMagnitudeSquared: Scalar {
     get {
@@ -270,10 +256,8 @@ extension simd_quatd : QuaternionProtocol {
     }
   }
 
-  // ------------------------------------------------------------------------ //
-  // MARK: Inversion
-  // ------------------------------------------------------------------------ //
-  
+    // MARK: Inversion
+    
   @inlinable
   public func inverted() -> simd_quatd {
     return inverse
@@ -284,10 +268,8 @@ extension simd_quatd : QuaternionProtocol {
     self = inverse
   }
   
-  // ------------------------------------------------------------------------ //
-  // MARK: Conjugation
-  // ------------------------------------------------------------------------ //
-  
+    // MARK: Conjugation
+    
   @inlinable
   public func conjugated() -> simd_quatd {
     return conjugate
@@ -298,10 +280,8 @@ extension simd_quatd : QuaternionProtocol {
     self = conjugate
   }
   
-  // ------------------------------------------------------------------------ //
-  // MARK: Negation
-  // ------------------------------------------------------------------------ //
-  
+    // MARK: Negation
+    
   @inlinable
   public func negated() -> simd_quatd {
     return -self
@@ -312,10 +292,8 @@ extension simd_quatd : QuaternionProtocol {
     self = -self
   }
   
-  // ------------------------------------------------------------------------ //
-  // MARK: Addition
-  // ------------------------------------------------------------------------ //
-  
+    // MARK: Addition
+    
   @inlinable
   public func adding(_ other: simd_quatd) -> simd_quatd {
     return self + other
@@ -326,10 +304,8 @@ extension simd_quatd : QuaternionProtocol {
     self += other
   }
   
-  // ------------------------------------------------------------------------ //
-  // MARK: FMA
-  // ------------------------------------------------------------------------ //
-  
+    // MARK: FMA
+    
   @inlinable
   public func adding(
     _ other: simd_quatd,
@@ -346,10 +322,8 @@ extension simd_quatd : QuaternionProtocol {
     self += (other * factor)
   }
   
-  // ------------------------------------------------------------------------ //
-  // MARK: Subtraction
-  // ------------------------------------------------------------------------ //
-  
+    // MARK: Subtraction
+    
   @inlinable
   public func subtracting(_ other: simd_quatd) -> simd_quatd {
     return self - other
@@ -360,10 +334,8 @@ extension simd_quatd : QuaternionProtocol {
     self -= other
   }
   
-  // ------------------------------------------------------------------------ //
-  // MARK: FMS
-  // ------------------------------------------------------------------------ //
-  
+    // MARK: FMS
+    
   @inlinable
   public func subtracting(
     _ other: simd_quatd,
@@ -380,10 +352,8 @@ extension simd_quatd : QuaternionProtocol {
     self -= (other * factor)
   }
   
-  // ------------------------------------------------------------------------ //
-  // MARK: Scalar Multiplication
-  // ------------------------------------------------------------------------ //
-  
+    // MARK: Scalar Multiplication
+    
   @inlinable
   public func multiplied(by factor: Scalar) -> simd_quatd {
     return self * factor
@@ -394,10 +364,8 @@ extension simd_quatd : QuaternionProtocol {
     self *= factor
   }
   
-  // ------------------------------------------------------------------------ //
-  // MARK: Scalar Division
-  // ------------------------------------------------------------------------ //
-  
+    // MARK: Scalar Division
+    
   @inlinable
   public func divided(by factor: Scalar) -> simd_quatd {
     return self / factor
@@ -408,10 +376,8 @@ extension simd_quatd : QuaternionProtocol {
     self /= factor
   }
   
-  // ------------------------------------------------------------------------ //
-  // MARK: Quaternion Multiplication
-  // ------------------------------------------------------------------------ //
-  
+    // MARK: Quaternion Multiplication
+    
   @inlinable
   public func multiplied(onRightBy other: simd_quatd) -> simd_quatd {
     return self * other
@@ -432,10 +398,8 @@ extension simd_quatd : QuaternionProtocol {
     self = other * self
   }
   
-  // ------------------------------------------------------------------------ //
-  // MARK: Quaternion Division
-  // ------------------------------------------------------------------------ //
-  
+    // MARK: Quaternion Division
+    
   @inlinable
   public func divided(onRightBy other: simd_quatd) -> simd_quatd {
     return self / other
@@ -456,10 +420,8 @@ extension simd_quatd : QuaternionProtocol {
     self = other.inverse * self
   }
   
-  // ------------------------------------------------------------------------ //
-  // MARK: Quaternion Dot Product
-  // ------------------------------------------------------------------------ //
-  
+    // MARK: Quaternion Dot Product
+    
   @inlinable
   public func dotted(with other: simd_quatd) -> Scalar {
     return simd_dot(self, other)

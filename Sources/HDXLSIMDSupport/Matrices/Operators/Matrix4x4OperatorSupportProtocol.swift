@@ -5,9 +5,7 @@
 import Foundation
 import simd
 
-// -------------------------------------------------------------------------- //
 // MARK: Matrix4x4OperatorSupportProtocol - Definition
-// -------------------------------------------------------------------------- //
 
 /// Vacuous, artificial protocol trivially refining `Matrix4x4Protocol`.
 ///
@@ -17,9 +15,7 @@ public protocol Matrix4x4OperatorSupportProtocol : Matrix4x4Protocol {
   
 }
 
-// -------------------------------------------------------------------------- //
 // MARK: Matrix4x4OperatorSupportProtocol - Operators
-// -------------------------------------------------------------------------- //
 
 public extension Matrix4x4OperatorSupportProtocol {
   

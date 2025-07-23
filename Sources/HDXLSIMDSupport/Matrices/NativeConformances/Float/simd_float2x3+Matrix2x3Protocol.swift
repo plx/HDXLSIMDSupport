@@ -7,30 +7,22 @@ import simd
 
 extension simd_float2x3 : MatrixDefaultSupportProtocol, Matrix2x3Protocol {
   
-  // ------------------------------------------------------------------------ //
   // MARK: Scalar
-  // ------------------------------------------------------------------------ //
   
   public typealias Scalar = Float
   
-  // ------------------------------------------------------------------------ //
   // MARK: Vectors
-  // ------------------------------------------------------------------------ //
   
   public typealias RowVector = SIMD2<Scalar>
   public typealias ColumnVector = SIMD3<Scalar>
   public typealias DiagonalVector = SIMD2<Scalar>
   
-  // ------------------------------------------------------------------------ //
   // MARK: Components
-  // ------------------------------------------------------------------------ //
   
   public typealias Columns = T2<ColumnVector>
   public typealias Rows = T3<RowVector>
   
-  // ------------------------------------------------------------------------ //
   // MARK: Shape Parameters
-  // ------------------------------------------------------------------------ //
   
   // defaults should supply:
   /*
@@ -41,9 +33,7 @@ extension simd_float2x3 : MatrixDefaultSupportProtocol, Matrix2x3Protocol {
    static var scalarCount: Int { get }
    */
   
-  // ------------------------------------------------------------------------ //
   // MARK: Initialization
-  // ------------------------------------------------------------------------ //
   
   // should already exist:
   // init()
@@ -91,9 +81,7 @@ extension simd_float2x3 : MatrixDefaultSupportProtocol, Matrix2x3Protocol {
     )
   }
   
-  // ------------------------------------------------------------------------ //
   // MARK: Linear Combinations
-  // ------------------------------------------------------------------------ //
   
   @inlinable
   public static func linearCombination(
@@ -110,16 +98,12 @@ extension simd_float2x3 : MatrixDefaultSupportProtocol, Matrix2x3Protocol {
     )
   }
   
-  // ------------------------------------------------------------------------ //
   // MARK: Subscripting - Columns
-  // ------------------------------------------------------------------------ //
   
   // defaults should supply:
   // subscript(columnIndex columnIndex: Int) -> ColumnVector { get set }
   
-  // ------------------------------------------------------------------------ //
   // MARK: Subscripting - Rows
-  // ------------------------------------------------------------------------ //
   
   // we supply:
   @inlinable
@@ -138,9 +122,7 @@ extension simd_float2x3 : MatrixDefaultSupportProtocol, Matrix2x3Protocol {
     }
   }
   
-  // ------------------------------------------------------------------------ //
   // MARK: Subscripting - Scalars
-  // ------------------------------------------------------------------------ //
   
   // defaults should supply:
   // subscript(linearizedScalarIndex linearizedScalarIndex: Int) -> Scalar { get set }
@@ -153,9 +135,7 @@ extension simd_float2x3 : MatrixDefaultSupportProtocol, Matrix2x3Protocol {
   // defaults should supply:
   // subscript(position position: MatrixPosition) -> Scalar { get set }
   
-  // ------------------------------------------------------------------------ //
   // MARK: Position & Linearization
-  // ------------------------------------------------------------------------ //
   
   // defaults should supply:
   // static func linearizedScalarIndex(
@@ -172,11 +152,9 @@ extension simd_float2x3 : MatrixDefaultSupportProtocol, Matrix2x3Protocol {
   // static func matrixPosition(forLinearizedScalarIndex linearizedScalarIndex: Int) -> MatrixPosition
   
   // we supply:
-  nonisolated(unsafe) public static let matrixPositions: [MatrixPosition] = simd_float2x3.prepareMatrixPositionList()
+  public static let matrixPositions: [MatrixPosition] = simd_float2x3.prepareMatrixPositionList()
   
-  // ------------------------------------------------------------------------ //
   // MARK: Bulk Properties
-  // ------------------------------------------------------------------------ //
   
   // should already exist:
   // var columns: Columns { get set }
@@ -211,9 +189,7 @@ extension simd_float2x3 : MatrixDefaultSupportProtocol, Matrix2x3Protocol {
   // defaults should supply:
   // var linearizedScalars: [Scalar] { get }
   
-  // ------------------------------------------------------------------------ //
   // MARK: Almost Equal Elements
-  // ------------------------------------------------------------------------ //
   
   // we supply:
   @inlinable
@@ -240,10 +216,8 @@ extension simd_float2x3 : MatrixDefaultSupportProtocol, Matrix2x3Protocol {
       tolerance
     )
   }
-
-  // ------------------------------------------------------------------------ //
+  
   // MARK: Norms
-  // ------------------------------------------------------------------------ //
   
   @inlinable
   public var componentwiseMagnitudeSquared: Scalar {
@@ -255,10 +229,8 @@ extension simd_float2x3 : MatrixDefaultSupportProtocol, Matrix2x3Protocol {
       )
     }
   }
-
-  // ------------------------------------------------------------------------ //
+  
   // MARK: Negation
-  // ------------------------------------------------------------------------ //
   
   // we supply:
   @inlinable
@@ -272,9 +244,7 @@ extension simd_float2x3 : MatrixDefaultSupportProtocol, Matrix2x3Protocol {
     self = -self
   }
   
-  // ------------------------------------------------------------------------ //
   // MARK: Addition - Matrix
-  // ------------------------------------------------------------------------ //
   
   // we supply:
   @inlinable
@@ -288,9 +258,7 @@ extension simd_float2x3 : MatrixDefaultSupportProtocol, Matrix2x3Protocol {
     self += other
   }
   
-  // ------------------------------------------------------------------------ //
   // MARK: Addition - Scalar
-  // ------------------------------------------------------------------------ //
   
   // defaults should supply:
   // func adding(scalar: Scalar) -> Self
@@ -298,9 +266,7 @@ extension simd_float2x3 : MatrixDefaultSupportProtocol, Matrix2x3Protocol {
   // defaults should supply:
   // mutating func formAddition(ofScalar scalar: Scalar)
   
-  // ------------------------------------------------------------------------ //
   // MARK: FMA
-  // ------------------------------------------------------------------------ //
   
   // we supply:
   @inlinable
@@ -320,9 +286,7 @@ extension simd_float2x3 : MatrixDefaultSupportProtocol, Matrix2x3Protocol {
     self += other * scalar
   }
   
-  // ------------------------------------------------------------------------ //
   // MARK: Subtraction - Matrix
-  // ------------------------------------------------------------------------ //
   
   // we supply:
   @inlinable
@@ -336,9 +300,7 @@ extension simd_float2x3 : MatrixDefaultSupportProtocol, Matrix2x3Protocol {
     self -= other
   }
   
-  // ------------------------------------------------------------------------ //
   // MARK: Subtraction - Scalar
-  // ------------------------------------------------------------------------ //
   
   // defaults should supply:
   // func subtracting(scalar: Scalar) -> Self
@@ -346,9 +308,7 @@ extension simd_float2x3 : MatrixDefaultSupportProtocol, Matrix2x3Protocol {
   // defaults should supply:
   // mutating func formSubtraction(ofScalar scalar: Scalar)
   
-  // ------------------------------------------------------------------------ //
   // MARK: FMS
-  // ------------------------------------------------------------------------ //
   
   // we supply:
   @inlinable
@@ -367,9 +327,7 @@ extension simd_float2x3 : MatrixDefaultSupportProtocol, Matrix2x3Protocol {
     self -= (other * scalar)
   }
   
-  // ------------------------------------------------------------------------ //
   // MARK: Scalar Multiplication
-  // ------------------------------------------------------------------------ //
   
   // we supply:
   @inlinable
@@ -383,9 +341,7 @@ extension simd_float2x3 : MatrixDefaultSupportProtocol, Matrix2x3Protocol {
     self *= scalar
   }
   
-  // ------------------------------------------------------------------------ //
   // MARK: Scalar Division
-  // ------------------------------------------------------------------------ //
   
   // we supply:
   @inlinable
@@ -401,9 +357,7 @@ extension simd_float2x3 : MatrixDefaultSupportProtocol, Matrix2x3Protocol {
     self *= (1.0/scalar)
   }
   
-  // ------------------------------------------------------------------------ //
   // MARK: Vector Multiplication
-  // ------------------------------------------------------------------------ //
   
   // we supply:
   @inlinable
@@ -417,9 +371,7 @@ extension simd_float2x3 : MatrixDefaultSupportProtocol, Matrix2x3Protocol {
     return self * rowVector
   }
   
-  // ------------------------------------------------------------------------ //
   // MARK: Compatible Matrix Types
-  // ------------------------------------------------------------------------ //
   
   public typealias CompatibleMatrix2x2 = simd_float2x2
   public typealias CompatibleMatrix3x3 = simd_float3x3
@@ -428,19 +380,15 @@ extension simd_float2x3 : MatrixDefaultSupportProtocol, Matrix2x3Protocol {
   public typealias CompatibleMatrix4x2 = simd_float4x2
   public typealias CompatibleMatrix3x4 = simd_float3x4
   public typealias CompatibleMatrix4x3 = simd_float4x3
-
-  // ------------------------------------------------------------------------ //
+  
   // MARK: Initialization
-  // ------------------------------------------------------------------------ //
   
   // should already exist:
   // init(
   // _ c0: ColumnVector,
   // _ c1: ColumnVector)
   
-  // ------------------------------------------------------------------------ //
   // MARK: Transposition
-  // ------------------------------------------------------------------------ //
   
   // we supply:
   @inlinable
@@ -448,9 +396,7 @@ extension simd_float2x3 : MatrixDefaultSupportProtocol, Matrix2x3Protocol {
     return transpose
   }
   
-  // ------------------------------------------------------------------------ //
   // MARK: Right-Hand Multiplication
-  // ------------------------------------------------------------------------ //
   
   @inlinable
   public func multiplied(onRightBy rhs: CompatibleMatrix2x2) -> simd_float2x3 {
@@ -472,9 +418,7 @@ extension simd_float2x3 : MatrixDefaultSupportProtocol, Matrix2x3Protocol {
     return self * rhs
   }
   
-  // ------------------------------------------------------------------------ //
   // MARK: Left-Hand Multiplication
-  // ------------------------------------------------------------------------ //
   
   @inlinable
   public func multiplied(onLeftBy lhs: CompatibleMatrix3x2) -> CompatibleMatrix2x2 {
@@ -495,5 +439,6 @@ extension simd_float2x3 : MatrixDefaultSupportProtocol, Matrix2x3Protocol {
   public func multiplied(onLeftBy lhs: CompatibleMatrix3x4) -> CompatibleMatrix2x4 {
     return lhs * self
   }
-
+  
 }
+

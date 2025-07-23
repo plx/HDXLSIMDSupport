@@ -5,9 +5,7 @@
 import Foundation
 import simd
 
-// -------------------------------------------------------------------------- //
 // MARK: Shape Defaults
-// -------------------------------------------------------------------------- //
 
 public extension MatrixDefaultSupportProtocol {
   
@@ -74,9 +72,7 @@ public extension MatrixDefaultSupportProtocol {
 
 }
 
-// -------------------------------------------------------------------------- //
 // MARK: 2-Row Support
-// -------------------------------------------------------------------------- //
 
 public extension MatrixDefaultSupportProtocol
   where
@@ -118,9 +114,7 @@ public extension MatrixDefaultSupportProtocol
   
 }
 
-// -------------------------------------------------------------------------- //
 // MARK: 3-Row Support
-// -------------------------------------------------------------------------- //
 
 public extension MatrixDefaultSupportProtocol
   where
@@ -164,9 +158,7 @@ public extension MatrixDefaultSupportProtocol
 
 }
 
-// -------------------------------------------------------------------------- //
 // MARK: 4-Row Support
-// -------------------------------------------------------------------------- //
 
 public extension MatrixDefaultSupportProtocol
   where
@@ -212,9 +204,7 @@ public extension MatrixDefaultSupportProtocol
 
 }
 
-// -------------------------------------------------------------------------- //
 // MARK: 2-Column Support
-// -------------------------------------------------------------------------- //
 
 public extension MatrixDefaultSupportProtocol
   where
@@ -304,9 +294,7 @@ public extension MatrixDefaultSupportProtocol
 
 }
 
-// -------------------------------------------------------------------------- //
 // MARK: 3-Column Support
-// -------------------------------------------------------------------------- //
 
 public extension MatrixDefaultSupportProtocol
   where
@@ -405,9 +393,7 @@ public extension MatrixDefaultSupportProtocol
 
 }
 
-// -------------------------------------------------------------------------- //
 // MARK: 4-Column Support
-// -------------------------------------------------------------------------- //
 
 public extension MatrixDefaultSupportProtocol
   where

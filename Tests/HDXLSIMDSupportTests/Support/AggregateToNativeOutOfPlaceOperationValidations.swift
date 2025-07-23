@@ -6,9 +6,7 @@ extension BinaryFloatingPoint {
   static var validationTestTolerance: Self { 0.000001 }
 }
 
-// -------------------------------------------------------------------------- //
 // MARK: (Aggregate, Native) within-epsilison
-// -------------------------------------------------------------------------- //
 
 func HDXLAssertNativeAndAggregateWithinEpsilon<Distance, Aggregate, Native>(
   _ epsilon: Distance = .validationTestTolerance,
@@ -53,9 +51,7 @@ func HDXLAssertNativeAndAggregateWithinEpsilon<Distance, Aggregate, Native>(
   }
 }
 
-// -------------------------------------------------------------------------- //
 // MARK: (Scalar, Aggregate) -> Scalar
-// -------------------------------------------------------------------------- //
 
 func HDXLValidateOutOfPlaceScalarAggregateToScalarOperation<Scalar, Aggregate, Native, IntegerTuple>(
   _ operationName: @autoclosure () -> String,
@@ -156,9 +152,7 @@ func _HDXLValidateOutOfPlaceScalarAggregateToScalarOperation<Scalar, Aggregate, 
   }
 }
  
-// -------------------------------------------------------------------------- //
 // MARK: (Aggregate, Scalar) -> Scalar
-// -------------------------------------------------------------------------- //
 
 func HDXLValidateOutOfPlaceAggregateScalarToScalarOperation<Scalar, Aggregate, Native, IntegerTuple>(
   _ operationName: @autoclosure () -> String,
@@ -259,9 +253,7 @@ func _HDXLValidateOutOfPlaceAggregateScalarToScalarOperation<Scalar, Aggregate, 
   }
 }
 
-// -------------------------------------------------------------------------- //
 // MARK: (Aggregate, Aggregate) -> Scalar
-// -------------------------------------------------------------------------- //
 
 func HDXLValidateOutOfPlaceAggregateAggregateToScalarOperation<Scalar, Aggregate, Native, IntegerTuple>(
   _ operationName: @autoclosure () -> String,
@@ -374,9 +366,7 @@ func _HDXLValidateOutOfPlaceAggregateAggregateToScalarOperation<Scalar, Aggregat
   }
 }
 
-// -------------------------------------------------------------------------- //
 // MARK: (Scalar, Aggregate) -> Aggregate
-// -------------------------------------------------------------------------- //
 
 func HDXLValidateOutOfPlaceScalarAggregateToAggregateOperation<Scalar, Aggregate, Native, IntegerTuple>(
   _ operationName: @autoclosure () -> String,
@@ -485,9 +475,7 @@ func _HDXLValidateOutOfPlaceScalarAggregateToAggregateOperation<Scalar, Aggregat
   }
 }
 
-// -------------------------------------------------------------------------- //
 // MARK: (Aggregate, Scalar) -> Aggregate
-// -------------------------------------------------------------------------- //
 
 func HDXLValidateOutOfPlaceAggregateScalarToAggregateOperation<Scalar, Aggregate, Native, IntegerTuple>(
   _ operationName: @autoclosure () -> String,
@@ -596,9 +584,7 @@ func _HDXLValidateOutOfPlaceAggregateScalarToAggregateOperation<Scalar, Aggregat
   }
 }
 
-// -------------------------------------------------------------------------- //
 // MARK: (Aggregate, Aggregate) -> Aggregate
-// -------------------------------------------------------------------------- //
 
 func HDXLValidateOutOfPlaceAggregateAggregateToAggregateOperation<Distance, Aggregate, Native, IntegerTuple>(
   _ operationName: @autoclosure () -> String,
@@ -724,9 +710,7 @@ func _HDXLValidateOutOfPlaceAggregateAggregateToAggregateOperation<Distance, Agg
   }
 }
 
-// -------------------------------------------------------------------------- //
 // MARK: (Aggregate) -> Aggregate
-// -------------------------------------------------------------------------- //
 
 func HDXLValidateOutOfPlaceAggregateToAggregateOperation<Distance, Aggregate, Native, IntegerTuple>(
   _ operationName: @autoclosure () -> String,
@@ -835,9 +819,7 @@ func _HDXLValidateOutOfPlaceAggregateToAggregateOperation<Distance, Aggregate, N
   }
 }
 
-// -------------------------------------------------------------------------- //
 // MARK: (X, Y) -> Z (Common)
-// -------------------------------------------------------------------------- //
 
 func HDXLValidateOutOfPlaceHeterogeneousAggregateAggregateToCommonOutputOperation<
   Distance,
@@ -979,9 +961,7 @@ func _HDXLValidateOutOfPlaceHeterogeneousAggregateAggregateToCommonOutputOperati
   }
 }
 
-// -------------------------------------------------------------------------- //
 // MARK: (X, Y) -> Z (Aggregate)
-// -------------------------------------------------------------------------- //
 
 func HDXLValidateOutOfPlaceHeterogeneousAggregateAggregateToAggregateOperation<
   Distance,

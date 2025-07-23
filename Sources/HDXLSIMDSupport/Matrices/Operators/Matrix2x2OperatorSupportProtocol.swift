@@ -5,9 +5,7 @@
 import Foundation
 import simd
 
-// -------------------------------------------------------------------------- //
 // MARK: Matrix2x2OperatorSupportProtocol - Definition
-// -------------------------------------------------------------------------- //
 
 /// Vacuous, artificial protocol trivially refining `Matrix2x2Protocol`.
 ///
@@ -17,9 +15,7 @@ public protocol Matrix2x2OperatorSupportProtocol : Matrix2x2Protocol {
   
 }
 
-// -------------------------------------------------------------------------- //
 // MARK: Matrix2x2OperatorSupportProtocol - Operators
-// -------------------------------------------------------------------------- //
 
 public extension Matrix2x2OperatorSupportProtocol {
   

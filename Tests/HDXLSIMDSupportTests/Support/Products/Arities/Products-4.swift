@@ -20,13 +20,13 @@ func isNonZero<T>(_ values: Homogeneous4<T>) -> Bool where T: Numeric {
 }
 
 @inlinable
-func arity4Power<A>(of a: some Collection<A>) -> AsyncStream<Homogeneous4<A>> {
+func arity4Power<A>(of a: some Collection<A>) -> AsyncStream<Homogeneous4<A>> where A: Sendable {
   return cartesianProduct(of: a, a, a, a)
 }
 
 @inlinable
 func nonZeroArity4Power<A>(of a: some Collection<A>) -> AsyncStream<Homogeneous4<A>>
-where A: Numeric {
+where A: Numeric & Sendable {
   return filteredCartesianProduct(of: a, a, a, a) {
     return isNonZero(($0, $1, $2, $3))
   }
@@ -36,12 +36,12 @@ where A: Numeric {
 func filteredArity4Power<A>(
   of a: some Collection<A>,
   filter: (Homogeneous4<A>) -> Bool
-) -> AsyncStream<Homogeneous4<A>> {
+) -> AsyncStream<Homogeneous4<A>> where A: Sendable {
   return cartesianProduct(of: a, a, a, a)
 }
 
 @inlinable
-func arity4EnumeratedPower<A>(of a: some Collection<A>) -> AsyncStream<EnumeratedValue<Homogeneous4<A>>> {
+func arity4EnumeratedPower<A>(of a: some Collection<A>) -> AsyncStream<EnumeratedValue<Homogeneous4<A>>> where A: Sendable {
   return enumeratedCartesianProduct(of: a, a, a, a)
 }
 
@@ -56,7 +56,7 @@ func cartesianProduct<A,B,C,D>(
   B,
   C,
   D
-)> {
+)> where A: Sendable, B: Sendable, C: Sendable, D: Sendable {
   return AsyncStream<(
     A,
     B,
@@ -95,7 +95,7 @@ func filteredCartesianProduct<A,B,C,D>(
   B,
   C,
   D
-)> {
+)> where A: Sendable, B: Sendable, C: Sendable, D: Sendable {
   return AsyncStream<(
     A,
     B,
@@ -137,7 +137,7 @@ func enumeratedCartesianProduct<A,B,C,D>(
     C,
     D
   )>
-> {
+> where A: Sendable, B: Sendable, C: Sendable, D: Sendable {
   return AsyncStream<
     EnumeratedValue<(
       A,

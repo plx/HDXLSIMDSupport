@@ -7,9 +7,7 @@ import simd
 
 infix operator • : MultiplicationPrecedence
 
-// -------------------------------------------------------------------------- //
 // MARK: QuaternionOperatorSupportProtocol - Definition
-// -------------------------------------------------------------------------- //
 
 /// Artificial protocol to be adopted by quaternion storages and `Quaternion<Scalar>`.
 ///
@@ -19,9 +17,7 @@ public protocol QuaternionOperatorSupportProtocol : QuaternionProtocol {
   
 }
 
-// -------------------------------------------------------------------------- //
 // MARK: QuaternionOperatorSupportProtocol - Operators
-// -------------------------------------------------------------------------- //
 
 public extension QuaternionOperatorSupportProtocol {
   
@@ -118,9 +114,7 @@ public extension QuaternionOperatorSupportProtocol {
   
 }
 
-// -------------------------------------------------------------------------- //
 // MARK: QuaternionOperatorSupportProtocol - Operators - In-Place `AdditiveArithmetic`
-// -------------------------------------------------------------------------- //
 
 // technical fix: both `AdditiveArithmetic` and `QuaternionOperatorSupportProtocol`
 // define default implementations of `+=` and `-=`. This results in ambiguity

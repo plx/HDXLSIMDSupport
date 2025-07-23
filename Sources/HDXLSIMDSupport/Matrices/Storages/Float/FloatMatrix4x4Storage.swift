@@ -31,19 +31,15 @@ public struct FloatMatrix4x4Storage :
   public typealias Columns = PassthroughValue.Columns
   public typealias NumericEntryRepresentation = PassthroughValue.NumericEntryRepresentation
 
-  // ------------------------------------------------------------------------ //
-  // MARK: Typename
-  // ------------------------------------------------------------------------ //
-  
+    // MARK: Typename
+    
   @usableFromInline
   internal static var typename: String {
     "FloatMatrix4x4Storage"
   }
 
-  // ------------------------------------------------------------------------ //
-  // MARK: Passthrough
-  // ------------------------------------------------------------------------ //
-
+    // MARK: Passthrough
+  
   public var passthroughValue: PassthroughValue
   
   @inlinable
@@ -51,10 +47,8 @@ public struct FloatMatrix4x4Storage :
     self.passthroughValue = passthroughValue
   }
 
-  // ------------------------------------------------------------------------ //
-  // MARK: Hashable
-  // ------------------------------------------------------------------------ //
-
+    // MARK: Hashable
+  
   @inlinable
   public func hash(into hasher: inout Hasher) {
     columns.0.hash(into: &hasher)
@@ -63,10 +57,8 @@ public struct FloatMatrix4x4Storage :
     columns.3.hash(into: &hasher)
   }
 
-  // ------------------------------------------------------------------------ //
-  // MARK: Codable
-  // ------------------------------------------------------------------------ //
-  
+    // MARK: Codable
+    
   public enum CodingKeys: String, CodingKey {
    
     case c0 = "c0"

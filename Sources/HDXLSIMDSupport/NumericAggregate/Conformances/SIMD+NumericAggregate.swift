@@ -5,9 +5,7 @@
 import Foundation
 import simd
 
-// -------------------------------------------------------------------------- //
 // MARK: SIMD2 - NumericAggregate
-// -------------------------------------------------------------------------- //
 
 extension SIMD2 : NumericAggregate {
   
@@ -25,9 +23,7 @@ extension SIMD2 : NumericAggregate {
   
 }
 
-// -------------------------------------------------------------------------- //
 // MARK: SIMD3 - NumericAggregate
-// -------------------------------------------------------------------------- //
 
 extension SIMD3 : NumericAggregate {
   
@@ -45,9 +41,7 @@ extension SIMD3 : NumericAggregate {
   
 }
 
-// -------------------------------------------------------------------------- //
 // MARK: SIMD4 - NumericAggregate
-// -------------------------------------------------------------------------- //
 
 extension SIMD4 : NumericAggregate {
   
@@ -65,9 +59,7 @@ extension SIMD4 : NumericAggregate {
   
 }
 
-// -------------------------------------------------------------------------- //
 // MARK: SIMD8 - NumericAggregate
-// -------------------------------------------------------------------------- //
 
 extension SIMD8 : NumericAggregate {
   
@@ -85,9 +77,7 @@ extension SIMD8 : NumericAggregate {
   
 }
 
-// -------------------------------------------------------------------------- //
 // MARK: SIMD16 - NumericAggregate
-// -------------------------------------------------------------------------- //
 
 extension SIMD16 : NumericAggregate {
   
@@ -105,9 +95,7 @@ extension SIMD16 : NumericAggregate {
   
 }
 
-// -------------------------------------------------------------------------- //
 // MARK: SIMD32 - NumericAggregate
-// -------------------------------------------------------------------------- //
 
 extension SIMD32 : NumericAggregate {
   
@@ -125,9 +113,7 @@ extension SIMD32 : NumericAggregate {
   
 }
 
-// -------------------------------------------------------------------------- //
 // MARK: SIMD64 - NumericAggregate
-// -------------------------------------------------------------------------- //
 
 extension SIMD64 : NumericAggregate {
   

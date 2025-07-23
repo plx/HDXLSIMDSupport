@@ -5,9 +5,7 @@
 import Foundation
 import simd
 
-// -------------------------------------------------------------------------- //
 // MARK: MatrixDefaultSupportProtocol - Subscripting Defaults
-// -------------------------------------------------------------------------- //
 
 public extension MatrixDefaultSupportProtocol {
   

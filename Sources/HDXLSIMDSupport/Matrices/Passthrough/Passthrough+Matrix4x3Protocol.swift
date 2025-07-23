@@ -1,16 +1,12 @@
 import Foundation
 import simd
 
-// ------------------------------------------------------------------------ //
 // MARK: Passthrough + Matrix4x3Protocol - Basics
-// ------------------------------------------------------------------------ //
 
 extension Passthrough where Self: Matrix4x3Protocol, PassthroughValue:Matrix4x3Protocol {
 
-  // ------------------------------------------------------------------------ //
-  // MARK: Initialization
-  // ------------------------------------------------------------------------ //
-
+    // MARK: Initialization
+  
   @inlinable
   public init(
     _ c0: PassthroughValue.ColumnVector,
@@ -30,9 +26,7 @@ extension Passthrough where Self: Matrix4x3Protocol, PassthroughValue:Matrix4x3P
   
 }
 
-// ------------------------------------------------------------------------ //
 // MARK: Passthrough + Matrix4x3Protocol - Transpose
-// ------------------------------------------------------------------------ //
 
 extension Passthrough
   where
@@ -51,9 +45,7 @@ extension Passthrough
   
 }
 
-// ------------------------------------------------------------------------ //
 // MARK: Passthrough + Matrix4x3Protocol - _ * (2x4) => 2x3
-// ------------------------------------------------------------------------ //
 
 extension Passthrough
   where
@@ -76,9 +68,7 @@ extension Passthrough
   
 }
 
-// ------------------------------------------------------------------------ //
 // MARK: Passthrough + Matrix4x3Protocol - _ * (3x4) => 3x3
-// ------------------------------------------------------------------------ //
 
 extension Passthrough
   where
@@ -101,9 +91,7 @@ extension Passthrough
   
 }
 
-// ------------------------------------------------------------------------ //
 // MARK: Passthrough + Matrix4x3Protocol - _ * (4x4) => 4X3
-// ------------------------------------------------------------------------ //
 
 extension Passthrough
   where
@@ -131,9 +119,7 @@ extension Passthrough
   
 }
 
-// ------------------------------------------------------------------------ //
 // MARK: Passthrough + Matrix4x3Protocol - (3x2) * _ => 4x2
-// ------------------------------------------------------------------------ //
 
 extension Passthrough
   where
@@ -156,9 +142,7 @@ extension Passthrough
   
 }
 
-// ------------------------------------------------------------------------ //
 // MARK: Passthrough + Matrix4x3Protocol - (3x3) * _ => 4x3
-// ------------------------------------------------------------------------ //
 
 extension Passthrough
   where
@@ -186,9 +170,7 @@ extension Passthrough
   
 }
 
-// ------------------------------------------------------------------------ //
 // MARK: Passthrough + Matrix4x3Protocol - (3x4) * _ => 4x4
-// ------------------------------------------------------------------------ //
 
 extension Passthrough
   where

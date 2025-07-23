@@ -32,19 +32,15 @@ public struct DoubleMatrix3x2Storage :
   public typealias Columns = PassthroughValue.Columns
   public typealias NumericEntryRepresentation = PassthroughValue.NumericEntryRepresentation
 
-  // ------------------------------------------------------------------------ //
-  // MARK: Typename
-  // ------------------------------------------------------------------------ //
-  
+    // MARK: Typename
+    
   @usableFromInline
   internal static var typename: String {
     "DoubleMatrix3x2Storage"
   }
   
-  // ------------------------------------------------------------------------ //
-  // MARK: Passthrough
-  // ------------------------------------------------------------------------ //
-  
+    // MARK: Passthrough
+    
   public var passthroughValue: PassthroughValue
   
   @inlinable
@@ -52,10 +48,8 @@ public struct DoubleMatrix3x2Storage :
     self.passthroughValue = passthroughValue
   }
   
-  // ------------------------------------------------------------------------ //
-  // MARK: Hashable
-  // ------------------------------------------------------------------------ //
-  
+    // MARK: Hashable
+    
   @inlinable
   public func hash(into hasher: inout Hasher) {
     columns.0.hash(into: &hasher)
@@ -63,10 +57,8 @@ public struct DoubleMatrix3x2Storage :
     columns.2.hash(into: &hasher)
   }
     
-  // ------------------------------------------------------------------------ //
-  // MARK: Codable
-  // ------------------------------------------------------------------------ //
-  
+    // MARK: Codable
+    
   public enum CodingKeys: String, CodingKey {
     
     case c0 = "c0"

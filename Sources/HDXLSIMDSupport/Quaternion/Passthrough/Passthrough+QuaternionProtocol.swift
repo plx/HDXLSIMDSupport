@@ -5,9 +5,7 @@
 import Foundation
 import simd
 
-// -------------------------------------------------------------------------- //
 // MARK: Passthrough + QuaternionProtocol - Matrix3x3
-// -------------------------------------------------------------------------- //
 
 public extension Passthrough
   where
@@ -28,9 +26,7 @@ public extension Passthrough
   
 }
 
-// -------------------------------------------------------------------------- //
 // MARK: Passthrough + QuaternionProtocol - Matrix4x4
-// -------------------------------------------------------------------------- //
 
 public extension Passthrough
   where
@@ -51,9 +47,7 @@ public extension Passthrough
   
 }
 
-// -------------------------------------------------------------------------- //
 // MARK: Passthrough + QuaternionProtocol
-// -------------------------------------------------------------------------- //
 
 public extension Passthrough where PassthroughValue:QuaternionProtocol {
   
@@ -136,10 +130,8 @@ public extension Passthrough where PassthroughValue:QuaternionProtocol {
     )
   }
   
-  // ------------------------------------------------------------------------ //
-  // MARK: Other Constructors
-  // ------------------------------------------------------------------------ //
-  
+    // MARK: Other Constructors
+    
   @inlinable
   static func slerp(
     _ q0: Self,
@@ -237,10 +229,8 @@ public extension Passthrough where PassthroughValue:QuaternionProtocol {
     )
   }
   
-  // ------------------------------------------------------------------------ //
-  // MARK: Basic Properties
-  // ------------------------------------------------------------------------ //
-  
+    // MARK: Basic Properties
+    
   @inlinable
   var realComponent: PassthroughValue.Scalar {
     get {
@@ -282,10 +272,8 @@ public extension Passthrough where PassthroughValue:QuaternionProtocol {
     }
   }
   
-  // ------------------------------------------------------------------------ //
-  // MARK: Applying to Vectors
-  // ------------------------------------------------------------------------ //
-  
+    // MARK: Applying to Vectors
+    
   @inlinable
   func apply(to vector: PassthroughValue.Vector3) -> PassthroughValue.Vector3 {
     return passthroughValue.apply(
@@ -293,10 +281,8 @@ public extension Passthrough where PassthroughValue:QuaternionProtocol {
     )
   }
   
-  // ------------------------------------------------------------------------ //
-  // MARK: Normalization
-  // ------------------------------------------------------------------------ //
-  
+    // MARK: Normalization
+    
   @inlinable
   func normalized() -> Self {
     return Self(
@@ -317,10 +303,8 @@ public extension Passthrough where PassthroughValue:QuaternionProtocol {
   }
 
   
-  // ------------------------------------------------------------------------ //
-  // MARK: Inversion
-  // ------------------------------------------------------------------------ //
-  
+    // MARK: Inversion
+    
   @inlinable
   func inverted() -> Self {
     return Self(
@@ -333,10 +317,8 @@ public extension Passthrough where PassthroughValue:QuaternionProtocol {
     passthroughValue.formInverse()
   }
   
-  // ------------------------------------------------------------------------ //
-  // MARK: Conjugation
-  // ------------------------------------------------------------------------ //
-  
+    // MARK: Conjugation
+    
   @inlinable
   func conjugated() -> Self {
     return Self(
@@ -349,10 +331,8 @@ public extension Passthrough where PassthroughValue:QuaternionProtocol {
     passthroughValue.formConjugate()
   }
   
-  // ------------------------------------------------------------------------ //
-  // MARK: Negation
-  // ------------------------------------------------------------------------ //
-  
+    // MARK: Negation
+    
   @inlinable
   func negated() -> Self {
     return Self(
@@ -365,10 +345,8 @@ public extension Passthrough where PassthroughValue:QuaternionProtocol {
     passthroughValue.formNegation()
   }
   
-  // ------------------------------------------------------------------------ //
-  // MARK: Addition
-  // ------------------------------------------------------------------------ //
-  
+    // MARK: Addition
+    
   @inlinable
   func adding(_ other: Self) -> Self {
     return Self(
@@ -385,10 +363,8 @@ public extension Passthrough where PassthroughValue:QuaternionProtocol {
     )
   }
   
-  // ------------------------------------------------------------------------ //
-  // MARK: FMA
-  // ------------------------------------------------------------------------ //
-  
+    // MARK: FMA
+    
   @inlinable
   func adding(
     _ other: Self,
@@ -413,10 +389,8 @@ public extension Passthrough where PassthroughValue:QuaternionProtocol {
     )
   }
   
-  // ------------------------------------------------------------------------ //
-  // MARK: Subtraction
-  // ------------------------------------------------------------------------ //
-  
+    // MARK: Subtraction
+    
   @inlinable
   func subtracting(_ other: Self) -> Self {
     return Self(
@@ -433,10 +407,8 @@ public extension Passthrough where PassthroughValue:QuaternionProtocol {
     )
   }
   
-  // ------------------------------------------------------------------------ //
-  // MARK: FMS
-  // ------------------------------------------------------------------------ //
-  
+    // MARK: FMS
+    
   @inlinable
   func subtracting(
     _ other: Self,
@@ -459,10 +431,8 @@ public extension Passthrough where PassthroughValue:QuaternionProtocol {
     )
   }
   
-  // ------------------------------------------------------------------------ //
-  // MARK: Scalar Multiplication
-  // ------------------------------------------------------------------------ //
-  
+    // MARK: Scalar Multiplication
+    
   @inlinable
   func multiplied(by factor: PassthroughValue.Scalar) -> Self {
     return Self(
@@ -479,10 +449,8 @@ public extension Passthrough where PassthroughValue:QuaternionProtocol {
     )
   }
   
-  // ------------------------------------------------------------------------ //
-  // MARK: Scalar Division
-  // ------------------------------------------------------------------------ //
-  
+    // MARK: Scalar Division
+    
   @inlinable
   func divided(by factor: PassthroughValue.Scalar) -> Self {
     return Self(
@@ -499,10 +467,8 @@ public extension Passthrough where PassthroughValue:QuaternionProtocol {
     )
   }
   
-  // ------------------------------------------------------------------------ //
-  // MARK: Quaternion Multiplication
-  // ------------------------------------------------------------------------ //
-  
+    // MARK: Quaternion Multiplication
+    
   @inlinable
   func multiplied(onRightBy other: Self) -> Self {
     return Self(
@@ -535,10 +501,8 @@ public extension Passthrough where PassthroughValue:QuaternionProtocol {
     )
   }
   
-  // ------------------------------------------------------------------------ //
-  // MARK: Quaternion Division
-  // ------------------------------------------------------------------------ //
-  
+    // MARK: Quaternion Division
+    
   @inlinable
   func divided(onRightBy other: Self) -> Self {
     return Self(
@@ -571,10 +535,8 @@ public extension Passthrough where PassthroughValue:QuaternionProtocol {
     )
   }
   
-  // ------------------------------------------------------------------------ //
-  // MARK: Quaternion Dot Product
-  // ------------------------------------------------------------------------ //
-
+    // MARK: Quaternion Dot Product
+  
   @inlinable
   func dotted(with other: Self) -> PassthroughValue.Scalar {
     return passthroughValue.dotted(

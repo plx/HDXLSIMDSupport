@@ -5,9 +5,7 @@
 import Foundation
 import simd
 
-// -------------------------------------------------------------------------- //
 // MARK: Positioning Support
-// -------------------------------------------------------------------------- //
 
 public extension MatrixDefaultSupportProtocol {
   
@@ -38,9 +36,7 @@ public extension MatrixDefaultSupportProtocol {
   
 }
 
-// -------------------------------------------------------------------------- //
 // MARK: Positioning Defaults
-// -------------------------------------------------------------------------- //
 
 public extension MatrixDefaultSupportProtocol {
   

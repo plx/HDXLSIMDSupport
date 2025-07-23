@@ -1,9 +1,7 @@
 import Foundation
 import simd
 
-// -------------------------------------------------------------------------- //
 // MARK: QuaternionSlerpStrategy - Equatable
-// -------------------------------------------------------------------------- //
 
 /// Enumeration of possible quaternion slerps: shortest, longest, or "don't care, do whatever".
 ///
@@ -23,9 +21,7 @@ public enum QuaternionSlerpStrategy : Int {
   
 }
 
-// -------------------------------------------------------------------------- //
 // MARK: - Synthesized Conformances
-// -------------------------------------------------------------------------- //
 
 extension QuaternionSlerpStrategy : Sendable { }
 extension QuaternionSlerpStrategy : Equatable { }
@@ -33,9 +29,7 @@ extension QuaternionSlerpStrategy : Hashable { }
 extension QuaternionSlerpStrategy : Codable { }
 extension QuaternionSlerpStrategy : CaseIterable { }
 
-// -------------------------------------------------------------------------- //
 // MARK: - Comparable
-// -------------------------------------------------------------------------- //
 
 extension QuaternionSlerpStrategy : Comparable {
   
@@ -49,9 +43,7 @@ extension QuaternionSlerpStrategy : Comparable {
 
 }
 
-// -------------------------------------------------------------------------- //
 // MARK: - CustomStringConvertible
-// -------------------------------------------------------------------------- //
 
 extension QuaternionSlerpStrategy : CustomStringConvertible {
   
@@ -69,9 +61,7 @@ extension QuaternionSlerpStrategy : CustomStringConvertible {
   
 }
 
-// -------------------------------------------------------------------------- //
 // MARK: - CustomDebugStringConvertible
-// -------------------------------------------------------------------------- //
 
 extension QuaternionSlerpStrategy : CustomDebugStringConvertible {
   

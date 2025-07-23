@@ -5,9 +5,7 @@
 import Foundation
 import simd
 
-// ------------------------------------------------------------------------ //
 // MARK: MatrixProtocol - Supporting Defines
-// ------------------------------------------------------------------------ //
 
 /// Shorthand for a 2-tuple with all types identically-`T`.
 public typealias T2<T> = (T,T)
@@ -18,9 +16,7 @@ public typealias T3<T> = (T,T,T)
 /// Shorthand for a 4-tuple with all types identically-`T`.
 public typealias T4<T> = (T,T,T,T)
 
-// ------------------------------------------------------------------------ //
 // MARK: MatrixProtocol - Definition
-// ------------------------------------------------------------------------ //
 
 /// Basic protocol for *adoption* by (a) the native SIMD matrices, (b) the "storage" types, and (c) the generic
 /// wrappers *around* those types. The design is somewhat artificial because on the one hand (a) I want to
@@ -49,17 +45,13 @@ public typealias T4<T> = (T,T,T,T)
 ///
 public protocol MatrixProtocol<Scalar> {
 
-  // ------------------------------------------------------------------------ //
-  // MARK: Scalar
-  // ------------------------------------------------------------------------ //
-
+    // MARK: Scalar
+  
   /// The scalar of-which the matrix is formed.
   associatedtype Scalar: SIMDScalar & BinaryFloatingPoint
 
-  // ------------------------------------------------------------------------ //
-  // MARK: Vectors
-  // ------------------------------------------------------------------------ //
-
+    // MARK: Vectors
+  
   /// The type of a column-vector within this matrix.
   associatedtype ColumnVector: SIMD
     where
@@ -78,10 +70,8 @@ public protocol MatrixProtocol<Scalar> {
     Scalar == DiagonalVector.Scalar,
     DiagonalVector.MaskStorage == DiagonalVector.MaskStorage.MaskStorage
 
-  // ------------------------------------------------------------------------ //
-  // MARK: Components
-  // ------------------------------------------------------------------------ //
-
+    // MARK: Components
+  
   /// The type of the columns tuple.
   ///
   /// - note: An abstraction leak insofar as the `simd_double2x2`, etc., types being built as tuples of SIMD vectors leaks out.
@@ -91,10 +81,8 @@ public protocol MatrixProtocol<Scalar> {
   /// The type of the rows tuple.
   associatedtype Rows
   
-  // ------------------------------------------------------------------------ //
-  // MARK: Shape Parameters
-  // ------------------------------------------------------------------------ //
-
+    // MARK: Shape Parameters
+  
   /// The number of rows in matrices of this type.
   static var rowCount: Int { get }
   
@@ -110,10 +98,8 @@ public protocol MatrixProtocol<Scalar> {
   /// Number of scalars within matrices of this type.
   static var scalarCount: Int { get }
 
-  // ------------------------------------------------------------------------ //
-  // MARK: Shape Ranges
-  // ------------------------------------------------------------------------ //
-  
+    // MARK: Shape Ranges
+    
   /// Range of the valid row indices.
   static var rowIndexRange: Range<Int> { get }
   
@@ -123,10 +109,8 @@ public protocol MatrixProtocol<Scalar> {
   /// Range of the valid linearized-scalar indices.
   static var linearizedScalarIndexRange: Range<Int> { get }
 
-  // ------------------------------------------------------------------------ //
-  // MARK: Initialization
-  // ------------------------------------------------------------------------ //
-
+    // MARK: Initialization
+  
   /// Constructs a zero-filled matrix.
   init()
   
@@ -190,10 +174,8 @@ public protocol MatrixProtocol<Scalar> {
   /// to write out, say, a literal matrix of some kind.
   init(scalars: [[Scalar]])
 
-  // ------------------------------------------------------------------------ //
-  // MARK: Linear Combinations
-  // ------------------------------------------------------------------------ //
-  
+    // MARK: Linear Combinations
+    
   /// Returns a weighted linear combination of `first` and `other`.
   ///
   /// - parameter first: The first matrix to combine
@@ -212,20 +194,16 @@ public protocol MatrixProtocol<Scalar> {
     weight otherWeight: Scalar
   ) -> Self
 
-  // ------------------------------------------------------------------------ //
-  // MARK: Subscripting - Columns
-  // ------------------------------------------------------------------------ //
-  
+    // MARK: Subscripting - Columns
+    
   /// Get-or-set a column vector at a time.
   ///
   /// - precondition: `columnIndex` is a valid row index.
   ///
   subscript(columnIndex columnIndex: Int) -> ColumnVector { get set }
 
-  // ------------------------------------------------------------------------ //
-  // MARK: Subscripting - Rows
-  // ------------------------------------------------------------------------ //
-
+    // MARK: Subscripting - Rows
+  
   /// Get-or-set a row vector at a time.
   ///
   /// - precondition: `rowIndex` is a valid row index.
@@ -233,10 +211,8 @@ public protocol MatrixProtocol<Scalar> {
   ///
   subscript(rowIndex rowIndex: Int) -> RowVector { get set }
 
-  // ------------------------------------------------------------------------ //
-  // MARK: Subscripting - Scalars
-  // ------------------------------------------------------------------------ //
-
+    // MARK: Subscripting - Scalars
+  
   /// Get-or-set a scalar value by its "linearized scalar index".
   subscript(linearizedScalarIndex linearizedScalarIndex: Int) -> Scalar { get set }
   
@@ -249,10 +225,8 @@ public protocol MatrixProtocol<Scalar> {
   /// Get-or-set a scalar value by the indicated matrix position.
   subscript(position position: MatrixPosition) -> Scalar { get set }
   
-  // ------------------------------------------------------------------------ //
-  // MARK: Position & Linearization
-  // ------------------------------------------------------------------------ //
-
+    // MARK: Position & Linearization
+  
   /// Obtain the `linearizedScalarIndex` equivalent-to  `(columnIndex, rowIndex)`.
   ///
   /// - precondition: `matrixPosition` is a valid, subscriptable `matrixPosition`.
@@ -283,20 +257,16 @@ public protocol MatrixProtocol<Scalar> {
   /// An array containing all *valid* matrix positions for matrices of this type.
   static var matrixPositions: [MatrixPosition] { get }
 
-  // ------------------------------------------------------------------------ //
-  // MARK: Linearized Scalars <=> Arrays
-  // ------------------------------------------------------------------------ //
-  
+    // MARK: Linearized Scalars <=> Arrays
+    
   /// Converts a *proper* `linearizedScalars` to the equivalent array of `ColumnVectors`.
   static func columnVectors(forLinearizedScalars linearizedScalars: [Scalar]) -> [ColumnVector]
   
   /// Converts a *proper* `linearizedScalars` to the equivalent array of `RowVectors`.
   static func rowVectors(forLinearizedScalars linearizedScalars: [Scalar]) -> [RowVector]
 
-  // ------------------------------------------------------------------------ //
-  // MARK: Bulk Properties
-  // ------------------------------------------------------------------------ //
-
+    // MARK: Bulk Properties
+  
   /// Get the packed columns.
   var columns: Columns { get set }
 
@@ -314,10 +284,8 @@ public protocol MatrixProtocol<Scalar> {
   /// Get an array of all scalars (in order).
   var linearizedScalars: [Scalar] { get }
   
-  // ------------------------------------------------------------------------ //
-  // MARK: Almost Equal Elements
-  // ------------------------------------------------------------------------ //
-  
+    // MARK: Almost Equal Elements
+    
   /// `true` iff `self` and `other` have almost-equal elements within an *absolute* `tolerance`.
   ///
   /// - note: Abstraction leak: does whatever `simd_almost_equal_elements` does.
@@ -336,17 +304,13 @@ public protocol MatrixProtocol<Scalar> {
     relativeTolerance tolerance: Scalar
   ) -> Bool
   
-  // ------------------------------------------------------------------------ //
-  // MARK: Norms
-  // ------------------------------------------------------------------------ //
-  
+    // MARK: Norms
+    
   /// Returns the sum of the squares of the components of `self`.
   var componentwiseMagnitudeSquared: Scalar { get }
 
-  // ------------------------------------------------------------------------ //
-  // MARK: Negation
-  // ------------------------------------------------------------------------ //
-  
+    // MARK: Negation
+    
   /// Returns `-self`.
   ///
   /// - note: Abstraction leak in that this doesn't make sense for unsigned-integers. Oh well.
@@ -359,20 +323,16 @@ public protocol MatrixProtocol<Scalar> {
   ///
   mutating func formNegation()
 
-  // ------------------------------------------------------------------------ //
-  // MARK: Addition - Matrix
-  // ------------------------------------------------------------------------ //
-  
+    // MARK: Addition - Matrix
+    
   /// Obtain the component-wise addition of `self` and `other`.
   func adding(_ other: Self) -> Self
   
   /// In-place component-wise adds `other` into `self`.
   mutating func formAddition(of other: Self)
 
-  // ------------------------------------------------------------------------ //
-  // MARK: Addition - Scalar
-  // ------------------------------------------------------------------------ //
-
+    // MARK: Addition - Scalar
+  
   /// Returns `self` with `scalar` identically-added-to *all entries*.
   func adding(scalar: Scalar) -> Self
   
@@ -382,10 +342,8 @@ public protocol MatrixProtocol<Scalar> {
   ///
   mutating func formAddition(ofScalar scalar: Scalar)
 
-  // ------------------------------------------------------------------------ //
-  // MARK: FMA
-  // ------------------------------------------------------------------------ //
-
+    // MARK: FMA
+  
   /// Returns `self + (scalar * other)`.
   ///
   /// - note: A distinct operation in case we get a (useful) FMA operation at some point.
@@ -404,20 +362,16 @@ public protocol MatrixProtocol<Scalar> {
     multipliedBy scalar: Scalar
   )
   
-  // ------------------------------------------------------------------------ //
-  // MARK: Subtraction - Matrix
-  // ------------------------------------------------------------------------ //
-
+    // MARK: Subtraction - Matrix
+  
   /// Obtain the component-wise subtraction of `other` from `self`.
   func subtracting(_ other: Self) -> Self
   
   /// In-place component-wise subtracts `other` from `self`.
   mutating func formSubtraction(of other: Self)
 
-  // ------------------------------------------------------------------------ //
-  // MARK: Subtraction - Scalar
-  // ------------------------------------------------------------------------ //
-
+    // MARK: Subtraction - Scalar
+  
   /// Returns `self` with `scalar` identically-subtracted-from *all entries*.
   func subtracting(scalar: Scalar) -> Self
 
@@ -427,10 +381,8 @@ public protocol MatrixProtocol<Scalar> {
   ///
   mutating func formSubtraction(ofScalar scalar: Scalar)
 
-  // ------------------------------------------------------------------------ //
-  // MARK: FMS
-  // ------------------------------------------------------------------------ //
-  
+    // MARK: FMS
+    
   /// Returns `self - (other * scalar)`.
   ///
   /// - note: A distinct operation in case we get a (useful) FMA operation at some point.
@@ -449,30 +401,24 @@ public protocol MatrixProtocol<Scalar> {
     multipliedBy scalar: Scalar
   )
 
-  // ------------------------------------------------------------------------ //
-  // MARK: Scalar Multiplication
-  // ------------------------------------------------------------------------ //
-  
+    // MARK: Scalar Multiplication
+    
   /// Returns `self` with all components identically-multiplied-by `scalar`.
   func multiplied(by scalar: Scalar) -> Self
   
   /// In-place multiplies all components in `self` by `scalar`.
   mutating func formMultiplication(by scalar: Scalar)
 
-  // ------------------------------------------------------------------------ //
-  // MARK: Scalar Division
-  // ------------------------------------------------------------------------ //
-
+    // MARK: Scalar Division
+  
   /// Returns `self` with all components identically-divided-by `scalar`.
   func divided(by scalar: Scalar) -> Self
   
   /// In-place divides all components in `self` by `scalar`.
   mutating func formDivision(by scalar: Scalar)
 
-  // ------------------------------------------------------------------------ //
-  // MARK: Vector Multiplication
-  // ------------------------------------------------------------------------ //
-  
+    // MARK: Vector Multiplication
+    
   /// Returns the `RowVector` result of `columnVector * self`.
   func multiplied(onLeftBy columnVector: ColumnVector) -> RowVector
   

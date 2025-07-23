@@ -1,16 +1,12 @@
 import Foundation
 import simd
 
-// ------------------------------------------------------------------------ //
 // MARK: Passthrough - Matrix4x4Protocol Support
-// ------------------------------------------------------------------------ //
 
 extension Passthrough where Self: Matrix4x4Protocol, PassthroughValue: Matrix4x4Protocol {
 
-  // ------------------------------------------------------------------------ //
-  // MARK: Initialization
-  // ------------------------------------------------------------------------ //
-
+    // MARK: Initialization
+  
   @inlinable
   public init(
     _ c0: PassthroughValue.ColumnVector,
@@ -28,19 +24,15 @@ extension Passthrough where Self: Matrix4x4Protocol, PassthroughValue: Matrix4x4
     )
   }
 
-  // ------------------------------------------------------------------------ //
-  // MARK: Square-Matrix Math - Determinants
-  // ------------------------------------------------------------------------ //
-
+    // MARK: Square-Matrix Math - Determinants
+  
   @inlinable
   public var determinant: PassthroughValue.Scalar {
     passthroughValue.determinant
   }
 
-  // ------------------------------------------------------------------------ //
-  // MARK: Square-Matrix Math - Inversion
-  // ------------------------------------------------------------------------ //
-
+    // MARK: Square-Matrix Math - Inversion
+  
   @inlinable
   public func inverted() -> Self {
     Self(
@@ -53,10 +45,8 @@ extension Passthrough where Self: Matrix4x4Protocol, PassthroughValue: Matrix4x4
     passthroughValue.formInverse()
   }
   
-  // ------------------------------------------------------------------------ //
-  // MARK: Square-Matrix Math - Multiplication
-  // ------------------------------------------------------------------------ //
-
+    // MARK: Square-Matrix Math - Multiplication
+  
   @inlinable
   public func multiplied(onRightBy rhs: Self) -> Self {
     Self(
@@ -89,10 +79,8 @@ extension Passthrough where Self: Matrix4x4Protocol, PassthroughValue: Matrix4x4
     )
   }
   
-  // ------------------------------------------------------------------------ //
-  // MARK: Square-Matrix Math - Division
-  // ------------------------------------------------------------------------ //
-  
+    // MARK: Square-Matrix Math - Division
+    
   @inlinable
   public func divided(onRightBy rhs: Self) -> Self {
     Self(
@@ -125,10 +113,8 @@ extension Passthrough where Self: Matrix4x4Protocol, PassthroughValue: Matrix4x4
     )
   }
 
-  // ------------------------------------------------------------------------ //
-  // MARK: Transposition
-  // ------------------------------------------------------------------------ //
-  
+    // MARK: Transposition
+    
   @inlinable
   public func transposed() -> Self {
     Self(
@@ -143,9 +129,7 @@ extension Passthrough where Self: Matrix4x4Protocol, PassthroughValue: Matrix4x4
 
 }
 
-// ------------------------------------------------------------------------ //
 // MARK: Passthrough - Matrix4x4Protocol Support - 2x4 Right-Multiplication
-// ------------------------------------------------------------------------ //
 
 extension Passthrough
   where
@@ -166,9 +150,7 @@ extension Passthrough
 
 }
 
-// ------------------------------------------------------------------------ //
 // MARK: Passthrough - Matrix4x4Protocol Support - 3x4 Right-Multiplication
-// ------------------------------------------------------------------------ //
 
 extension Passthrough
   where
@@ -189,9 +171,7 @@ extension Passthrough
   
 }
 
-// ------------------------------------------------------------------------ //
 // MARK: Passthrough - Matrix4x4Protocol Support - 4x2 Left-Multiplication
-// ------------------------------------------------------------------------ //
 
 extension Passthrough
   where
@@ -212,9 +192,7 @@ extension Passthrough
   
 }
 
-// ------------------------------------------------------------------------ //
 // MARK: Passthrough - Matrix4x4Protocol Support - 4x3 Right-Multiplication
-// ------------------------------------------------------------------------ //
 
 extension Passthrough
   where
@@ -235,9 +213,7 @@ extension Passthrough
   
 }
 
-// ------------------------------------------------------------------------ //
 // MARK: Passthrough - Matrix4x4Protocol Support - Quaternion
-// ------------------------------------------------------------------------ //
 
 extension Passthrough
   where

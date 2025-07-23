@@ -1,16 +1,12 @@
 import Foundation
 import simd
 
-// ------------------------------------------------------------------------ //
 // MARK: Passthrough - MatrixProtocol Support
-// ------------------------------------------------------------------------ //
 
 extension Passthrough where Self: MatrixProtocol, PassthroughValue: MatrixProtocol {
   
-  // ------------------------------------------------------------------------ //
-  // MARK: Shape Parameters
-  // ------------------------------------------------------------------------ //
-  
+    // MARK: Shape Parameters
+    
   @inlinable
   public static var rowCount: Int {
     PassthroughValue.rowCount
@@ -36,10 +32,8 @@ extension Passthrough where Self: MatrixProtocol, PassthroughValue: MatrixProtoc
     PassthroughValue.scalarCount
   }
   
-  // ------------------------------------------------------------------------ //
-  // MARK: Shape Ranges
-  // ------------------------------------------------------------------------ //
-  
+    // MARK: Shape Ranges
+    
   @inlinable
   public static var rowIndexRange: Range<Int> {
     PassthroughValue.rowIndexRange
@@ -55,10 +49,8 @@ extension Passthrough where Self: MatrixProtocol, PassthroughValue: MatrixProtoc
     PassthroughValue.linearizedScalarIndexRange
   }
 
-  // ------------------------------------------------------------------------ //
-  // MARK: Initialization
-  // ------------------------------------------------------------------------ //
-  
+    // MARK: Initialization
+    
   @inlinable
   public init() {
     self.init(
@@ -129,10 +121,8 @@ extension Passthrough where Self: MatrixProtocol, PassthroughValue: MatrixProtoc
     )
   }
   
-  // ------------------------------------------------------------------------ //
-  // MARK: Linear Combinations
-  // ------------------------------------------------------------------------ //
-  
+    // MARK: Linear Combinations
+    
   @inlinable
   public static func linearCombination(
     of first: Self,
@@ -150,10 +140,8 @@ extension Passthrough where Self: MatrixProtocol, PassthroughValue: MatrixProtoc
     )
   }
   
-  // ------------------------------------------------------------------------ //
-  // MARK: Subscripting - Columns
-  // ------------------------------------------------------------------------ //
-  
+    // MARK: Subscripting - Columns
+    
   @inlinable
   public subscript(columnIndex columnIndex: Int) -> PassthroughValue.ColumnVector {
     get {
@@ -164,10 +152,8 @@ extension Passthrough where Self: MatrixProtocol, PassthroughValue: MatrixProtoc
     }
   }
   
-  // ------------------------------------------------------------------------ //
-  // MARK: Subscripting - Rows
-  // ------------------------------------------------------------------------ //
-  
+    // MARK: Subscripting - Rows
+    
 
   @inlinable
   public subscript(rowIndex rowIndex: Int) -> PassthroughValue.RowVector {
@@ -179,10 +165,8 @@ extension Passthrough where Self: MatrixProtocol, PassthroughValue: MatrixProtoc
     }
   }
   
-  // ------------------------------------------------------------------------ //
-  // MARK: Subscripting - Scalars
-  // ------------------------------------------------------------------------ //
-  
+    // MARK: Subscripting - Scalars
+    
   @inlinable
   public subscript(linearizedScalarIndex linearizedScalarIndex: Int) -> PassthroughValue.Scalar {
     get {
@@ -217,10 +201,8 @@ extension Passthrough where Self: MatrixProtocol, PassthroughValue: MatrixProtoc
     }
   }
   
-  // ------------------------------------------------------------------------ //
-  // MARK: Position & Linearization
-  // ------------------------------------------------------------------------ //
-  
+    // MARK: Position & Linearization
+    
   @inlinable
   public static func linearScalarIndex(forMatrixPosition matrixPosition: MatrixPosition) -> Int {
     PassthroughValue.linearizedScalarIndex(
@@ -262,10 +244,8 @@ extension Passthrough where Self: MatrixProtocol, PassthroughValue: MatrixProtoc
     PassthroughValue.matrixPositions
   }
   
-  // ------------------------------------------------------------------------ //
-  // MARK: Linearized Scalars <=> Arrays
-  // ------------------------------------------------------------------------ //
-  
+    // MARK: Linearized Scalars <=> Arrays
+    
   @inlinable
   public static func columnVectors(forLinearizedScalars linearizedScalars: [PassthroughValue.Scalar]) -> [PassthroughValue.ColumnVector] {
     PassthroughValue.columnVectors(
@@ -280,10 +260,8 @@ extension Passthrough where Self: MatrixProtocol, PassthroughValue: MatrixProtoc
     )
   }
 
-  // ------------------------------------------------------------------------ //
-  // MARK: Bulk Properties
-  // ------------------------------------------------------------------------ //
-  
+    // MARK: Bulk Properties
+    
   @inlinable
   public var columns: PassthroughValue.Columns {
     get {
@@ -314,10 +292,8 @@ extension Passthrough where Self: MatrixProtocol, PassthroughValue: MatrixProtoc
     passthroughValue.linearizedScalars
   }
 
-  // ------------------------------------------------------------------------ //
-  // MARK: Almost Equal Elements
-  // ------------------------------------------------------------------------ //
-  
+    // MARK: Almost Equal Elements
+    
   @inlinable
   public func hasAlmostEqualElements(
     to other: Self,
@@ -340,19 +316,15 @@ extension Passthrough where Self: MatrixProtocol, PassthroughValue: MatrixProtoc
     )
   }
 
-  // ------------------------------------------------------------------------ //
-  // MARK: Norms
-  // ------------------------------------------------------------------------ //
-  
+    // MARK: Norms
+    
   @inlinable
   public var componentwiseMagnitudeSquared: PassthroughValue.Scalar {
     passthroughValue.componentwiseMagnitudeSquared
   }
 
-  // ------------------------------------------------------------------------ //
-  // MARK: Negation
-  // ------------------------------------------------------------------------ //
-  
+    // MARK: Negation
+    
   @inlinable
   public func negated() -> Self {
     Self(
@@ -365,10 +337,8 @@ extension Passthrough where Self: MatrixProtocol, PassthroughValue: MatrixProtoc
     passthroughValue.formNegation()
   }
   
-  // ------------------------------------------------------------------------ //
-  // MARK: Addition - Matrix
-  // ------------------------------------------------------------------------ //
-  
+    // MARK: Addition - Matrix
+    
   @inlinable
   public func adding(_ other: Self) -> Self {
     Self(
@@ -385,10 +355,8 @@ extension Passthrough where Self: MatrixProtocol, PassthroughValue: MatrixProtoc
     )
   }
   
-  // ------------------------------------------------------------------------ //
-  // MARK: Addition - Scalar
-  // ------------------------------------------------------------------------ //
-  
+    // MARK: Addition - Scalar
+    
   @inlinable
   public func adding(scalar: PassthroughValue.Scalar) -> Self {
     Self(
@@ -405,10 +373,8 @@ extension Passthrough where Self: MatrixProtocol, PassthroughValue: MatrixProtoc
     )
   }
   
-  // ------------------------------------------------------------------------ //
-  // MARK: FMA
-  // ------------------------------------------------------------------------ //
-  
+    // MARK: FMA
+    
   @inlinable
   public func adding(
     _ other: Self,
@@ -433,10 +399,8 @@ extension Passthrough where Self: MatrixProtocol, PassthroughValue: MatrixProtoc
     )
   }
   
-  // ------------------------------------------------------------------------ //
-  // MARK: Subtraction - Matrix
-  // ------------------------------------------------------------------------ //
-  
+    // MARK: Subtraction - Matrix
+    
   @inlinable
   public func subtracting(_ other: Self) -> Self {
     Self(
@@ -453,10 +417,8 @@ extension Passthrough where Self: MatrixProtocol, PassthroughValue: MatrixProtoc
     )
   }
   
-  // ------------------------------------------------------------------------ //
-  // MARK: Subtraction - Scalar
-  // ------------------------------------------------------------------------ //
-  
+    // MARK: Subtraction - Scalar
+    
   @inlinable
   public func subtracting(scalar: PassthroughValue.Scalar) -> Self {
     Self(
@@ -473,10 +435,8 @@ extension Passthrough where Self: MatrixProtocol, PassthroughValue: MatrixProtoc
     )
   }
   
-  // ------------------------------------------------------------------------ //
-  // MARK: FMS
-  // ------------------------------------------------------------------------ //
-  
+    // MARK: FMS
+    
   @inlinable
   public func subtracting(
     _ other: Self,
@@ -501,10 +461,8 @@ extension Passthrough where Self: MatrixProtocol, PassthroughValue: MatrixProtoc
     )
   }
   
-  // ------------------------------------------------------------------------ //
-  // MARK: Multiplication - Scalar
-  // ------------------------------------------------------------------------ //
-  
+    // MARK: Multiplication - Scalar
+    
   @inlinable
   public func multiplied(by scalar: PassthroughValue.Scalar) -> Self {
     Self(
@@ -521,10 +479,8 @@ extension Passthrough where Self: MatrixProtocol, PassthroughValue: MatrixProtoc
     )
   }
   
-  // ------------------------------------------------------------------------ //
-  // MARK: Division - Scalar
-  // ------------------------------------------------------------------------ //
-  
+    // MARK: Division - Scalar
+    
   @inlinable
   public func divided(by scalar: PassthroughValue.Scalar) -> Self {
     Self(
@@ -541,10 +497,8 @@ extension Passthrough where Self: MatrixProtocol, PassthroughValue: MatrixProtoc
     )
   }
   
-  // ------------------------------------------------------------------------ //
-  // MARK: Matrix-Vector Multiplication
-  // ------------------------------------------------------------------------ //
-  
+    // MARK: Matrix-Vector Multiplication
+    
   @inlinable
   public func multiplied(onLeftBy columnVector: PassthroughValue.ColumnVector) -> PassthroughValue.RowVector {
     return passthroughValue.multiplied(

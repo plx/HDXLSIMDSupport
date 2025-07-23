@@ -5,9 +5,7 @@
 import Foundation
 import simd
 
-// -------------------------------------------------------------------------- //
 // MARK: MatrixOperatorSupportProtocol - Definition
-// -------------------------------------------------------------------------- //
 
 /// `MatrixOperatorSupportProtocol` vacuously refines `MatrixProtocol` just to have a
 /// distinct extension point against-which we can define our operators for `MatrixProtocol`.
@@ -18,9 +16,7 @@ public protocol MatrixOperatorSupportProtocol : MatrixProtocol {
   
 }
 
-// -------------------------------------------------------------------------- //
 // MARK: MatrixOperatorSupportProtocol - Operators
-// -------------------------------------------------------------------------- //
 
 public extension MatrixOperatorSupportProtocol {
   
@@ -136,9 +132,7 @@ public extension MatrixOperatorSupportProtocol {
   
 }
 
-// -------------------------------------------------------------------------- //
 // MARK: MatrixOperatorSupportProtocol - Operators - In-Place `AdditiveArithmetic`
-// -------------------------------------------------------------------------- //
 
 // technical fix: both `AdditiveArithmetic` and `MatrixOperatorSupportProtocol`
 // define default implementations of `+=` and `-=`. This results in ambiguity

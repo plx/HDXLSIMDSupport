@@ -5,9 +5,7 @@
 import Foundation
 import simd
 
-// -------------------------------------------------------------------------- //
 // MARK: SIMD3 - Initialization - BinaryInteger
-// -------------------------------------------------------------------------- //
 
 public extension SIMD3 where Scalar:BinaryInteger {
   
@@ -40,9 +38,7 @@ public extension SIMD3 where Scalar:BinaryInteger {
   
 }
 
-// -------------------------------------------------------------------------- //
 // MARK: SIMD3 - Initialization - BinaryFloatingPoint
-// -------------------------------------------------------------------------- //
 
 public extension SIMD3 where Scalar:BinaryFloatingPoint {
   

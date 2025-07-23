@@ -4,9 +4,7 @@
 
 import Foundation
 
-// -------------------------------------------------------------------------- //
 // MARK: NumericAggregate - Floating Point Attributes
-// -------------------------------------------------------------------------- //
 
 public extension NumericAggregate where NumericEntryRepresentation:BinaryFloatingPoint {
   

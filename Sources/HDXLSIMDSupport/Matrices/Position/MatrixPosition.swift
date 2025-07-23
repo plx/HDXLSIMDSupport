@@ -1,13 +1,7 @@
-//
-//  MatrixPosition.swift
-//
-
 import Foundation
 import simd
 
-// -------------------------------------------------------------------------- //
-// MARK: MatrixPosition - Definition
-// -------------------------------------------------------------------------- //
+// MARK: MatrixPosition
 
 /// Struct specifically for indicating row-index, column-index pairs.
 public struct MatrixPosition {
@@ -44,145 +38,14 @@ public struct MatrixPosition {
 
 }
 
-// -------------------------------------------------------------------------- //
-// MARK: MatrixPosition - Diagonal
-// -------------------------------------------------------------------------- //
+// MARK: - Synthesized Conformances
 
-public extension MatrixPosition {
-  
-  /// `true` iff the position if *on* the diagonal.
-  @inlinable
-  var isOnDiagonal: Bool {
-    get {
-      return rowIndex == columnIndex
-    }
-  }
-  
-  /// `true` iff the position if *off* the diagonal.
-  @inlinable
-  var isOffDiagonal: Bool {
-    get {
-      return rowIndex != columnIndex
-    }
-  }
-  
-}
+extension MatrixPosition: Sendable { }
+extension MatrixPosition: Equatable { }
+extension MatrixPosition: Hashable { }
+extension MatrixPosition: Codable { }
 
-// -------------------------------------------------------------------------- //
-// MARK: MatrixPosition - Tranposition
-// -------------------------------------------------------------------------- //
-
-public extension MatrixPosition {
-  
-  /// Returns a position with swapped row-and-column indices.
-  @inlinable
-  func transposed() -> MatrixPosition {
-    return MatrixPosition(
-      rowIndex: columnIndex,
-      columnIndex: rowIndex
-    )
-  }
-  
-  /// In-place swaps the row and column indices.
-  @inlinable
-  mutating func formTranspose() {
-    swap(
-      &rowIndex,
-      &columnIndex
-    )
-  }
-  
-}
-
-// -------------------------------------------------------------------------- //
-// MARK: MatrixPosition - With
-// -------------------------------------------------------------------------- //
-
-public extension MatrixPosition {
-  
-  /// Obtain a `MatrixPosition` replacing `self.rowIndex` with `rowIndex`.
-  @inlinable
-  func with(rowIndex: Int) -> MatrixPosition {
-    return MatrixPosition(
-      rowIndex: rowIndex,
-      columnIndex: columnIndex
-    )
-  }
-  
-  /// Obtain a `MatrixPosition` replacing `self.columnIndex` with `columnIndex`.
-  @inlinable
-  func with(columnIndex: Int) -> MatrixPosition {
-    return MatrixPosition(
-      rowIndex: rowIndex,
-      columnIndex: columnIndex
-    )
-  }
-  
-}
-
-
-// -------------------------------------------------------------------------- //
-// MARK: MatrixPosition - Validatable
-// -------------------------------------------------------------------------- //
-
-extension MatrixPosition {
-  
-  @inlinable
-  public var isValid: Bool {
-    get {
-      guard
-        rowIndex >= 0,
-        columnIndex >= 0
-      else {
-          return false
-      }
-      return true
-    }
-  }
-  
-}
-
-// -------------------------------------------------------------------------- //
-// MARK: MatrixPosition - Equatable
-// -------------------------------------------------------------------------- //
-
-extension MatrixPosition : Equatable {
-  
-  @inlinable
-  public static func == (
-    lhs: MatrixPosition,
-    rhs: MatrixPosition
-  ) -> Bool {
-    // /////////////////////////////////////////////////////////////////////////
-    pedantic_assert(lhs.isValid)
-    pedantic_assert(rhs.isValid)
-    // /////////////////////////////////////////////////////////////////////////
-    guard
-      lhs.rowIndex == rhs.rowIndex,
-      lhs.columnIndex == rhs.columnIndex else {
-        return false
-    }
-    return true
-  }
-}
-
-// -------------------------------------------------------------------------- //
-// MARK: MatrixPosition - Hashable
-// -------------------------------------------------------------------------- //
-
-extension MatrixPosition : Hashable {
-  
-  @inlinable
-  public func hash(into hasher: inout Hasher) {
-    rowIndex.hash(into: &hasher)
-    columnIndex.hash(into: &hasher)
-  }
-  
-}
-
-// -------------------------------------------------------------------------- //
-// MARK: MatrixPosition - CustomStringConvertible
-// -------------------------------------------------------------------------- //
+// MARK: - CustomStringConvertible
 
 extension MatrixPosition : CustomStringConvertible {
   
@@ -195,9 +58,7 @@ extension MatrixPosition : CustomStringConvertible {
   
 }
 
-// -------------------------------------------------------------------------- //
-// MARK: MatrixPosition - CustomDebugStringConvertible
-// -------------------------------------------------------------------------- //
+// MARK: - CustomDebugStringConvertible
 
 extension MatrixPosition : CustomDebugStringConvertible {
   
@@ -210,12 +71,81 @@ extension MatrixPosition : CustomDebugStringConvertible {
   
 }
 
-// -------------------------------------------------------------------------- //
-// MARK: MatrixPosition - Codable
-// -------------------------------------------------------------------------- //
+// MARK: - Diagonal
 
-extension MatrixPosition : Codable {
+extension MatrixPosition {
   
-  // synthesized ok
+  /// `true` iff the position if *on* the diagonal.
+  @inlinable
+  public var isOnDiagonal: Bool {
+    rowIndex == columnIndex
+  }
+  
+  /// `true` iff the position if *off* the diagonal.
+  @inlinable
+  public var isOffDiagonal: Bool {
+    rowIndex != columnIndex
+  }
   
 }
+
+// MARK: - Tranposition
+
+extension MatrixPosition {
+  
+  /// Returns a position with swapped row-and-column indices.
+  @inlinable
+  public func transposed() -> MatrixPosition {
+    MatrixPosition(
+      rowIndex: columnIndex,
+      columnIndex: rowIndex
+    )
+  }
+  
+  /// In-place swaps the row and column indices.
+  @inlinable
+  public mutating func formTranspose() {
+    swap(
+      &rowIndex,
+      &columnIndex
+    )
+  }
+  
+}
+
+// MARK: - With-Derivation
+
+extension MatrixPosition {
+  
+  /// Obtain a `MatrixPosition` replacing `self.rowIndex` with `rowIndex`.
+  @inlinable
+  public func with(rowIndex: Int) -> MatrixPosition {
+    MatrixPosition(
+      rowIndex: rowIndex,
+      columnIndex: columnIndex
+    )
+  }
+  
+  /// Obtain a `MatrixPosition` replacing `self.columnIndex` with `columnIndex`.
+  @inlinable
+  public func with(columnIndex: Int) -> MatrixPosition {
+    MatrixPosition(
+      rowIndex: rowIndex,
+      columnIndex: columnIndex
+    )
+  }
+  
+}
+
+
+// MARK: - Validatable
+
+extension MatrixPosition {
+  
+  @inlinable
+  public var isValid: Bool {
+    rowIndex >= 0 && columnIndex >= 0
+  }
+  
+}
+

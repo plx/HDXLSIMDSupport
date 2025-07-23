@@ -28,34 +28,6 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "HDXLSIMDSupportSwiftUI"
-               BuildableName = "HDXLSIMDSupportSwiftUI"
-               BlueprintName = "HDXLSIMDSupportSwiftUI"
-               ReferencedContainer = "container:">
-            </BuildableReference>
-         </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "YES"
-            buildForArchiving = "YES"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "HDXLSIMDSupportSwiftUITests"
-               BuildableName = "HDXLSIMDSupportSwiftUITests"
-               BlueprintName = "HDXLSIMDSupportSwiftUITests"
-               ReferencedContainer = "container:">
-            </BuildableReference>
-         </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "YES"
-            buildForArchiving = "YES"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
                BlueprintIdentifier = "HDXLSIMDSupportTests"
                BuildableName = "HDXLSIMDSupportTests"
                BlueprintName = "HDXLSIMDSupportTests"
@@ -70,16 +42,6 @@
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       shouldUseLaunchSchemeArgsEnv = "YES">
       <Testables>
-         <TestableReference
-            skipped = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "HDXLSIMDSupportSwiftUITests"
-               BuildableName = "HDXLSIMDSupportSwiftUITests"
-               BlueprintName = "HDXLSIMDSupportSwiftUITests"
-               ReferencedContainer = "container:">
-            </BuildableReference>
-         </TestableReference>
          <TestableReference
             skipped = "NO">
             <BuildableReference

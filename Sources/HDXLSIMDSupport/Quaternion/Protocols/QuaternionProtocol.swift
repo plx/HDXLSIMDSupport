@@ -5,17 +5,13 @@
 import Foundation
 import simd
 
-// -------------------------------------------------------------------------- //
 // MARK: QuaternionProtocol - Definition
-// -------------------------------------------------------------------------- //
 
 /// Protocol with common math operations by all quaternions (and wrappers thereof).
 public protocol QuaternionProtocol<Scalar> {
 
-  // ------------------------------------------------------------------------ //
-  // MARK: Compatible Types
-  // ------------------------------------------------------------------------ //
-
+    // MARK: Compatible Types
+  
   /// The scalar with-which we represent our coefficients.
   associatedtype Scalar: SIMDScalar & BinaryFloatingPoint
   
@@ -28,10 +24,8 @@ public protocol QuaternionProtocol<Scalar> {
   /// Name for the length-three vector (e.g. imaginary part).
   typealias Vector3 = SIMD3<Scalar>
   
-  // ------------------------------------------------------------------------ //
-  // MARK: Initialization
-  // ------------------------------------------------------------------------ //
-
+    // MARK: Initialization
+  
   /// The zero quaternion
   init()
   
@@ -69,10 +63,8 @@ public protocol QuaternionProtocol<Scalar> {
   /// Initialize a quaternion from a 4x4 rotation matrix.
   init(rotationMatrix matrix: CompatibleMatrix4x4)
 
-  // ------------------------------------------------------------------------ //
-  // MARK: Other Constructors
-  // ------------------------------------------------------------------------ //
-  
+    // MARK: Other Constructors
+    
   /// Returns a spherical linearly interpolated value, using `strategy` to choose the arc in question.
   static func slerp(
     _ q0: Self,
@@ -119,10 +111,8 @@ public protocol QuaternionProtocol<Scalar> {
     t: Scalar
   ) -> Self
 
-  // ------------------------------------------------------------------------ //
-  // MARK: Basic Properties
-  // ------------------------------------------------------------------------ //
-
+    // MARK: Basic Properties
+  
   /// The real (scalar) part of `self`.
   var realComponent: Scalar { get set }
   
@@ -138,18 +128,14 @@ public protocol QuaternionProtocol<Scalar> {
   /// The length of the quaternion interpreted as a 4d vector.
   var length: Scalar { get }
 
-  // ------------------------------------------------------------------------ //
-  // MARK: Applying to Vectors
-  // ------------------------------------------------------------------------ //
-
+    // MARK: Applying to Vectors
+  
   /// Applies the rotation represented by a unit quaternion to the vector and
   /// returns the result.
   func apply(to vector: Vector3) -> Vector3
   
-  // ------------------------------------------------------------------------ //
-  // MARK: Normalization
-  // ------------------------------------------------------------------------ //
-  
+    // MARK: Normalization
+    
   /// Returns a unit quaternion obtained via `self/self.length`.
   ///
   /// - precondition: `self != .zero`
@@ -162,17 +148,13 @@ public protocol QuaternionProtocol<Scalar> {
   ///
   mutating func formNormalization()
   
-  // ------------------------------------------------------------------------ //
-  // MARK: Norms
-  // ------------------------------------------------------------------------ //
-  
+    // MARK: Norms
+    
   /// The square length of the quaternion (e.g. as a 4-vector).
   var componentwiseMagnitudeSquared: Scalar { get }
   
-  // ------------------------------------------------------------------------ //
-  // MARK: Inversion
-  // ------------------------------------------------------------------------ //
-  
+    // MARK: Inversion
+    
   /// Returns the inverse of `self`.
   ///
   /// - precondition: `self != .zero`
@@ -186,40 +168,32 @@ public protocol QuaternionProtocol<Scalar> {
   ///
   mutating func formInverse()
   
-  // ------------------------------------------------------------------------ //
-  // MARK: Conjugation
-  // ------------------------------------------------------------------------ //
-  
+    // MARK: Conjugation
+    
   /// Returns the conjugate of `self`.
   func conjugated() -> Self
   
   /// In-place mutates `self` into its conjugate.
   mutating func formConjugate()
   
-  // ------------------------------------------------------------------------ //
-  // MARK: Negation
-  // ------------------------------------------------------------------------ //
-  
+    // MARK: Negation
+    
   /// Returns the negation of `self`.
   func negated() -> Self
   
   /// In-place mutates `self` into its negation.
   mutating func formNegation()
   
-  // ------------------------------------------------------------------------ //
-  // MARK: Addition
-  // ------------------------------------------------------------------------ //
-  
+    // MARK: Addition
+    
   /// Returns the sum of `self` and `other`.
   func adding(_ other: Self) -> Self
   
   /// In-place adds `other` into  `self`.
   mutating func formAddition(of other: Self)
   
-  // ------------------------------------------------------------------------ //
-  // MARK: FMA
-  // ------------------------------------------------------------------------ //
-  
+    // MARK: FMA
+    
   /// Returns the sum of `self` and `factor * other`.
   func adding(
     _ other: Self,
@@ -232,20 +206,16 @@ public protocol QuaternionProtocol<Scalar> {
     multipliedBy factor: Scalar
   )
   
-  // ------------------------------------------------------------------------ //
-  // MARK: Subtraction
-  // ------------------------------------------------------------------------ //
-  
+    // MARK: Subtraction
+    
   /// Returns the result of subtracting `other` from `self`.
   func subtracting(_ other: Self) -> Self
   
   /// In-place subtracts `other` from `self`.
   mutating func formSubtraction(of other: Self)
 
-  // ------------------------------------------------------------------------ //
-  // MARK: FMS
-  // ------------------------------------------------------------------------ //
-  
+    // MARK: FMS
+    
   /// Returns `self` minus `factor * other`.
   func subtracting(
     _ other: Self,
@@ -258,20 +228,16 @@ public protocol QuaternionProtocol<Scalar> {
     multipliedBy factor: Scalar
   )
 
-  // ------------------------------------------------------------------------ //
-  // MARK: Scalar Multiplication
-  // ------------------------------------------------------------------------ //
-  
+    // MARK: Scalar Multiplication
+    
   /// Returns `self` multiplied-by `factor`.
   func multiplied(by factor: Scalar) -> Self
   
   /// In-place multiplies `self` by `factor`.
   mutating func formMultiplication(by factor: Scalar)
   
-  // ------------------------------------------------------------------------ //
-  // MARK: Scalar Division
-  // ------------------------------------------------------------------------ //
-  
+    // MARK: Scalar Division
+    
   /// Returns `self` divided-by `factor`.
   ///
   /// - precondition: `factor.isNonZero`
@@ -284,10 +250,8 @@ public protocol QuaternionProtocol<Scalar> {
   ///
   mutating func formDivision(by factor: Scalar)
   
-  // ------------------------------------------------------------------------ //
-  // MARK: Quaternion Multiplication
-  // ------------------------------------------------------------------------ //
-  
+    // MARK: Quaternion Multiplication
+    
   /// Returns `self * other`.
   func multiplied(onRightBy other: Self) -> Self
   
@@ -300,10 +264,8 @@ public protocol QuaternionProtocol<Scalar> {
   /// In-place sets `self = other * self`.
   mutating func formMultiplication(onLeftBy other: Self)
   
-  // ------------------------------------------------------------------------ //
-  // MARK: Quaternion Division
-  // ------------------------------------------------------------------------ //
-  
+    // MARK: Quaternion Division
+    
   /// Returns `self * (1/other)`.
   func divided(onRightBy other: Self) -> Self
   
@@ -316,10 +278,8 @@ public protocol QuaternionProtocol<Scalar> {
   /// In-place sets `self = (1/other) * self`.
   mutating func formDivision(onLeftBy other: Self)
 
-  // ------------------------------------------------------------------------ //
-  // MARK: Quaternion Dot Product
-  // ------------------------------------------------------------------------ //
-  
+    // MARK: Quaternion Dot Product
+    
   /// Returns the quaternion dot product with `other`.
   func dotted(with other: Self) -> Scalar
 

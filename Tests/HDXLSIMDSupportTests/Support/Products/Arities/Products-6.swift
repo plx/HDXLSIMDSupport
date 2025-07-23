@@ -24,12 +24,12 @@ func isNonZero<T>(_ values: Homogeneous6<T>) -> Bool where T: Numeric {
 }
 
 @inlinable
-func arity6Power<A>(of a: some Collection<A>) -> AsyncStream<Homogeneous6<A>> {
+func arity6Power<A>(of a: some Collection<A>) -> AsyncStream<Homogeneous6<A>> where A: Sendable {
   return cartesianProduct(of: a, a, a, a, a, a)
 }
 
 @inlinable
-func arity6EnumeratedPower<A>(of a: some Collection<A>) -> AsyncStream<EnumeratedValue<Homogeneous6<A>>> {
+func arity6EnumeratedPower<A>(of a: some Collection<A>) -> AsyncStream<EnumeratedValue<Homogeneous6<A>>> where A: Sendable {
   return enumeratedCartesianProduct(of: a, a, a, a, a, a)
 }
 
@@ -48,7 +48,7 @@ func cartesianProduct<A,B,C,D,E,F>(
   D,
   E,
   F
-)> {
+)> where A: Sendable, B: Sendable, C: Sendable, D: Sendable, E: Sendable, F: Sendable {
   return AsyncStream<(
     A,
     B,
@@ -100,7 +100,7 @@ func enumeratedCartesianProduct<A,B,C,D,E,F>(
     E,
     F
   )>
-> {
+> where A: Sendable, B: Sendable, C: Sendable, D: Sendable, E: Sendable, F: Sendable {
   return AsyncStream<
     EnumeratedValue<(
       A,

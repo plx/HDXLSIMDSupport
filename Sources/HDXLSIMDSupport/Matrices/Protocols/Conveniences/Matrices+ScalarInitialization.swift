@@ -5,9 +5,7 @@
 import Foundation
 import simd
 
-// -------------------------------------------------------------------------- //
 // MARK: Scalar Construction Support
-// -------------------------------------------------------------------------- //
 
 internal extension MatrixProtocol {
   
@@ -25,9 +23,7 @@ internal extension MatrixProtocol {
   
 }
 
-// -------------------------------------------------------------------------- //
 // MARK: 2x2 Scalar Construction
-// -------------------------------------------------------------------------- //
 
 public extension Matrix2x2Protocol {
   
@@ -50,9 +46,7 @@ public extension Matrix2x2Protocol {
     
 }
 
-// -------------------------------------------------------------------------- //
 // MARK: 2x3 Scalar Construction
-// -------------------------------------------------------------------------- //
 
 public extension Matrix2x3Protocol {
   
@@ -77,9 +71,7 @@ public extension Matrix2x3Protocol {
   
 }
 
-// -------------------------------------------------------------------------- //
 // MARK: 2x4 Scalar Construction
-// -------------------------------------------------------------------------- //
 
 public extension Matrix2x4Protocol {
   
@@ -106,9 +98,7 @@ public extension Matrix2x4Protocol {
   
 }
 
-// -------------------------------------------------------------------------- //
 // MARK: 3x2 Scalar Construction
-// -------------------------------------------------------------------------- //
 
 public extension Matrix3x2Protocol {
   
@@ -135,9 +125,7 @@ public extension Matrix3x2Protocol {
   
 }
 
-// -------------------------------------------------------------------------- //
 // MARK: 3x3 Scalar Construction
-// -------------------------------------------------------------------------- //
 
 public extension Matrix3x3Protocol {
   
@@ -167,9 +155,7 @@ public extension Matrix3x3Protocol {
   
 }
 
-// -------------------------------------------------------------------------- //
 // MARK: 3x4 Scalar Construction
-// -------------------------------------------------------------------------- //
 
 public extension Matrix3x4Protocol {
   
@@ -202,9 +188,7 @@ public extension Matrix3x4Protocol {
   
 }
 
-// -------------------------------------------------------------------------- //
 // MARK: 4x2 Scalar Construction
-// -------------------------------------------------------------------------- //
 
 public extension Matrix4x2Protocol {
   
@@ -235,9 +219,7 @@ public extension Matrix4x2Protocol {
   
 }
 
-// -------------------------------------------------------------------------- //
 // MARK: 4x3 Scalar Construction
-// -------------------------------------------------------------------------- //
 
 public extension Matrix4x3Protocol {
   
@@ -272,9 +254,7 @@ public extension Matrix4x3Protocol {
   
 }
 
-// -------------------------------------------------------------------------- //
 // MARK: 4x4 Scalar Construction
-// -------------------------------------------------------------------------- //
 
 public extension Matrix4x4Protocol {
   

@@ -5,9 +5,7 @@
 import Foundation
 import simd
 
-// -------------------------------------------------------------------------- //
 // MARK: Matrix4x4Protocol - Definition
-// -------------------------------------------------------------------------- //
 
 /// 4x4-specific matrix protocol.
 ///
@@ -29,10 +27,8 @@ public protocol Matrix4x4Protocol : MatrixProtocol
   Columns == T4<ColumnVector>
 {
 
-  // ------------------------------------------------------------------------ //
-  // MARK: Compatible Types
-  // ------------------------------------------------------------------------ //
-
+    // MARK: Compatible Types
+  
   /// Type of the directly-compatible quaternion.
   associatedtype CompatibleQuaternion /* : QuaternionProtocol where ...  */
 
@@ -48,10 +44,8 @@ public protocol Matrix4x4Protocol : MatrixProtocol
   /// Type of the directly-compatible 4x3 matrix.
   associatedtype CompatibleMatrix4x3 /* : Matrix4x3Protocol where...  */
 
-  // ------------------------------------------------------------------------ //
-  // MARK: Initialization
-  // ------------------------------------------------------------------------ //
-  
+    // MARK: Initialization
+    
   /// Initializes a 4x4 matrix from a compatible quaternion.
   init(quaternion: CompatibleQuaternion)
   
@@ -71,17 +65,13 @@ public protocol Matrix4x4Protocol : MatrixProtocol
     _ c3: ColumnVector
   )
 
-  // ------------------------------------------------------------------------ //
-  // MARK: Square-Matrix Math - Determinants
-  // ------------------------------------------------------------------------ //
-
+    // MARK: Square-Matrix Math - Determinants
+  
   /// Obtain the matrices determinant.
   var determinant: Scalar { get }
 
-  // ------------------------------------------------------------------------ //
-  // MARK: Square-Matrix Math - Inversion
-  // ------------------------------------------------------------------------ //
-
+    // MARK: Square-Matrix Math - Inversion
+  
   /// Returns the inversion of `self`.
   ///
   /// - warning: Behavior on non-invertible matrices is whatever the underlying type is; yes, this is *another* abstraction leak!
@@ -94,10 +84,8 @@ public protocol Matrix4x4Protocol : MatrixProtocol
   ///
   mutating func formInverse()
 
-  // ------------------------------------------------------------------------ //
-  // MARK: Square-Matrix Math - Multiplication
-  // ------------------------------------------------------------------------ //
-
+    // MARK: Square-Matrix Math - Multiplication
+  
   /// Returns `self`right-multiplied by `rhs` (e.g. `self * rhs`).
   func multiplied(onRightBy rhs: Self) -> Self
   
@@ -110,10 +98,8 @@ public protocol Matrix4x4Protocol : MatrixProtocol
   /// In place left-multiplies `self` by `lhs` (e.g. `self = lhs * self`).
   mutating func formMultiplication(onLeftBy lhs: Self)
 
-  // ------------------------------------------------------------------------ //
-  // MARK: Square-Matrix Math - Multiplication
-  // ------------------------------------------------------------------------ //
-
+    // MARK: Square-Matrix Math - Multiplication
+  
   /// Returns `self` right-divided by `rhs` (e.g. `self / rhs`).
   func divided(onRightBy rhs: Self) -> Self
   
@@ -126,10 +112,8 @@ public protocol Matrix4x4Protocol : MatrixProtocol
   /// In-place left-divides `self` by `lhs` (e.g. `self = lhs.inverted() * self`).
   mutating func formDivision(onLeftBy lhs: Self)
   
-  // ------------------------------------------------------------------------ //
-  // MARK: Transposition
-  // ------------------------------------------------------------------------ //
-  
+    // MARK: Transposition
+    
   /// Returns the transpose of `self`.
   ///
   /// - note: I used to have an associated type for the tranpose but that blew up compile times; for now i just inline a *concrete* transpose operation into each concrete matrix protocl.
@@ -138,20 +122,16 @@ public protocol Matrix4x4Protocol : MatrixProtocol
   /// In-place replaces `self` with its transpose.
   mutating func formTranspose()
 
-  // ------------------------------------------------------------------------ //
-  // MARK: Right Multiplication
-  // ------------------------------------------------------------------------ //
-  
+    // MARK: Right Multiplication
+    
   /// Returns the `2x4`-sized result of `self * rhs`.
   func multiplied(onRightBy rhs: CompatibleMatrix2x4) -> CompatibleMatrix2x4
 
   /// Returns the `3x4`-sized result of `self * rhs`.
   func multiplied(onRightBy rhs: CompatibleMatrix3x4) -> CompatibleMatrix3x4
   
-  // ------------------------------------------------------------------------ //
-  // MARK: Left Multiplication
-  // ------------------------------------------------------------------------ //
-  
+    // MARK: Left Multiplication
+    
   /// Returns the `4x3`-sized result of `lhs * self`.
   func multiplied(onLeftBy lhs: CompatibleMatrix4x3) -> CompatibleMatrix4x3
 

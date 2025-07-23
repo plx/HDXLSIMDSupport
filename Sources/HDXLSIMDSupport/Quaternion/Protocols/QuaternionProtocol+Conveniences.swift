@@ -30,10 +30,8 @@ extension QuaternionProtocol {
     }
   }
 
-  // ------------------------------------------------------------------------ //
-  // MARK: `i`, `j`, and `j`
-  // ------------------------------------------------------------------------ //
-  
+    // MARK: `i`, `j`, and `j`
+    
   /// The pure-`i` unit quaternion.
   @inlinable
   public static var i: Self {
@@ -67,10 +65,8 @@ extension QuaternionProtocol {
     }
   }
 
-  // ------------------------------------------------------------------------ //
-  // MARK: `x`, `y`, and `z`
-  // ------------------------------------------------------------------------ //
-  
+    // MARK: `x`, `y`, and `z`
+    
   /// The pure-`x` unit quaternion; synonym for `.i`.
   @inlinable
   public static var x: Self {

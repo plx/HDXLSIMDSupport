@@ -5,9 +5,7 @@
 import Foundation
 import simd
 
-// -------------------------------------------------------------------------- //
 // MARK: Matrix2x2Protocol - Definition
-// -------------------------------------------------------------------------- //
 
 /// 2x2-specific matrix protocol.
 ///
@@ -29,10 +27,8 @@ public protocol Matrix2x2Protocol : MatrixProtocol
   Columns == T2<ColumnVector>
 {
   
-  // ------------------------------------------------------------------------ //
-  // MARK: Compatible Types
-  // ------------------------------------------------------------------------ //
-  
+    // MARK: Compatible Types
+    
   /// Type of the directly-compatible 2x3 matrix.
   associatedtype CompatibleMatrix2x3 /* : Matrix2x3Protocol where ...  */
   
@@ -45,10 +41,8 @@ public protocol Matrix2x2Protocol : MatrixProtocol
   /// Type of the directly-compatible 4x2 matrix.
   associatedtype CompatibleMatrix4x2 /* : Matrix4x2Protocol where...  */
   
-  // ------------------------------------------------------------------------ //
-  // MARK: Initialization
-  // ------------------------------------------------------------------------ //
-  
+    // MARK: Initialization
+    
   /// Initialize a matrix from an "unpacked `Columns`" value.
   ///
   /// - parameter c0: The first column-vector.
@@ -61,17 +55,13 @@ public protocol Matrix2x2Protocol : MatrixProtocol
     _ c1: ColumnVector
   )
   
-  // ------------------------------------------------------------------------ //
-  // MARK: Square-Matrix Math - Determinants
-  // ------------------------------------------------------------------------ //
-  
+    // MARK: Square-Matrix Math - Determinants
+    
   /// Obtain the matrices determinant.
   var determinant: Scalar { get }
   
-  // ------------------------------------------------------------------------ //
-  // MARK: Square-Matrix Math - Inversion
-  // ------------------------------------------------------------------------ //
-  
+    // MARK: Square-Matrix Math - Inversion
+    
   /// Returns the inversion of `self`.
   ///
   /// - warning: Behavior on non-invertible matrices is whatever the underlying type is; yes, this is *another* abstraction leak!
@@ -84,10 +74,8 @@ public protocol Matrix2x2Protocol : MatrixProtocol
   ///
   mutating func formInverse()
   
-  // ------------------------------------------------------------------------ //
-  // MARK: Square-Matrix Math - Multiplication
-  // ------------------------------------------------------------------------ //
-  
+    // MARK: Square-Matrix Math - Multiplication
+    
   /// Returns `self`right-multiplied by `rhs` (e.g. `self * rhs`).
   func multiplied(onRightBy rhs: Self) -> Self
   
@@ -100,10 +88,8 @@ public protocol Matrix2x2Protocol : MatrixProtocol
   /// In place left-multiplies `self` by `lhs` (e.g. `self = lhs * self`).
   mutating func formMultiplication(onLeftBy lhs: Self)
   
-  // ------------------------------------------------------------------------ //
-  // MARK: Square-Matrix Math - Multiplication
-  // ------------------------------------------------------------------------ //
-  
+    // MARK: Square-Matrix Math - Multiplication
+    
   /// Returns `self` right-divided by `rhs` (e.g. `self / rhs`).
   func divided(onRightBy rhs: Self) -> Self
   
@@ -116,10 +102,8 @@ public protocol Matrix2x2Protocol : MatrixProtocol
   /// In-place left-divides `self` by `lhs` (e.g. `self = lhs.inverted() * self`).
   mutating func formDivision(onLeftBy lhs: Self)
   
-  // ------------------------------------------------------------------------ //
-  // MARK: Transposition
-  // ------------------------------------------------------------------------ //
-  
+    // MARK: Transposition
+    
   /// Returns the transpose of `self`.
   ///
   /// - note: I used to have an associated type for the tranpose but that blew up compile times; for now i just inline a *concrete* transpose operation into each concrete matrix protocl.
@@ -128,20 +112,16 @@ public protocol Matrix2x2Protocol : MatrixProtocol
   /// In-place replaces `self` with its transpose.
   mutating func formTranspose()
   
-  // ------------------------------------------------------------------------ //
-  // MARK: Right Multiplication
-  // ------------------------------------------------------------------------ //
-  
+    // MARK: Right Multiplication
+    
   /// Returns the `3x2`-sized result of `self * rhs`.
   func multiplied(onRightBy rhs: CompatibleMatrix3x2) -> CompatibleMatrix3x2
   
   /// Returns the `4x2`-sized result of `self * rhs`.
   func multiplied(onRightBy rhs: CompatibleMatrix4x2) -> CompatibleMatrix4x2
   
-  // ------------------------------------------------------------------------ //
-  // MARK: Left Multiplication
-  // ------------------------------------------------------------------------ //
-  
+    // MARK: Left Multiplication
+    
   /// Returns the `2x3`-sized result of `lhs * self`.
   func multiplied(onLeftBy lhs: CompatibleMatrix2x3) -> CompatibleMatrix2x3
 

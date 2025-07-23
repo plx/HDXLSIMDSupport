@@ -46,12 +46,12 @@ func isNonZero<T>(_ values: Homogeneous16<T>) -> Bool where T: Numeric {
 }
 
 @inlinable
-func arity16Power<A>(of a: some Collection<A>) -> AsyncStream<Homogeneous16<A>> {
+func arity16Power<A>(of a: some Collection<A>) -> AsyncStream<Homogeneous16<A>> where A: Sendable {
   return cartesianProduct(of: a, a, a, a, a, a, a, a, a, a, a, a, a, a, a, a)
 }
 
 @inlinable
-func arity16EnumeratedPower<A>(of a: some Collection<A>) -> AsyncStream<EnumeratedValue<Homogeneous16<A>>> {
+func arity16EnumeratedPower<A>(of a: some Collection<A>) -> AsyncStream<EnumeratedValue<Homogeneous16<A>>> where A: Sendable {
   return enumeratedCartesianProduct(of: a, a, a, a, a, a, a, a, a, a, a, a, a, a, a, a)
 }
 
@@ -90,7 +90,7 @@ func cartesianProduct<A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P>(
   N,
   O,
   P
-)> {
+)> where A: Sendable, B: Sendable, C: Sendable, D: Sendable, E: Sendable, F: Sendable, G: Sendable, H: Sendable, I: Sendable, J: Sendable, K: Sendable, L: Sendable, M: Sendable, N: Sendable, L: Sendable, O: Sendable, P: Sendable {
   return AsyncStream<(
     A,
     B,
@@ -202,7 +202,7 @@ func enumeratedCartesianProduct<A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P>(
     O,
     P
   )>
-> {
+> where A: Sendable, B: Sendable, C: Sendable, D: Sendable, E: Sendable, F: Sendable, G: Sendable, H: Sendable, I: Sendable, J: Sendable, K: Sendable, L: Sendable, M: Sendable, N: Sendable, O: Sendable, P: Sendable {
   return AsyncStream<
     EnumeratedValue<(
       A,

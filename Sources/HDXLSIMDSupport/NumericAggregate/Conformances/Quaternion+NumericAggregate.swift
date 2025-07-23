@@ -5,9 +5,7 @@
 import Foundation
 import simd
 
-// -------------------------------------------------------------------------- //
 // MARK: simd_quatf - NumericAggregate
-// -------------------------------------------------------------------------- //
 
 extension simd_quatf : NumericAggregate {
   
@@ -26,9 +24,7 @@ extension simd_quatf : NumericAggregate {
   
 }
 
-// -------------------------------------------------------------------------- //
 // MARK: simd_quatd - NumericAggregate
-// -------------------------------------------------------------------------- //
 
 extension simd_quatd : NumericAggregate {
   

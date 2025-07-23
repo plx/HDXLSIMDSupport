@@ -7,10 +7,8 @@ import simd
 
 public extension MatrixPosition {
   
-  // ------------------------------------------------------------------------ //
-  // MARK: (2, _) Compatibility
-  // ------------------------------------------------------------------------ //
-
+    // MARK: (2, _) Compatibility
+  
   /// `true` iff the indicated position *exists* in a 2x2 matrix.
   @inlinable
   var isCompatibleWith2x2Matrices: Bool {
@@ -53,10 +51,8 @@ public extension MatrixPosition {
     }
   }
 
-  // ------------------------------------------------------------------------ //
-  // MARK: (3, _) Compatibility
-  // ------------------------------------------------------------------------ //
-
+    // MARK: (3, _) Compatibility
+  
   /// `true` iff the indicated position *exists* in a 3x2 matrix.
   @inlinable
   var isCompatibleWith3x2Matrices: Bool {
@@ -99,10 +95,8 @@ public extension MatrixPosition {
     }
   }
 
-  // ------------------------------------------------------------------------ //
-  // MARK: (4, _) Compatibility
-  // ------------------------------------------------------------------------ //
-
+    // MARK: (4, _) Compatibility
+  
   /// `true` iff the indicated position *exists* in a 4x2 matrix.
   @inlinable
   var isCompatibleWith4x2Matrices: Bool {
