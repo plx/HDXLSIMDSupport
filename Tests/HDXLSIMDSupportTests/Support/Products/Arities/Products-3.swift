@@ -17,17 +17,17 @@ func isNonZero<T>(_ values: Homogeneous3<T>) -> Bool where T: Numeric {
 }
 
 @inlinable
-func arity3Power<A>(of a: some Collection<A>) -> AsyncStream<Homogeneous3<A>> {
+func arity3Power<A: Sendable>(of a: some Collection<A>) -> AsyncStream<Homogeneous3<A>> {
   return cartesianProduct(of: a, a, a)
 }
 
 @inlinable
-func arity3EnumeratedPower<A>(of a: some Collection<A>) -> AsyncStream<EnumeratedValue<Homogeneous3<A>>> {
+func arity3EnumeratedPower<A: Sendable>(of a: some Collection<A>) -> AsyncStream<EnumeratedValue<Homogeneous3<A>>> {
   return enumeratedCartesianProduct(of: a, a, a)
 }
 
 @inlinable
-func cartesianProduct<A,B,C>(
+func cartesianProduct<A: Sendable, B: Sendable, C: Sendable>(
   of a: some Collection<A>,
   _  b: some Collection<B>,
   _  c: some Collection<C>
@@ -59,7 +59,7 @@ func cartesianProduct<A,B,C>(
 }
 
 @inlinable
-func enumeratedCartesianProduct<A,B,C>(
+func enumeratedCartesianProduct<A: Sendable, B: Sendable, C: Sendable>(
   of a: some Collection<A>,
   _  b: some Collection<B>,
   _  c: some Collection<C>
