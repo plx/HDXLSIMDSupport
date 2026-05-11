@@ -10,7 +10,7 @@ import simd
 // -------------------------------------------------------------------------- //
 
 /// Struct specifically for indicating row-index, column-index pairs.
-public struct MatrixPosition {
+public struct MatrixPosition: Sendable {
   
   /// The *row index* (e.g. the "y-axis coordinate").
   public var rowIndex: Int

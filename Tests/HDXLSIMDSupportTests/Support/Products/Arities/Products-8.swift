@@ -28,17 +28,17 @@ func isNonZero<T>(_ values: Homogeneous8<T>) -> Bool where T: Numeric {
 }
 
 @inlinable
-func arity8Power<A>(of a: some Collection<A>) -> AsyncStream<Homogeneous8<A>> {
+func arity8Power<A: Sendable>(of a: some Collection<A>) -> AsyncStream<Homogeneous8<A>> {
   return cartesianProduct(of: a, a, a, a, a, a, a, a)
 }
 
 @inlinable
-func arity8EnumeratedPower<A>(of a: some Collection<A>) -> AsyncStream<EnumeratedValue<Homogeneous8<A>>> {
+func arity8EnumeratedPower<A: Sendable>(of a: some Collection<A>) -> AsyncStream<EnumeratedValue<Homogeneous8<A>>> {
   return enumeratedCartesianProduct(of: a, a, a, a, a, a, a, a)
 }
 
 @inlinable
-func cartesianProduct<A,B,C,D,E,F,G,H>(
+func cartesianProduct<A: Sendable, B: Sendable, C: Sendable, D: Sendable, E: Sendable, F: Sendable, G: Sendable, H: Sendable>(
   of a: some Collection<A>,
   _  b: some Collection<B>,
   _  c: some Collection<C>,
@@ -100,7 +100,7 @@ func cartesianProduct<A,B,C,D,E,F,G,H>(
 }
 
 @inlinable
-func enumeratedCartesianProduct<A,B,C,D,E,F,G,H>(
+func enumeratedCartesianProduct<A: Sendable, B: Sendable, C: Sendable, D: Sendable, E: Sendable, F: Sendable, G: Sendable, H: Sendable>(
   of a: some Collection<A>,
   _  b: some Collection<B>,
   _  c: some Collection<C>,
