@@ -203,8 +203,11 @@ extension simd_quatd : QuaternionProtocol {
     set {
       real = newValue
     }
+    _modify {
+      yield &real
+    }
   }
-  
+
   // we supply (rename):
   @inlinable
   public var imaginaryComponent: Vector3 {
@@ -213,6 +216,9 @@ extension simd_quatd : QuaternionProtocol {
     }
     set {
       imag = newValue
+    }
+    _modify {
+      yield &imag
     }
   }
   

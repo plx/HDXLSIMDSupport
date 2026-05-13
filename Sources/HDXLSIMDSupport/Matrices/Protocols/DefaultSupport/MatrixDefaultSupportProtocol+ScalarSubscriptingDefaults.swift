@@ -27,6 +27,12 @@ public extension MatrixDefaultSupportProtocol {
         )
       ] = newValue
     }
+    _modify {
+      let position = Self.matrixPosition(
+        forLinearizedScalarIndex: linearizedScalarIndex
+      )
+      yield &self[position: position]
+    }
   }
 
   @inlinable
@@ -51,8 +57,18 @@ public extension MatrixDefaultSupportProtocol {
         rowIndex: position.rowIndex
       ] = newValue
     }
+    _modify {
+      // ///////////////////////////////////////////////////////////////////////
+      pedantic_assert(position.isValid)
+      pedantic_assert(Self.contains(position: position))
+      // ///////////////////////////////////////////////////////////////////////
+      yield &self[
+        columnIndex: position.columnIndex,
+        rowIndex: position.rowIndex
+      ]
+    }
   }
-  
+
   @inlinable
   subscript(columnIndex columnIndex: Int, rowIndex rowIndex: Int) -> Scalar {
     get {
@@ -64,6 +80,11 @@ public extension MatrixDefaultSupportProtocol {
       precondition(Self.columnIndexRange.contains(columnIndex))
       precondition(Self.rowIndexRange.contains(rowIndex))
       self[columnIndex: columnIndex][rowIndex] = newValue
+    }
+    _modify {
+      precondition(Self.columnIndexRange.contains(columnIndex))
+      precondition(Self.rowIndexRange.contains(rowIndex))
+      yield &self[columnIndex: columnIndex][rowIndex]
     }
   }
 
