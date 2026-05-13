@@ -249,8 +249,11 @@ public extension Passthrough where PassthroughValue:QuaternionProtocol {
     set {
       passthroughValue.realComponent = newValue
     }
+    _modify {
+      yield &passthroughValue.realComponent
+    }
   }
-  
+
   @inlinable
   var imaginaryComponent: PassthroughValue.Vector3 {
     get {
@@ -258,6 +261,9 @@ public extension Passthrough where PassthroughValue:QuaternionProtocol {
     }
     set {
       passthroughValue.imaginaryComponent = newValue
+    }
+    _modify {
+      yield &passthroughValue.imaginaryComponent
     }
   }
   

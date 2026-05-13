@@ -182,6 +182,9 @@ public extension Passthrough where PassthroughValue: MatrixProtocol {
     set {
       passthroughValue[columnIndex: columnIndex] = newValue
     }
+    _modify {
+      yield &passthroughValue[columnIndex: columnIndex]
+    }
   }
   
   // ------------------------------------------------------------------------ //
@@ -197,6 +200,9 @@ public extension Passthrough where PassthroughValue: MatrixProtocol {
     set {
       passthroughValue[rowIndex: rowIndex] = newValue
     }
+    _modify {
+      yield &passthroughValue[rowIndex: rowIndex]
+    }
   }
   
   // ------------------------------------------------------------------------ //
@@ -211,6 +217,9 @@ public extension Passthrough where PassthroughValue: MatrixProtocol {
     set {
       passthroughValue[linearizedScalarIndex: linearizedScalarIndex] = newValue
     }
+    _modify {
+      yield &passthroughValue[linearizedScalarIndex: linearizedScalarIndex]
+    }
   }
   
   @inlinable
@@ -224,7 +233,9 @@ public extension Passthrough where PassthroughValue: MatrixProtocol {
     set {
       passthroughValue[columnIndex: columnIndex, rowIndex: rowIndex] = newValue
     }
-    
+    _modify {
+      yield &passthroughValue[columnIndex: columnIndex, rowIndex: rowIndex]
+    }
   }
   
   @inlinable
@@ -234,6 +245,9 @@ public extension Passthrough where PassthroughValue: MatrixProtocol {
     }
     set {
       passthroughValue[position: position] = newValue
+    }
+    _modify {
+      yield &passthroughValue[position: position]
     }
   }
   
@@ -313,6 +327,9 @@ public extension Passthrough where PassthroughValue: MatrixProtocol {
     }
     set {
       passthroughValue.columns = newValue
+    }
+    _modify {
+      yield &passthroughValue.columns
     }
   }
 

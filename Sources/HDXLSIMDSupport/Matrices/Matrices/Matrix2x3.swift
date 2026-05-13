@@ -54,6 +54,9 @@ public struct Matrix2x3<Scalar:ExtendedSIMDScalar>  :
     set {
       passthroughValue.passthroughValue = newValue
     }
+    _modify {
+      yield &passthroughValue.passthroughValue
+    }
   }
   
   @inlinable

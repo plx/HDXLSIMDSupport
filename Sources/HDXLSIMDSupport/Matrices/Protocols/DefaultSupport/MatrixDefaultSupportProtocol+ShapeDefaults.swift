@@ -258,6 +258,17 @@ public extension MatrixDefaultSupportProtocol
         fatalError("Used invalid `columnIndex` \(columnIndex) to subscript \(String(reflecting: self))!")
       }
     }
+    _modify {
+      precondition(Self.columnIndexRange.contains(columnIndex))
+      switch columnIndex {
+      case 0:
+        yield &columns.0
+      case 1:
+        yield &columns.1
+      default:
+        fatalError("Used invalid `columnIndex` \(columnIndex) to subscript \(String(reflecting: self))!")
+      }
+    }
   }
 
   @inlinable
@@ -350,6 +361,19 @@ public extension MatrixDefaultSupportProtocol
         columns.1 = newValue
       case 2:
         columns.2 = newValue
+      default:
+        fatalError("Used invalid `columnIndex` \(columnIndex) to subscript \(String(reflecting: self))!")
+      }
+    }
+    _modify {
+      precondition(Self.columnIndexRange.contains(columnIndex))
+      switch columnIndex {
+      case 0:
+        yield &columns.0
+      case 1:
+        yield &columns.1
+      case 2:
+        yield &columns.2
       default:
         fatalError("Used invalid `columnIndex` \(columnIndex) to subscript \(String(reflecting: self))!")
       }
@@ -455,6 +479,21 @@ public extension MatrixDefaultSupportProtocol
         columns.2 = newValue
       case 3:
         columns.3 = newValue
+      default:
+        fatalError("Used invalid `columnIndex` \(columnIndex) to subscript \(String(reflecting: self))!")
+      }
+    }
+    _modify {
+      precondition(Self.columnIndexRange.contains(columnIndex))
+      switch columnIndex {
+      case 0:
+        yield &columns.0
+      case 1:
+        yield &columns.1
+      case 2:
+        yield &columns.2
+      case 3:
+        yield &columns.3
       default:
         fatalError("Used invalid `columnIndex` \(columnIndex) to subscript \(String(reflecting: self))!")
       }

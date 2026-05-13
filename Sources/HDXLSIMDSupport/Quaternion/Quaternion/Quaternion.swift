@@ -43,6 +43,9 @@ public struct Quaternion<Scalar:ExtendedSIMDScalar> :
     set {
       passthroughValue.passthroughValue = newValue
     }
+    _modify {
+      yield &passthroughValue.passthroughValue
+    }
   }
   
   @inlinable
