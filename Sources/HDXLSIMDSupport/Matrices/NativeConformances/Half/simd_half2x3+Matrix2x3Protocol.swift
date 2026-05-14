@@ -30,7 +30,8 @@ extension simd_half2x3 : MatrixDefaultSupportProtocol, Matrix2x3Protocol {
 
   @inlinable
   public init(repeating scalar: Scalar) {
-    self.init(diagonal: DiagonalVector(repeating: scalar))
+    let column = ColumnVector(repeating: scalar)
+    self.init(columns: (column, column))
   }
 
   @inlinable

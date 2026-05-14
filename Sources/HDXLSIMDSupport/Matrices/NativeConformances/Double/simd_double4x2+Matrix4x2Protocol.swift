@@ -48,10 +48,13 @@ extension simd_double4x2 : MatrixDefaultSupportProtocol, Matrix4x2Protocol {
   // should already exist:
   // init()
   
-  // we supply (for now)
+  // The bridged `simd_doubleNxM.init(_ scalar:)` constructor is a *diagonal*
+  // initializer (scalar on the diagonal, zeros elsewhere), so we cannot use it
+  // to satisfy the protocol's "all entries" contract for `init(repeating:)`.
   @inlinable
   public init(repeating scalar: Scalar) {
-    self.init(scalar)
+    let column = ColumnVector(repeating: scalar)
+    self.init(columns: (column, column, column, column))
   }
   
   // should already exist:
