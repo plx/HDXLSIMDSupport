@@ -17,13 +17,26 @@ extension simd_quatf : IntegerTupleConstructible {
 
 extension simd_quatd : IntegerTupleConstructible {
   typealias IntegerTuple = Homogeneous4<Int>
-  
+
   init(integerTuple t: Homogeneous4<Int>) {
     self.init(
       i: Double(t.0),
       j: Double(t.1),
       k: Double(t.2),
       real: Double(t.3)
+    )
+  }
+}
+
+extension simd_quath : IntegerTupleConstructible {
+  typealias IntegerTuple = Homogeneous4<Int>
+
+  init(integerTuple t: Homogeneous4<Int>) {
+    self.init(
+      i: Float16(t.0),
+      j: Float16(t.1),
+      k: Float16(t.2),
+      real: Float16(t.3)
     )
   }
 }

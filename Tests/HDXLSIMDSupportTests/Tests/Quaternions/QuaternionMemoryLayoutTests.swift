@@ -22,4 +22,11 @@ class QuaternionMemoryLayoutTests: XCTestCase {
     )
   }
 
+  func testHalfQuaternionNoPaddingAdded() {
+    AssertMemoryEquivalentMemoryLayouts(
+      simd_quath.self,
+      HalfQuaternionStorage.self
+    )
+  }
+
 }
