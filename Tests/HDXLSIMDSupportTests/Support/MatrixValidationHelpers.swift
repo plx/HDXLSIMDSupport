@@ -127,6 +127,53 @@ func validateMatrixScalarEquivalence<Wrapper, Native, Scalar>(
   }
 }
 
+/// Validates a `linearCombination(of:weight:with:weight:)` operation. Sweeps
+/// over (first × other × firstWeight × otherWeight).
+func validateLinearCombinationEquivalence<Wrapper, Native, Scalar>(
+  _ name: String,
+  firsts: [[[Scalar]]],
+  others: [[[Scalar]]],
+  firstWeights: [Scalar],
+  otherWeights: [Scalar],
+  epsilon: Wrapper.LInfinityDistance,
+  wrapped: (Wrapper, Scalar, Wrapper, Scalar) -> Wrapper,
+  native: (Native, Scalar, Native, Scalar) -> Native,
+  file: StaticString = #filePath,
+  line: UInt = #line
+) where
+  Wrapper: NativeSIMDRepresentable,
+  Wrapper.NativeSIMDRepresentation == Native,
+  Wrapper: MatrixProtocol,
+  Wrapper.Scalar == Scalar,
+  Wrapper: LInfinityDistanceMeasureable,
+  Wrapper.LInfinityDistance: BinaryFloatingPoint,
+  Scalar: SIMDScalar & BinaryFloatingPoint
+{
+  for first in firsts {
+    for other in others {
+      for fw in firstWeights {
+        for ow in otherWeights {
+          let wrappedFirst = Wrapper(scalars: first)
+          let wrappedOther = Wrapper(scalars: other)
+          let nativeFirst = wrappedFirst.nativeSIMDRepresentation
+          let nativeOther = wrappedOther.nativeSIMDRepresentation
+          let wrappedResult = wrapped(wrappedFirst, fw, wrappedOther, ow)
+          let nativeResult = native(nativeFirst, fw, nativeOther, ow)
+          let nativeAsWrapped = Wrapper(nativeSIMDRepresentation: nativeResult)
+          let distance = wrappedResult.lInfinityDistance(to: nativeAsWrapped)
+          XCTAssertLessThan(
+            distance,
+            epsilon,
+            "[\(name)] L∞ distance \(distance) >= \(epsilon) for first=\(first), firstWeight=\(fw), other=\(other), otherWeight=\(ow)",
+            file: file,
+            line: line
+          )
+        }
+      }
+    }
+  }
+}
+
 /// Validates a wrapped binary operation that produces a *different*-shape
 /// result. The wrapper, the rhs, and the result all have their own native /
 /// wrapper / scalar types; only the scalar type is required to match across.

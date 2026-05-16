@@ -69,4 +69,43 @@ struct LinearCombinationMacrolet: SIMDMatrixMacrolet {
       ]
     }
   }
+
+  func validationTestDeclarations(in context: MatrixLayerContext) -> [DeclSyntax] {
+    if descriptor.producesBuggyHalfThreeRow { return [] }
+    let wrapper = descriptor.wrapperTypeInstantiation
+    let native = descriptor.nativeTypeName
+    let scalar = descriptor.representation.swiftScalarTypeName
+    // Independent ground truth: rebuild as (firstWeight * first) + (otherWeight * other)
+    // using the scalar-mul + matrix-add primitives. For half this means the simd C
+    // bridge (simd_mul + simd_add); for float/double it's the overlay's operators.
+    let nativeBody: String
+    switch descriptor.representation {
+    case .half:
+      nativeBody = "simd_add(simd_mul(fw, a), simd_mul(ow, b))"
+    case .float, .double:
+      nativeBody = "(fw * a) + (ow * b)"
+    }
+    return [
+      """
+      func test_linearCombination() {
+        let probes: [[[\(raw: scalar)]]] = \(raw: descriptor.probeMatricesArrayExpression)
+        let weights: [\(raw: scalar)] = \(raw: descriptor.probeScalarsArrayExpression)
+        validateLinearCombinationEquivalence(
+          "linearCombination(of:weight:with:weight:)",
+          firsts: probes,
+          others: probes,
+          firstWeights: weights,
+          otherWeights: weights,
+          epsilon: \(raw: descriptor.defaultEpsilonLiteral),
+          wrapped: { (a: \(raw: wrapper), fw: \(raw: scalar), b: \(raw: wrapper), ow: \(raw: scalar)) -> \(raw: wrapper) in
+            \(raw: wrapper).linearCombination(of: a, weight: fw, with: b, weight: ow)
+          },
+          native: { (a: \(raw: native), fw: \(raw: scalar), b: \(raw: native), ow: \(raw: scalar)) -> \(raw: native) in
+            \(raw: nativeBody)
+          }
+        )
+      }
+      """
+    ]
+  }
 }
