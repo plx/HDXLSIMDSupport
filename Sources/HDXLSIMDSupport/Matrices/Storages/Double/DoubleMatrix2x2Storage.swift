@@ -11,7 +11,6 @@ public struct DoubleMatrix2x2Storage:
   Matrix2x2Protocol,
   MatrixOperatorSupportProtocol,
   Matrix2x2OperatorSupportProtocol,
-  Passthrough,
   NativeSIMDRepresentable,
   NumericAggregate,
   Hashable,

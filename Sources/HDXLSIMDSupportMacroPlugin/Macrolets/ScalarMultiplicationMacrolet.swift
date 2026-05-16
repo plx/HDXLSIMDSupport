@@ -48,13 +48,13 @@ struct ScalarMultiplicationMacrolet: SIMDMatrixMacrolet {
         """
         @inlinable
         public func multiplied(by scalar: Scalar) -> Self {
-          Self(passthroughValue: passthroughValue.multiplied(by: scalar))
+          Self(storage: storage.multiplied(by: scalar))
         }
         """,
         """
         @inlinable
         public mutating func formMultiplication(by scalar: Scalar) {
-          passthroughValue.formMultiplication(by: scalar)
+          storage.formMultiplication(by: scalar)
         }
         """
       ]

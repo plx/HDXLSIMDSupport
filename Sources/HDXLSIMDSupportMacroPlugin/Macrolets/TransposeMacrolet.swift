@@ -87,13 +87,13 @@ struct TransposeMacrolet: SIMDMatrixMacrolet {
         """
         @inlinable
         public func transposed() -> Self {
-          Self(passthroughValue: passthroughValue.transposed())
+          Self(storage: storage.transposed())
         }
         """,
         """
         @inlinable
         public mutating func formTranspose() {
-          passthroughValue.formTranspose()
+          storage.formTranspose()
         }
         """
       ]
@@ -129,7 +129,7 @@ struct TransposeMacrolet: SIMDMatrixMacrolet {
         """
         @inlinable
         public func transposed() -> \(raw: transposeTypealias) {
-          \(raw: transposeTypealias)(passthroughValue: passthroughValue.transposed())
+          \(raw: transposeTypealias)(storage: storage.transposed())
         }
         """
       ]

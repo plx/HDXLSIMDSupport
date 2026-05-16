@@ -62,7 +62,7 @@ struct InitializationMacrolet: SIMDMatrixMacrolet {
         """
         @inlinable
         public init() {
-          self.init(passthroughValue: \(raw: wrapped)())
+          self.init(storage: \(raw: wrapped)())
         }
         """
       ]
@@ -90,7 +90,7 @@ struct InitializationMacrolet: SIMDMatrixMacrolet {
         """
         @inlinable
         public init(repeating scalar: Scalar) {
-          self.init(passthroughValue: \(raw: wrapped)(repeating: scalar))
+          self.init(storage: \(raw: wrapped)(repeating: scalar))
         }
         """
       ]
@@ -136,7 +136,7 @@ struct InitializationMacrolet: SIMDMatrixMacrolet {
         """
         @inlinable
         public init(diagonal: DiagonalVector) {
-          self.init(passthroughValue: \(raw: wrapped)(diagonal: diagonal))
+          self.init(storage: \(raw: wrapped)(diagonal: diagonal))
         }
         """
       ]
@@ -156,7 +156,7 @@ struct InitializationMacrolet: SIMDMatrixMacrolet {
         """
         @inlinable
         public init(columns: Columns) {
-          self.init(passthroughValue: \(raw: wrapped)(columns: columns))
+          self.init(storage: \(raw: wrapped)(columns: columns))
         }
         """
       ]
@@ -184,7 +184,7 @@ struct InitializationMacrolet: SIMDMatrixMacrolet {
         """
         @inlinable
         public init(columnVectors: [ColumnVector]) {
-          self.init(passthroughValue: \(raw: wrapped)(columnVectors: columnVectors))
+          self.init(storage: \(raw: wrapped)(columnVectors: columnVectors))
         }
         """
       ]
@@ -232,7 +232,7 @@ struct InitializationMacrolet: SIMDMatrixMacrolet {
         """
         @inlinable
         public init(rowVectors: [RowVector]) {
-          self.init(passthroughValue: \(raw: wrapped)(rowVectors: rowVectors))
+          self.init(storage: \(raw: wrapped)(rowVectors: rowVectors))
         }
         """
       ]
@@ -259,7 +259,7 @@ struct InitializationMacrolet: SIMDMatrixMacrolet {
         """
         @inlinable
         public init(linearizedScalars: [Scalar]) {
-          self.init(passthroughValue: \(raw: wrapped)(linearizedScalars: linearizedScalars))
+          self.init(storage: \(raw: wrapped)(linearizedScalars: linearizedScalars))
         }
         """
       ]
@@ -324,7 +324,7 @@ struct InitializationMacrolet: SIMDMatrixMacrolet {
         """
         @inlinable
         public init(\(raw: params)) {
-          self.init(passthroughValue: \(raw: wrapped)(\(raw: args)))
+          self.init(storage: \(raw: wrapped)(\(raw: args)))
         }
         """
       ]

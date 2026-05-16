@@ -144,9 +144,9 @@ struct CrossShapeMultiplicationMacrolet: SIMDMatrixMacrolet {
     case .storage, .wrapper:
       let wrap: String
       if isSelfResult {
-        wrap = "Self(passthroughValue: passthroughValue.multiplied(onRightBy: rhs.passthroughValue))"
+        wrap = "Self(storage: storage.multiplied(onRightBy: rhs.storage))"
       } else {
-        wrap = "\(resultTypeName)(passthroughValue: passthroughValue.multiplied(onRightBy: rhs.passthroughValue))"
+        wrap = "\(resultTypeName)(storage: storage.multiplied(onRightBy: rhs.storage))"
       }
       return [
         """
@@ -207,7 +207,7 @@ struct CrossShapeMultiplicationMacrolet: SIMDMatrixMacrolet {
         """
         @inlinable
         public mutating func formMultiplication(onRightBy rhs: \(raw: rhsTypeName)) {
-          passthroughValue.formMultiplication(onRightBy: rhs.passthroughValue)
+          storage.formMultiplication(onRightBy: rhs.storage)
         }
         """
       ]
@@ -312,9 +312,9 @@ struct CrossShapeMultiplicationMacrolet: SIMDMatrixMacrolet {
     case .storage, .wrapper:
       let wrap: String
       if isSelfResult {
-        wrap = "Self(passthroughValue: passthroughValue.multiplied(onLeftBy: lhs.passthroughValue))"
+        wrap = "Self(storage: storage.multiplied(onLeftBy: lhs.storage))"
       } else {
-        wrap = "\(resultTypeName)(passthroughValue: passthroughValue.multiplied(onLeftBy: lhs.passthroughValue))"
+        wrap = "\(resultTypeName)(storage: storage.multiplied(onLeftBy: lhs.storage))"
       }
       return [
         """
@@ -372,7 +372,7 @@ struct CrossShapeMultiplicationMacrolet: SIMDMatrixMacrolet {
         """
         @inlinable
         public mutating func formMultiplication(onLeftBy lhs: \(raw: lhsTypeName)) {
-          passthroughValue.formMultiplication(onLeftBy: lhs.passthroughValue)
+          storage.formMultiplication(onLeftBy: lhs.storage)
         }
         """
       ]

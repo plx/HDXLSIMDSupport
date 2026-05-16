@@ -52,13 +52,13 @@ struct MatrixAdditionMacrolet: SIMDMatrixMacrolet {
         """
         @inlinable
         public func adding(_ other: Self) -> Self {
-          Self(passthroughValue: passthroughValue.adding(other.passthroughValue))
+          Self(storage: storage.adding(other.storage))
         }
         """,
         """
         @inlinable
         public mutating func formAddition(of other: Self) {
-          passthroughValue.formAddition(of: other.passthroughValue)
+          storage.formAddition(of: other.storage)
         }
         """
       ]

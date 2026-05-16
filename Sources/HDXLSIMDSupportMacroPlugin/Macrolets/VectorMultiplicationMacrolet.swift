@@ -54,13 +54,13 @@ struct VectorMultiplicationMacrolet: SIMDMatrixMacrolet {
         """
         @inlinable
         public func multiplied(onLeftBy columnVector: ColumnVector) -> RowVector {
-          passthroughValue.multiplied(onLeftBy: columnVector)
+          storage.multiplied(onLeftBy: columnVector)
         }
         """,
         """
         @inlinable
         public func multiplied(onRightBy rowVector: RowVector) -> ColumnVector {
-          passthroughValue.multiplied(onRightBy: rowVector)
+          storage.multiplied(onRightBy: rowVector)
         }
         """
       ]

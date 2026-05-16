@@ -5,7 +5,7 @@
 import SwiftSyntax
 
 /// `Codable` — encodes/decodes one column-vector per CodingKey (`c0`, `c1`,
-/// ...). Only emitted for passthroughValue / wrapper layers; native simd matrices are
+/// ...). Only emitted for storage / wrapper layers; native simd matrices are
 /// not Codable.
 ///
 /// The encoding uses sortable string keys (`c0`, `c1`, ...) with matching

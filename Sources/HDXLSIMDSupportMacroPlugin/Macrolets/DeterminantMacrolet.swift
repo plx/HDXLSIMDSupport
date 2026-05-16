@@ -34,7 +34,7 @@ struct DeterminantMacrolet: SIMDMatrixMacrolet {
         """
         @inlinable
         public var determinant: Scalar {
-          get { passthroughValue.determinant }
+          get { storage.determinant }
         }
         """
       ]

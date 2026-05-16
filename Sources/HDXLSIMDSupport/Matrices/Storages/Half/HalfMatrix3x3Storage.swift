@@ -11,7 +11,6 @@ public struct HalfMatrix3x3Storage:
   Matrix3x3Protocol,
   MatrixOperatorSupportProtocol,
   Matrix3x3OperatorSupportProtocol,
-  Passthrough,
   NativeSIMDRepresentable,
   NumericAggregate,
   Hashable,

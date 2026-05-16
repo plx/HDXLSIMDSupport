@@ -65,7 +65,7 @@ struct QuaternionConstructorMacrolet: SIMDMatrixMacrolet {
         """
         @inlinable
         public init(quaternion: CompatibleQuaternion) {
-          self.init(passthroughValue: PassthroughValue(quaternion: quaternion.passthroughValue))
+          self.init(storage: Storage(quaternion: quaternion.storage))
         }
         """
       ]

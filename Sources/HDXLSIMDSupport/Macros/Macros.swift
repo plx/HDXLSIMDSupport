@@ -71,6 +71,34 @@ public macro AddWrapperMatrixConformance(
   type: "AddWrapperMatrixConformanceMacro"
 )
 
+/// Attached member macro emitting the QuaternionProtocol conformance for a
+/// native `simd_quat{f,d,h}` extension.
+@attached(member, names: arbitrary)
+public macro AddNativeQuaternionConformance(
+  representation: MatrixRepresentation
+) = #externalMacro(
+  module: "HDXLSIMDSupportMacroPlugin",
+  type: "AddNativeQuaternionConformanceMacro"
+)
+
+/// Attached member macro emitting the QuaternionProtocol conformance for a
+/// per-representation storage struct (`FloatQuaternionStorage`, etc.).
+@attached(member, names: arbitrary)
+public macro AddStorageQuaternionConformance(
+  representation: MatrixRepresentation
+) = #externalMacro(
+  module: "HDXLSIMDSupportMacroPlugin",
+  type: "AddStorageQuaternionConformanceMacro"
+)
+
+/// Attached member macro emitting the QuaternionProtocol conformance for the
+/// generic `Quaternion<Scalar>` wrapper.
+@attached(member, names: arbitrary)
+public macro AddWrapperQuaternionConformance() = #externalMacro(
+  module: "HDXLSIMDSupportMacroPlugin",
+  type: "AddWrapperQuaternionConformanceMacro"
+)
+
 /// Freestanding declaration macro that emits an XCTest test-method suite
 /// validating a particular (shape, representation) combination of the
 /// macro-generated matrix conformance.

@@ -10,7 +10,7 @@ import SwiftSyntax
 ///
 /// At the native layer we iterate over each column-vector (each SIMD vector
 /// itself conforms to NumericAggregate via the existing extension). At the
-/// passthroughValue / wrapper layers we forward.
+/// storage / wrapper layers we forward.
 struct NumericAggregateMacrolet: SIMDMatrixMacrolet {
   let descriptor: MatrixDescriptor
 
@@ -40,7 +40,7 @@ struct NumericAggregateMacrolet: SIMDMatrixMacrolet {
         public func allNumericEntriesSatisfy(
           _ predicate: (NumericEntryRepresentation) -> Bool
         ) -> Bool {
-          passthroughValue.allNumericEntriesSatisfy(predicate)
+          storage.allNumericEntriesSatisfy(predicate)
         }
         """
       ]

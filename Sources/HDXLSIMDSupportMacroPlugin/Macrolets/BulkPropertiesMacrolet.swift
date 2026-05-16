@@ -36,9 +36,9 @@ struct BulkPropertiesMacrolet: SIMDMatrixMacrolet {
         """
         @inlinable
         public var columns: Columns {
-          get { passthroughValue.columns }
-          set { passthroughValue.columns = newValue }
-          _modify { yield &passthroughValue.columns }
+          get { storage.columns }
+          set { storage.columns = newValue }
+          _modify { yield &storage.columns }
         }
         """
       ]

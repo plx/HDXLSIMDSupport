@@ -51,13 +51,13 @@ struct ScalarDivisionMacrolet: SIMDMatrixMacrolet {
         """
         @inlinable
         public func divided(by scalar: Scalar) -> Self {
-          Self(passthroughValue: passthroughValue.divided(by: scalar))
+          Self(storage: storage.divided(by: scalar))
         }
         """,
         """
         @inlinable
         public mutating func formDivision(by scalar: Scalar) {
-          passthroughValue.formDivision(by: scalar)
+          storage.formDivision(by: scalar)
         }
         """
       ]

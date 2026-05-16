@@ -123,25 +123,25 @@ struct SquareMultiplicationMacrolet: SIMDMatrixMacrolet {
         """
         @inlinable
         public func multiplied(onRightBy rhs: Self) -> Self {
-          Self(passthroughValue: passthroughValue.multiplied(onRightBy: rhs.passthroughValue))
+          Self(storage: storage.multiplied(onRightBy: rhs.storage))
         }
         """,
         """
         @inlinable
         public func multiplied(onLeftBy lhs: Self) -> Self {
-          Self(passthroughValue: passthroughValue.multiplied(onLeftBy: lhs.passthroughValue))
+          Self(storage: storage.multiplied(onLeftBy: lhs.storage))
         }
         """,
         """
         @inlinable
         public mutating func formMultiplication(onRightBy rhs: Self) {
-          passthroughValue.formMultiplication(onRightBy: rhs.passthroughValue)
+          storage.formMultiplication(onRightBy: rhs.storage)
         }
         """,
         """
         @inlinable
         public mutating func formMultiplication(onLeftBy lhs: Self) {
-          passthroughValue.formMultiplication(onLeftBy: lhs.passthroughValue)
+          storage.formMultiplication(onLeftBy: lhs.storage)
         }
         """
       ]

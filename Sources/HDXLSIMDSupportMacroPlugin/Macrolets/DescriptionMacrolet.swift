@@ -5,7 +5,7 @@
 import SwiftSyntax
 
 /// CustomStringConvertible + CustomDebugStringConvertible. Native simd types
-/// already have these, so we only emit them on passthroughValue / wrapper.
+/// already have these, so we only emit them on storage / wrapper.
 struct DescriptionMacrolet: SIMDMatrixMacrolet {
   let descriptor: MatrixDescriptor
 
@@ -19,13 +19,13 @@ struct DescriptionMacrolet: SIMDMatrixMacrolet {
         """
         @inlinable
         public var description: String {
-          get { "\(raw: typename): \\(String(describing: passthroughValue))" }
+          get { "\(raw: typename): \\(String(describing: storage))" }
         }
         """,
         """
         @inlinable
         public var debugDescription: String {
-          get { "\(raw: typename)(passthroughValue: \\(String(reflecting: passthroughValue)))" }
+          get { "\(raw: typename)(storage: \\(String(reflecting: storage)))" }
         }
         """
       ]

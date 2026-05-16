@@ -11,6 +11,9 @@ struct HDXLSIMDSupportMacroPlugin: CompilerPlugin {
     AddNativeMatrixConformanceMacro.self,
     AddStorageMatrixConformanceMacro.self,
     AddWrapperMatrixConformanceMacro.self,
-    GenerateMatrixConformanceTestsMacro.self
+    GenerateMatrixConformanceTestsMacro.self,
+    AddNativeQuaternionConformanceMacro.self,
+    AddStorageQuaternionConformanceMacro.self,
+    AddWrapperQuaternionConformanceMacro.self
   ]
 }

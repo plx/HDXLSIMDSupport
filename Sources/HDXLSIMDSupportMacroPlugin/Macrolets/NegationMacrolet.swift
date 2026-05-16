@@ -45,13 +45,13 @@ struct NegationMacrolet: SIMDMatrixMacrolet {
         """
         @inlinable
         public func negated() -> Self {
-          Self(passthroughValue: passthroughValue.negated())
+          Self(storage: storage.negated())
         }
         """,
         """
         @inlinable
         public mutating func formNegation() {
-          passthroughValue.formNegation()
+          storage.formNegation()
         }
         """
       ]

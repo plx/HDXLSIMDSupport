@@ -5,11 +5,11 @@
 import SwiftSyntax
 
 /// `NativeSIMDRepresentable` conformance — only for the wrapper layer. The
-/// wrapper reaches through TWO levels (`passthroughValue.storage`) to expose the raw
+/// wrapper reaches through TWO levels (`storage.storage`) to expose the raw
 /// `simd_*` value.
 ///
-/// At the passthroughValue layer we also emit `nativeSIMDRepresentation` as a synonym
-/// for `passthroughValue`, so passthroughValue types can be used wherever a NativeSIMDRepresentable
+/// At the storage layer we also emit `nativeSIMDRepresentation` as a synonym
+/// for `storage`, so storage types can be used wherever a NativeSIMDRepresentable
 /// is expected (test scaffolding leans on this).
 struct NativeSIMDRepresentableMacrolet: SIMDMatrixMacrolet {
   let descriptor: MatrixDescriptor
@@ -45,41 +45,39 @@ struct NativeSIMDRepresentableMacrolet: SIMDMatrixMacrolet {
         """
         @inlinable
         public var nativeSIMDRepresentation: NativeSIMDRepresentation {
-          get { passthroughValue }
-          set { passthroughValue = newValue }
-          _modify { yield &passthroughValue }
+          get { storage }
+          set { storage = newValue }
+          _modify { yield &storage }
         }
         """,
         """
         @inlinable
         public init(nativeSIMDRepresentation: NativeSIMDRepresentation) {
-          self.init(passthroughValue: nativeSIMDRepresentation)
+          self.init(storage: nativeSIMDRepresentation)
         }
         """
       ]
     case .wrapper:
-      // During the migration, the underlying `Scalar.MatrixNxMStorage` may or
-      // may not have a `NativeSIMDRepresentation` typealias yet — but it DOES
-      // have a `PassthroughValue` (the existing Passthrough conformance), and
-      // `PassthroughValue.PassthroughValue` is the native simd type. We reach
-      // through the Passthrough chain so the wrapper works regardless of
-      // which underlying storages have already been migrated.
+      // Storage types conform to NativeSIMDRepresentable (per the
+      // ExtendedSIMDScalar protocol constraint), so we can refer to
+      // `Scalar.MatrixNxMStorage.NativeSIMDRepresentation` directly.
+      let storageTypeRef = "Scalar.Matrix\(descriptor.shapeLabel)Storage"
       return [
         """
-        public typealias NativeSIMDRepresentation = PassthroughValue.PassthroughValue
+        public typealias NativeSIMDRepresentation = \(raw: storageTypeRef).NativeSIMDRepresentation
         """,
         """
         @inlinable
         public var nativeSIMDRepresentation: NativeSIMDRepresentation {
-          get { passthroughValue.passthroughValue }
-          set { passthroughValue.passthroughValue = newValue }
-          _modify { yield &passthroughValue.passthroughValue }
+          get { storage.nativeSIMDRepresentation }
+          set { storage.nativeSIMDRepresentation = newValue }
+          _modify { yield &storage.nativeSIMDRepresentation }
         }
         """,
         """
         @inlinable
         public init(nativeSIMDRepresentation: NativeSIMDRepresentation) {
-          self.init(passthroughValue: PassthroughValue(passthroughValue: nativeSIMDRepresentation))
+          self.init(storage: \(raw: storageTypeRef)(nativeSIMDRepresentation: nativeSIMDRepresentation))
         }
         """
       ]

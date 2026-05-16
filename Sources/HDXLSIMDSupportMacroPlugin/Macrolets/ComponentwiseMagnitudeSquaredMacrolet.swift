@@ -7,7 +7,7 @@ import SwiftSyntax
 /// `componentwiseMagnitudeSquared` — sum of squares of all entries.
 ///
 /// At the native layer we emit `simd_length_squared(columns.c) + ...` because
-/// that's what the simd toolkit gives us. At passthroughValue/wrapper layers we forward.
+/// that's what the simd toolkit gives us. At storage/wrapper layers we forward.
 struct ComponentwiseMagnitudeSquaredMacrolet: SIMDMatrixMacrolet {
   let descriptor: MatrixDescriptor
 
@@ -30,7 +30,7 @@ struct ComponentwiseMagnitudeSquaredMacrolet: SIMDMatrixMacrolet {
         """
         @inlinable
         public var componentwiseMagnitudeSquared: Scalar {
-          get { passthroughValue.componentwiseMagnitudeSquared }
+          get { storage.componentwiseMagnitudeSquared }
         }
         """
       ]

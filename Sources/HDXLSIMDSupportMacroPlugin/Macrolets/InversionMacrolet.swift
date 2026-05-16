@@ -76,13 +76,13 @@ struct InversionMacrolet: SIMDMatrixMacrolet {
         """
         @inlinable
         public func inverted() -> Self {
-          Self(passthroughValue: passthroughValue.inverted())
+          Self(storage: storage.inverted())
         }
         """,
         """
         @inlinable
         public mutating func formInverse() {
-          passthroughValue.formInverse()
+          storage.formInverse()
         }
         """
       ]

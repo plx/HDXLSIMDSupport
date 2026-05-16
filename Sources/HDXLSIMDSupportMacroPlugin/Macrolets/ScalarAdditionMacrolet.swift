@@ -47,13 +47,13 @@ struct ScalarAdditionMacrolet: SIMDMatrixMacrolet {
         """
         @inlinable
         public func adding(scalar: Scalar) -> Self {
-          Self(passthroughValue: passthroughValue.adding(scalar: scalar))
+          Self(storage: storage.adding(scalar: scalar))
         }
         """,
         """
         @inlinable
         public mutating func formAddition(ofScalar scalar: Scalar) {
-          passthroughValue.formAddition(ofScalar: scalar)
+          storage.formAddition(ofScalar: scalar)
         }
         """
       ]

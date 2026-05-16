@@ -72,25 +72,25 @@ struct SquareDivisionMacrolet: SIMDMatrixMacrolet {
         """
         @inlinable
         public func divided(onRightBy rhs: Self) -> Self {
-          Self(passthroughValue: passthroughValue.divided(onRightBy: rhs.passthroughValue))
+          Self(storage: storage.divided(onRightBy: rhs.storage))
         }
         """,
         """
         @inlinable
         public func divided(onLeftBy lhs: Self) -> Self {
-          Self(passthroughValue: passthroughValue.divided(onLeftBy: lhs.passthroughValue))
+          Self(storage: storage.divided(onLeftBy: lhs.storage))
         }
         """,
         """
         @inlinable
         public mutating func formDivision(onRightBy rhs: Self) {
-          passthroughValue.formDivision(onRightBy: rhs.passthroughValue)
+          storage.formDivision(onRightBy: rhs.storage)
         }
         """,
         """
         @inlinable
         public mutating func formDivision(onLeftBy lhs: Self) {
-          passthroughValue.formDivision(onLeftBy: lhs.passthroughValue)
+          storage.formDivision(onLeftBy: lhs.storage)
         }
         """
       ]

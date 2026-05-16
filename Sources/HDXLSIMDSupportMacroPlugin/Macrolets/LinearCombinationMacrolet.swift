@@ -57,10 +57,10 @@ struct LinearCombinationMacrolet: SIMDMatrixMacrolet {
           weight otherWeight: Scalar
         ) -> Self {
           Self(
-            passthroughValue: \(raw: wrapped).linearCombination(
-              of: first.passthroughValue,
+            storage: \(raw: wrapped).linearCombination(
+              of: first.storage,
               weight: firstWeight,
-              with: other.passthroughValue,
+              with: other.storage,
               weight: otherWeight
             )
           )

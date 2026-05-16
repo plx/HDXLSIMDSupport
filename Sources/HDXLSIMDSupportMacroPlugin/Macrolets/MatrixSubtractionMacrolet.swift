@@ -50,13 +50,13 @@ struct MatrixSubtractionMacrolet: SIMDMatrixMacrolet {
         """
         @inlinable
         public func subtracting(_ other: Self) -> Self {
-          Self(passthroughValue: passthroughValue.subtracting(other.passthroughValue))
+          Self(storage: storage.subtracting(other.storage))
         }
         """,
         """
         @inlinable
         public mutating func formSubtraction(of other: Self) {
-          passthroughValue.formSubtraction(of: other.passthroughValue)
+          storage.formSubtraction(of: other.storage)
         }
         """
       ]

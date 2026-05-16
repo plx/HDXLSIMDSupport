@@ -11,7 +11,6 @@ public struct HalfMatrix2x4Storage:
   Matrix2x4Protocol,
   MatrixOperatorSupportProtocol,
   Matrix2x4OperatorSupportProtocol,
-  Passthrough,
   NativeSIMDRepresentable,
   NumericAggregate,
   Hashable,

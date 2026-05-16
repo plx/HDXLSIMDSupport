@@ -6,7 +6,7 @@ import SwiftSyntax
 
 /// `hasAlmostEqualElements(to:absoluteTolerance:)` and the relative-tolerance
 /// variant. Native bodies use `simd_almost_equal_elements` and
-/// `simd_almost_equal_elements_relative`; passthroughValue/wrapper forward.
+/// `simd_almost_equal_elements_relative`; storage/wrapper forward.
 struct AlmostEqualElementsMacrolet: SIMDMatrixMacrolet {
   let descriptor: MatrixDescriptor
 
@@ -41,7 +41,7 @@ struct AlmostEqualElementsMacrolet: SIMDMatrixMacrolet {
           to other: Self,
           absoluteTolerance tolerance: Scalar
         ) -> Bool {
-          passthroughValue.hasAlmostEqualElements(to: other.passthroughValue, absoluteTolerance: tolerance)
+          storage.hasAlmostEqualElements(to: other.storage, absoluteTolerance: tolerance)
         }
         """,
         """
@@ -50,7 +50,7 @@ struct AlmostEqualElementsMacrolet: SIMDMatrixMacrolet {
           to other: Self,
           relativeTolerance tolerance: Scalar
         ) -> Bool {
-          passthroughValue.hasAlmostEqualElements(to: other.passthroughValue, relativeTolerance: tolerance)
+          storage.hasAlmostEqualElements(to: other.storage, relativeTolerance: tolerance)
         }
         """
       ]

@@ -11,7 +11,6 @@ public struct DoubleMatrix4x3Storage:
   Matrix4x3Protocol,
   MatrixOperatorSupportProtocol,
   Matrix4x3OperatorSupportProtocol,
-  Passthrough,
   NativeSIMDRepresentable,
   NumericAggregate,
   Hashable,

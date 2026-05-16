@@ -6,10 +6,10 @@ import SwiftSyntax
 
 /// `hash(into:)` — hashes one column-vector at a time (column-vector SIMD types
 /// are themselves Hashable). Native simd matrix types don't conform to
-/// Hashable, so this is only emitted at passthroughValue / wrapper layers.
+/// Hashable, so this is only emitted at storage / wrapper layers.
 ///
-/// We also emit `==` for passthroughValue/wrapper, because Equatable requires it and
-/// the synthesized `==` from the compiler wouldn't see our `passthroughValue` property
+/// We also emit `==` for storage/wrapper, because Equatable requires it and
+/// the synthesized `==` from the compiler wouldn't see our `storage` property
 /// after the macro adds it.
 struct HashableMacrolet: SIMDMatrixMacrolet {
   let descriptor: MatrixDescriptor

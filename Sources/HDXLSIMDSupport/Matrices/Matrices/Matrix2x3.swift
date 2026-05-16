@@ -12,7 +12,6 @@ public struct Matrix2x3<Scalar: ExtendedSIMDScalar>:
   Matrix2x3Protocol,
   MatrixOperatorSupportProtocol,
   Matrix2x3OperatorSupportProtocol,
-  Passthrough,
   NativeSIMDRepresentable,
   NumericAggregate,
   Hashable,
