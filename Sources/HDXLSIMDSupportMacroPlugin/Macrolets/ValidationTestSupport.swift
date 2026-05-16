@@ -40,6 +40,28 @@ extension MatrixDescriptor {
     return "[\n      " + probeLiterals.joined(separator: ",\n      ") + "\n    ]"
   }
 
+  /// Small probe vector set used as vector inputs to matrix-vector mul tests.
+  /// `length` is the SIMD width (2, 3, or 4). Each probe is a `[Scalar]` of
+  /// the requested length.
+  func probeVectorsArrayExpression(length: Int) -> String {
+    let scalarType = representation.swiftScalarTypeName
+    let raw: [[Int]]
+    switch length {
+    case 2:
+      raw = [[0,0], [1,0], [0,1], [1,1], [-1,2], [2,-1], [3,4]]
+    case 3:
+      raw = [[0,0,0], [1,0,0], [0,1,0], [0,0,1], [1,1,1], [-1,2,3], [2,3,4]]
+    case 4:
+      raw = [[0,0,0,0], [1,0,0,0], [0,1,0,0], [0,0,1,0], [0,0,0,1], [1,1,1,1], [2,3,-1,4]]
+    default:
+      raw = []
+    }
+    let literals = raw.map { vec -> String in
+      "[" + vec.map { "\(scalarType)(\($0))" }.joined(separator: ", ") + "]"
+    }
+    return "[" + literals.joined(separator: ", ") + "]"
+  }
+
   /// Small probe scalar set used as scalar inputs to operations like
   /// `multiplied(by:)`. Concrete to the descriptor's representation.
   var probeScalarsArrayExpression: String {

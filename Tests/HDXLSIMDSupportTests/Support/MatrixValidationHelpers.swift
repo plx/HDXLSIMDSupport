@@ -127,6 +127,47 @@ func validateMatrixScalarEquivalence<Wrapper, Native, Scalar>(
   }
 }
 
+/// Validates a wrapped `(matrix, vector) -> vector` operation
+/// (matrix-vector multiplication). The wrapper and native both return the
+/// same SIMD vector type (the vector layer is shared across the chain).
+func validateMatrixVectorEquivalence<Wrapper, Native, InVec, OutVec, Scalar>(
+  _ name: String,
+  matrices: [[[Scalar]]],
+  vectors: [[Scalar]],
+  epsilon: Scalar,
+  buildInVec: ([Scalar]) -> InVec,
+  wrapped: (Wrapper, InVec) -> OutVec,
+  native: (Native, InVec) -> OutVec,
+  file: StaticString = #filePath,
+  line: UInt = #line
+) where
+  Wrapper: NativeSIMDRepresentable,
+  Wrapper.NativeSIMDRepresentation == Native,
+  Wrapper: MatrixProtocol,
+  Wrapper.Scalar == Scalar,
+  OutVec: LInfinityDistanceMeasureable,
+  OutVec.LInfinityDistance == Scalar,
+  Scalar: SIMDScalar & BinaryFloatingPoint
+{
+  for probe in matrices {
+    for vector in vectors {
+      let wrappedM = Wrapper(scalars: probe)
+      let nativeM = wrappedM.nativeSIMDRepresentation
+      let v: InVec = buildInVec(vector)
+      let wrappedResult = wrapped(wrappedM, v)
+      let nativeResult = native(nativeM, v)
+      let distance = wrappedResult.lInfinityDistance(to: nativeResult)
+      XCTAssertLessThan(
+        distance,
+        epsilon,
+        "[\(name)] L∞ distance \(distance) >= \(epsilon) for matrix=\(probe), vector=\(vector)",
+        file: file,
+        line: line
+      )
+    }
+  }
+}
+
 /// Validates a `linearCombination(of:weight:with:weight:)` operation. Sweeps
 /// over (first × other × firstWeight × otherWeight).
 func validateLinearCombinationEquivalence<Wrapper, Native, Scalar>(
