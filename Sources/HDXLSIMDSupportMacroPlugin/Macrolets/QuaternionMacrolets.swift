@@ -615,6 +615,90 @@ struct QuaternionUnaryOperationsMacrolet: SIMDQuaternionMacrolet {
       ]
     }
   }
+
+  func validationTestDeclarations(in context: QuaternionLayerContext) -> [DeclSyntax] {
+    let wrapper = descriptor.wrapperTypeInstantiation
+    let native = descriptor.nativeTypeName
+    let scalar = descriptor.representation.swiftScalarTypeName
+    let nativeNormalize: String
+    let nativeInverse: String
+    let nativeConjugate: String
+    let nativeNegate: String
+    switch descriptor.representation {
+    case .half:
+      nativeNormalize = "simd_normalize(q)"
+      nativeInverse = "simd_inverse(q)"
+      nativeConjugate = "simd_conjugate(q)"
+      nativeNegate = "\(native)(vector: -q.vector)"
+    case .float, .double:
+      nativeNormalize = "q.normalized"
+      nativeInverse = "q.inverse"
+      nativeConjugate = "q.conjugate"
+      nativeNegate = "-q"
+    }
+    return [
+      """
+      func test_negation() {
+        let probes: [[\(raw: scalar)]] = \(raw: descriptor.probeQuaternionsArrayExpression)
+        validateQuaternionUnaryEquivalence(
+          "negated()",
+          probes: probes,
+          epsilon: \(raw: descriptor.defaultEpsilonLiteral),
+          wrapped: { (q: \(raw: wrapper)) -> \(raw: wrapper) in q.negated() },
+          native: { (q: \(raw: native)) -> \(raw: native) in \(raw: nativeNegate) }
+        )
+      }
+      """,
+      """
+      func test_conjugation() {
+        let probes: [[\(raw: scalar)]] = \(raw: descriptor.probeQuaternionsArrayExpression)
+        validateQuaternionUnaryEquivalence(
+          "conjugated()",
+          probes: probes,
+          epsilon: \(raw: descriptor.defaultEpsilonLiteral),
+          wrapped: { (q: \(raw: wrapper)) -> \(raw: wrapper) in q.conjugated() },
+          native: { (q: \(raw: native)) -> \(raw: native) in \(raw: nativeConjugate) }
+        )
+      }
+      """,
+      """
+      func test_normalization() {
+        let probes: [[\(raw: scalar)]] = \(raw: descriptor.nonZeroProbeQuaternionsArrayExpression)
+        validateQuaternionUnaryEquivalence(
+          "normalized()",
+          probes: probes,
+          epsilon: \(raw: descriptor.divisionEpsilonLiteral),
+          wrapped: { (q: \(raw: wrapper)) -> \(raw: wrapper) in q.normalized() },
+          native: { (q: \(raw: native)) -> \(raw: native) in \(raw: nativeNormalize) }
+        )
+      }
+      """,
+      """
+      func test_inversion() {
+        let probes: [[\(raw: scalar)]] = \(raw: descriptor.nonZeroProbeQuaternionsArrayExpression)
+        validateQuaternionUnaryEquivalence(
+          "inverted()",
+          probes: probes,
+          epsilon: \(raw: descriptor.divisionEpsilonLiteral),
+          wrapped: { (q: \(raw: wrapper)) -> \(raw: wrapper) in q.inverted() },
+          native: { (q: \(raw: native)) -> \(raw: native) in \(raw: nativeInverse) }
+        )
+      }
+      """,
+      """
+      func test_componentwiseMagnitudeSquared() {
+        let probes: [[\(raw: scalar)]] = \(raw: descriptor.probeQuaternionsArrayExpression)
+        validateQuaternionUnaryScalarOutEquivalence(
+          "componentwiseMagnitudeSquared",
+          probes: probes,
+          epsilon: \(raw: descriptor.defaultEpsilonLiteral),
+          wrapped: { (q: \(raw: wrapper)) -> \(raw: scalar) in q.componentwiseMagnitudeSquared },
+          native: { (q: \(raw: native)) -> \(raw: scalar) in simd_length_squared(q.vector) }
+        )
+      }
+      """
+    ]
+  }
 }
 
 // MARK: - Add / Sub / FMA / FMS / Scalar mul-div / Quaternion mul-div / Dot
@@ -947,6 +1031,202 @@ struct QuaternionArithmeticMacrolet: SIMDQuaternionMacrolet {
         """
       ]
     }
+  }
+
+  func validationTestDeclarations(in context: QuaternionLayerContext) -> [DeclSyntax] {
+    let wrapper = descriptor.wrapperTypeInstantiation
+    let native = descriptor.nativeTypeName
+    let scalar = descriptor.representation.swiftScalarTypeName
+
+    let nativeAdd: String
+    let nativeSub: String
+    let nativeFMA: String
+    let nativeFMS: String
+    let nativeScalarMul: String
+    let nativeScalarDiv: String
+    let nativeMulRight: String
+    let nativeMulLeft: String
+    let nativeDivRight: String
+    let nativeDivLeft: String
+
+    switch descriptor.representation {
+    case .half:
+      nativeAdd = "\(native)(vector: a.vector + b.vector)"
+      nativeSub = "\(native)(vector: a.vector - b.vector)"
+      nativeFMA = "\(native)(vector: a.vector + (b.vector * s))"
+      nativeFMS = "\(native)(vector: a.vector - (b.vector * s))"
+      nativeScalarMul = "simd_mul(q, s)"
+      nativeScalarDiv = "\(native)(vector: q.vector / s)"
+      nativeMulRight = "simd_mul(a, b)"
+      nativeMulLeft = "simd_mul(b, a)"
+      nativeDivRight = "simd_mul(a, simd_inverse(b))"
+      nativeDivLeft = "simd_mul(simd_inverse(b), a)"
+    case .float, .double:
+      nativeAdd = "a + b"
+      nativeSub = "a - b"
+      nativeFMA = "a + (b * s)"
+      nativeFMS = "a - (b * s)"
+      nativeScalarMul = "q * s"
+      nativeScalarDiv = "q / s"
+      nativeMulRight = "a * b"
+      nativeMulLeft = "b * a"
+      nativeDivRight = "a / b"
+      nativeDivLeft = "b.inverse * a"
+    }
+
+    return [
+      """
+      func test_quaternionAddition() {
+        let probes: [[\(raw: scalar)]] = \(raw: descriptor.probeQuaternionsArrayExpression)
+        validateQuaternionBinaryEquivalence(
+          "adding(_:)",
+          lhses: probes,
+          rhses: probes,
+          epsilon: \(raw: descriptor.defaultEpsilonLiteral),
+          wrapped: { (a: \(raw: wrapper), b: \(raw: wrapper)) -> \(raw: wrapper) in a.adding(b) },
+          native: { (a: \(raw: native), b: \(raw: native)) -> \(raw: native) in \(raw: nativeAdd) }
+        )
+      }
+      """,
+      """
+      func test_quaternionSubtraction() {
+        let probes: [[\(raw: scalar)]] = \(raw: descriptor.probeQuaternionsArrayExpression)
+        validateQuaternionBinaryEquivalence(
+          "subtracting(_:)",
+          lhses: probes,
+          rhses: probes,
+          epsilon: \(raw: descriptor.defaultEpsilonLiteral),
+          wrapped: { (a: \(raw: wrapper), b: \(raw: wrapper)) -> \(raw: wrapper) in a.subtracting(b) },
+          native: { (a: \(raw: native), b: \(raw: native)) -> \(raw: native) in \(raw: nativeSub) }
+        )
+      }
+      """,
+      """
+      func test_fusedMultiplyAdd() {
+        let probes: [[\(raw: scalar)]] = \(raw: descriptor.probeQuaternionsArrayExpression)
+        let scalars: [\(raw: scalar)] = \(raw: descriptor.probeScalarsArrayExpression)
+        validateQuaternionBinaryScalarEquivalence(
+          "adding(_:multipliedBy:)",
+          lhses: probes,
+          rhses: probes,
+          scalars: scalars,
+          epsilon: \(raw: descriptor.defaultEpsilonLiteral),
+          wrapped: { (a: \(raw: wrapper), b: \(raw: wrapper), s: \(raw: scalar)) -> \(raw: wrapper) in a.adding(b, multipliedBy: s) },
+          native: { (a: \(raw: native), b: \(raw: native), s: \(raw: scalar)) -> \(raw: native) in \(raw: nativeFMA) }
+        )
+      }
+      """,
+      """
+      func test_fusedMultiplySubtract() {
+        let probes: [[\(raw: scalar)]] = \(raw: descriptor.probeQuaternionsArrayExpression)
+        let scalars: [\(raw: scalar)] = \(raw: descriptor.probeScalarsArrayExpression)
+        validateQuaternionBinaryScalarEquivalence(
+          "subtracting(_:multipliedBy:)",
+          lhses: probes,
+          rhses: probes,
+          scalars: scalars,
+          epsilon: \(raw: descriptor.defaultEpsilonLiteral),
+          wrapped: { (a: \(raw: wrapper), b: \(raw: wrapper), s: \(raw: scalar)) -> \(raw: wrapper) in a.subtracting(b, multipliedBy: s) },
+          native: { (a: \(raw: native), b: \(raw: native), s: \(raw: scalar)) -> \(raw: native) in \(raw: nativeFMS) }
+        )
+      }
+      """,
+      """
+      func test_scalarMultiplication() {
+        let probes: [[\(raw: scalar)]] = \(raw: descriptor.probeQuaternionsArrayExpression)
+        let scalars: [\(raw: scalar)] = \(raw: descriptor.probeScalarsArrayExpression)
+        validateQuaternionScalarEquivalence(
+          "multiplied(by:)",
+          probes: probes,
+          scalars: scalars,
+          epsilon: \(raw: descriptor.defaultEpsilonLiteral),
+          wrapped: { (q: \(raw: wrapper), s: \(raw: scalar)) -> \(raw: wrapper) in q.multiplied(by: s) },
+          native: { (q: \(raw: native), s: \(raw: scalar)) -> \(raw: native) in \(raw: nativeScalarMul) }
+        )
+      }
+      """,
+      """
+      func test_scalarDivision() {
+        let probes: [[\(raw: scalar)]] = \(raw: descriptor.probeQuaternionsArrayExpression)
+        let scalars: [\(raw: scalar)] = \(raw: descriptor.nonZeroProbeScalarsArrayExpression)
+        validateQuaternionScalarEquivalence(
+          "divided(by:)",
+          probes: probes,
+          scalars: scalars,
+          epsilon: \(raw: descriptor.defaultEpsilonLiteral),
+          wrapped: { (q: \(raw: wrapper), s: \(raw: scalar)) -> \(raw: wrapper) in q.divided(by: s) },
+          native: { (q: \(raw: native), s: \(raw: scalar)) -> \(raw: native) in \(raw: nativeScalarDiv) }
+        )
+      }
+      """,
+      """
+      func test_quaternionMultiplicationRight() {
+        let probes: [[\(raw: scalar)]] = \(raw: descriptor.probeQuaternionsArrayExpression)
+        validateQuaternionBinaryEquivalence(
+          "multiplied(onRightBy:)",
+          lhses: probes,
+          rhses: probes,
+          epsilon: \(raw: descriptor.defaultEpsilonLiteral),
+          wrapped: { (a: \(raw: wrapper), b: \(raw: wrapper)) -> \(raw: wrapper) in a.multiplied(onRightBy: b) },
+          native: { (a: \(raw: native), b: \(raw: native)) -> \(raw: native) in \(raw: nativeMulRight) }
+        )
+      }
+      """,
+      """
+      func test_quaternionMultiplicationLeft() {
+        let probes: [[\(raw: scalar)]] = \(raw: descriptor.probeQuaternionsArrayExpression)
+        validateQuaternionBinaryEquivalence(
+          "multiplied(onLeftBy:)",
+          lhses: probes,
+          rhses: probes,
+          epsilon: \(raw: descriptor.defaultEpsilonLiteral),
+          wrapped: { (a: \(raw: wrapper), b: \(raw: wrapper)) -> \(raw: wrapper) in a.multiplied(onLeftBy: b) },
+          native: { (a: \(raw: native), b: \(raw: native)) -> \(raw: native) in \(raw: nativeMulLeft) }
+        )
+      }
+      """,
+      """
+      func test_quaternionDivisionRight() {
+        let lhses: [[\(raw: scalar)]] = \(raw: descriptor.probeQuaternionsArrayExpression)
+        let rhses: [[\(raw: scalar)]] = \(raw: descriptor.nonZeroProbeQuaternionsArrayExpression)
+        validateQuaternionBinaryEquivalence(
+          "divided(onRightBy:)",
+          lhses: lhses,
+          rhses: rhses,
+          epsilon: \(raw: descriptor.divisionEpsilonLiteral),
+          wrapped: { (a: \(raw: wrapper), b: \(raw: wrapper)) -> \(raw: wrapper) in a.divided(onRightBy: b) },
+          native: { (a: \(raw: native), b: \(raw: native)) -> \(raw: native) in \(raw: nativeDivRight) }
+        )
+      }
+      """,
+      """
+      func test_quaternionDivisionLeft() {
+        let lhses: [[\(raw: scalar)]] = \(raw: descriptor.probeQuaternionsArrayExpression)
+        let rhses: [[\(raw: scalar)]] = \(raw: descriptor.nonZeroProbeQuaternionsArrayExpression)
+        validateQuaternionBinaryEquivalence(
+          "divided(onLeftBy:)",
+          lhses: lhses,
+          rhses: rhses,
+          epsilon: \(raw: descriptor.divisionEpsilonLiteral),
+          wrapped: { (a: \(raw: wrapper), b: \(raw: wrapper)) -> \(raw: wrapper) in a.divided(onLeftBy: b) },
+          native: { (a: \(raw: native), b: \(raw: native)) -> \(raw: native) in \(raw: nativeDivLeft) }
+        )
+      }
+      """,
+      """
+      func test_quaternionDotProduct() {
+        let probes: [[\(raw: scalar)]] = \(raw: descriptor.probeQuaternionsArrayExpression)
+        validateQuaternionBinaryScalarOutEquivalence(
+          "dotted(with:)",
+          lhses: probes,
+          rhses: probes,
+          epsilon: \(raw: descriptor.defaultEpsilonLiteral),
+          wrapped: { (a: \(raw: wrapper), b: \(raw: wrapper)) -> \(raw: scalar) in a.dotted(with: b) },
+          native: { (a: \(raw: native), b: \(raw: native)) -> \(raw: scalar) in simd_dot(a, b) }
+        )
+      }
+      """
+    ]
   }
 }
 

@@ -129,3 +129,20 @@ public macro generateMatrixConformanceTests(
   module: "HDXLSIMDSupportMacroPlugin",
   type: "GenerateMatrixConformanceTestsMacro"
 )
+
+/// Freestanding declaration macro that emits XCTest test-method suite
+/// validating the macro-generated quaternion conformance for a single
+/// representation.
+///
+/// Invoke at type scope inside an XCTestCase subclass:
+///
+///     class FloatQuaternionGeneratedValidationTests: XCTestCase {
+///       #generateQuaternionConformanceTests(representation: .float)
+///     }
+@freestanding(declaration, names: arbitrary)
+public macro generateQuaternionConformanceTests(
+  representation: MatrixRepresentation
+) = #externalMacro(
+  module: "HDXLSIMDSupportMacroPlugin",
+  type: "GenerateQuaternionConformanceTestsMacro"
+)
