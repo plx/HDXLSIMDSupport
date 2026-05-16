@@ -7,10 +7,10 @@ import simd
 
 // `simd_quatf` and `simd_quatd` are `Equatable` via the Swift overlay; the
 // half-precision variant is not yet bridged that way as of macOS 26. The
-// `Passthrough+Equatable` default in this package relies on
-// `PassthroughValue: Equatable`, so we add the explicit conformance here so
-// `HalfQuaternionStorage` can pick up the same `==` mechanism as
-// `FloatQuaternionStorage`/`DoubleQuaternionStorage`. If/when the Swift
+// macro-generated `==` on `HalfQuaternionStorage` forwards to the native
+// `simd_quath` value, which needs a usable `==` to exist; we add the explicit
+// conformance here so `HalfQuaternionStorage` has the same shape as
+// `FloatQuaternionStorage` / `DoubleQuaternionStorage`. If/when the Swift
 // overlay bridges this itself, this can be removed.
 
 extension simd_quath : @retroactive Equatable {

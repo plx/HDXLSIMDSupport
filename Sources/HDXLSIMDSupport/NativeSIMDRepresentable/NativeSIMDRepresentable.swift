@@ -11,11 +11,10 @@ import simd
 /// without the wrapper layers needing to know—and also (b) as a way to "hide" the "Storage" type in our
 /// 3-level system of "Type->Storage->SIMD".
 ///
-/// In earlier drafts this protocol did more work than it does now and I used it in ways that overlapped with the
-/// `Passthrough` protocol, but in the interest of sane compilation times it's now a minimal, "just in case"
-/// thing; the only reason it *didn't* get eliminated is due to my wanting to hide the "Storage" layer in the
-/// `description` and `debugDescription` implementations for quaternions and matrices.
-/// 
+/// The protocol is intentionally minimal; its raison d'être is mostly so the macro-generated
+/// `description` / `debugDescription` implementations for quaternions and matrices can defer to the
+/// underlying native SIMD value without leaking the intermediate `Storage` layer into user-facing output.
+///
 public protocol NativeSIMDRepresentable<NativeSIMDRepresentation> {
   
   /// The type of underlying native-SIMD value.

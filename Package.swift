@@ -2,6 +2,7 @@
 // The swift-tools-version declares the minimum version of Swift required to build this package.
 
 import PackageDescription
+import CompilerPluginSupport
 
 let package = Package(
   name: "HDXLSIMDSupport",
@@ -20,11 +21,24 @@ let package = Package(
     )
   ],
   dependencies: [
+    .package(
+      url: "https://github.com/swiftlang/swift-syntax.git",
+      from: "603.0.1"
+    )
   ],
   targets: [
+    .macro(
+      name: "HDXLSIMDSupportMacroPlugin",
+      dependencies: [
+        .product(name: "SwiftSyntax", package: "swift-syntax"),
+        .product(name: "SwiftSyntaxBuilder", package: "swift-syntax"),
+        .product(name: "SwiftSyntaxMacros", package: "swift-syntax"),
+        .product(name: "SwiftCompilerPlugin", package: "swift-syntax")
+      ]
+    ),
     .target(
       name: "HDXLSIMDSupport",
-      dependencies: []
+      dependencies: ["HDXLSIMDSupportMacroPlugin"]
     ),
     .testTarget(
       name: "HDXLSIMDSupportTests",
