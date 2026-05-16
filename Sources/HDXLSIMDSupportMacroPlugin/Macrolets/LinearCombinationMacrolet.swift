@@ -71,7 +71,32 @@ struct LinearCombinationMacrolet: SIMDMatrixMacrolet {
   }
 
   func validationTestDeclarations(in context: MatrixLayerContext) -> [DeclSyntax] {
-    if descriptor.producesBuggyHalfThreeRow { return [] }
+    if descriptor.producesBuggyHalfThreeRow {
+      let halfWrapper = descriptor.wrapperTypeInstantiation
+      let floatWrapper = "Matrix\(descriptor.shapeLabel)<Float>"
+      return [
+        """
+        func test_linearCombination_widened() {
+          let probes: [[[Float16]]] = \(raw: descriptor.probeMatricesArrayExpression)
+          let weights: [Float16] = \(raw: descriptor.probeScalarsArrayExpression)
+          validateHalfThreeRowLinearCombinationViaFloatWidening(
+            "linearCombination(of:weight:with:weight:) (widened)",
+            firsts: probes,
+            others: probes,
+            firstWeights: weights,
+            otherWeights: weights,
+            epsilon: \(raw: descriptor.defaultEpsilonLiteral),
+            halfOp: { (a: \(raw: halfWrapper), fw: Float16, b: \(raw: halfWrapper), ow: Float16) -> \(raw: halfWrapper) in
+              \(raw: halfWrapper).linearCombination(of: a, weight: fw, with: b, weight: ow)
+            },
+            floatOp: { (a: \(raw: floatWrapper), fw: Float, b: \(raw: floatWrapper), ow: Float) -> \(raw: floatWrapper) in
+              \(raw: floatWrapper).linearCombination(of: a, weight: fw, with: b, weight: ow)
+            }
+          )
+        }
+        """
+      ]
+    }
     let wrapper = descriptor.wrapperTypeInstantiation
     let native = descriptor.nativeTypeName
     let scalar = descriptor.representation.swiftScalarTypeName

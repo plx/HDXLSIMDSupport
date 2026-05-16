@@ -412,7 +412,9 @@ struct CrossShapeMultiplicationMacrolet: SIMDMatrixMacrolet {
       if descriptor.isSquare && X == M { continue }
       let resultRowCount = N
       let resultColumnCount = X
-      // Skip when the half-precision result is 3-row (no independent ground truth).
+      // Half + 3-row result has no independent ground truth (the C bridge
+      // miscomputes it). Cross-validation via Float widening for cross-shape
+      // mul is a follow-up — see RemainingMigrationWork.md §3.
       if descriptor.representation == .half && resultRowCount == 3 { continue }
       let rhsDescriptor = MatrixDescriptor(rowCount: M, columnCount: X, representation: descriptor.representation)
       let resultDescriptor = MatrixDescriptor(rowCount: resultRowCount, columnCount: resultColumnCount, representation: descriptor.representation)
@@ -458,7 +460,8 @@ struct CrossShapeMultiplicationMacrolet: SIMDMatrixMacrolet {
       if descriptor.isSquare && X == N { continue }
       let resultRowCount = X
       let resultColumnCount = M
-      // Skip when the half-precision result is 3-row.
+      // Half + 3-row result skipped; see rightMultValidations for the same
+      // rationale + follow-up note.
       if descriptor.representation == .half && resultRowCount == 3 { continue }
       let lhsDescriptor = MatrixDescriptor(rowCount: X, columnCount: N, representation: descriptor.representation)
       let resultDescriptor = MatrixDescriptor(rowCount: resultRowCount, columnCount: resultColumnCount, representation: descriptor.representation)

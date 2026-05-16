@@ -215,6 +215,235 @@ func validateLinearCombinationEquivalence<Wrapper, Native, Scalar>(
   }
 }
 
+// MARK: - Float-widened cross-validation for half-3-row shapes
+//
+// The simd_halfNx3 result-producing routines are miscomputed by the macOS 26
+// overlay, so the validation suites for shapes whose result is half-3-row
+// (negation, +/-, FMA/FMS, scalar mul/div on 2x3 / 3x3 / 4x3 half) can't use
+// the C bridge as ground truth — our own pure-Swift implementation IS the
+// formula.
+//
+// These helpers cross-validate by widening Float16 probes to Float, running
+// the operation in single precision, narrowing back, and comparing against
+// the wrapper's half-precision answer. The epsilon is necessarily loose
+// (~5e-2) — Float16 has roughly three significant decimal digits.
+
+/// Float-widened cross-validation for a unary operation that produces a
+/// half-3-row matrix. Compares the wrapper's half-precision result against
+/// the same operation performed in single precision and narrowed back.
+func validateHalfThreeRowUnaryViaFloatWidening<HalfWrapper, FloatWrapper>(
+  _ name: String,
+  probes: [[[Float16]]],
+  epsilon: Float16,
+  halfOp: (HalfWrapper) -> HalfWrapper,
+  floatOp: (FloatWrapper) -> FloatWrapper,
+  file: StaticString = #filePath,
+  line: UInt = #line
+) where
+  HalfWrapper: MatrixProtocol,
+  HalfWrapper.Scalar == Float16,
+  HalfWrapper: LInfinityDistanceMeasureable,
+  HalfWrapper.LInfinityDistance == Float16,
+  FloatWrapper: MatrixProtocol,
+  FloatWrapper.Scalar == Float
+{
+  for probe in probes {
+    let floatProbe: [[Float]] = probe.map { $0.map { Float($0) } }
+    let halfInput = HalfWrapper(scalars: probe)
+    let floatInput = FloatWrapper(scalars: floatProbe)
+    let halfResult = halfOp(halfInput)
+    let floatResult = floatOp(floatInput)
+    let narrowedFloatLinearized = floatResult.linearizedScalars.map { Float16($0) }
+    let halfReference = HalfWrapper(linearizedScalars: narrowedFloatLinearized)
+    let distance = halfResult.lInfinityDistance(to: halfReference)
+    XCTAssertLessThan(
+      distance,
+      epsilon,
+      "[\(name)] L∞ distance \(distance) >= \(epsilon) for probe \(probe). half=\(halfResult), narrowed-float=\(halfReference)",
+      file: file,
+      line: line
+    )
+  }
+}
+
+/// Float-widened cross-validation for a binary operation that produces a
+/// half-3-row matrix.
+func validateHalfThreeRowBinaryViaFloatWidening<HalfWrapper, FloatWrapper>(
+  _ name: String,
+  lhses: [[[Float16]]],
+  rhses: [[[Float16]]],
+  epsilon: Float16,
+  halfOp: (HalfWrapper, HalfWrapper) -> HalfWrapper,
+  floatOp: (FloatWrapper, FloatWrapper) -> FloatWrapper,
+  file: StaticString = #filePath,
+  line: UInt = #line
+) where
+  HalfWrapper: MatrixProtocol,
+  HalfWrapper.Scalar == Float16,
+  HalfWrapper: LInfinityDistanceMeasureable,
+  HalfWrapper.LInfinityDistance == Float16,
+  FloatWrapper: MatrixProtocol,
+  FloatWrapper.Scalar == Float
+{
+  for lhs in lhses {
+    for rhs in rhses {
+      let floatLhs: [[Float]] = lhs.map { $0.map { Float($0) } }
+      let floatRhs: [[Float]] = rhs.map { $0.map { Float($0) } }
+      let halfL = HalfWrapper(scalars: lhs)
+      let halfR = HalfWrapper(scalars: rhs)
+      let floatL = FloatWrapper(scalars: floatLhs)
+      let floatR = FloatWrapper(scalars: floatRhs)
+      let halfResult = halfOp(halfL, halfR)
+      let floatResult = floatOp(floatL, floatR)
+      let narrowedFloatLinearized = floatResult.linearizedScalars.map { Float16($0) }
+      let halfReference = HalfWrapper(linearizedScalars: narrowedFloatLinearized)
+      let distance = halfResult.lInfinityDistance(to: halfReference)
+      XCTAssertLessThan(
+        distance,
+        epsilon,
+        "[\(name)] L∞ distance \(distance) >= \(epsilon) for lhs=\(lhs), rhs=\(rhs)",
+        file: file,
+        line: line
+      )
+    }
+  }
+}
+
+/// Float-widened cross-validation for a `(matrix, scalar) -> matrix` operation
+/// that produces a half-3-row matrix.
+func validateHalfThreeRowMatrixScalarViaFloatWidening<HalfWrapper, FloatWrapper>(
+  _ name: String,
+  matrices: [[[Float16]]],
+  scalars: [Float16],
+  epsilon: Float16,
+  halfOp: (HalfWrapper, Float16) -> HalfWrapper,
+  floatOp: (FloatWrapper, Float) -> FloatWrapper,
+  file: StaticString = #filePath,
+  line: UInt = #line
+) where
+  HalfWrapper: MatrixProtocol,
+  HalfWrapper.Scalar == Float16,
+  HalfWrapper: LInfinityDistanceMeasureable,
+  HalfWrapper.LInfinityDistance == Float16,
+  FloatWrapper: MatrixProtocol,
+  FloatWrapper.Scalar == Float
+{
+  for probe in matrices {
+    for s in scalars {
+      let floatProbe: [[Float]] = probe.map { $0.map { Float($0) } }
+      let halfM = HalfWrapper(scalars: probe)
+      let floatM = FloatWrapper(scalars: floatProbe)
+      let halfResult = halfOp(halfM, s)
+      let floatResult = floatOp(floatM, Float(s))
+      let narrowedFloatLinearized = floatResult.linearizedScalars.map { Float16($0) }
+      let halfReference = HalfWrapper(linearizedScalars: narrowedFloatLinearized)
+      let distance = halfResult.lInfinityDistance(to: halfReference)
+      XCTAssertLessThan(
+        distance,
+        epsilon,
+        "[\(name)] L∞ distance \(distance) >= \(epsilon) for matrix=\(probe), scalar=\(s)",
+        file: file,
+        line: line
+      )
+    }
+  }
+}
+
+/// Float-widened cross-validation for `linearCombination(of:weight:with:weight:)`
+/// on a half-3-row matrix.
+func validateHalfThreeRowLinearCombinationViaFloatWidening<HalfWrapper, FloatWrapper>(
+  _ name: String,
+  firsts: [[[Float16]]],
+  others: [[[Float16]]],
+  firstWeights: [Float16],
+  otherWeights: [Float16],
+  epsilon: Float16,
+  halfOp: (HalfWrapper, Float16, HalfWrapper, Float16) -> HalfWrapper,
+  floatOp: (FloatWrapper, Float, FloatWrapper, Float) -> FloatWrapper,
+  file: StaticString = #filePath,
+  line: UInt = #line
+) where
+  HalfWrapper: MatrixProtocol,
+  HalfWrapper.Scalar == Float16,
+  HalfWrapper: LInfinityDistanceMeasureable,
+  HalfWrapper.LInfinityDistance == Float16,
+  FloatWrapper: MatrixProtocol,
+  FloatWrapper.Scalar == Float
+{
+  for first in firsts {
+    for other in others {
+      for fw in firstWeights {
+        for ow in otherWeights {
+          let floatFirst: [[Float]] = first.map { $0.map { Float($0) } }
+          let floatOther: [[Float]] = other.map { $0.map { Float($0) } }
+          let halfFirst = HalfWrapper(scalars: first)
+          let halfOther = HalfWrapper(scalars: other)
+          let floatFirstW = FloatWrapper(scalars: floatFirst)
+          let floatOtherW = FloatWrapper(scalars: floatOther)
+          let halfResult = halfOp(halfFirst, fw, halfOther, ow)
+          let floatResult = floatOp(floatFirstW, Float(fw), floatOtherW, Float(ow))
+          let narrowedFloatLinearized = floatResult.linearizedScalars.map { Float16($0) }
+          let halfReference = HalfWrapper(linearizedScalars: narrowedFloatLinearized)
+          let distance = halfResult.lInfinityDistance(to: halfReference)
+          XCTAssertLessThan(
+            distance,
+            epsilon,
+            "[\(name)] L∞ distance \(distance) >= \(epsilon) for first=\(first), firstWeight=\(fw), other=\(other), otherWeight=\(ow)",
+            file: file,
+            line: line
+          )
+        }
+      }
+    }
+  }
+}
+
+/// Float-widened cross-validation for an `(M, M, scalar) -> M` operation
+/// that produces a half-3-row matrix (FMA / FMS).
+func validateHalfThreeRowBinaryScalarViaFloatWidening<HalfWrapper, FloatWrapper>(
+  _ name: String,
+  lhses: [[[Float16]]],
+  rhses: [[[Float16]]],
+  scalars: [Float16],
+  epsilon: Float16,
+  halfOp: (HalfWrapper, HalfWrapper, Float16) -> HalfWrapper,
+  floatOp: (FloatWrapper, FloatWrapper, Float) -> FloatWrapper,
+  file: StaticString = #filePath,
+  line: UInt = #line
+) where
+  HalfWrapper: MatrixProtocol,
+  HalfWrapper.Scalar == Float16,
+  HalfWrapper: LInfinityDistanceMeasureable,
+  HalfWrapper.LInfinityDistance == Float16,
+  FloatWrapper: MatrixProtocol,
+  FloatWrapper.Scalar == Float
+{
+  for lhs in lhses {
+    for rhs in rhses {
+      for s in scalars {
+        let floatLhs: [[Float]] = lhs.map { $0.map { Float($0) } }
+        let floatRhs: [[Float]] = rhs.map { $0.map { Float($0) } }
+        let halfL = HalfWrapper(scalars: lhs)
+        let halfR = HalfWrapper(scalars: rhs)
+        let floatL = FloatWrapper(scalars: floatLhs)
+        let floatR = FloatWrapper(scalars: floatRhs)
+        let halfResult = halfOp(halfL, halfR, s)
+        let floatResult = floatOp(floatL, floatR, Float(s))
+        let narrowedFloatLinearized = floatResult.linearizedScalars.map { Float16($0) }
+        let halfReference = HalfWrapper(linearizedScalars: narrowedFloatLinearized)
+        let distance = halfResult.lInfinityDistance(to: halfReference)
+        XCTAssertLessThan(
+          distance,
+          epsilon,
+          "[\(name)] L∞ distance \(distance) >= \(epsilon) for lhs=\(lhs), rhs=\(rhs), scalar=\(s)",
+          file: file,
+          line: line
+        )
+      }
+    }
+  }
+}
+
 /// Validates a wrapped binary operation that produces a *different*-shape
 /// result. The wrapper, the rhs, and the result all have their own native /
 /// wrapper / scalar types; only the scalar type is required to match across.

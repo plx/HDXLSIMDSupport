@@ -150,7 +150,25 @@ struct SquareMultiplicationMacrolet: SIMDMatrixMacrolet {
 
   func validationTestDeclarations(in context: MatrixLayerContext) -> [DeclSyntax] {
     guard descriptor.isSquare else { return [] }
-    if descriptor.producesBuggyHalfThreeRow { return [] }
+    if descriptor.producesBuggyHalfThreeRow {
+      let halfWrapper = descriptor.wrapperTypeInstantiation
+      let floatWrapper = "Matrix\(descriptor.shapeLabel)<Float>"
+      return [
+        """
+        func test_squareMatrixMultiplication_widened() {
+          let probes: [[[Float16]]] = \(raw: descriptor.probeMatricesArrayExpression)
+          validateHalfThreeRowBinaryViaFloatWidening(
+            "multiplied(onRightBy: Self) (widened)",
+            lhses: probes,
+            rhses: probes,
+            epsilon: \(raw: descriptor.defaultEpsilonLiteral),
+            halfOp: { (a: \(raw: halfWrapper), b: \(raw: halfWrapper)) -> \(raw: halfWrapper) in a.multiplied(onRightBy: b) },
+            floatOp: { (a: \(raw: floatWrapper), b: \(raw: floatWrapper)) -> \(raw: floatWrapper) in a.multiplied(onRightBy: b) }
+          )
+        }
+        """
+      ]
+    }
     let wrapper = descriptor.wrapperTypeInstantiation
     let native = descriptor.nativeTypeName
     let nativeMul: String

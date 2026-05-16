@@ -69,7 +69,27 @@ struct FMAMacrolet: SIMDMatrixMacrolet {
   }
 
   func validationTestDeclarations(in context: MatrixLayerContext) -> [DeclSyntax] {
-    if descriptor.producesBuggyHalfThreeRow { return [] }
+    if descriptor.producesBuggyHalfThreeRow {
+      let halfWrapper = descriptor.wrapperTypeInstantiation
+      let floatWrapper = "Matrix\(descriptor.shapeLabel)<Float>"
+      return [
+        """
+        func test_fusedMultiplyAdd_widened() {
+          let probes: [[[Float16]]] = \(raw: descriptor.probeMatricesArrayExpression)
+          let scalars: [Float16] = \(raw: descriptor.probeScalarsArrayExpression)
+          validateHalfThreeRowBinaryScalarViaFloatWidening(
+            "adding(_:multipliedBy:) (widened)",
+            lhses: probes,
+            rhses: probes,
+            scalars: scalars,
+            epsilon: \(raw: descriptor.defaultEpsilonLiteral),
+            halfOp: { (a: \(raw: halfWrapper), b: \(raw: halfWrapper), s: Float16) -> \(raw: halfWrapper) in a.adding(b, multipliedBy: s) },
+            floatOp: { (a: \(raw: floatWrapper), b: \(raw: floatWrapper), s: Float) -> \(raw: floatWrapper) in a.adding(b, multipliedBy: s) }
+          )
+        }
+        """
+      ]
+    }
     let wrapper = descriptor.wrapperTypeInstantiation
     let native = descriptor.nativeTypeName
     let scalar = descriptor.representation.swiftScalarTypeName

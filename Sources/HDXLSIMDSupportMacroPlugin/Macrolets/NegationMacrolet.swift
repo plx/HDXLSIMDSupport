@@ -59,10 +59,24 @@ struct NegationMacrolet: SIMDMatrixMacrolet {
   }
 
   func validationTestDeclarations(in context: MatrixLayerContext) -> [DeclSyntax] {
-    // Skip half-3-row: we don't have an independent native ground-truth for
-    // shapes the simd routines miscompute. (TODO: widen-to-float
-    // cross-validation.)
-    if descriptor.producesBuggyHalfThreeRow { return [] }
+    if descriptor.producesBuggyHalfThreeRow {
+      let halfWrapper = descriptor.wrapperTypeInstantiation
+      let floatWrapper = "Matrix\(descriptor.shapeLabel)<Float>"
+      return [
+        """
+        func test_negation_widened() {
+          let probes: [[[Float16]]] = \(raw: descriptor.probeMatricesArrayExpression)
+          validateHalfThreeRowUnaryViaFloatWidening(
+            "negation (widened)",
+            probes: probes,
+            epsilon: \(raw: descriptor.defaultEpsilonLiteral),
+            halfOp: { (m: \(raw: halfWrapper)) -> \(raw: halfWrapper) in m.negated() },
+            floatOp: { (m: \(raw: floatWrapper)) -> \(raw: floatWrapper) in m.negated() }
+          )
+        }
+        """
+      ]
+    }
     let wrapper = descriptor.wrapperTypeInstantiation
     let native = descriptor.nativeTypeName
     let nativeNegation: String

@@ -243,26 +243,11 @@ These macrolets are largely "structural" — they emit field access and construc
 
 ---
 
-## 3. Half-3-row cross-validation via Float widening (optional)
+## 3. Half-3-row cross-validation via Float widening
 
-The arithmetic operations on `simd_halfNx3` shapes are skipped on the validation side (`if descriptor.producesBuggyHalfThreeRow { return [] }`) because there's no independent native ground truth — our pure-Swift column-wise implementation IS the trusted formula. The macro-generated implementation and any plausible "native reference" would be the same code, so any test would be trivially passing.
+**Status.** Done for every same-shape arithmetic slice: negation, matrix +/-, scalar +/-, scalar mul/div, FMA, FMS, square multiplication (half-3x3), and linear combination. Each emits a `*_widened` test on the half-3-row case via the new `validateHalfThreeRowUnaryViaFloatWidening` / `validateHalfThreeRowBinaryViaFloatWidening` / `validateHalfThreeRowMatrixScalarViaFloatWidening` / `validateHalfThreeRowBinaryScalarViaFloatWidening` / `validateHalfThreeRowLinearCombinationViaFloatWidening` helpers in `MatrixValidationHelpers.swift`. Test count delta: +31.
 
-A real cross-validation can be done by widening to `Float`, computing the operation in single precision, narrowing back, and comparing against the half-precision implementation with a generous epsilon (Float16 has ~3 significant decimal digits, so epsilon around `1e-2` to `5e-2` is realistic). The widening helper:
-
-```swift
-func validateHalfThreeRowViaFloatWidening<HalfWrapper, FloatWrapper, ... >(
-  _ name: String,
-  probes: [[[Float16]]],
-  epsilon: Float16,
-  halfOperation: (HalfWrapper) -> HalfWrapper,
-  floatOperation: (FloatWrapper) -> FloatWrapper,
-  ...
-)
-```
-
-The bookkeeping (mapping a `[[Float16]]` probe to a `[[Float]]`, applying the float operation, narrowing back, building the half wrapper for comparison) is the main complexity. Not free, but it would close the only meaningful coverage hole in the current macro-generated suite.
-
-**Estimated cost.** 4-6 hours, including extending every relevant macrolet to emit a second test for the half-3-row case when applicable.
+**Remaining gap.** Cross-shape multiplication (`CrossShapeMultiplicationMacrolet`) still skips its half-3-row-result variants. A heterogeneous widening helper (lhs, rhs, result each with a distinct shape, in two precisions) was attempted but hit the Swift generic-rewrite-system limit when written as a single function — six `MatrixProtocol`-constrained generic parameters times their associated types blows past the compiler's rule budget. The next attempt should emit the per-test widening body inline in the macrolet (no shared generic helper), which sidesteps the constraint-system limit at the cost of more verbose generated source.
 
 ---
 
