@@ -40,4 +40,30 @@ struct DeterminantMacrolet: SIMDMatrixMacrolet {
       ]
     }
   }
+
+  func validationTestDeclarations(in context: MatrixLayerContext) -> [DeclSyntax] {
+    guard descriptor.isSquare else { return [] }
+    let wrapper = descriptor.wrapperTypeInstantiation
+    let native = descriptor.nativeTypeName
+    let scalar = descriptor.representation.swiftScalarTypeName
+    let nativeDet: String
+    switch descriptor.representation {
+    case .half:           nativeDet = "simd_determinant(m)"
+    case .float, .double: nativeDet = "m.determinant"
+    }
+    return [
+      """
+      func test_determinant() {
+        let probes: [[[\(raw: scalar)]]] = \(raw: descriptor.probeMatricesArrayExpression)
+        validateUnaryToScalarEquivalence(
+          "determinant",
+          probes: probes,
+          epsilon: \(raw: descriptor.defaultEpsilonLiteral),
+          wrapped: { (m: \(raw: wrapper)) -> \(raw: scalar) in m.determinant },
+          native: { (m: \(raw: native)) -> \(raw: scalar) in \(raw: nativeDet) }
+        )
+      }
+      """
+    ]
+  }
 }

@@ -127,6 +127,78 @@ func validateMatrixScalarEquivalence<Wrapper, Native, Scalar>(
   }
 }
 
+/// Validates a wrapped `(matrix) -> Scalar` operation (e.g. `determinant`,
+/// `componentwiseMagnitudeSquared`).
+func validateUnaryToScalarEquivalence<Wrapper, Native, Scalar>(
+  _ name: String,
+  probes: [[[Scalar]]],
+  epsilon: Scalar,
+  wrapped: (Wrapper) -> Scalar,
+  native: (Native) -> Scalar,
+  file: StaticString = #filePath,
+  line: UInt = #line
+) where
+  Wrapper: NativeSIMDRepresentable,
+  Wrapper.NativeSIMDRepresentation == Native,
+  Wrapper: MatrixProtocol,
+  Wrapper.Scalar == Scalar,
+  Scalar: SIMDScalar & BinaryFloatingPoint
+{
+  for probe in probes {
+    let wrappedInput = Wrapper(scalars: probe)
+    let nativeInput = wrappedInput.nativeSIMDRepresentation
+    let wrappedResult = wrapped(wrappedInput)
+    let nativeResult = native(nativeInput)
+    let distance = abs(wrappedResult - nativeResult)
+    XCTAssertLessThan(
+      distance,
+      epsilon,
+      "[\(name)] |Δ| \(distance) >= \(epsilon) for probe \(probe). wrapped=\(wrappedResult), native=\(nativeResult)",
+      file: file,
+      line: line
+    )
+  }
+}
+
+/// Validates a wrapped `(matrix, matrix, scalar) -> Bool` operation
+/// (e.g. `hasAlmostEqualElements`).
+func validateBinaryToBoolEquivalence<Wrapper, Native, Scalar>(
+  _ name: String,
+  lhses: [[[Scalar]]],
+  rhses: [[[Scalar]]],
+  tolerances: [Scalar],
+  wrapped: (Wrapper, Wrapper, Scalar) -> Bool,
+  native: (Native, Native, Scalar) -> Bool,
+  file: StaticString = #filePath,
+  line: UInt = #line
+) where
+  Wrapper: NativeSIMDRepresentable,
+  Wrapper.NativeSIMDRepresentation == Native,
+  Wrapper: MatrixProtocol,
+  Wrapper.Scalar == Scalar,
+  Scalar: SIMDScalar & BinaryFloatingPoint
+{
+  for lhs in lhses {
+    for rhs in rhses {
+      for tolerance in tolerances {
+        let wrappedL = Wrapper(scalars: lhs)
+        let wrappedR = Wrapper(scalars: rhs)
+        let nativeL = wrappedL.nativeSIMDRepresentation
+        let nativeR = wrappedR.nativeSIMDRepresentation
+        let wrappedResult = wrapped(wrappedL, wrappedR, tolerance)
+        let nativeResult = native(nativeL, nativeR, tolerance)
+        XCTAssertEqual(
+          wrappedResult,
+          nativeResult,
+          "[\(name)] wrapped=\(wrappedResult) but native=\(nativeResult) for lhs=\(lhs), rhs=\(rhs), tolerance=\(tolerance)",
+          file: file,
+          line: line
+        )
+      }
+    }
+  }
+}
+
 /// Validates an `(M, M, scalar) -> M` operation (FMA / FMS).
 func validateMatrixMatrixScalarEquivalence<Wrapper, Native, Scalar>(
   _ name: String,

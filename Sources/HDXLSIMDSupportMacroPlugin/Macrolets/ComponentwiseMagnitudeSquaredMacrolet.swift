@@ -36,4 +36,26 @@ struct ComponentwiseMagnitudeSquaredMacrolet: SIMDMatrixMacrolet {
       ]
     }
   }
+
+  func validationTestDeclarations(in context: MatrixLayerContext) -> [DeclSyntax] {
+    let wrapper = descriptor.wrapperTypeInstantiation
+    let native = descriptor.nativeTypeName
+    let scalar = descriptor.representation.swiftScalarTypeName
+    return [
+      """
+      func test_componentwiseMagnitudeSquared() {
+        let probes: [[[\(raw: scalar)]]] = \(raw: descriptor.probeMatricesArrayExpression)
+        validateUnaryToScalarEquivalence(
+          "componentwiseMagnitudeSquared",
+          probes: probes,
+          epsilon: \(raw: descriptor.defaultEpsilonLiteral),
+          wrapped: { (m: \(raw: wrapper)) -> \(raw: scalar) in m.componentwiseMagnitudeSquared },
+          native: { (m: \(raw: native)) -> \(raw: scalar) in
+            m.linearizedScalars.reduce(0 as \(raw: scalar)) { $0 + $1 * $1 }
+          }
+        )
+      }
+      """
+    ]
+  }
 }
