@@ -390,4 +390,105 @@ struct CrossShapeMultiplicationMacrolet: SIMDMatrixMacrolet {
     }
     return "CompatibleMatrix\(columnCount)x\(rowCount)"
   }
+
+  // MARK: - Validation
+
+  func validationTestDeclarations(in context: MatrixLayerContext) -> [DeclSyntax] {
+    var result: [DeclSyntax] = []
+    result.append(contentsOf: rightMultValidations())
+    result.append(contentsOf: leftMultValidations())
+    return result
+  }
+
+  private func rightMultValidations() -> [DeclSyntax] {
+    let M = descriptor.columnCount
+    let N = descriptor.rowCount
+    let scalar = descriptor.representation.swiftScalarTypeName
+    let wrapper = descriptor.wrapperTypeInstantiation
+    let native = descriptor.nativeTypeName
+    var decls: [DeclSyntax] = []
+    for X in 2...4 {
+      // Skip the square self-mul case (handled by SquareMultiplicationMacrolet).
+      if descriptor.isSquare && X == M { continue }
+      let resultRowCount = N
+      let resultColumnCount = X
+      // Skip when the half-precision result is 3-row (no independent ground truth).
+      if descriptor.representation == .half && resultRowCount == 3 { continue }
+      let rhsDescriptor = MatrixDescriptor(rowCount: M, columnCount: X, representation: descriptor.representation)
+      let resultDescriptor = MatrixDescriptor(rowCount: resultRowCount, columnCount: resultColumnCount, representation: descriptor.representation)
+      let rhsWrapperType = rhsDescriptor.wrapperTypeInstantiation
+      let rhsNativeType = rhsDescriptor.nativeTypeName
+      let resultWrapperType = resultDescriptor.wrapperTypeInstantiation
+      let resultNativeType = resultDescriptor.nativeTypeName
+      let testName = "test_rightMult_by_\(X)x\(M)"
+      let nativeExpr: String
+      switch descriptor.representation {
+      case .half:           nativeExpr = "simd_mul(a, b)"
+      case .float, .double: nativeExpr = "a * b"
+      }
+      decls.append(
+        """
+        func \(raw: testName)() {
+          let lhses: [[[\(raw: scalar)]]] = \(raw: descriptor.probeMatricesArrayExpression)
+          let rhses: [[[\(raw: scalar)]]] = \(raw: rhsDescriptor.probeMatricesArrayExpression)
+          validateHeterogeneousBinaryEquivalence(
+            "multiplied(onRightBy: \(raw: rhsWrapperType))",
+            lhses: lhses,
+            rhses: rhses,
+            epsilon: \(raw: descriptor.defaultEpsilonLiteral),
+            wrapped: { (a: \(raw: wrapper), b: \(raw: rhsWrapperType)) -> \(raw: resultWrapperType) in a.multiplied(onRightBy: b) },
+            native: { (a: \(raw: native), b: \(raw: rhsNativeType)) -> \(raw: resultNativeType) in \(raw: nativeExpr) }
+          )
+        }
+        """
+      )
+    }
+    return decls
+  }
+
+  private func leftMultValidations() -> [DeclSyntax] {
+    let M = descriptor.columnCount
+    let N = descriptor.rowCount
+    let scalar = descriptor.representation.swiftScalarTypeName
+    let wrapper = descriptor.wrapperTypeInstantiation
+    let native = descriptor.nativeTypeName
+    var decls: [DeclSyntax] = []
+    for X in 2...4 {
+      // Skip the square self-mul case (handled by SquareMultiplicationMacrolet).
+      if descriptor.isSquare && X == N { continue }
+      let resultRowCount = X
+      let resultColumnCount = M
+      // Skip when the half-precision result is 3-row.
+      if descriptor.representation == .half && resultRowCount == 3 { continue }
+      let lhsDescriptor = MatrixDescriptor(rowCount: X, columnCount: N, representation: descriptor.representation)
+      let resultDescriptor = MatrixDescriptor(rowCount: resultRowCount, columnCount: resultColumnCount, representation: descriptor.representation)
+      let lhsWrapperType = lhsDescriptor.wrapperTypeInstantiation
+      let lhsNativeType = lhsDescriptor.nativeTypeName
+      let resultWrapperType = resultDescriptor.wrapperTypeInstantiation
+      let resultNativeType = resultDescriptor.nativeTypeName
+      let testName = "test_leftMult_by_\(N)x\(X)"
+      let nativeExpr: String
+      switch descriptor.representation {
+      case .half:           nativeExpr = "simd_mul(b, a)"
+      case .float, .double: nativeExpr = "b * a"
+      }
+      decls.append(
+        """
+        func \(raw: testName)() {
+          let lhses: [[[\(raw: scalar)]]] = \(raw: descriptor.probeMatricesArrayExpression)
+          let rhses: [[[\(raw: scalar)]]] = \(raw: lhsDescriptor.probeMatricesArrayExpression)
+          validateHeterogeneousBinaryEquivalence(
+            "multiplied(onLeftBy: \(raw: lhsWrapperType))",
+            lhses: lhses,
+            rhses: rhses,
+            epsilon: \(raw: descriptor.defaultEpsilonLiteral),
+            wrapped: { (a: \(raw: wrapper), b: \(raw: lhsWrapperType)) -> \(raw: resultWrapperType) in a.multiplied(onLeftBy: b) },
+            native: { (a: \(raw: native), b: \(raw: lhsNativeType)) -> \(raw: resultNativeType) in \(raw: nativeExpr) }
+          )
+        }
+        """
+      )
+    }
+    return decls
+  }
 }

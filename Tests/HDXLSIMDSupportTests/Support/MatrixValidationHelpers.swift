@@ -127,6 +127,61 @@ func validateMatrixScalarEquivalence<Wrapper, Native, Scalar>(
   }
 }
 
+/// Validates a wrapped binary operation that produces a *different*-shape
+/// result. The wrapper, the rhs, and the result all have their own native /
+/// wrapper / scalar types; only the scalar type is required to match across.
+func validateHeterogeneousBinaryEquivalence<
+  LhsWrapper, LhsNative,
+  RhsWrapper, RhsNative,
+  ResultWrapper, ResultNative,
+  Scalar
+>(
+  _ name: String,
+  lhses: [[[Scalar]]],
+  rhses: [[[Scalar]]],
+  epsilon: ResultWrapper.LInfinityDistance,
+  wrapped: (LhsWrapper, RhsWrapper) -> ResultWrapper,
+  native: (LhsNative, RhsNative) -> ResultNative,
+  file: StaticString = #filePath,
+  line: UInt = #line
+) where
+  LhsWrapper: NativeSIMDRepresentable,
+  LhsWrapper.NativeSIMDRepresentation == LhsNative,
+  LhsWrapper: MatrixProtocol,
+  LhsWrapper.Scalar == Scalar,
+  RhsWrapper: NativeSIMDRepresentable,
+  RhsWrapper.NativeSIMDRepresentation == RhsNative,
+  RhsWrapper: MatrixProtocol,
+  RhsWrapper.Scalar == Scalar,
+  ResultWrapper: NativeSIMDRepresentable,
+  ResultWrapper.NativeSIMDRepresentation == ResultNative,
+  ResultWrapper: MatrixProtocol,
+  ResultWrapper.Scalar == Scalar,
+  ResultWrapper: LInfinityDistanceMeasureable,
+  ResultWrapper.LInfinityDistance: BinaryFloatingPoint,
+  Scalar: SIMDScalar & BinaryFloatingPoint
+{
+  for lhs in lhses {
+    for rhs in rhses {
+      let wrappedLhs = LhsWrapper(scalars: lhs)
+      let wrappedRhs = RhsWrapper(scalars: rhs)
+      let nativeLhs = wrappedLhs.nativeSIMDRepresentation
+      let nativeRhs = wrappedRhs.nativeSIMDRepresentation
+      let wrappedResult = wrapped(wrappedLhs, wrappedRhs)
+      let nativeResult = native(nativeLhs, nativeRhs)
+      let nativeAsWrapped = ResultWrapper(nativeSIMDRepresentation: nativeResult)
+      let distance = wrappedResult.lInfinityDistance(to: nativeAsWrapped)
+      XCTAssertLessThan(
+        distance,
+        epsilon,
+        "[\(name)] L∞ distance \(distance) >= \(epsilon) for lhs=\(lhs), rhs=\(rhs)",
+        file: file,
+        line: line
+      )
+    }
+  }
+}
+
 /// Validates a wrapped `(matrix) -> Scalar` operation (e.g. `determinant`,
 /// `componentwiseMagnitudeSquared`).
 func validateUnaryToScalarEquivalence<Wrapper, Native, Scalar>(
