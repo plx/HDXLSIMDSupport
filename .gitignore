@@ -11,3 +11,6 @@ Package.resolved
 xcuserdata/
 *.xcuserstate
 DerivedData/
+
+# Local conversation / scratch files
+RefactorConversation.md
