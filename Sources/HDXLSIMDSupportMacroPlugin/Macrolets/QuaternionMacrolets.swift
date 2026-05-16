@@ -33,12 +33,15 @@ struct QuaternionStorageBackingMacrolet: SIMDQuaternionMacrolet {
 
   func implementationDeclarations(in context: QuaternionLayerContext) -> [DeclSyntax] {
     guard let wrapped = context.wrappedTypeName else { return [] }
+    // Storage typealias / var / init are `@usableFromInline internal` on both
+    // the storage and wrapper layers — see StorageBackingMacrolet for the
+    // rationale.
     return [
-      "public typealias Storage = \(raw: wrapped)",
-      "public var storage: Storage",
+      "@usableFromInline internal typealias Storage = \(raw: wrapped)",
+      "@usableFromInline internal var storage: Storage",
       """
       @inlinable
-      public init(storage: Storage) {
+      internal init(storage: Storage) {
         self.storage = storage
       }
       """

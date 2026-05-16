@@ -117,4 +117,20 @@ struct MatrixLayerContext {
       return "Scalar"
     }
   }
+
+  /// Visibility keyword(s) for declarations emitted at this layer.
+  ///
+  /// - `.native`, `.wrapper`: `"public"` — these are user-facing types.
+  /// - `.storage`: `"@usableFromInline internal"` — the storage struct itself
+  ///   is `@usableFromInline internal`, so its members must match (Swift
+  ///   doesn't allow public members on an internal type).
+  ///
+  /// Used by macrolets to write declarations whose visibility depends on the
+  /// layer.
+  var emittedVisibility: String {
+    switch layer {
+    case .native, .wrapper: return "public"
+    case .storage:          return "@usableFromInline internal"
+    }
+  }
 }

@@ -6,7 +6,13 @@ Status as of commit `c54a394`. The macro-driven refactor is functionally complet
 
 ## 1. Demote concrete storage types to `@usableFromInline internal`
 
+**Status.** Partially done. The wrapper's `Storage` typealias, `storage` field, and `init(storage:)` are now `@usableFromInline internal`, so external code can no longer reach the storage layer via a `Matrix2x2<Float>` (or `Quaternion<Float>`) value. The storage TYPES themselves (`FloatMatrix2x2Storage`, etc.) remain `public` because the `ExtendedSIMDScalar` protocol exposes them as public associated-type witnesses (`public typealias Matrix2x2Storage = FloatMatrix2x2Storage`); Swift requires the witness type to be at least as accessible as the protocol, so we can't demote the typealias without also restructuring the protocol.
+
 **Goal.** Reduce the public API surface to just the generic wrappers (`Matrix2x2<Scalar>` through `Matrix4x4<Scalar>`, `Quaternion<Scalar>`). The concrete per-representation storage types (`FloatMatrix2x2Storage` … `HalfMatrix4x4Storage`, plus the three quaternion storages) become implementation details exposed via `@usableFromInline internal` so the `@inlinable` macro-emitted code can still reach them.
+
+**Architectural blocker.** `ExtendedSIMDScalar` is currently a `public protocol` with `associatedtype Matrix2x2Storage: Matrix2x2Protocol, ...` style requirements. To make the concrete witnesses internal, the protocol's associated-type requirements would have to be reformulated so the witness types are no longer publicly nameable — e.g., by making the protocol itself `@usableFromInline internal` (which forces the wrappers' generic constraints to follow suit), or by refactoring the protocol to expose only an *abstract* storage interface and hiding the concrete witnesses behind a sealed bridge type.
+
+That refactor is a meaningful architectural shift and was not in scope here. The infrastructure for the eventual full demotion is in place (`MatrixLayerContext.emittedVisibility`, `QuaternionLayerContext.emittedVisibility`), so a future session can finish the job once the protocol design is sorted.
 
 **Scope (30 types).**
 

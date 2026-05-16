@@ -52,6 +52,15 @@ struct QuaternionLayerContext {
     case .wrapper: return "Scalar"
     }
   }
+
+  /// Visibility keyword(s) for declarations emitted at this layer. See
+  /// `MatrixLayerContext.emittedVisibility` for rationale.
+  var emittedVisibility: String {
+    switch layer {
+    case .native, .wrapper: return "public"
+    case .storage:          return "@usableFromInline internal"
+    }
+  }
 }
 
 /// One slice of quaternion API code-generation. Parallels `SIMDMatrixMacrolet`.

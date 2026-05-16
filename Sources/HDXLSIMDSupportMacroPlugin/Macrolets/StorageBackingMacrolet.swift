@@ -19,14 +19,20 @@ struct StorageBackingMacrolet: SIMDMatrixMacrolet {
 
   func implementationDeclarations(in context: MatrixLayerContext) -> [DeclSyntax] {
     guard let wrappedTypeName = context.wrappedTypeName else { return [] }
+    // The Storage typealias / var / init are intentionally `@usableFromInline
+    // internal` on BOTH the storage and the wrapper layers. The storage struct
+    // is internal, so on the wrapper this typealias resolves to an internal
+    // type and a `public typealias` would be ill-formed. Keeping the field
+    // and init internal also keeps the storage chain off the public API
+    // surface.
     return [
-      "public typealias Storage = \(raw: wrappedTypeName)",
+      "@usableFromInline internal typealias Storage = \(raw: wrappedTypeName)",
       """
-      public var storage: Storage
+      @usableFromInline internal var storage: Storage
       """,
       """
       @inlinable
-      public init(storage: Storage) {
+      internal init(storage: Storage) {
         self.storage = storage
       }
       """
