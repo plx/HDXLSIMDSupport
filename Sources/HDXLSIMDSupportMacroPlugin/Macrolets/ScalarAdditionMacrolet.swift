@@ -59,4 +59,41 @@ struct ScalarAdditionMacrolet: SIMDMatrixMacrolet {
       ]
     }
   }
+
+  func validationTestDeclarations(in context: MatrixLayerContext) -> [DeclSyntax] {
+    if descriptor.producesBuggyHalfThreeRow { return [] }
+    let wrapper = descriptor.wrapperTypeInstantiation
+    let native = descriptor.nativeTypeName
+    let scalar = descriptor.representation.swiftScalarTypeName
+    let columnVector = descriptor.columnVectorTypeName
+    let scalarColumnsTuple = "(" +
+      Array(repeating: "sv", count: descriptor.columnCount).joined(separator: ", ") +
+      ")"
+    let nativeAddBody: String
+    switch descriptor.representation {
+    case .half:
+      nativeAddBody = "simd_add(m, \(native)(columns: \(scalarColumnsTuple)))"
+    case .float, .double:
+      nativeAddBody = "m + \(native)(columns: \(scalarColumnsTuple))"
+    }
+    return [
+      """
+      func test_scalarAddition() {
+        let probes: [[[\(raw: scalar)]]] = \(raw: descriptor.probeMatricesArrayExpression)
+        let scalars: [\(raw: scalar)] = \(raw: descriptor.probeScalarsArrayExpression)
+        validateMatrixScalarEquivalence(
+          "adding(scalar:)",
+          matrices: probes,
+          scalars: scalars,
+          epsilon: \(raw: descriptor.defaultEpsilonLiteral),
+          wrapped: { (m: \(raw: wrapper), s: \(raw: scalar)) -> \(raw: wrapper) in m.adding(scalar: s) },
+          native: { (m: \(raw: native), s: \(raw: scalar)) -> \(raw: native) in
+            let sv = \(raw: columnVector)(repeating: s)
+            return \(raw: nativeAddBody)
+          }
+        )
+      }
+      """
+    ]
+  }
 }

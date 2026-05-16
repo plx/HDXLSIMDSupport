@@ -48,4 +48,41 @@ struct ScalarSubtractionMacrolet: SIMDMatrixMacrolet {
       ]
     }
   }
+
+  func validationTestDeclarations(in context: MatrixLayerContext) -> [DeclSyntax] {
+    if descriptor.producesBuggyHalfThreeRow { return [] }
+    let wrapper = descriptor.wrapperTypeInstantiation
+    let native = descriptor.nativeTypeName
+    let scalar = descriptor.representation.swiftScalarTypeName
+    let columnVector = descriptor.columnVectorTypeName
+    let scalarColumnsTuple = "(" +
+      Array(repeating: "sv", count: descriptor.columnCount).joined(separator: ", ") +
+      ")"
+    let nativeSubBody: String
+    switch descriptor.representation {
+    case .half:
+      nativeSubBody = "simd_sub(m, \(native)(columns: \(scalarColumnsTuple)))"
+    case .float, .double:
+      nativeSubBody = "m - \(native)(columns: \(scalarColumnsTuple))"
+    }
+    return [
+      """
+      func test_scalarSubtraction() {
+        let probes: [[[\(raw: scalar)]]] = \(raw: descriptor.probeMatricesArrayExpression)
+        let scalars: [\(raw: scalar)] = \(raw: descriptor.probeScalarsArrayExpression)
+        validateMatrixScalarEquivalence(
+          "subtracting(scalar:)",
+          matrices: probes,
+          scalars: scalars,
+          epsilon: \(raw: descriptor.defaultEpsilonLiteral),
+          wrapped: { (m: \(raw: wrapper), s: \(raw: scalar)) -> \(raw: wrapper) in m.subtracting(scalar: s) },
+          native: { (m: \(raw: native), s: \(raw: scalar)) -> \(raw: native) in
+            let sv = \(raw: columnVector)(repeating: s)
+            return \(raw: nativeSubBody)
+          }
+        )
+      }
+      """
+    ]
+  }
 }
