@@ -1,0 +1,90 @@
+//
+//  NegationMacrolet.swift
+//
+
+import SwiftSyntax
+
+/// Emits `negated() -> Self` and `formNegation()` plus the matching
+/// validation test.
+struct NegationMacrolet: SIMDMatrixMacrolet {
+  let descriptor: MatrixDescriptor
+
+  func implementationDeclarations(in context: MatrixLayerContext) -> [DeclSyntax] {
+    switch context.layer {
+    case .native:
+      if descriptor.usesColumnWiseSwiftFallback {
+        let columnsTuple = "(" + (0..<descriptor.columnCount).map { "-columns.\($0)" }.joined(separator: ",") + ")"
+        let formStmts = (0..<descriptor.columnCount).map { "columns.\($0) = -columns.\($0)" }.joined(separator: "\n")
+        return [
+          """
+          @inlinable
+          public func negated() -> Self {
+            Self(columns: \(raw: columnsTuple))
+          }
+          """,
+          """
+          @inlinable
+          public mutating func formNegation() {
+            \(raw: formStmts)
+          }
+          """
+        ]
+      }
+      return [
+        """
+        @inlinable
+        public func negated() -> Self { -self }
+        """,
+        """
+        @inlinable
+        public mutating func formNegation() { self = -self }
+        """
+      ]
+    case .storage, .wrapper:
+      return [
+        """
+        @inlinable
+        public func negated() -> Self {
+          Self(passthroughValue: passthroughValue.negated())
+        }
+        """,
+        """
+        @inlinable
+        public mutating func formNegation() {
+          passthroughValue.formNegation()
+        }
+        """
+      ]
+    }
+  }
+
+  func validationTestDeclarations(in context: MatrixLayerContext) -> [DeclSyntax] {
+    // Skip half-3-row: we don't have an independent native ground-truth for
+    // shapes the simd routines miscompute. (TODO: widen-to-float
+    // cross-validation.)
+    if descriptor.producesBuggyHalfThreeRow { return [] }
+    let wrapper = descriptor.wrapperTypeInstantiation
+    let native = descriptor.nativeTypeName
+    let nativeNegation: String
+    switch descriptor.representation {
+    case .half:
+      nativeNegation = "simd_mul((-1) as \(descriptor.representation.swiftScalarTypeName), n)"
+    case .float, .double:
+      nativeNegation = "-n"
+    }
+    return [
+      """
+      func test_negation() {
+        let probes: [[[\(raw: descriptor.representation.swiftScalarTypeName)]]] = \(raw: descriptor.probeMatricesArrayExpression)
+        validateUnaryEquivalence(
+          "negation",
+          probes: probes,
+          epsilon: \(raw: descriptor.defaultEpsilonLiteral),
+          wrapped: { (m: \(raw: wrapper)) -> \(raw: wrapper) in m.negated() },
+          native: { (n: \(raw: native)) -> \(raw: native) in \(raw: nativeNegation) }
+        )
+      }
+      """
+    ]
+  }
+}

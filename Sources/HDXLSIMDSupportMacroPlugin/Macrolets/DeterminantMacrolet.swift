@@ -1,0 +1,43 @@
+//
+//  DeterminantMacrolet.swift
+//
+
+import SwiftSyntax
+
+/// `determinant: Scalar` — only emitted for square matrices.
+///
+/// - Native: float/double simd matrices expose `self.determinant` via the
+///   simd overlay. For half there's no overlay property, so we call the
+///   C-level `simd_determinant(self)` which is a scalar output and
+///   therefore unaffected by the half-3-row overlay bug.
+/// - Storage/Wrapper: forwards.
+struct DeterminantMacrolet: SIMDMatrixMacrolet {
+  let descriptor: MatrixDescriptor
+
+  func implementationDeclarations(in context: MatrixLayerContext) -> [DeclSyntax] {
+    guard descriptor.isSquare else { return [] }
+    switch context.layer {
+    case .native:
+      if descriptor.representation == .half {
+        return [
+          """
+          @inlinable
+          public var determinant: Scalar {
+            get { simd_determinant(self) }
+          }
+          """
+        ]
+      }
+      return []
+    case .storage, .wrapper:
+      return [
+        """
+        @inlinable
+        public var determinant: Scalar {
+          get { passthroughValue.determinant }
+        }
+        """
+      ]
+    }
+  }
+}
