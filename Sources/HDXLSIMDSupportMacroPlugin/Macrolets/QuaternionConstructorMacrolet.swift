@@ -11,7 +11,7 @@ import SwiftSyntax
 ///   `simd_half3x3` specifically the overlay's `simd_matrix3x3(quath)` is
 ///   miscomputed, so we route via `simd_matrix4x4(quaternion)` and slice the
 ///   top-left 3x3 out by hand.
-/// - Storage/Wrapper: forwards through the Passthrough chain.
+/// - Storage/Wrapper: forwards down the storage chain.
 struct QuaternionConstructorMacrolet: SIMDMatrixMacrolet {
   let descriptor: MatrixDescriptor
 

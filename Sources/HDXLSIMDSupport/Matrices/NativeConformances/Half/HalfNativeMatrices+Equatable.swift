@@ -7,10 +7,11 @@ import simd
 
 // `simd_floatNxM` and `simd_doubleNxM` are `Equatable` via the Swift overlay;
 // the half-precision variants are not yet bridged that way as of macOS 26.
-// The `Passthrough+Equatable` default in this package relies on
-// `PassthroughValue: Equatable`, so we add explicit conformances here to keep
-// the half-precision storages on the same shape as their Float/Double peers.
-// If/when the Swift overlay starts bridging this itself, these can be removed.
+// The macro-generated `==` on `HalfMatrixNxMStorage` forwards to the native
+// `simd_halfNxM` value, which needs a usable `==` to exist; we add those
+// explicit conformances here so the half-precision storages match their
+// Float/Double peers. If/when the Swift overlay starts bridging this itself,
+// these can be removed.
 
 extension simd_half2x2 : @retroactive Equatable {
   @inlinable

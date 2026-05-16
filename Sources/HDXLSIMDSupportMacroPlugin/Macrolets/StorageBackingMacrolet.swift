@@ -5,12 +5,11 @@
 import SwiftSyntax
 
 /// Emits the stored value + initializer that ties a wrapping layer to its
-/// underlying value. During the migration we keep the *name* `storage`
-/// so the generated types continue to satisfy the existing `Passthrough`
-/// protocol (and so they can interoperate with not-yet-migrated types via
-/// existing `Passthrough` extensions). Once all types are migrated, this
-/// macrolet will be flipped over to emit `storage`/`init(storage:)` and
-/// `Passthrough` will be demolished.
+/// underlying value. The wrapping/storage chain is:
+/// `Matrix2x2<Scalar>` → `Scalar.Matrix2x2Storage` → `simd_float2x2`
+/// (etc.), and the `Storage` typealias plus `init(storage:)` are how each
+/// wrapping layer addresses the layer it wraps. Every other macrolet relies
+/// on this naming to forward operations downward.
 ///
 /// - Native layer: emits nothing (`simd_floatNxM` IS its own value).
 /// - Storage / Wrapper: emits `typealias Storage`, the stored

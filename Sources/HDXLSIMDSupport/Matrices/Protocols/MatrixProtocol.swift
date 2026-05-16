@@ -23,12 +23,12 @@ public typealias T4<T> = (T,T,T,T)
 // ------------------------------------------------------------------------ //
 
 /// Basic protocol for *adoption* by (a) the native SIMD matrices, (b) the "storage" types, and (c) the generic
-/// wrappers *around* those types. The design is somewhat artificial because on the one hand (a) I want to
-/// use `extension Passthrough where PassthroughValue:MatrixProtocol` to minimize the
-/// repetive boilerplate I need to write, but (b) the native SIMD types implement their math operations as
-/// *operators* and thus defining operators directly, here, risks shadowing/ambiguity/etc. (e.g.: annoyances).
+/// wrappers *around* those types. The matrix-conformance macros emit per-layer conformances against this
+/// protocol — `simd_floatNxM` etc. pick up `MatrixProtocol`; the storage / wrapper types layer
+/// `MatrixOperatorSupportProtocol` on top of that to host operator overloads (`+`, `-`, `*`…) without
+/// shadowing the native operators defined on the underlying simd types.
 ///
-/// So the final *conformances* will look like this:
+/// So the final *conformances* look like this:
 ///
 /// - native-simd types: `MatrixProtocol`
 /// - storage types: `MatrixProtocol` + `MatrixOperatorSupportProtocol`
@@ -45,7 +45,8 @@ public typealias T4<T> = (T,T,T,T)
 /// e.g. protocols for 2xn, 3xn, 4xn, nx2, nx3, nx4, etc.; the original matrix 4x4 protocol inherited from square,
 /// 4xn, and nx4 (etc.). That blows up compile times and doesn't result in *that much* code saving: you repeat
 /// less code, sure, but the code you save is about as much as the hassle of declaring the MxN protocols and
-/// extensions thereof, so...I'll take sub-hour compile times, thanks.
+/// extensions thereof, so...I'll take sub-hour compile times, thanks. (Now that conformances are macro-emitted
+/// rather than written by hand, a thinner protocol hierarchy could be re-attempted; not yet done.)
 ///
 public protocol MatrixProtocol<Scalar> {
 
