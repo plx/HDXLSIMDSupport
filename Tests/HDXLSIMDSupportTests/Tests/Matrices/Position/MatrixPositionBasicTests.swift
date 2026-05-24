@@ -82,6 +82,15 @@ class MatrixPositionBasicTests: XCTestCase {
       XCTAssertTrue($0.isValid)
     }
   }
+
+  func testExplicitInvalidPositionValidity() {
+    // The initializer uses debug-only assertions for invalid indices, but the
+    // stored value still reports invalidity in ordinary test builds. This
+    // example covers the false branch for each invalid axis.
+    XCTAssertFalse(MatrixPosition(rowIndex: -1, columnIndex: 0).isValid)
+    XCTAssertFalse(MatrixPosition(rowIndex: 0, columnIndex: -1).isValid)
+    XCTAssertFalse(MatrixPosition(rowIndex: -1, columnIndex: -1).isValid)
+  }
   
   func testEquality() {
     for (lIndex,lhs) in self.positions.enumerated() {
@@ -94,6 +103,84 @@ class MatrixPositionBasicTests: XCTestCase {
           XCTAssertNotEqual(lhs, rhs)
         }
       }
+    }
+  }
+
+  func testExplicitHashingAndDescriptions() {
+    // These conformances are how MatrixPosition appears in sets, dictionaries,
+    // and diagnostics. The example pins both hash equivalence and string shape.
+    let position = MatrixPosition(rowIndex: 2, columnIndex: 4)
+    let equivalent = MatrixPosition(rowIndex: 2, columnIndex: 4)
+    let different = MatrixPosition(rowIndex: 4, columnIndex: 2)
+
+    XCTAssertEqual(Set([position, equivalent, different]).count, 2)
+    XCTAssertEqual(position.description, "(rowIndex: 2, columnIndex: 4)")
+    XCTAssertEqual(
+      position.debugDescription,
+      "MatrixPosition(rowIndex: 2, columnIndex: 4)"
+    )
+  }
+
+  func testExplicitCodableRoundTrip() throws {
+    // Codable is synthesized, but it is part of MatrixPosition's public surface
+    // and coverage accounts for those synthesized functions. This example pins
+    // the stored property names and round-trip behavior.
+    let position = MatrixPosition(rowIndex: 2, columnIndex: 4)
+    let encoder = JSONEncoder()
+    let decoder = JSONDecoder()
+    let encoded = try encoder.encode(position)
+
+    XCTAssertEqual(
+      try decoder.decode([String: Int].self, from: encoded),
+      [
+        "rowIndex": 2,
+        "columnIndex": 4
+      ]
+    )
+    XCTAssertEqual(
+      try decoder.decode(MatrixPosition.self, from: encoded),
+      position
+    )
+  }
+
+  func testGeneratedInvalidPositionValidity() {
+    for rowIndex in -5...5 {
+      for columnIndex in -5...5 {
+        let position = MatrixPosition(rowIndex: rowIndex, columnIndex: columnIndex)
+        XCTAssertEqual(
+          rowIndex >= 0 && columnIndex >= 0,
+          position.isValid
+        )
+      }
+    }
+  }
+
+  func testGeneratedHashingAndDescriptions() {
+    for position in self.positions {
+      XCTAssertTrue(Set([position, position]).contains(position))
+      XCTAssertEqual(
+        position.description,
+        "(rowIndex: \(position.rowIndex), columnIndex: \(position.columnIndex))"
+      )
+      XCTAssertEqual(
+        position.debugDescription,
+        "MatrixPosition(rowIndex: \(position.rowIndex), columnIndex: \(position.columnIndex))"
+      )
+    }
+  }
+
+  func testGeneratedCodableRoundTrips() throws {
+    let encoder = JSONEncoder()
+    let decoder = JSONDecoder()
+
+    for position in self.positions {
+      XCTAssertEqual(
+        try decoder.decode(
+          MatrixPosition.self,
+          from: encoder.encode(position)
+        ),
+        position
+      )
     }
   }
   
@@ -204,4 +291,3 @@ class MatrixPositionBasicTests: XCTestCase {
   }
 
 }
-

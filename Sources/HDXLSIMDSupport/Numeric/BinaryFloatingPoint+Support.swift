@@ -3,11 +3,6 @@ import Foundation
 extension BinaryFloatingPoint {
 
   @inlinable
-  public var isZero: Bool {
-    return 0 == self
-  }
-
-  @inlinable
   public var isNonZero: Bool {
     return 0 != self
   }

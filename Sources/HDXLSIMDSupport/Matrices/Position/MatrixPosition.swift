@@ -33,11 +33,13 @@ public struct MatrixPosition: Sendable {
     rowIndex: Int,
     columnIndex: Int
   ) {
+    #if HEAVY_DEBUG
     // /////////////////////////////////////////////////////////////////////////
     pedantic_assert(rowIndex >= 0)
     pedantic_assert(columnIndex >= 0)
     defer { pedantic_assert(isValid) }
     // /////////////////////////////////////////////////////////////////////////
+    #endif
     self.rowIndex = rowIndex
     self.columnIndex = columnIndex
   }
@@ -153,10 +155,12 @@ extension MatrixPosition : Equatable {
     lhs: MatrixPosition,
     rhs: MatrixPosition
   ) -> Bool {
+    #if HEAVY_DEBUG
     // /////////////////////////////////////////////////////////////////////////
     pedantic_assert(lhs.isValid)
     pedantic_assert(rhs.isValid)
     // /////////////////////////////////////////////////////////////////////////
+    #endif
     guard
       lhs.rowIndex == rhs.rowIndex,
       lhs.columnIndex == rhs.columnIndex else {

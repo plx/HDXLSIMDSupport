@@ -24,7 +24,9 @@ import SwiftSyntax
 /// Native conformances already have most of these from the simd overlay, but
 /// the protocol requires `init(repeating:)` to fill every entry (not the
 /// diagonal — see the merged half-precision PR) and `init(rowVectors:)` /
-/// `init(linearizedScalars:)` / `init(scalars:)` need explicit emission.
+/// `init(linearizedScalars:)` need explicit emission. The protocol-extension
+/// scalar initializer remains the single implementation for visual
+/// `init(scalars:)`.
 ///
 /// Native overlay quirks:
 /// - The bridged `init(_ scalar: Scalar)` is a diagonal initializer, NOT a
@@ -44,7 +46,6 @@ struct InitializationMacrolet: SIMDMatrixMacrolet {
     result.append(contentsOf: rowsTupleInit(in: context))
     result.append(contentsOf: rowVectorsInit(in: context))
     result.append(contentsOf: linearizedScalarsInit(in: context))
-    result.append(contentsOf: scalarsArrayOfArraysInit(in: context))
     result.append(contentsOf: positionalColumnsInit(in: context))
     return result
   }
@@ -264,29 +265,6 @@ struct InitializationMacrolet: SIMDMatrixMacrolet {
         """
       ]
     }
-  }
-
-  // MARK: - init(scalars: [[Scalar]])
-
-  private func scalarsArrayOfArraysInit(in context: MatrixLayerContext) -> [DeclSyntax] {
-    // The input is rows-of-scalars: scalars[r][c] is row r, column c.
-    let rowsArrayLiteral: String = {
-      let parts = (0..<descriptor.rowCount).map { r -> String in
-        let inner = (0..<descriptor.columnCount).map { c in "scalars[\(r)][\(c)]" }.joined(separator: ",")
-        return "RowVector(\(inner))"
-      }
-      return "[" + parts.joined(separator: ",") + "]"
-    }()
-    return [
-      """
-      @inlinable
-      public init(scalars: [[Scalar]]) {
-        precondition(scalars.count == Self.rowCount)
-        precondition(scalars.allSatisfy({ $0.count == Self.columnCount }))
-        self.init(rowVectors: \(raw: rowsArrayLiteral))
-      }
-      """
-    ]
   }
 
   // MARK: - init(_ c0:, _ c1:, ...) — positional column-vector initializer
