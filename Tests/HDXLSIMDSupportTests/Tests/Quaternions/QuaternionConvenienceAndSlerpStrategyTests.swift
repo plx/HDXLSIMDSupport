@@ -186,10 +186,6 @@ class QuaternionConvenienceAndSlerpStrategyTests: XCTestCase {
         try decoder.decode(QuaternionSlerpStrategy.self, from: encoder.encode(strategy)),
         strategy
       )
-
-      var hasher = Hasher()
-      strategy.hash(into: &hasher)
-      _ = hasher.finalize()
     }
 
     XCTAssertEqual(
