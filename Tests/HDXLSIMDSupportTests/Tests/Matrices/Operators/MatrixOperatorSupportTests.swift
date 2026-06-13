@@ -339,14 +339,13 @@ class MatrixOperatorSupportTests: XCTestCase {
     _ rhs: Matrix,
     file: StaticString = #filePath,
     line: UInt = #line
-  ) where
-    Matrix: MatrixProtocol & LInfinityDistanceMeasureable,
-    Matrix.Scalar == Double,
-    Matrix.LInfinityDistance == Double
-  {
-    XCTAssertLessThanOrEqual(
-      lhs.lInfinityDistance(to: rhs),
-      1.0e-10,
+  ) where Matrix: MatrixProtocol & Equatable {
+    // The operators forward bit-for-bit to the named operations (same simd
+    // op, same operand order), so equality must be exact: a tolerance here
+    // would silently mask any divergence between the two paths.
+    XCTAssertEqual(
+      lhs,
+      rhs,
       file: file,
       line: line
     )

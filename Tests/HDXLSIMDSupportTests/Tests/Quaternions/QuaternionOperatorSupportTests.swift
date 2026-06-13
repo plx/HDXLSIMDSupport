@@ -68,7 +68,7 @@ class QuaternionOperatorSupportTests: XCTestCase {
       rhs =/ leftDivideAssign
       assertQuaternion(leftDivideAssign, lhs.divided(onLeftBy: rhs))
 
-      XCTAssertEqual(lhs • rhs, lhs.dotted(with: rhs), accuracy: 1.0e-10)
+      XCTAssertEqual(lhs • rhs, lhs.dotted(with: rhs))
     }
   }
 
@@ -92,9 +92,11 @@ class QuaternionOperatorSupportTests: XCTestCase {
     file: StaticString = #filePath,
     line: UInt = #line
   ) {
-    XCTAssertLessThanOrEqual(
-      lhs.lInfinityDistance(to: rhs),
-      1.0e-10,
+    // The operators forward bit-for-bit to the named operations, so equality
+    // must be exact: a tolerance would silently mask a divergence.
+    XCTAssertEqual(
+      lhs,
+      rhs,
       file: file,
       line: line
     )
