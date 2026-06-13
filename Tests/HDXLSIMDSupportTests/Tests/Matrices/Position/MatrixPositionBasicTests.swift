@@ -83,15 +83,6 @@ class MatrixPositionBasicTests: XCTestCase {
     }
   }
 
-  func testExplicitInvalidPositionValidity() {
-    // The initializer uses debug-only assertions for invalid indices, but the
-    // stored value still reports invalidity in ordinary test builds. This
-    // example covers the false branch for each invalid axis.
-    XCTAssertFalse(MatrixPosition(rowIndex: -1, columnIndex: 0).isValid)
-    XCTAssertFalse(MatrixPosition(rowIndex: 0, columnIndex: -1).isValid)
-    XCTAssertFalse(MatrixPosition(rowIndex: -1, columnIndex: -1).isValid)
-  }
-  
   func testEquality() {
     for (lIndex,lhs) in self.positions.enumerated() {
       for (rIndex,rhs) in self.positions.enumerated() {
@@ -144,6 +135,9 @@ class MatrixPositionBasicTests: XCTestCase {
   }
 
   func testGeneratedInvalidPositionValidity() {
+    // The initializer uses debug-only assertions for invalid indices, so in
+    // ordinary test builds negative indices construct fine and `isValid`
+    // remains the source of truth. Sweep both axes through invalid ranges.
     for rowIndex in -5...5 {
       for columnIndex in -5...5 {
         let position = MatrixPosition(rowIndex: rowIndex, columnIndex: columnIndex)

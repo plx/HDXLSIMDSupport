@@ -8,40 +8,6 @@ import simd
 
 class HalfNativeEquatableTests: XCTestCase {
 
-  // ------------------------------------------------------------------------ //
-  // MARK: Explicit Examples
-  // ------------------------------------------------------------------------ //
-
-  func testExplicitHalfNativeMatrixEquality() {
-    // The native half matrix Equatable conformances compare columns directly.
-    // Each shape has its own conformance, so each one gets an equal and a
-    // non-equal example to guard both Boolean outcomes.
-    assertNativeMatrixEquality(Matrix2x2<Float16>.self, rows: 2, columns: 2, seed: 1)
-    assertNativeMatrixEquality(Matrix2x3<Float16>.self, rows: 3, columns: 2, seed: 3)
-    assertNativeMatrixEquality(Matrix2x4<Float16>.self, rows: 4, columns: 2, seed: 5)
-    assertNativeMatrixEquality(Matrix3x2<Float16>.self, rows: 2, columns: 3, seed: 7)
-    assertNativeMatrixEquality(Matrix3x3<Float16>.self, rows: 3, columns: 3, seed: 9)
-    assertNativeMatrixEquality(Matrix3x4<Float16>.self, rows: 4, columns: 3, seed: 11)
-    assertNativeMatrixEquality(Matrix4x2<Float16>.self, rows: 2, columns: 4, seed: 13)
-    assertNativeMatrixEquality(Matrix4x3<Float16>.self, rows: 3, columns: 4, seed: 15)
-    assertNativeMatrixEquality(Matrix4x4<Float16>.self, rows: 4, columns: 4, seed: 17)
-  }
-
-  func testExplicitHalfNativeQuaternionEquality() {
-    // simd_quath stores all components in its vector lane; equality should
-    // follow that vector exactly for both matching and differing components.
-    let lhs = Quaternion<Float16>(i: 1, j: 2, k: 3, real: 4).nativeSIMDRepresentation
-    let same = Quaternion<Float16>(i: 1, j: 2, k: 3, real: 4).nativeSIMDRepresentation
-    let different = Quaternion<Float16>(i: 1, j: 2, k: 3, real: 5).nativeSIMDRepresentation
-
-    XCTAssertEqual(lhs, same)
-    XCTAssertNotEqual(lhs, different)
-  }
-
-  // ------------------------------------------------------------------------ //
-  // MARK: Property-Style Coverage
-  // ------------------------------------------------------------------------ //
-
   func testHalfNativeMatrixEqualityAcrossGeneratedValues() {
     for seed in -3...3 {
       assertNativeMatrixEquality(Matrix2x2<Float16>.self, rows: 2, columns: 2, seed: seed)

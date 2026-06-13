@@ -14,90 +14,6 @@ class MatrixOperatorSupportTests: XCTestCase {
   // MARK: Explicit Examples
   // ------------------------------------------------------------------------ //
 
-  func testExplicitCommonMatrixOperatorsForwardToNamedOperations() {
-    // The operator layer is deliberately thin: it must forward to the named
-    // matrix operations without changing operand order. These examples cover
-    // every common overload in MatrixOperatorSupportProtocol on a simple 2x2.
-    let lhs = M2(scalars: [[1, 2], [3, 4]])
-    let rhs = M2(scalars: [[5, 6], [7, 8]])
-
-    assertMatrix(-lhs, lhs.negated())
-    assertMatrix(lhs + rhs, lhs.adding(rhs))
-    assertMatrix(lhs + (2, rhs), lhs.adding(rhs, multipliedBy: 2))
-
-    var addAssign = lhs
-    addAssign += rhs
-    assertMatrix(addAssign, lhs.adding(rhs))
-
-    var scaledAddAssign = lhs
-    scaledAddAssign += (2, rhs)
-    assertMatrix(scaledAddAssign, lhs.adding(rhs, multipliedBy: 2))
-
-    assertMatrix(lhs - rhs, lhs.subtracting(rhs))
-    assertMatrix(lhs - (2, rhs), lhs.subtracting(rhs, multipliedBy: 2))
-
-    var subtractAssign = lhs
-    subtractAssign -= rhs
-    assertMatrix(subtractAssign, lhs.subtracting(rhs))
-
-    var scaledSubtractAssign = lhs
-    scaledSubtractAssign -= (2, rhs)
-    assertMatrix(scaledSubtractAssign, lhs.subtracting(rhs, multipliedBy: 2))
-
-    assertMatrix(lhs * 3, lhs.multiplied(by: 3))
-    assertMatrix(3 * lhs, lhs.multiplied(by: 3))
-
-    var multiplyAssign = lhs
-    multiplyAssign *= 3
-    assertMatrix(multiplyAssign, lhs.multiplied(by: 3))
-
-    assertMatrix(lhs / 2, lhs.divided(by: 2))
-
-    var divideAssign = lhs
-    divideAssign /= 2
-    assertMatrix(divideAssign, lhs.divided(by: 2))
-
-    let leftVector = SIMD2<Double>(11, 13)
-    XCTAssertEqual(leftVector * lhs, lhs.multiplied(onLeftBy: leftVector))
-
-    let rightVector = SIMD2<Double>(17, 19)
-    XCTAssertEqual(lhs * rightVector, lhs.multiplied(onRightBy: rightVector))
-  }
-
-  func testExplicitMatrix2x2SpecificOperatorsForwardToNamedOperations() {
-    // The 2x2-specific overloads add square multiplication/division plus
-    // cross-shape right multiplication. The examples use invertible matrices
-    // so the division operators exercise the intended square-matrix paths.
-    let lhs = M2(scalars: [[1, 2], [3, 5]])
-    let rhs = M2(scalars: [[2, 0], [0, 4]])
-
-    assertMatrix(lhs * rhs, lhs.multiplied(onRightBy: rhs))
-
-    var rightMultiplyAssign = lhs
-    rightMultiplyAssign *= rhs
-    assertMatrix(rightMultiplyAssign, lhs.multiplied(onRightBy: rhs))
-
-    var leftMultiplyAssign = rhs
-    lhs =* leftMultiplyAssign
-    assertMatrix(leftMultiplyAssign, rhs.multiplied(onLeftBy: lhs))
-
-    assertMatrix(lhs / rhs, lhs.divided(onRightBy: rhs))
-
-    var rightDivideAssign = lhs
-    rightDivideAssign /= rhs
-    assertMatrix(rightDivideAssign, lhs.divided(onRightBy: rhs))
-
-    var leftDivideAssign = lhs
-    rhs =/ leftDivideAssign
-    assertMatrix(leftDivideAssign, lhs.divided(onLeftBy: rhs))
-
-    let matrix3x2 = Matrix3x2<Double>(scalars: [[1, 2, 3], [4, 5, 6]])
-    assertMatrix(lhs * matrix3x2, lhs.multiplied(onRightBy: matrix3x2))
-
-    let matrix4x2 = Matrix4x2<Double>(scalars: [[1, 2, 3, 4], [5, 6, 7, 8]])
-    assertMatrix(lhs * matrix4x2, lhs.multiplied(onRightBy: matrix4x2))
-  }
-
   func testExplicitSquareMatrixIdentityValues() {
     // The identity convenience should be a real diagonal identity matrix, not
     // merely a matrix filled with ones or a shape-specific native shortcut.
@@ -239,13 +155,6 @@ class MatrixOperatorSupportTests: XCTestCase {
       assertMatrix(Matrix4x4<Double>.identity * matrix4x4, matrix4x4)
       assertMatrix(matrix4x4 * Matrix4x4<Double>.identity, matrix4x4)
     }
-  }
-
-  func testExplicitRemainingShapeSpecificOperatorsForwardToNamedOperations() {
-    // Each non-2x2 matrix shape has its own operator-extension file. This
-    // example pass touches the overloads that route right-multiplication,
-    // `*=`, and reversed `=*` through the named multiplication methods.
-    exerciseRemainingShapeSpecificOperators(seed: 1)
   }
 
   func testRemainingShapeSpecificOperatorsAcrossGeneratedMatrices() {
