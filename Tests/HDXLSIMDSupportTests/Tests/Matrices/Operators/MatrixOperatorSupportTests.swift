@@ -155,12 +155,11 @@ class MatrixOperatorSupportTests: XCTestCase {
       multiplyAssign *= scalar
       assertMatrix(multiplyAssign, lhs.multiplied(by: scalar))
 
-      let divisor = scalar == 0 ? 2 : scalar
-      assertMatrix(lhs / divisor, lhs.divided(by: divisor))
+      assertMatrix(lhs / scalar, lhs.divided(by: scalar))
 
       var divideAssign = lhs
-      divideAssign /= divisor
-      assertMatrix(divideAssign, lhs.divided(by: divisor))
+      divideAssign /= scalar
+      assertMatrix(divideAssign, lhs.divided(by: scalar))
 
       let leftVector = SIMD2<Double>(Double(seed + 1), Double(seed + 2))
       XCTAssertEqual(leftVector * lhs, lhs.multiplied(onLeftBy: leftVector))
@@ -408,8 +407,8 @@ class MatrixOperatorSupportTests: XCTestCase {
   private func diagonalMatrix(first: Double, second: Double) -> M2 {
     return M2(
       scalars: [
-        [first == 0 ? 2 : first, 0],
-        [0, second == 0 ? 3 : second]
+        [first, 0],
+        [0, second]
       ]
     )
   }

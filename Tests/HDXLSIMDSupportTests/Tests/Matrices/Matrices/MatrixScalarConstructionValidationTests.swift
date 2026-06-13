@@ -84,15 +84,13 @@ class MatrixScalarConstructionValidationTests: XCTestCase {
       line: line
     )
 
-    if M.rowCount > 0 {
-      var wrongColumnCount = valid
-      wrongColumnCount[0].append(999)
-      XCTAssertFalse(
-        M.canConstruct(from: wrongColumnCount),
-        file: file,
-        line: line
-      )
-    }
+    var wrongColumnCount = valid
+    wrongColumnCount[0].append(999)
+    XCTAssertFalse(
+      M.canConstruct(from: wrongColumnCount),
+      file: file,
+      line: line
+    )
   }
 
   private func scalars(rows: Int, columns: Int) -> [[Double]] {
