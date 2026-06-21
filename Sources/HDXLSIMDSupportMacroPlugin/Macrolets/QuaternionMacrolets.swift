@@ -388,6 +388,84 @@ struct QuaternionInterpolationMacrolet: SIMDQuaternionMacrolet {
       ]
     }
   }
+
+  func validationTestDeclarations(in context: QuaternionLayerContext) -> [DeclSyntax] {
+    let wrapper = descriptor.wrapperTypeInstantiation
+    let native = descriptor.nativeTypeName
+    let scalar = descriptor.representation.swiftScalarTypeName
+    return [
+      """
+      func test_slerpShortest() {
+        let probes: [[\(raw: scalar)]] = \(raw: descriptor.nonZeroProbeQuaternionsArrayExpression)
+        let parameters: [\(raw: scalar)] = \(raw: descriptor.interpolationParametersArrayExpression)
+        validateQuaternionInterpolationEquivalence(
+          "slerpShortest",
+          probes: probes,
+          parameters: parameters,
+          epsilon: \(raw: descriptor.divisionEpsilonLiteral),
+          wrapped: { (q0: \(raw: wrapper), q1: \(raw: wrapper), t: \(raw: scalar)) -> \(raw: wrapper) in \(raw: wrapper).slerpShortest(q0, q1, t) },
+          native: { (q0: \(raw: native), q1: \(raw: native), t: \(raw: scalar)) -> \(raw: native) in simd_slerp(q0, q1, t) }
+        )
+      }
+      """,
+      """
+      func test_slerpLongest() {
+        let probes: [[\(raw: scalar)]] = \(raw: descriptor.nonZeroProbeQuaternionsArrayExpression)
+        let parameters: [\(raw: scalar)] = \(raw: descriptor.interpolationParametersArrayExpression)
+        validateQuaternionInterpolationEquivalence(
+          "slerpLongest",
+          probes: probes,
+          parameters: parameters,
+          epsilon: \(raw: descriptor.divisionEpsilonLiteral),
+          wrapped: { (q0: \(raw: wrapper), q1: \(raw: wrapper), t: \(raw: scalar)) -> \(raw: wrapper) in \(raw: wrapper).slerpLongest(q0, q1, t) },
+          native: { (q0: \(raw: native), q1: \(raw: native), t: \(raw: scalar)) -> \(raw: native) in simd_slerp_longest(q0, q1, t) }
+        )
+      }
+      """,
+      """
+      func test_slerpAutomaticMatchesShortest() {
+        let probes: [[\(raw: scalar)]] = \(raw: descriptor.nonZeroProbeQuaternionsArrayExpression)
+        let parameters: [\(raw: scalar)] = \(raw: descriptor.interpolationParametersArrayExpression)
+        validateQuaternionInterpolationEquivalence(
+          "slerp(strategy: .automatic)",
+          probes: probes,
+          parameters: parameters,
+          epsilon: \(raw: descriptor.divisionEpsilonLiteral),
+          wrapped: { (q0: \(raw: wrapper), q1: \(raw: wrapper), t: \(raw: scalar)) -> \(raw: wrapper) in \(raw: wrapper).slerp(q0, q1, t, strategy: .automatic) },
+          native: { (q0: \(raw: native), q1: \(raw: native), t: \(raw: scalar)) -> \(raw: native) in simd_slerp(q0, q1, t) }
+        )
+      }
+      """,
+      """
+      func test_bezier() {
+        let probes: [[\(raw: scalar)]] = \(raw: descriptor.nonZeroProbeQuaternionsArrayExpression)
+        let parameters: [\(raw: scalar)] = \(raw: descriptor.interpolationParametersArrayExpression)
+        validateQuaternionSplineEquivalence(
+          "bezier",
+          probes: probes,
+          parameters: parameters,
+          epsilon: \(raw: descriptor.divisionEpsilonLiteral),
+          wrapped: { (q0: \(raw: wrapper), q1: \(raw: wrapper), q2: \(raw: wrapper), q3: \(raw: wrapper), t: \(raw: scalar)) -> \(raw: wrapper) in \(raw: wrapper).bezier(q0: q0, q1: q1, q2: q2, q3: q3, t: t) },
+          native: { (q0: \(raw: native), q1: \(raw: native), q2: \(raw: native), q3: \(raw: native), t: \(raw: scalar)) -> \(raw: native) in simd_bezier(q0, q1, q2, q3, t) }
+        )
+      }
+      """,
+      """
+      func test_spline() {
+        let probes: [[\(raw: scalar)]] = \(raw: descriptor.nonZeroProbeQuaternionsArrayExpression)
+        let parameters: [\(raw: scalar)] = \(raw: descriptor.interpolationParametersArrayExpression)
+        validateQuaternionSplineEquivalence(
+          "spline",
+          probes: probes,
+          parameters: parameters,
+          epsilon: \(raw: descriptor.divisionEpsilonLiteral),
+          wrapped: { (q0: \(raw: wrapper), q1: \(raw: wrapper), q2: \(raw: wrapper), q3: \(raw: wrapper), t: \(raw: scalar)) -> \(raw: wrapper) in \(raw: wrapper).spline(q0: q0, q1: q1, q2: q2, q3: q3, t: t) },
+          native: { (q0: \(raw: native), q1: \(raw: native), q2: \(raw: native), q3: \(raw: native), t: \(raw: scalar)) -> \(raw: native) in simd_spline(q0, q1, q2, q3, t) }
+        )
+      }
+      """
+    ]
+  }
 }
 
 // MARK: - Basic properties + apply
@@ -506,6 +584,40 @@ struct QuaternionBasicPropertiesMacrolet: SIMDQuaternionMacrolet {
         """
       ]
     }
+  }
+
+  func validationTestDeclarations(in context: QuaternionLayerContext) -> [DeclSyntax] {
+    let wrapper = descriptor.wrapperTypeInstantiation
+    let native = descriptor.nativeTypeName
+    let scalar = descriptor.representation.swiftScalarTypeName
+    return [
+      """
+      func test_apply() {
+        let probes: [[\(raw: scalar)]] = \(raw: descriptor.nonZeroProbeQuaternionsArrayExpression)
+        let vectors: [[\(raw: scalar)]] = \(raw: descriptor.probeVectorsArrayExpression)
+        validateQuaternionApplyEquivalence(
+          "apply(to:)",
+          probes: probes,
+          vectors: vectors,
+          epsilon: \(raw: descriptor.divisionEpsilonLiteral),
+          wrapped: { (q: \(raw: wrapper), v: SIMD3<\(raw: scalar)>) -> SIMD3<\(raw: scalar)> in q.apply(to: v) },
+          native: { (q: \(raw: native), v: SIMD3<\(raw: scalar)>) -> SIMD3<\(raw: scalar)> in simd_act(q, v) }
+        )
+      }
+      """,
+      """
+      func test_length() {
+        let probes: [[\(raw: scalar)]] = \(raw: descriptor.probeQuaternionsArrayExpression)
+        validateQuaternionUnaryScalarOutEquivalence(
+          "length",
+          probes: probes,
+          epsilon: \(raw: descriptor.divisionEpsilonLiteral),
+          wrapped: { (q: \(raw: wrapper)) -> \(raw: scalar) in q.length },
+          native: { (q: \(raw: native)) -> \(raw: scalar) in simd_length(q) }
+        )
+      }
+      """
+    ]
   }
 }
 

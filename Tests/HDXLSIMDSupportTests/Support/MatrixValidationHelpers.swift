@@ -42,7 +42,7 @@ func validateUnaryEquivalence<Wrapper, Native, Scalar>(
     XCTAssertLessThan(
       distance,
       epsilon,
-      "[\(name)] L∞ distance \(distance) >= \(epsilon) for probe \(probe). wrapped=\(wrappedResult), native=\(nativeResult)",
+      "[≡ native simd] \(name): L∞ distance \(distance) >= \(epsilon) for probe \(probe). wrapped=\(wrappedResult), native=\(nativeResult)",
       file: file,
       line: line
     )
@@ -81,7 +81,7 @@ func validateBinaryEquivalence<Wrapper, Native, Scalar>(
       XCTAssertLessThan(
         distance,
         epsilon,
-        "[\(name)] L∞ distance \(distance) >= \(epsilon) for lhs=\(lhs), rhs=\(rhs)",
+        "[≡ native simd] \(name): L∞ distance \(distance) >= \(epsilon) for lhs=\(lhs), rhs=\(rhs)",
         file: file,
         line: line
       )
@@ -119,7 +119,7 @@ func validateMatrixScalarEquivalence<Wrapper, Native, Scalar>(
       XCTAssertLessThan(
         distance,
         epsilon,
-        "[\(name)] L∞ distance \(distance) >= \(epsilon) for matrix=\(probe), scalar=\(scalar)",
+        "[≡ native simd] \(name): L∞ distance \(distance) >= \(epsilon) for matrix=\(probe), scalar=\(scalar)",
         file: file,
         line: line
       )
@@ -160,7 +160,7 @@ func validateMatrixVectorEquivalence<Wrapper, Native, InVec, OutVec, Scalar>(
       XCTAssertLessThan(
         distance,
         epsilon,
-        "[\(name)] L∞ distance \(distance) >= \(epsilon) for matrix=\(probe), vector=\(vector)",
+        "[≡ native simd] \(name): L∞ distance \(distance) >= \(epsilon) for matrix=\(probe), vector=\(vector)",
         file: file,
         line: line
       )
@@ -205,7 +205,7 @@ func validateLinearCombinationEquivalence<Wrapper, Native, Scalar>(
           XCTAssertLessThan(
             distance,
             epsilon,
-            "[\(name)] L∞ distance \(distance) >= \(epsilon) for first=\(first), firstWeight=\(fw), other=\(other), otherWeight=\(ow)",
+            "[≡ native simd] \(name): L∞ distance \(distance) >= \(epsilon) for first=\(first), firstWeight=\(fw), other=\(other), otherWeight=\(ow)",
             file: file,
             line: line
           )
@@ -259,7 +259,7 @@ func validateHalfThreeRowUnaryViaFloatWidening<HalfWrapper, FloatWrapper>(
     XCTAssertLessThan(
       distance,
       epsilon,
-      "[\(name)] L∞ distance \(distance) >= \(epsilon) for probe \(probe). half=\(halfResult), narrowed-float=\(halfReference)",
+      "[≡ float-widened] \(name): L∞ distance \(distance) >= \(epsilon) for probe \(probe). half=\(halfResult), narrowed-float=\(halfReference)",
       file: file,
       line: line
     )
@@ -301,7 +301,7 @@ func validateHalfThreeRowBinaryViaFloatWidening<HalfWrapper, FloatWrapper>(
       XCTAssertLessThan(
         distance,
         epsilon,
-        "[\(name)] L∞ distance \(distance) >= \(epsilon) for lhs=\(lhs), rhs=\(rhs)",
+        "[≡ float-widened] \(name): L∞ distance \(distance) >= \(epsilon) for lhs=\(lhs), rhs=\(rhs)",
         file: file,
         line: line
       )
@@ -341,7 +341,7 @@ func validateHalfThreeRowMatrixScalarViaFloatWidening<HalfWrapper, FloatWrapper>
       XCTAssertLessThan(
         distance,
         epsilon,
-        "[\(name)] L∞ distance \(distance) >= \(epsilon) for matrix=\(probe), scalar=\(s)",
+        "[≡ float-widened] \(name): L∞ distance \(distance) >= \(epsilon) for matrix=\(probe), scalar=\(s)",
         file: file,
         line: line
       )
@@ -388,7 +388,7 @@ func validateHalfThreeRowLinearCombinationViaFloatWidening<HalfWrapper, FloatWra
           XCTAssertLessThan(
             distance,
             epsilon,
-            "[\(name)] L∞ distance \(distance) >= \(epsilon) for first=\(first), firstWeight=\(fw), other=\(other), otherWeight=\(ow)",
+            "[≡ float-widened] \(name): L∞ distance \(distance) >= \(epsilon) for first=\(first), firstWeight=\(fw), other=\(other), otherWeight=\(ow)",
             file: file,
             line: line
           )
@@ -435,7 +435,7 @@ func validateHalfThreeRowBinaryScalarViaFloatWidening<HalfWrapper, FloatWrapper>
         XCTAssertLessThan(
           distance,
           epsilon,
-          "[\(name)] L∞ distance \(distance) >= \(epsilon) for lhs=\(lhs), rhs=\(rhs), scalar=\(s)",
+          "[≡ float-widened] \(name): L∞ distance \(distance) >= \(epsilon) for lhs=\(lhs), rhs=\(rhs), scalar=\(s)",
           file: file,
           line: line
         )
@@ -491,7 +491,7 @@ func validateHeterogeneousBinaryEquivalence<
       XCTAssertLessThan(
         distance,
         epsilon,
-        "[\(name)] L∞ distance \(distance) >= \(epsilon) for lhs=\(lhs), rhs=\(rhs)",
+        "[≡ native simd] \(name): L∞ distance \(distance) >= \(epsilon) for lhs=\(lhs), rhs=\(rhs)",
         file: file,
         line: line
       )
@@ -525,7 +525,7 @@ func validateUnaryToScalarEquivalence<Wrapper, Native, Scalar>(
     XCTAssertLessThan(
       distance,
       epsilon,
-      "[\(name)] |Δ| \(distance) >= \(epsilon) for probe \(probe). wrapped=\(wrappedResult), native=\(nativeResult)",
+      "[≡ native simd] \(name): |Δ| \(distance) >= \(epsilon) for probe \(probe). wrapped=\(wrappedResult), native=\(nativeResult)",
       file: file,
       line: line
     )
@@ -562,7 +562,7 @@ func validateBinaryToBoolEquivalence<Wrapper, Native, Scalar>(
         XCTAssertEqual(
           wrappedResult,
           nativeResult,
-          "[\(name)] wrapped=\(wrappedResult) but native=\(nativeResult) for lhs=\(lhs), rhs=\(rhs), tolerance=\(tolerance)",
+          "[≡ native simd] \(name): wrapped=\(wrappedResult) but native=\(nativeResult) for lhs=\(lhs), rhs=\(rhs), tolerance=\(tolerance)",
           file: file,
           line: line
         )
@@ -605,7 +605,7 @@ func validateMatrixMatrixScalarEquivalence<Wrapper, Native, Scalar>(
         XCTAssertLessThan(
           distance,
           epsilon,
-          "[\(name)] L∞ distance \(distance) >= \(epsilon) for lhs=\(lhs), rhs=\(rhs), scalar=\(scalar)",
+          "[≡ native simd] \(name): L∞ distance \(distance) >= \(epsilon) for lhs=\(lhs), rhs=\(rhs), scalar=\(scalar)",
           file: file,
           line: line
         )

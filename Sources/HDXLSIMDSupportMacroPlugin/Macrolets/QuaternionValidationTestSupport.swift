@@ -41,6 +41,23 @@ extension QuaternionDescriptor {
     return "[" + values.map { "\(scalarType)(\($0))" }.joined(separator: ", ") + "]"
   }
 
+  /// Probe `Vector3` inputs (as `[[Scalar]]` of length-3 arrays) for the
+  /// rotation-action (`apply(to:)`) tests.
+  var probeVectorsArrayExpression: String {
+    let scalarType = representation.swiftScalarTypeName
+    let raw: [[Int]] = [[1, 0, 0], [0, 1, 0], [0, 0, 1], [1, 2, 3], [-1, 2, -3]]
+    let literals = raw.map { vector -> String in
+      "[" + vector.map { "\(scalarType)(\($0))" }.joined(separator: ", ") + "]"
+    }
+    return "[" + literals.joined(separator: ", ") + "]"
+  }
+
+  /// Interpolation parameter (`t`) probes for slerp / bezier / spline tests.
+  var interpolationParametersArrayExpression: String {
+    let scalarType = representation.swiftScalarTypeName
+    return "[\(scalarType)(0), \(scalarType)(0.5), \(scalarType)(1)]"
+  }
+
   /// L∞-distance tolerance for tests where the operation preserves magnitudes
   /// (negation, conjugation, addition, subtraction, scalar mul, dot, mag²).
   var defaultEpsilonLiteral: String {
