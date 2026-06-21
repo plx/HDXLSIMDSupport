@@ -5,11 +5,11 @@
 import SwiftSyntax
 import SwiftSyntaxMacros
 
-/// Freestanding declaration macro that expands into top-level
-/// `swift-testing` `@Test` functions for one specific (shape, representation)
-/// combination of macro-generated matrix conformance. Each per-API macrolet
-/// contributes its slice's test declarations via
-/// `validationTestDeclarations(in:)`.
+/// Freestanding declaration macro that expands into XCTest test methods
+/// (`func test_…()`) injected into the host `XCTestCase` subclass, validating
+/// the macro-generated matrix conformance for one specific (shape,
+/// representation) combination. Each per-API macrolet contributes its slice's
+/// test declarations via `validationTestDeclarations(in:)`.
 public struct GenerateMatrixConformanceTestsMacro: DeclarationMacro {
   public static func expansion(
     of node: some FreestandingMacroExpansionSyntax,

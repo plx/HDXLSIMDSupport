@@ -34,9 +34,10 @@ protocol SIMDMatrixMacrolet {
   /// Emit the declarations that validate this slice of the matrix API for
   /// the layer described by `context`.
   ///
-  /// - Returns: an array of `DeclSyntax`, expected to be `@Test`-annotated
-  ///   `swift-testing` functions. Empty is fine — many "structural" macrolets
-  ///   (shape constants, type aliases) have no behavior worth validating.
+  /// - Returns: an array of `DeclSyntax`, expected to be XCTest test methods
+  ///   (`func test_…()`) injected into the host `XCTestCase` subclass. Empty is
+  ///   fine — many "structural" macrolets (shape constants, type aliases) have
+  ///   no behavior worth validating.
   func validationTestDeclarations(in context: MatrixLayerContext) -> [DeclSyntax]
 }
 

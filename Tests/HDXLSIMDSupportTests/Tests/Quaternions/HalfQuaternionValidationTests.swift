@@ -10,12 +10,10 @@ import simd
 // tolerance than the default — `Float16` only has ~3 decimal digits of
 // precision and the default `.validationTestTolerance` of `1e-6` rounds to
 // subnormal when stored in `Float16`.
-
-extension Float16 {
-  /// Override of `BinaryFloatingPoint.validationTestTolerance` suited to
-  /// `Float16`'s ~3-decimal-digit precision.
-  static var validationTestTolerance: Float16 { 0.05 }
-}
+//
+// note: `Float16.validationTestTolerance` is defined in
+// `Support/Manual/ManualValidationSupport.swift` (relocated there so the
+// manual + equivalence suites share a neutral home).
 
 class HalfQuaternionValidationTests: QuaternionValidationTestCase {
 
